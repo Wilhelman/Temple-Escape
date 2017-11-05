@@ -12,6 +12,7 @@
 #include "j1Collider.h"
 #include "j1Map.h"
 #include "j1Player.h"
+#include "j1Pathfinding.h"
 #include "j1FadeToBlack.h"
 #include "j1App.h"
 
@@ -32,6 +33,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	collider = new j1Collider();
 	map = new j1Map();
 	player = new j1Player();
+	pathfinding = new j1PathFinding();
 	fadeToBlack = new j1FadeToBlack();
 
 	//TODO : CHECK ALL TODO'S!!!
@@ -43,6 +45,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
+	AddModule(pathfinding);
 	AddModule(scene);
 	AddModule(player);
 	AddModule(collider);
@@ -52,7 +55,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	//let me tell u about fade
 	AddModule(fadeToBlack);
-
 }
 
 // Destructor

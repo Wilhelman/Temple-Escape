@@ -15,6 +15,7 @@ class j1Collider;
 class j1Scene;
 class j1Player;
 class j1Map;
+class j1PathFinding;
 class j1FadeToBlack;
 
 class j1App
@@ -87,6 +88,7 @@ public:
 	j1Collider*			collider;
 	j1Scene*			scene;
 	j1Map*				map;
+	j1PathFinding*		pathfinding;
 	j1Player*			player;
 	j1FadeToBlack*		fadeToBlack;
 

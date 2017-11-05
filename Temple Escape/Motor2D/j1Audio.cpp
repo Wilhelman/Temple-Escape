@@ -79,6 +79,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 
 bool j1Audio::Update(float dt)
 {
+	if (!active)
+		return true;
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		Mix_VolumeMusic(Mix_VolumeMusic(-1) + 10);
@@ -221,6 +223,9 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 // UnLoad WAV
 bool j1Audio::UnLoadFx(uint id)
 {
+	if (!active)
+		return true;
+
 	bool ret = false;
 
 	if (fx[id] != nullptr)
