@@ -4,7 +4,7 @@ Project for Videogame Development subject.The main goal here is to create a simp
 
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).  
 
-* [Github repository]()  
+* [Github repository](https://github.com/nintervik/Temple-Escape)  
 
 ## About the game
 
