@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<config>
+	<app>
+		<title>Warchainer</title>
+		<organization>UPC</organization>
+	</app>
+	<renderer>
+		<vsync value="true" />
+	</renderer>
+	<window>
+		<resolution width="1024" height="768" scale="3" />
+		<fullscreen value="false" />
+		<borderless value="false" />
+		<resizable value="false" />
+		<fullscreen_window value="false" />
+	</window>
+	<player>
+		<spritesheetSource name="textures/source_spritesheet.png">
+			<animation name="right_idle" speed="0.02" loop="true">
+				<frame x="19" y="18" width="10" height="14" />
+				<frame x="35" y="18" width="10" height="14" />
+			</animation>
+			<animation name="left_idle" speed="0.02" loop="true">
+				<frame x="90" y="163" width="10" height="14" />
+				<frame x="107" y="163" width="10" height="14" />
+			</animation>
+			<animation name="right_run" speed="0.045" loop="true">
+				<frame x="1" y="1" width="14" height="15" />
+				<frame x="20" y="1" width="14" height="15" />
+				<frame x="37" y="1" width="14" height="15" />
+			</animation>
+			<animation name="left_run" speed="0.045" loop="true">
+				<frame x="121" y="146" width="14" height="15" />
+				<frame x="102" y="146" width="14" height="15" />
+				<frame x="85" y="146" width="14" height="15" />
+			</animation>
+			<animation name="right_jump" speed="0.05" loop="false">
+				<frame x="2" y="16" width="12" height="14" />
+			</animation>
+			<animation name="left_jump" speed="0.05" loop="false">
+				<frame x="122" y="161" width="12" height="14" />
+			</animation>
+			<animation name="left_dead" speed="0.05" loop="true">
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="121" y="180" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="121" y="180" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="121" y="180" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="121" y="180" width="13" height="8" />
+			</animation>
+			<animation name="right_dead" speed="0.05" loop="true">
+				<frame x="2" y="35" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="2" y="35" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="2" y="35" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+				<frame x="2" y="35" width="13" height="8" />
+				<frame x="105" y="180" width="13" height="8" />
+			</animation>
+			<animation name="right_shoot" speed="0.05" loop="true">
+				<frame x="58" y="3" width="13" height="13" />
+			</animation>
+			<animation name="left_shoot" speed="0.05" loop="true">
+				<frame x="65" y="148" width="13" height="13" />
+			</animation>
+		</spritesheetSource>
+	</player>
+	<file_system>
+		<path>data.zip</path>
+	</file_system>
+	<map>
+		<folder>maps/</folder>
+		<scene>
+			<data name="lvl1.tmx" start="true" currentLvl="true" />
+			<data name="lvl2.tmx" start="false" currentLvl="false" />
+		</scene>
+	</map>
+</config>

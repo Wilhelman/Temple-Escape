@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<game_state>
+	<input />
+	<window />
+	<textures />
+	<audio>
+		<volume music="128" />
+	</audio>
+	<map />
+	<scene>
+		<currentLvl name="lvl1.tmx" />
+	</scene>
+	<player>
+		<position x="224" y="192" />
+	</player>
+	<collider />
+	<renderer />
+	<fadeToBlack />
+</game_state>
