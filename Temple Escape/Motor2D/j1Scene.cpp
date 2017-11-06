@@ -87,7 +87,7 @@ bool j1Scene::Update(float dt)
 	App->input->GetMousePosition(m_x, m_y);
 	iPoint p = App->map->WorldToMap(m_x, m_y);
 
-	p2SString title("WARCHAINER v0.7 - Map:%dx%d Tiles:%dx%d Tilesets:%d || Coords in World: X->%i Y->%i",
+	p2SString title("TEMPLE ESCAPE - Map:%dx%d Tiles:%dx%d Tilesets:%d || Coords in World: X->%i Y->%i",
 					App->map->data.width, App->map->data.height,
 					App->map->data.tile_width, App->map->data.tile_height,
 					App->map->data.tilesets.count(),p.x,p.y);

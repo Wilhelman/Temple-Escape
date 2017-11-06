@@ -13,7 +13,7 @@ enum LayerTypes
 {
 	BACKGROUND = 0,
 	PARALLAX,
-	LAVA,
+	DEAD_ZONE,
 	GROUND_1,
 	GROUND_2,
 	LOGIC,

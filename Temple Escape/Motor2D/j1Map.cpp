@@ -75,8 +75,8 @@ void j1Map::LayersSetUp()
 							layersToCheck->data->layer_type = GROUND_1;
 						else if (layersToCheck->data->name == "ground2")
 							layersToCheck->data->layer_type = GROUND_2;
-						else if (layersToCheck->data->name == "lava")
-							layersToCheck->data->layer_type = LAVA;
+						else if (layersToCheck->data->name == "dead_zone")
+							layersToCheck->data->layer_type = DEAD_ZONE;
 						else if (layersToCheck->data->name == "logic")
 							layersToCheck->data->layer_type = LOGIC;
 						else if (layersToCheck->data->name == "collisions")
@@ -111,7 +111,7 @@ void j1Map::setAllLogicForMap()
 						{
 							if(id == 434)
 								spawn = MapToWorld(i, j);
-							if (id == 4) 
+							if (id == 167) 
 							{
 								SDL_Rect rect = tilesetsBlit->data->GetTileRect(id);
 								iPoint world = MapToWorld(i, j);
@@ -132,7 +132,7 @@ void j1Map::setAllLogicForMap()
 							case 43:
 								App->collider->AddCollider(rect, COLLIDER_GROUND);
 								break;
-							case 20:
+							case 596:
 								App->collider->AddCollider(rect, COLLIDER_DEAD);
 								break;
 							default:
@@ -181,7 +181,7 @@ void j1Map::Draw()
 							if (layersBlit->data->layer_type == GROUND_2)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
-							if (layersBlit->data->layer_type == LAVA)
+							if (layersBlit->data->layer_type == DEAD_ZONE)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 								
 							if (layersBlit->data->layer_type == PARALLAX)

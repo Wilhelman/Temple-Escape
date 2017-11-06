@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config>
 	<app>
-		<title>Warchainer</title>
+		<title>Temple Escape</title>
 		<organization>UPC</organization>
 	</app>
 	<renderer>
@@ -17,12 +17,12 @@
 	<player>
 		<spritesheetSource name="textures/source_spritesheet.png">
 			<animation name="right_idle" speed="0.02" loop="true">
-				<frame x="19" y="18" width="10" height="14" />
-				<frame x="35" y="18" width="10" height="14" />
+				<frame x="17" y="18" width="14" height="14" />
+				<frame x="33" y="18" width="14" height="14" />
 			</animation>
 			<animation name="left_idle" speed="0.02" loop="true">
-				<frame x="90" y="163" width="10" height="14" />
-				<frame x="107" y="163" width="10" height="14" />
+				<frame x="88" y="163" width="14" height="14" />
+				<frame x="105" y="163" width="14" height="14" />
 			</animation>
 			<animation name="right_run" speed="0.045" loop="true">
 				<frame x="1" y="1" width="14" height="15" />
@@ -61,10 +61,10 @@
 				<frame x="105" y="180" width="13" height="8" />
 			</animation>
 			<animation name="right_shoot" speed="0.05" loop="true">
-				<frame x="58" y="3" width="13" height="13" />
+				<frame x="58" y="2" width="14" height="14" />
 			</animation>
 			<animation name="left_shoot" speed="0.05" loop="true">
-				<frame x="65" y="148" width="13" height="13" />
+				<frame x="64" y="147" width="14" height="14" />
 			</animation>
 		</spritesheetSource>
 	</player>
@@ -74,8 +74,8 @@
 	<map>
 		<folder>maps/</folder>
 		<scene>
-			<data name="lvl1.tmx" start="true" currentLvl="true" />
-			<data name="lvl2.tmx" start="false" currentLvl="false" />
+			<data name="lvl1.tmx" start="true" currentLvl="false" />
+			<data name="lvl2.tmx" start="false" currentLvl="true" />
 		</scene>
 	</map>
 </config>

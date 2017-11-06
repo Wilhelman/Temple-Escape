@@ -401,7 +401,7 @@ float j1Player::gravityHaveToWork() {
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPositionRight.x, tmpPositionRight.y);
 
 	//TOUCHING DEAD TILE COLLIDER
-	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 20 && !isDead) {
+	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 596 && !isDead) {
 		didDoubleJump = isJumping = false;
 		left_jump.Reset();
 		right_jump.Reset();
