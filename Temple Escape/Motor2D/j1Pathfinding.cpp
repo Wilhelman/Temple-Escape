@@ -215,21 +215,19 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				p2List_item<PathNode>* iterator = neigborhs.list.start;
 				for (; iterator != NULL; iterator = iterator->next)
 				{
+					// ignore nodes in the closed list
 					if (close.Find(iterator->data.pos))
-					{
-						// ignore nodes in the closed list
 						continue;
-					}
 					else if (open.Find(iterator->data.pos))
 					{
 						// If it is already in the open list, check if it is a better path (compare G)
-						PathNode tmp = open.Find(iterator->data.pos)->data;
+						PathNode tmpPath = open.Find(iterator->data.pos)->data;
 						iterator->data.CalculateF(destination);
-						if (tmp.g > iterator->data.g)
-						{
-							// If it is a better path, Update the parent
-							tmp.parent = iterator->data.parent;
-						}
+
+						// If it is a better path, Update the parent
+						if (tmpPath.g > iterator->data.g)
+							tmpPath.parent = iterator->data.parent;
+						
 					}
 					else
 					{

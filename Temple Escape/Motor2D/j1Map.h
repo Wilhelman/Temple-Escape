@@ -12,8 +12,7 @@ class p2String;
 enum LayerTypes
 {
 	BACKGROUND = 0,
-	BACKGROUND_SPIKES_1,
-	BACKGROUND_SPIKES_2,
+	PARALLAX,
 	LAVA,
 	GROUND_1,
 	GROUND_2,

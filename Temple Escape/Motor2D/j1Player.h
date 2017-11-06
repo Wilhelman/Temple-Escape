@@ -68,6 +68,7 @@ private:
 	float gravityHaveToWork();
 	bool canGoRight();
 	bool canGoLeft();
+	bool canGoUp();
 
 public:
 	j1Player();

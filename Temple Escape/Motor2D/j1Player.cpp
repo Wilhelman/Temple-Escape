@@ -230,7 +230,7 @@ bool j1Player::Update(float dt)
 				this->position.y += gravity;
 		}
 
-		if (isJumping && isGettingHigh) 
+		if (isJumping && isGettingHigh && canGoUp()) 
 		{
 			if (currentTime <= jumpTimer + 150)
 				this->position.y -= 2.2f;
@@ -446,6 +446,8 @@ float j1Player::gravityHaveToWork() {
 
 bool j1Player::canGoLeft() {
 
+	bool ret = true;
+
 	fPoint tmpPosition;
 	tmpPosition.x = (int)pCollider->rect.x - 1;
 	tmpPosition.y = (int)pCollider->rect.y + (int)pCollider->rect.h - 1;
@@ -453,13 +455,45 @@ bool j1Player::canGoLeft() {
 	iPoint characterPosInTileWorld = App->map->WorldToMap((int)tmpPosition.x, (int)tmpPosition.y);
 
 	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
-		return false;
-	else
-		return true;
+		ret = false;
 
+	tmpPosition.x = (int)pCollider->rect.x - 1;
+	tmpPosition.y = (int)pCollider->rect.y;
+
+	characterPosInTileWorld = App->map->WorldToMap((int)tmpPosition.x, (int)tmpPosition.y);
+
+	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
+		ret = false;
+
+	return ret;
+}
+
+bool j1Player::canGoUp() {
+
+	bool ret = true;
+	fPoint tmpPosition;
+	tmpPosition.x = (int)pCollider->rect.x;
+	tmpPosition.y = (int)pCollider->rect.y - 1;
+
+	iPoint characterPosInTileWorld = App->map->WorldToMap((int)tmpPosition.x, (int)tmpPosition.y);
+
+	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
+		ret = false;
+
+	tmpPosition.x = (int)pCollider->rect.x + (int)pCollider->rect.w;
+	tmpPosition.y = (int)pCollider->rect.y - 1;
+
+	characterPosInTileWorld = App->map->WorldToMap((int)tmpPosition.x, (int)tmpPosition.y);
+
+	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
+		ret = false;
+
+	return ret;
 }
 
 bool j1Player::canGoRight() {
+
+	bool ret = true;
 
 	fPoint tmpPosition;
 	tmpPosition.x = (int)pCollider->rect.x + (int)pCollider->rect.w;
@@ -468,9 +502,18 @@ bool j1Player::canGoRight() {
 	iPoint characterPosInTileWorld = App->map->WorldToMap(tmpPosition.x, tmpPosition.y);
 
 	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
-		return false;
-	else
-		return true;
+		ret = false;
+
+	tmpPosition.x = (int)pCollider->rect.x + (int)pCollider->rect.w;
+	tmpPosition.y = (int)pCollider->rect.y;
+
+	characterPosInTileWorld = App->map->WorldToMap(tmpPosition.x, tmpPosition.y);
+
+	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
+		ret = false;
+
+
+	return ret;
 
 }
 

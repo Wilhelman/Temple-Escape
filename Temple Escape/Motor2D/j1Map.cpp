@@ -69,19 +69,17 @@ void j1Map::LayersSetUp()
 					{
 						if (layersToCheck->data->name == "background")
 							layersToCheck->data->layer_type = BACKGROUND;
-						if (layersToCheck->data->name == "background_spikes1")
-							layersToCheck->data->layer_type = BACKGROUND_SPIKES_1;
-						if (layersToCheck->data->name == "background_spikes2")
-							layersToCheck->data->layer_type = BACKGROUND_SPIKES_2;
-						if (layersToCheck->data->name == "ground")
+						else if (layersToCheck->data->name == "parallax")
+							layersToCheck->data->layer_type = PARALLAX;
+						else if (layersToCheck->data->name == "ground")
 							layersToCheck->data->layer_type = GROUND_1;
-						if (layersToCheck->data->name == "ground2")
+						else if (layersToCheck->data->name == "ground2")
 							layersToCheck->data->layer_type = GROUND_2;
-						if (layersToCheck->data->name == "lava")
+						else if (layersToCheck->data->name == "lava")
 							layersToCheck->data->layer_type = LAVA;
-						if (layersToCheck->data->name == "logic")
+						else if (layersToCheck->data->name == "logic")
 							layersToCheck->data->layer_type = LOGIC;
-						if (layersToCheck->data->name == "collisions")
+						else if (layersToCheck->data->name == "collisions")
 							layersToCheck->data->layer_type = COLLISIONS;
 					}
 				}
@@ -186,12 +184,9 @@ void j1Map::Draw()
 							if (layersBlit->data->layer_type == LAVA)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 								
-							if (layersBlit->data->layer_type == BACKGROUND_SPIKES_1)
-								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.7f);
+							if (layersBlit->data->layer_type == PARALLAX)
+								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.5f);
 								
-							if (layersBlit->data->layer_type == BACKGROUND_SPIKES_2)
-								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.3f);
-
 							if (layersBlit->data->layer_type == BACKGROUND)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.1f);
 						}
