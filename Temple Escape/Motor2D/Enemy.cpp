@@ -22,9 +22,6 @@ const Collider* Enemy::GetCollider() const
 
 void Enemy::Draw(SDL_Texture* sprites)
 {
-	if (App->enemies->bossDestroyed) {
-		return;
-	}
 	if (collider != nullptr)
 		collider->SetPos(position.x, position.y);
 
