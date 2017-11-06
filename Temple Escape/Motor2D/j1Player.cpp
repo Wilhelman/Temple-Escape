@@ -413,13 +413,13 @@ float j1Player::gravityHaveToWork() {
 	}
 
 	//TOUCHING THE GROUND COLLIDER TILE
-	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 12) {
+	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43) {
 		didDoubleJump = isJumping = false;
 		left_jump.Reset();
 		right_jump.Reset();
 		return 0.0f;
 	}
-	if (App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 12) {
+	if (App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 43) {
 		didDoubleJump = isJumping = false;
 		left_jump.Reset();
 		right_jump.Reset();
@@ -434,10 +434,10 @@ float j1Player::gravityHaveToWork() {
 	characterPosInTileWorldLeft = App->map->WorldToMap(tmpPositionLeft.x, tmpPositionLeft.y);
 	characterPosInTileWorldRight = App->map->WorldToMap(tmpPositionRight.x, tmpPositionRight.y);
 
-	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 12) {
+	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43) {
 		return 1.0f;
 	}
-	if (App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y + 1) == 12) {
+	if (App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y + 1) == 43) {
 		return 1.0f;
 	}
 

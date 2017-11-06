@@ -51,7 +51,7 @@ void j1Map::LayersSetUp()
 
 	while (tilesetsToCheck != NULL)
 	{
-		if (tilesetsToCheck->data->name == "platformertiles")
+		if (tilesetsToCheck->data->name == "environment-tiles")
 			tilesetsToCheck->data->tileset_type = PLATFORM;
 			
 		if (tilesetsToCheck->data->name == "flag")
@@ -67,8 +67,8 @@ void j1Map::LayersSetUp()
 				{
 					if (layersToCheck->data->Get(i, j) != 0)
 					{
-						if (layersToCheck->data->name == "sky")
-							layersToCheck->data->layer_type = SKY;
+						if (layersToCheck->data->name == "background")
+							layersToCheck->data->layer_type = BACKGROUND;
 						if (layersToCheck->data->name == "background_spikes1")
 							layersToCheck->data->layer_type = BACKGROUND_SPIKES_1;
 						if (layersToCheck->data->name == "background_spikes2")
@@ -111,7 +111,7 @@ void j1Map::setAllLogicForMap()
 						int id = layersBlit->data->Get(i, j);
 						if (layersBlit->data->layer_type == LOGIC && (tilesetsBlit->data->tileset_type == PLATFORM || tilesetsBlit->data->tileset_type == FLAG))
 						{
-							if(id == 14)
+							if(id == 434)
 								spawn = MapToWorld(i, j);
 							if (id == 4) 
 							{
@@ -131,7 +131,7 @@ void j1Map::setAllLogicForMap()
 
 							switch (id)
 							{
-							case 12:
+							case 43:
 								App->collider->AddCollider(rect, COLLIDER_GROUND);
 								break;
 							case 20:
@@ -192,7 +192,7 @@ void j1Map::Draw()
 							if (layersBlit->data->layer_type == BACKGROUND_SPIKES_2)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.3f);
 
-							if (layersBlit->data->layer_type == SKY)
+							if (layersBlit->data->layer_type == BACKGROUND)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.1f);
 						}
 					}

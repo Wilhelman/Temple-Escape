@@ -41,8 +41,10 @@ bool j1Scene::Start()
 	App->map->LayersSetUp();
 	App->map->setAllLogicForMap();
 
-	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg"))
-		ret = false;
+	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) {
+		//ret = false;
+		LOG("Error playing music in j1Scene Start");
+	}
 
 	return ret;
 }
