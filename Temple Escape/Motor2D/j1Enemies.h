@@ -48,6 +48,8 @@ private:
 	uint screen_width;
 	uint screen_height;
 
+	p2SString spritesheetName;
+
 };
 
 #endif // __j1Enemies_H__

@@ -28,21 +28,18 @@ j1Enemies::~j1Enemies()
 
 bool j1Enemies::Awake(pugi::xml_node& config)
 {
-	LOG("Loading Player from config file");
+	LOG("Loading Enemies from config file");
 	bool ret = true;
 
-	//set all the animations
-
+	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
 
 	return ret;
 }
 
 bool j1Enemies::Start()
 {
-	// Create a prototype for each enemy available so we can copy them around
-	/*sprites = App->textures->Load("Assets/maps/castle/enemies_castle.png");*/
 
-	enemy_sprites = App->tex->Load("Assets/enemies/enemies_definitive.png");
+	enemy_sprites = App->tex->Load(spritesheetName.GetString());
 
 	App->win->GetWindowSize(screen_width, screen_height);
 	screen_scale = App->win->GetScale();
@@ -52,7 +49,7 @@ bool j1Enemies::Start()
 
 bool j1Enemies::PreUpdate()
 {
-	// check camera position to decide what to spawn
+	// TODO: now we will spawn enemies in a different way ...
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (queue[i].type != ENEMY_TYPES::NO_TYPE)
