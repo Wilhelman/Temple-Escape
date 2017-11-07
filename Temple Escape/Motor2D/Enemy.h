@@ -17,7 +17,7 @@ protected:
 	uint lastTime;
 
 public:
-	iPoint position;
+	fPoint position;
 	int type;
 
 public:

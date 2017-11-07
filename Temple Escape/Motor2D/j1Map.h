@@ -18,6 +18,7 @@ enum LayerTypes
 	GROUND_2,
 	LOGIC,
 	COLLISIONS,
+	ENEMIES,
 
 	LAYER_NOT_DEF
 };

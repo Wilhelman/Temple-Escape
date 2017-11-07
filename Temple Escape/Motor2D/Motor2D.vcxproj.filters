@@ -52,6 +52,9 @@
     <ClCompile Include="j1Enemies.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="j1Enemies.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

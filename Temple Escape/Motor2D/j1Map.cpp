@@ -6,6 +6,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Collider.h"
+#include "j1Enemies.h"
 #include <math.h>
 
 
@@ -81,6 +82,8 @@ void j1Map::LayersSetUp()
 							layersToCheck->data->layer_type = LOGIC;
 						else if (layersToCheck->data->name == "collisions")
 							layersToCheck->data->layer_type = COLLISIONS;
+						else if (layersToCheck->data->name == "enemies")
+							layersToCheck->data->layer_type = ENEMIES;
 					}
 				}
 			}
@@ -118,6 +121,12 @@ void j1Map::setAllLogicForMap()
 								rect.x = world.x;
 								rect.y = world.y;
 								App->collider->AddCollider(rect, COLLIDER_LVL_END);
+							}
+						}
+						if (layersBlit->data->layer_type == ENEMIES && tilesetsBlit->data->tileset_type == PLATFORM)
+						{
+							if (id == 631) { //bat
+								App->enemies->AddEnemy(BAT, MapToWorld(i, j).x, MapToWorld(i, j).y);
 							}
 						}
 						if (layersBlit->data->layer_type == COLLISIONS && tilesetsBlit->data->tileset_type == PLATFORM)

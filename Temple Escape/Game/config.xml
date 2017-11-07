@@ -68,14 +68,17 @@
 			</animation>
 		</spritesheetSource>
 	</player>
+	<enemies>
+		<spritesheetSource name="textures/source_spritesheet.png" />
+	</enemies>
 	<file_system>
 		<path>data.zip</path>
 	</file_system>
 	<map>
 		<folder>maps/</folder>
 		<scene>
-			<data name="lvl1.tmx" start="true" currentLvl="false" />
-			<data name="lvl2.tmx" start="false" currentLvl="true" />
+			<data name="lvl1.tmx" start="true" currentLvl="true" />
+			<data name="lvl2.tmx" start="false" currentLvl="false" />
 		</scene>
 	</map>
 </config>

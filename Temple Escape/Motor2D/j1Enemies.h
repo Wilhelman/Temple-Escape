@@ -7,7 +7,9 @@
 
 enum ENEMY_TYPES
 {
-	NO_TYPE
+	NO_TYPE,
+	BAT,
+	SLIME
 };
 
 class Enemy;
@@ -27,10 +29,17 @@ public:
 
 	bool Awake(pugi::xml_node& conf);
 	bool Start();
+	// Called before all Updates
 	bool PreUpdate();
-	bool Update();
+
+	// Called each loop iteration
+	bool Update(float dt);
+
+	// Called before all Updates
 	bool PostUpdate();
-	bool CleanUp();
+
+	// Called before quitting
+	bool CleanUp();;
 	void OnCollision(Collider* c1, Collider* c2);
 
 	bool AddEnemy(ENEMY_TYPES type, int x, int y);

@@ -6,9 +6,12 @@
 #include "Enemy.h"
 #include "j1Audio.h"
 #include "j1Window.h"
+#include "Bat.h"
 
 #include "p2Log.h"
 #include "p2Defs.h"
+
+#include "j1Map.h"
 
 #define SPAWN_MARGIN 500
 
@@ -17,12 +20,13 @@ j1Enemies::j1Enemies()
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		enemies[i] = nullptr;
 
+	name.create("enemies");
 }
 
 // Destructor
 j1Enemies::~j1Enemies()
 {
-	name.create("enemies");
+
 }
 
 
@@ -38,13 +42,19 @@ bool j1Enemies::Awake(pugi::xml_node& config)
 
 bool j1Enemies::Start()
 {
+	bool ret = true;
 
 	enemy_sprites = App->tex->Load(spritesheetName.GetString());
+
+	if (enemy_sprites == NULL) {
+		LOG("Error loading enemies spritesheet!!");
+		ret = false;
+	}
 
 	App->win->GetWindowSize(screen_width, screen_height);
 	screen_scale = App->win->GetScale();
 
-	return true;
+	return ret;
 }
 
 bool j1Enemies::PreUpdate()
@@ -66,7 +76,7 @@ bool j1Enemies::PreUpdate()
 }
 
 // Called before render is available
-bool j1Enemies::Update()
+bool j1Enemies::Update(float dt)
 {
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Move();
@@ -82,8 +92,8 @@ bool j1Enemies::Update()
 
 bool j1Enemies::PostUpdate()
 {
-	// check camera position to decide what to spawn
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	// check camera position to decide what to despawn
+	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (enemies[i] != nullptr)
 		{
@@ -92,18 +102,16 @@ bool j1Enemies::PostUpdate()
 			if (enemies[i]->position.x > screen_scale + SPAWN_MARGIN || enemies[i]->position.x < 0 - SPAWN_MARGIN)
 			{
 				LOG("DeSpawning enemy at %d", enemies[i]->position.x);
-				//enemies[i]->GetCollider()->to_delete = true;
 				delete enemies[i];
 				enemies[i] = nullptr;
 			}
 			else if (enemies[i]->position.y > screen_scale + SPAWN_MARGIN || enemies[i]->position.y < 0 - SPAWN_MARGIN) {
 				LOG("DeSpawning enemy at %d", enemies[i]->position.y);
-				//enemies[i]->GetCollider()->to_delete = true;
 				delete enemies[i];
 				enemies[i] = nullptr;
 			}
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -119,7 +127,6 @@ bool j1Enemies::CleanUp()
 	{
 		if (enemies[i] != nullptr)
 		{
-			//enemies[i]->GetCollider()->to_delete = true;
 			delete enemies[i];
 			enemies[i] = nullptr;
 		}
@@ -155,223 +162,19 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 
 	if (i != MAX_ENEMIES)
 	{
-		/*switch (info.type)
+		switch (info.type)
 		{
-		case ENEMY_TYPES::TORPEDO:
-			enemies[i] = new Enemy_Torpedo(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::TORPEDO;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::TORPEDO_DIAGONALL_R:
-				enemies[i]->movement = diagonalPathL_R;
-				break;
-			case ENEMY_MOVEMENT::TORPEDO_HORIZONTALR_L:
-				enemies[i]->movement = horizontalPathR_L;
-				break;
-			case ENEMY_MOVEMENT::TORPEDO_STRAIGHT_ON:
-				enemies[i]->movement = strightOnPath;
-				break;
-			case ENEMY_MOVEMENT::TORPEDO_DIAGONAL_R_FINAL:
-				enemies[i]->movement = diagonalPath_R_Final;
-				break;
-			case ENEMY_MOVEMENT::TORPEDO_DIAGONAL_L_FINAL:
-				enemies[i]->movement = diagonalPath_L_Final;
-				break;
-			case ENEMY_MOVEMENT::TORPEDO_DIAGONAL_R_FINAL2:
-				enemies[i]->movement = diagonalPath_R_Final2;
-				break;
-			case ENEMY_MOVEMENT::TORPEDO_DIAGONAL_L_FINAL2:
-				enemies[i]->movement = diagonalPath_L_Final2;
-				break;
-			default:
-				break;
-			}
+		case ENEMY_TYPES::BAT:
+			enemies[i] = new Bat(info.x, info.y);
+			enemies[i]->type = ENEMY_TYPES::BAT;
 			break;
-		case ENEMY_TYPES::METALLICBALLOON:
+		/*case ENEMY_TYPES::METALLICBALLOON:
 			enemies[i] = new Enemy_MetallicBalloon(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::METALLICBALLOON;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::BALLOON_PATH_CASTLE:
-				enemies[i]->movement = balloonPathCastle;
-				break;
-			case ENEMY_MOVEMENT::BALLOON_PATH_FOREST:
-				enemies[i]->movement = balloonPathForest;
-				break;
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::TERRESTIALTURRET:
-			enemies[i] = new Enemy_TerrestialTurret(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::TERRESTIALTURRET;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::TURRET_1_PATH:
-				enemies[i]->movement = turret1_path;
-				break;
-			case ENEMY_MOVEMENT::TURRET1_L_PATH:
-				enemies[i]->movement = turret1_L_path;
-				break;
-			case ENEMY_MOVEMENT::TURRET_2_PATH:
-				enemies[i]->movement = turret2_path;
-				break;
-			case ENEMY_MOVEMENT::TURRET_3_PATH:
-				enemies[i]->movement = turret3_path;
-				break;
-			case ENEMY_MOVEMENT::STAY:
-				enemies[i]->movement = stayPath;
-				break;
-
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::BEE:
-			enemies[i] = new Enemy_Bee(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::BEE;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::BEE_CORNER_LEFT_PATH:
-				enemies[i]->movement = bee_corner_left_path;
-				break;
-			case ENEMY_MOVEMENT::BEE_CORNER_RIGHT_PATH:
-				enemies[i]->movement = bee_corner_right_path;
-				break;
-			case ENEMY_MOVEMENT::BEE_CORNER_LEFT_PATH2:
-				enemies[i]->movement = bee_corner_left_path2;
-				break;
-			case ENEMY_MOVEMENT::BEE_CORNER_RIGHT_PATH2:
-				enemies[i]->movement = bee_corner_right_path2;
-				break;
-			case ENEMY_MOVEMENT::BEE_CORNER_STRAIGHT:
-				enemies[i]->movement = bee_corner_straight;
-				break;
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::RED_TURRET:
-			enemies[i] = new Enemy_Red_Turret(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::RED_TURRET;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::STAY:
-				enemies[i]->movement = stayPath;
-				break;
-
-			case ENEMY_MOVEMENT::RED_TURRET_LEFT_RIGTH:
-				enemies[i]->movement = red_turret_left_rigth;
-				break;
-
-			case ENEMY_MOVEMENT::RED_TURRET_RIGHT_LEFT:
-				enemies[i]->movement = red_turret_rigth_left;
-				break;
-
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::BIG_RED_TURRET:
-			enemies[i] = new Enemy_Big_Red_Turret(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::BIG_RED_TURRET;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::STAY:
-				enemies[i]->movement = stayPath;
-				break;
-
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::TRUMP_RED_MECHA:
-			enemies[i] = new Enemy_Trump_Red_Mecha(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::TRUMP_RED_MECHA;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::TRUMP_RED_MECHA_PATH:
-				enemies[i]->movement = trump_red_mecha_path;
-				break;
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::FLYING_MACHINE:
-			enemies[i] = new Enemy_Flying_Machine(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::FLYING_MACHINE;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::FLYING_MACHINE_PATH_1:
-				enemies[i]->movement = flying_machine_path1;
-				break;
-			case ENEMY_MOVEMENT::FLYING_MACHINE_PATH_2:
-				enemies[i]->movement = flying_machine_path2;
-				break;
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::FOREST_HOUSE:
-			enemies[i] = new SceneForest_house(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::FOREST_HOUSE;
-			enemies[i]->movement = stayPath;
-			break;
-
-		case ENEMY_TYPES::CASTLE_HOUSEFLAG:
-			enemies[i] = new SceneCastle_houseFlag(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::CASTLE_HOUSEFLAG;
-			enemies[i]->movement = stayPath;
-			break;
-		case ENEMY_TYPES::CASTLE_HOUSEFLAG_2:
-			enemies[i] = new SceneCastle_houseFlag2(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::CASTLE_HOUSEFLAG_2;
-			enemies[i]->movement = stayPath;
-			break;
-		case ENEMY_TYPES::CASTLE_VASE:
-			enemies[i] = new SceneCastle_Vase(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::CASTLE_VASE;
-			enemies[i]->movement = stayPath;
-			break;
-		case ENEMY_TYPES::COIN:
-			enemies[i] = new Coin(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::COIN;
-			enemies[i]->movement = stayPath;
-			break;
-		case ENEMY_TYPES::POWER_UP:
-			enemies[i] = new Power_Up(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::POWER_UP;
-			break;
-		case ENEMY_TYPES::BOMB:
-			enemies[i] = new Bomb(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::BOMB;
-			break;
-		case ENEMY_TYPES::FOREST_BOSS_HAND:
-			enemies[i] = new Enemy_BossMecha_Hand(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::FOREST_BOSS_HAND;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::BOSS_FOREST_HAND:
-				enemies[i]->movement = bossForestHand;
-				break;
-			default:
-				break;
-			}
-			break;
-		case ENEMY_TYPES::BOSS_FOREST:
-			enemies[i] = new Enemy_Mecha_Boss(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::BOSS_FOREST;
-			switch (info.typeMovement)
-			{
-			case ENEMY_MOVEMENT::BOSS_FOREST_HAND:
-				enemies[i]->movement = bossForestHand;
-				break;
-			default:
-				break;
-			}
+			break;*/
+		default:
 			break;
 		}
-	}*/
 	}
 }
 
