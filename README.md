@@ -1,12 +1,13 @@
 # TEMPLE ESCAPE
 
-Project for Videogame Development subject.The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
+Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
 
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).  
 
 * [Github repository](https://github.com/nintervik/Temple-Escape)  
 
 ## About the game
+Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
 
 ## Installation instructions
 
@@ -41,6 +42,10 @@ _García Subirana, Guillermo's Github account:_
 _Masó Garcia, Víctor's Github account:_
 
 * [Github account](https://github.com/nintervik)
+
+## Innovations
+* Player and enemy animations are read from an xml file.
+* Spawn enemy points are created with Tiled and read from the tmx file of the map.
 
 ## Tools used
 * IDE: Microsoft Visual Studio 2017
