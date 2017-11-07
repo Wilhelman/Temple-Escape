@@ -33,6 +33,10 @@ General/developer controls:
 - LOAD GAME (player position and level saved): F6 key
 - MUSIC VOLUME: +/- keys
 
+## Innovations
+* Player and enemy animations are read from an xml file.
+* Spawn enemy points are created with Tiled and read from the tmx file of the map.
+
 ## Team members
 
 _García Subirana, Guillermo's Github account:_
@@ -43,9 +47,6 @@ _Masó Garcia, Víctor's Github account:_
 
 * [Github account](https://github.com/nintervik)
 
-## Innovations
-* Player and enemy animations are read from an xml file.
-* Spawn enemy points are created with Tiled and read from the tmx file of the map.
 
 ## Tools used
 * IDE: Microsoft Visual Studio 2017
