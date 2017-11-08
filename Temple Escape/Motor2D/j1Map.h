@@ -5,6 +5,7 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include "p2Animation.h"
 
 class p2String;
 // ----------------------------------------------------
@@ -143,8 +144,13 @@ public:
 private:
 
 	pugi::xml_document	map_file;
+
 	p2SString			folder;
+	p2SString			spritesheetName;
+
 	bool				map_loaded;
+
+	p2Animation			lava_waterfall;
 };
 
 #endif // __j1MAP_H__

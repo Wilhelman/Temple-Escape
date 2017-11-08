@@ -77,13 +77,13 @@
 				<frame x="91" y="96" width="16" height="16" />
 				<frame x="75" y="96" width="16" height="16" />
 			</animation>
-      <animation name="slime_left_jump" speed="0.20" loop="true">
-        <frame x="75" y="67" width="16" height="16" />
-        <frame x="91" y="67" width="16" height="16" />
-        <frame x="107" y="67" width="16" height="16" />
-        <frame x="123" y="67" width="16" height="16" />
-        <frame x="139" y="67" width="16" height="16" />
-      </animation>
+			<animation name="slime_left_jump" speed="0.20" loop="true">
+				<frame x="75" y="67" width="16" height="16" />
+				<frame x="91" y="67" width="16" height="16" />
+				<frame x="107" y="67" width="16" height="16" />
+				<frame x="123" y="67" width="16" height="16" />
+				<frame x="139" y="67" width="16" height="16" />
+			</animation>
 		</spritesheetSource>
 	</enemies>
 	<file_system>
@@ -91,6 +91,13 @@
 	</file_system>
 	<map>
 		<folder>maps/</folder>
+		<spritesheetSource name="maps/animations_spritesheet.png">
+			<animation name="lava_waterfall" speed="0.001" loop="true">
+				<frame x="0" y="31" width="16" height="16" />
+				<frame x="16" y="31" width="16" height="16" />
+				<frame x="31" y="31" width="16" height="16" />
+			</animation>
+		</spritesheetSource>
 		<scene>
 			<data name="lvl1.tmx" start="true" currentLvl="true" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
