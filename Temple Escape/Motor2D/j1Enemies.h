@@ -2,6 +2,7 @@
 #define __j1Enemies_H__
 
 #include "j1Module.h"
+#include "p2Animation.h"
 
 #define MAX_ENEMIES 500
 
@@ -44,7 +45,8 @@ public:
 
 	bool AddEnemy(ENEMY_TYPES type, int x, int y);
 
-	p2Animation slime_right_movement, slime_left_movement, slime_right_jump, slime_left_jump;
+	p2Animation slime_right_jump;
+	p2Animation slime_left_jump;
 
 private:
 

@@ -11,9 +11,9 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 	moving = false;
 
 	//FOR EXAMPLE
-	//animation = &standard_left_jump;
+	
 
-	idle_right.PushBack({ 74, 85, 16, 11 });
+	/*idle_right.PushBack({ 74, 85, 16, 11 });
 	idle_right.PushBack({ 90, 85, 16, 11 });
 	idle_right.speed = 0.15f;
 	idle_right.loop = true;
@@ -21,19 +21,18 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 	idle_left.PushBack({ 76, 50, 16, 11 });
 	idle_left.PushBack({ 92, 50, 16, 11 });
 	idle_left.speed = 0.15f;
-	idle_left.loop = true;
+	idle_left.loop = true;*/
 
-	animation = &idle_left;
 
 	original_pos.x = x;
 	original_pos.y = y;
 
-	collider = App->collider->AddCollider({ 0, 0, 16, 11 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->enemies);
+	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->enemies);
 }
 
 void Slime::Move()
 {
-	if (slime_going_right && !moving) {
+	/*if (slime_going_right && !moving) {
 
 		iPoint goal = App->map->WorldToMap(position.x, position.y);
 		goal.x += 1;
@@ -67,7 +66,9 @@ void Slime::Move()
 			if (slime_IA == 3 || slime_IA == 0)
 				slime_going_right = !slime_going_right;
 		}
-	}
+	}*/
+
+	animation = standard_right_jump;
 }
 
 void Slime::OnCollision(Collider* collider)

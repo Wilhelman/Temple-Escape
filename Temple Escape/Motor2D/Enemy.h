@@ -20,7 +20,8 @@ protected:
 public:
 	fPoint position;
 	int type;
-	p2Animation* standard_right_movement, standard_left_movement, standard_left_jump, standard_right_jump;
+	p2Animation* standard_left_jump;
+	p2Animation* standard_right_jump;
 
 public:
 	Enemy(int x, int y);

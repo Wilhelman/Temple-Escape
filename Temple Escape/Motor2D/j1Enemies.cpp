@@ -37,10 +37,29 @@ bool j1Enemies::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
-
-	/*LOAD HERE FROM CONFIG THE ANIMATIONS*/
 	
+	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
 
+		if (tmp == "slime_right_jump") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				slime_right_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			slime_right_jump.speed = animations.attribute("speed").as_float();
+			slime_right_jump.loop = animations.attribute("loop").as_bool();
+		}
+		if (tmp == "slime_left_jump") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				slime_left_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			slime_left_jump.speed = animations.attribute("speed").as_float();
+			slime_left_jump.loop = animations.attribute("loop").as_bool();
+		}
+
+	}
 	return ret;
 }
 
@@ -175,8 +194,8 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::SLIME:
 			enemies[i] = new Slime(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::SLIME;
-			enemies[i]->standard_left_jump = slime_left_jump;
-			//etc
+			enemies[i]->standard_left_jump = &slime_left_jump;
+			enemies[i]->standard_right_jump = &slime_right_jump;
 			break;
 		/*case ENEMY_TYPES::METALLICBALLOON:
 			enemies[i] = new Enemy_MetallicBalloon(info.x, info.y);
