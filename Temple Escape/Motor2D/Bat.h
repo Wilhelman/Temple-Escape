@@ -4,6 +4,8 @@
 #include "Enemy.h"
 #include "p2Animation.h"
 
+#define TILE_RADAR 56
+
 class Bat : public Enemy
 {
 private:
@@ -14,11 +16,15 @@ private:
 	fPoint movementSpeed = { 0.5f, 0.0f };
 	iPoint movementGoal;
 
+	iPoint tile_radar[TILE_RADAR];
+
 public:
 
 	Bat(int x, int y);
 	void OnCollision(Collider* collider);
 	void Move();
+	void SetRadar();
+	void CheckForPlayer();
 };
 
 #endif

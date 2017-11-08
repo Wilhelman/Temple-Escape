@@ -2,6 +2,8 @@
 #include "Bat.h"
 #include "j1Collider.h"
 #include "j1Map.h"
+#include "j1Player.h"
+#include "p2Log.h"
 //#include "Path.h"
 
 Bat::Bat(int x, int y) : Enemy(x, y)
@@ -29,13 +31,19 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->enemies);
+
+
 }
 
 void Bat::Move()
 {
+
+
+
 	if (bat_going_right && !moving) {
 
 		iPoint goal = App->map->WorldToMap(position.x, position.y);
+
 		goal.x += 1;
 		movementGoal = App->map->MapToWorld(goal.x, goal.y);
 		moving = true;
@@ -67,11 +75,40 @@ void Bat::Move()
 			moving = false;
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
+			SetRadar();
+			CheckForPlayer();
 		}
 	}
 
 	
 	
+}
+
+void Bat::SetRadar() {
+	uint counter = 0;
+	
+	for (int i = -3; i < 4; i++)
+	{
+		for (int k = -3; k < 4; k++)
+		{
+			iPoint tmp_radar = App->map->WorldToMap(position.x, position.y);
+			//LOG("x : %i y : %i",tmp_radar.x,tmp_radar.y);
+			tmp_radar.x += i;
+			tmp_radar.y += k;
+			tile_radar[counter++] = tmp_radar;
+		}
+	}
+}
+
+void Bat::CheckForPlayer() {
+	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y);
+	LOG("x : %i y : %i", tmp_player.x, tmp_player.y);
+	for (uint i = 0; i < TILE_RADAR; i++)
+	{
+		if (tile_radar[i] == tmp_player) {
+			LOG("NANANANANANANA BAAAAT RADAAAAR ~ PLAYER IS IN THE BAT RADAR!!!");
+		}
+	}
 }
 
 void Bat::OnCollision(Collider* collider)

@@ -8,6 +8,7 @@
 #include "j1Collider.h"
 #include "j1Map.h"
 #include "j1Player.h"
+#include "j1Enemies.h"
 #include "p2Log.h"
 
 j1FadeToBlack::j1FadeToBlack()
@@ -55,6 +56,7 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
+			App->enemies->CleanUp();
 			App->player->CleanUp();
 			App->collider->CleanUp();
 			App->map->CleanUp();
@@ -122,8 +124,10 @@ bool j1FadeToBlack::Update(float dt)
 			App->map->sceneName = nextLvlName;
 			App->map->Load(nextLvlName.GetString());
 			App->map->LayersSetUp();
+			
 			App->map->setAllLogicForMap();
 			App->player->Start();
+			App->enemies->Start();
 
 			if(lvlName != "" && !F1)
 				App->player->ImplementLoad();
