@@ -128,6 +128,9 @@ void j1Map::setAllLogicForMap()
 							if (id == 631) { //bat
 								App->enemies->AddEnemy(BAT, MapToWorld(i, j).x, MapToWorld(i, j).y);
 							}
+							if (id == 127) { //slime
+								App->enemies->AddEnemy(SLIME, MapToWorld(i, j).x, MapToWorld(i, j).y);
+							}
 						}
 						if (layersBlit->data->layer_type == COLLISIONS && tilesetsBlit->data->tileset_type == PLATFORM)
 						{

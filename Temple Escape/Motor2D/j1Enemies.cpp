@@ -7,6 +7,7 @@
 #include "j1Audio.h"
 #include "j1Window.h"
 #include "Bat.h"
+#include "Slime.h"
 
 #include "p2Log.h"
 #include "p2Defs.h"
@@ -167,6 +168,10 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::BAT:
 			enemies[i] = new Bat(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::BAT;
+			break;
+		case ENEMY_TYPES::SLIME:
+			enemies[i] = new Slime(info.x, info.y);
+			enemies[i]->type = ENEMY_TYPES::SLIME;
 			break;
 		/*case ENEMY_TYPES::METALLICBALLOON:
 			enemies[i] = new Enemy_MetallicBalloon(info.x, info.y);

@@ -7,6 +7,11 @@
     <property name="collider" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="126">
+   <properties>
+    <property name="SLIME" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="166">
    <properties>
     <property name="endLvl" type="bool" value="true"/>
@@ -28623,14 +28628,14 @@
    <tile gid="554"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="549"/>
+   <tile gid="551"/>
+   <tile gid="552"/>
+   <tile gid="552"/>
+   <tile gid="552"/>
+   <tile gid="552"/>
+   <tile gid="552"/>
+   <tile gid="554"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -28743,14 +28748,14 @@
    <tile gid="596"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="591"/>
+   <tile gid="593"/>
+   <tile gid="593"/>
+   <tile gid="594"/>
+   <tile gid="594"/>
+   <tile gid="593"/>
+   <tile gid="593"/>
+   <tile gid="596"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -52987,6 +52992,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="631"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -52997,8 +53003,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="127"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
