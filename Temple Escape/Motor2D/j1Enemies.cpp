@@ -38,6 +38,9 @@ bool j1Enemies::Awake(pugi::xml_node& config)
 
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
 
+	/*LOAD HERE FROM CONFIG THE ANIMATIONS*/
+	
+
 	return ret;
 }
 
@@ -172,6 +175,8 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::SLIME:
 			enemies[i] = new Slime(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::SLIME;
+			enemies[i]->standard_left_jump = slime_left_jump;
+			//etc
 			break;
 		/*case ENEMY_TYPES::METALLICBALLOON:
 			enemies[i] = new Enemy_MetallicBalloon(info.x, info.y);

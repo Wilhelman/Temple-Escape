@@ -44,6 +44,8 @@ public:
 
 	bool AddEnemy(ENEMY_TYPES type, int x, int y);
 
+	p2Animation slime_right_movement, slime_left_movement, slime_right_jump, slime_left_jump;
+
 private:
 
 	void SpawnEnemy(const EnemyInfo& info);

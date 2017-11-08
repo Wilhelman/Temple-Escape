@@ -11,6 +11,7 @@ class Enemy
 {
 protected:
 	p2Animation* animation = nullptr;
+
 	Collider* collider = nullptr;
 	uint lives;
 	uint currentTime;
@@ -19,6 +20,7 @@ protected:
 public:
 	fPoint position;
 	int type;
+	p2Animation* standard_right_movement, standard_left_movement, standard_left_jump, standard_right_jump;
 
 public:
 	Enemy(int x, int y);

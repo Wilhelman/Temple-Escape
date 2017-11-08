@@ -10,6 +10,9 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 	slime_going_right = true;
 	moving = false;
 
+	//FOR EXAMPLE
+	//animation = &standard_left_jump;
+
 	idle_right.PushBack({ 74, 85, 16, 11 });
 	idle_right.PushBack({ 90, 85, 16, 11 });
 	idle_right.speed = 0.15f;
