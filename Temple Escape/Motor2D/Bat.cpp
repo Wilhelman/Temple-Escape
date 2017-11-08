@@ -4,13 +4,14 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "p2Log.h"
+#include "j1Pathfinding.h"
 //#include "Path.h"
 
 Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 0;
 	bat_going_right = true;
-	moving = false;
+	moving = player_in_radar = false;
 
 	fly_r.PushBack({ 76, 35, 16, 12 });
 	fly_r.PushBack({ 92, 35, 16, 12 });
@@ -37,10 +38,17 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 void Bat::Move()
 {
-
-
-
-	if (bat_going_right && !moving) {
+	if (player_in_radar && !moving) {
+		iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
+		App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), movementGoal);
+		LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+		movementGoal = App->map->WorldToMap(path->At(0)->x, path->At(0)->y);
+		LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y);
+		//TODO FOLLOW THIS..
+		player_in_radar = CheckForPlayer();
+	}
+	else if (bat_going_right && !moving) {
 
 		iPoint goal = App->map->WorldToMap(position.x, position.y);
 
@@ -70,17 +78,18 @@ void Bat::Move()
 		else if (moving && !bat_going_right) {
 			position = position - movementSpeed;
 		}
+		else if (moving &&player_in_radar) {
+
+		}
 
 		if ((int)position.x == (int)movementGoal.x) {
 			moving = false;
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
 			SetRadar();
-			CheckForPlayer();
+			player_in_radar = CheckForPlayer();
 		}
 	}
-
-	
 	
 }
 
@@ -100,15 +109,18 @@ void Bat::SetRadar() {
 	}
 }
 
-void Bat::CheckForPlayer() {
+bool Bat::CheckForPlayer() {
 	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y);
-	LOG("x : %i y : %i", tmp_player.x, tmp_player.y);
+
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{
 		if (tile_radar[i] == tmp_player) {
 			LOG("NANANANANANANA BAAAAT RADAAAAR ~ PLAYER IS IN THE BAT RADAR!!!");
+			movementGoal = tile_radar[i];
+			return true;
 		}
 	}
+	return false;
 }
 
 void Bat::OnCollision(Collider* collider)

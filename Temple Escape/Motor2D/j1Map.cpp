@@ -43,23 +43,6 @@ bool j1Map::Awake(pugi::xml_node& config)
 	}
 	data.save_file("config.xml");
 
-	//Set up animations map
-	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
-
-	//set all the animations
-	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
-	{
-		p2SString tmp(animations.attribute("name").as_string());
-		if (tmp == "lava_waterfall") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_waterfall.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			lava_waterfall.speed = animations.attribute("speed").as_float();
-			lava_waterfall.loop = animations.attribute("loop").as_bool();
-		}
-	}
-
 	return ret;
 }
 
@@ -205,12 +188,8 @@ void j1Map::Draw()
 						if (layersBlit->data->layer_type != LOGIC && layersBlit->data->layer_type != COLLISIONS) 
 						{
 							if (layersBlit->data->layer_type == GROUND_1)
-							{
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
-								if (layersBlit->data->Get(i, j) == 33)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
-							}
 							if (layersBlit->data->layer_type == GROUND_2)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
@@ -558,4 +537,72 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 inline uint MapLayer::Get(int x, int y) const {
 
 	return data[width * y + x];
+}
+
+bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
+{
+	bool ret = false;
+	p2List_item<MapLayer*>* item;
+	item = data.layers.start;
+
+	for (item = data.layers.start; item != NULL; item = item->next)
+	{
+		MapLayer* layer = item->data;
+
+		//TODO CHECK THIS
+		//if (layer->properties.Get("Navigation", 0) == 0)
+			//continue;
+
+		uchar* map = new uchar[layer->width*layer->height];
+		memset(map, 1, layer->width*layer->height);
+
+		for (int y = 0; y < data.height; ++y)
+		{
+			for (int x = 0; x < data.width; ++x)
+			{
+				int i = (y*layer->width) + x;
+
+				int tile_id = layer->Get(x, y);
+				TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
+
+				if (tileset != NULL)
+				{
+					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
+					/*TileType* ts = tileset->GetTileType(tile_id);
+					if(ts != NULL)
+					{
+					map[i] = ts->properties.Get("walkable", 1);
+					}*/
+				}
+			}
+		}
+
+		*buffer = map;
+		width = data.width;
+		height = data.height;
+		ret = true;
+
+		break;
+	}
+
+	return ret;
+}
+
+TileSet* j1Map::GetTilesetFromTileId(int id) const
+{
+	p2List_item<TileSet*>* item = data.tilesets.start;
+	TileSet* set = item->data;
+
+	while (item)
+	{
+		if (id < item->data->firstgid)
+		{
+			set = item->prev->data;
+			break;
+		}
+		set = item->data;
+		item = item->next;
+	}
+
+	return set;
 }

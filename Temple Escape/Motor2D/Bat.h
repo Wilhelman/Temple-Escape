@@ -12,7 +12,7 @@ private:
 	p2Animation fly_r,fly_l;
 	fPoint original_pos;
 	int bat_IA; //lol
-	bool bat_going_right, moving;
+	bool bat_going_right, moving, player_in_radar;
 	fPoint movementSpeed = { 0.5f, 0.0f };
 	iPoint movementGoal;
 
@@ -24,7 +24,7 @@ public:
 	void OnCollision(Collider* collider);
 	void Move();
 	void SetRadar();
-	void CheckForPlayer();
+	bool CheckForPlayer();
 };
 
 #endif

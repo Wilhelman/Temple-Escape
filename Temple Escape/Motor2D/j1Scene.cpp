@@ -11,6 +11,7 @@
 #include "j1Player.h"
 #include "j1Collider.h"
 #include "j1FadeToBlack.h"
+#include "j1Pathfinding.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -45,6 +46,15 @@ bool j1Scene::Start()
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
 	}
+
+	//test
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
+	RELEASE_ARRAY(data);
+	//end test
 
 	return ret;
 }

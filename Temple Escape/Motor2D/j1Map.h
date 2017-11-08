@@ -123,6 +123,9 @@ public:
 	void setAllLogicForMap();
 	void LayersSetUp();
 
+	TileSet* GetTilesetFromTileId(int id) const;
+	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
+
 
 private:
 
