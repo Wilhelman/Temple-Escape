@@ -8,6 +8,7 @@
 #include "j1Collider.h"
 #include "j1FadeToBlack.h"
 #include "j1Audio.h"
+#include "j1Particles.h"
 
 #include "j1Player.h"
 
@@ -202,20 +203,28 @@ bool j1Player::Update(float dt)
 			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT 
-			&&  (last_state == PlayerLastState::LAST_ST_RUN_RIGHT 
-		    || last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
-			|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT))
+		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
+			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+			&& (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
+			|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
+			|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
+			&& !isJumping)
 		{
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+				App->particles->AddParticle(App->particles->player_basic_shot_right, position.x + 5, position.y - 8, COLLIDER_PLAYER_BASIC_SHOT);
 			current_state = PlayerState::ST_SHOOT_RIGHT;
 			last_state = PlayerLastState::LAST_ST_SHOOT_RIGHT;
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT 
+		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
+			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_LEFT
-			||	last_state == PlayerLastState::LAST_ST_IDLE_LEFT
-			|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT))
+			|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
+			|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
+			&& !isJumping)
 		{
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+				App->particles->AddParticle(App->particles->player_basic_shot_left, position.x + 5, position.y - 8, COLLIDER_PLAYER_BASIC_SHOT);
 			current_state = PlayerState::ST_SHOOT_LEFT;
 			last_state = PlayerLastState::LAST_ST_SHOOT_LEFT;
 		}

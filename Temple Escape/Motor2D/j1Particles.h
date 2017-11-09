@@ -56,11 +56,13 @@ private:
 	SDL_Texture* graphics = nullptr;
 	Particle* active[MAX_ACTIVE_PARTICLES];
 	uint last_particle = 0;
+	p2SString spritesheetName;
 
 public:
 
 	//Player shots
-	Particle basic_shot;
+	Particle player_basic_shot_right;
+	Particle player_basic_shot_left;
 
 };
 

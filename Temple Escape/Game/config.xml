@@ -86,6 +86,22 @@
 			</animation>
 		</spritesheetSource>
 	</enemies>
+	<particles>
+		<spritesheetSource name="textures/source_spritesheet.png">
+			<particle name="player_basic_shot" speed="0.5" life_time="3000">
+				<animation name="player_basic_shot_right" abs_speed_x="5" abs_speed_y="0.0" loop="true">
+					<frame x="4" y="83" width="9" height="5" />
+					<frame x="18" y="83" width="9" height="5" />
+					<frame x="34" y="83" width="9" height="5" />
+				</animation>
+				<animation name="player_basic_shot_left" abs_speed_x="-5" abs_speed_y="0.0" loop="true">
+					<frame x="4" y="115" width="9" height="5" />
+					<frame x="18" y="115" width="9" height="5" />
+					<frame x="34" y="115" width="9" height="5" />
+				</animation>
+			</particle>
+		</spritesheetSource>
+	</particles>
 	<file_system>
 		<path>data.zip</path>
 	</file_system>

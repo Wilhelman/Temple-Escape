@@ -259,8 +259,10 @@ void j1Map::Draw()
 
 						if (layersBlit->data->layer_type != LOGIC && layersBlit->data->layer_type != COLLISIONS) 
 						{
-							if (layersBlit->data->layer_type == GROUND_1) {
+							if (layersBlit->data->layer_type == GROUND_1) 
+							{
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
+
 								if (layersBlit->data->Get(i, j) == 94)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
 								
@@ -288,22 +290,13 @@ void j1Map::Draw()
 
 								if (layersBlit->data->Get(i, j) == 15)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_6.GetCurrentFrame(), 1.0f);
-
-								
 							}
-								
-								
-							
-								
-								
+
 							if (layersBlit->data->layer_type == PARALLAX)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.5f);
 								
 							if (layersBlit->data->layer_type == BACKGROUND)
-								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.1f);
-								
-							
-								
+								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.1f); 
 						}
 					}
 				}

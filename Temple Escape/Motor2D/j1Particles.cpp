@@ -16,8 +16,6 @@ j1Particles::j1Particles()
 
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 		active[i] = nullptr;
-
-	
 }
 
 j1Particles::~j1Particles()
@@ -27,15 +25,50 @@ j1Particles::~j1Particles()
 bool j1Particles::Awake(pugi::xml_node& config)
 {
 	//TODO read the xml anims
-	//shot player
+
+	LOG("Loading Player from config file");
+	bool ret = true;
+
+	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
+
+	//set all the animations
+
+
+	for (pugi::xml_node particle = config.child("spritesheetSource").child("particle"); particle && ret; particle = particle.next_sibling("particle"))
 	{
-		basic_shot.anim.PushBack({ 613, 801, 15, 19 });
+		for (pugi::xml_node animations = config.child("spritesheetSource").child("particle").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+		{
+			p2SString particle_type(particle.attribute("name").as_string());
+			p2SString animation_type(animations.attribute("name").as_string());
 
-		basic_shot.anim.loop = false;
-		basic_shot.anim.speed = 0.1f;
-		basic_shot.speed.y = -5;
-		basic_shot.life = 3000;
+			if (particle_type == "player_basic_shot")
+			{
+				if (animation_type == "player_basic_shot_right")
+				{
+					for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+						player_basic_shot_right.anim.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
+					player_basic_shot_right.anim.speed = animations.attribute("speed").as_float();
+					player_basic_shot_right.anim.loop = animations.attribute("loop").as_bool();
+					player_basic_shot_right.speed.x = animations.attribute("abs_speed_x").as_int();
+					player_basic_shot_right.speed.y = animations.attribute("abs_speed_y").as_int();
+					player_basic_shot_right.life = animations.attribute("life_time").as_uint();
+				}
+				if (animation_type == "player_basic_shot_left")
+				{
+					for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+						player_basic_shot_left.anim.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+					player_basic_shot_left.anim.speed = animations.attribute("speed").as_float();
+					player_basic_shot_left.anim.loop = animations.attribute("loop").as_bool();
+					player_basic_shot_left.speed.x = animations.attribute("abs_speed_x").as_int();
+					player_basic_shot_left.speed.y = animations.attribute("abs_speed_y").as_int();
+					player_basic_shot_left.life = animations.attribute("life_time").as_uint();
+				}
+
+			}
+
+		}
 	}
 	return true;
 }
@@ -59,7 +92,7 @@ bool j1Particles::Start()
 bool j1Particles::CleanUp()
 {
 	LOG("Unloading particles");
-	App->audio->UnLoadFx(basic_shot.fx);
+	App->audio->UnLoadFx(player_basic_shot_right.fx);
 
 	//App->tex->Unload(graphics); TODO we need to do this?
 	graphics = nullptr;
