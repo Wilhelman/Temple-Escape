@@ -47,8 +47,8 @@ void Bat::Move()
 			movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
 			//TODO FOLLOW THIS..
 			//ill do this working around NO DIAGONALS so this will need an update
-			//if (path->Count() == 1)
-				//movementGoal.y--;
+			if (path->Count() == 1)
+				movementGoal.y--;
 
 			if (movementGoal.x < bat_pos.x) {
 				movementSpeed = { -0.5f,0.0f };
@@ -129,7 +129,9 @@ void Bat::Move()
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
 			
-			player_in_radar = CheckForPlayer();
+			if(!App->player->isDead)
+				player_in_radar = CheckForPlayer();
+
 			if (!have_to_chill && player_in_radar)
 				have_to_chill = true;
 		}
@@ -174,8 +176,10 @@ bool Bat::CheckForPlayer() {
 
 void Bat::OnCollision(Collider* collider)
 {
-	/*if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT || collider->type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT) {
+	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER) {
+		player_in_radar = false;
+		have_to_chill = true;
 		//App->particles->AddParticle(App->particles->playerShotCollison, (collider->rect.x - (((collider->rect.w)) / 2)), (collider->rect.y - (((collider->rect.h)))));
 		//animation = &bee_white;
-	}*/
+	}
 }

@@ -55,7 +55,6 @@ private:
 	Collider* pCollider;
 	bool didDoubleJump;
 	bool isJumping;
-	bool isDead;
 	uint deadTime;
 	uint currentTime;
 	uint jumpTimer;
@@ -109,6 +108,7 @@ public:
 	fPoint tmp;
 	p2SString spritesheetName;
 	bool reachedEnd;
+	bool isDead;
 
 };
 

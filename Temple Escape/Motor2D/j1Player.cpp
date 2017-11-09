@@ -376,6 +376,13 @@ bool j1Player::CleanUp()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
+	if (c2->type == COLLIDER_ENEMY_BAT) {
+		isDead = true;
+		App->audio->PlayFx(player_dead);
+		deadTime = SDL_GetTicks();
+	}
+
+
 	if (c2->type == COLLIDER_LVL_END)
 	{
 		if(!reachedEnd)
