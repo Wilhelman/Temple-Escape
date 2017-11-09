@@ -15,6 +15,7 @@ class j1Collider;
 class j1Scene;
 class j1Player;
 class j1Enemies;
+class j1Particles;
 class j1Map;
 class j1PathFinding;
 class j1FadeToBlack;
@@ -92,6 +93,7 @@ public:
 	j1PathFinding*		pathfinding;
 	j1Player*			player;
 	j1Enemies*			enemies;
+	j1Particles*		particles;
 	j1FadeToBlack*		fadeToBlack;
 
 

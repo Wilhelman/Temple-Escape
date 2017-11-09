@@ -77,7 +77,7 @@ bool j1Render::Update(float dt)
 
 	if (App->player->active) {
 		camera.x = (App->player->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->player->current_animation->GetCurrentFrame().w/2) * - (int)App->win->GetScale();
-		camera.y = (App->player->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->player->current_animation->GetCurrentFrame().h / 2) * -(int)App->win->GetScale();
+		camera.y = (App->player->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->player->current_animation->GetCurrentFrame().h / 2) * -(int)App->win->GetScale() + 100;
 	}
 
 	return true;

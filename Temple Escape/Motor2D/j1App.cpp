@@ -13,6 +13,7 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "j1Enemies.h"
+#include "j1Particles.h"
 #include "j1Pathfinding.h"
 #include "j1FadeToBlack.h"
 #include "j1App.h"
@@ -35,6 +36,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	player = new j1Player();
 	enemies = new j1Enemies();
+	particles = new j1Particles();
 	pathfinding = new j1PathFinding();
 	fadeToBlack = new j1FadeToBlack();
 
@@ -51,6 +53,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(player);
 	AddModule(enemies);
+	AddModule(particles);
 	AddModule(collider);
 
 	// render last to swap buffer

@@ -47,8 +47,6 @@ void Bat::Move()
 			movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
 			//TODO FOLLOW THIS..
 			//ill do this working around NO DIAGONALS so this will need an update
-			if (path->Count() == 1)
-				movementGoal.y--;
 
 			if (movementGoal.x < bat_pos.x) {
 				movementSpeed = { -0.5f,0.0f };
