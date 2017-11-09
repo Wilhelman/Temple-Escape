@@ -11,7 +11,7 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
-	moving = player_in_radar = false;
+	moving = player_in_radar = have_to_chill = false;
 
 	fly_r.PushBack({ 76, 35, 16, 12 });
 	fly_r.PushBack({ 92, 35, 16, 12 });
@@ -37,9 +37,38 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 void Bat::Move()
 {
 	iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
-	//chilling_around = !player_in_radar;
-	//if(chilling_around && bat)
-	if (player_in_radar && !moving) {
+
+	if (have_to_chill && !player_in_radar && !moving) {
+
+		App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos);
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+		if (path->Count() > 0) {
+			movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
+			//TODO FOLLOW THIS..
+			//ill do this working around NO DIAGONALS so this will need an update
+
+			if (movementGoal.x < bat_pos.x) {
+				movementSpeed = { -0.5f,0.0f };
+				animation = &fly_l;
+			}
+			else if (movementGoal.x > bat_pos.x) {
+				movementSpeed = { 0.5f,0.0f };
+				animation = &fly_r;
+			}
+			else if (movementGoal.y < bat_pos.y) {
+				movementSpeed = { 0.0f,-0.5f };
+			}
+			else if (movementGoal.y > bat_pos.y) {
+				movementSpeed = { 0.0f, 0.5f };
+			}
+			moving = true;
+		}
+		else {
+			bat_IA = 1;
+			have_to_chill = false;
+		}
+			
+	}else if (player_in_radar && !moving) {
 		App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), playerGoal);
 		LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
 		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
@@ -50,9 +79,11 @@ void Bat::Move()
 
 		if (movementGoal.x < bat_pos.x) {
 			movementSpeed = { -0.5f,0.0f };
+			animation = &fly_l;
 		}
 		else if (movementGoal.x > bat_pos.x) {
 			movementSpeed = { 0.5f,0.0f };
+			animation = &fly_r;
 		}
 		else if (movementGoal.y < bat_pos.y) {
 			movementSpeed = { 0.0f,-0.5f };
@@ -61,7 +92,6 @@ void Bat::Move()
 			movementSpeed = { 0.0f, 0.5f };
 		}
 		moving = true;
-		player_in_radar = CheckForPlayer();
 	}
 	else if (bat_going_right && !moving) {
 
@@ -97,6 +127,8 @@ void Bat::Move()
 				bat_going_right = !bat_going_right;
 			
 			player_in_radar = CheckForPlayer();
+			if (!have_to_chill && player_in_radar)
+				have_to_chill = true;
 		}
 	}
 	LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
