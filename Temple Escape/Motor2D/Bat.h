@@ -10,11 +10,11 @@ class Bat : public Enemy
 {
 private:
 	p2Animation fly_r,fly_l;
-	fPoint original_pos;
+	iPoint original_pos;
 	int bat_IA; //lol
-	bool bat_going_right, moving, player_in_radar;
-	fPoint movementSpeed = { 0.5f, 0.0f };
-	iPoint movementGoal;
+	bool bat_going_right, moving, player_in_radar, have_to_chill;
+	fPoint movementSpeed;
+	iPoint movementGoal, playerGoal;
 
 	iPoint tile_radar[TILE_RADAR];
 

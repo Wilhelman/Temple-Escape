@@ -43,6 +43,23 @@ bool j1Map::Awake(pugi::xml_node& config)
 	}
 	data.save_file("config.xml");
 
+	//Set up animations map
+	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
+
+	//set all the animations
+	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+		if (tmp == "lava_waterfall") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				lava_waterfall.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			lava_waterfall.speed = animations.attribute("speed").as_float();
+			lava_waterfall.loop = animations.attribute("loop").as_bool();
+		}
+	}
+
 	return ret;
 }
 
@@ -187,8 +204,11 @@ void j1Map::Draw()
 
 						if (layersBlit->data->layer_type != LOGIC && layersBlit->data->layer_type != COLLISIONS) 
 						{
-							if (layersBlit->data->layer_type == GROUND_1)
+							if (layersBlit->data->layer_type == GROUND_1) {
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
+								if (layersBlit->data->Get(i, j) == 33)
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
+							}
 
 							if (layersBlit->data->layer_type == GROUND_2)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);

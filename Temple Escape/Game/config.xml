@@ -99,8 +99,8 @@
 			</animation>
 		</spritesheetSource>
 		<scene>
-			<data name="lvl1.tmx" start="true" currentLvl="false" />
-			<data name="lvl2.tmx" start="false" currentLvl="true" />
+			<data name="lvl1.tmx" start="true" currentLvl="true" />
+			<data name="lvl2.tmx" start="false" currentLvl="false" />
 		</scene>
 	</map>
 </config>

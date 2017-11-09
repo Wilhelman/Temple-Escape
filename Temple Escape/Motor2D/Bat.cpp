@@ -9,7 +9,7 @@
 
 Bat::Bat(int x, int y) : Enemy(x, y)
 {
-	bat_IA = 0;
+	bat_IA = 1;
 	bat_going_right = true;
 	moving = player_in_radar = false;
 
@@ -27,25 +27,40 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 	animation = &fly_r;
 
-	original_pos.x = x;
-	original_pos.y = y;
-
+	original_pos = App->map->WorldToMap(x, y);
 
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->enemies);
 
-
+	SetRadar();
 }
 
 void Bat::Move()
 {
+	iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
+	//chilling_around = !player_in_radar;
+	//if(chilling_around && bat)
 	if (player_in_radar && !moving) {
-		iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
-		App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), movementGoal);
+		App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), playerGoal);
 		LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
 		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-		movementGoal = App->map->WorldToMap(path->At(0)->x, path->At(0)->y);
+		movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
 		LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y);
 		//TODO FOLLOW THIS..
+		//ill do this working around NO DIAGONALS so this will need an update
+
+		if (movementGoal.x < bat_pos.x) {
+			movementSpeed = { -0.5f,0.0f };
+		}
+		else if (movementGoal.x > bat_pos.x) {
+			movementSpeed = { 0.5f,0.0f };
+		}
+		else if (movementGoal.y < bat_pos.y) {
+			movementSpeed = { 0.0f,-0.5f };
+		}
+		else if (movementGoal.y > bat_pos.y) {
+			movementSpeed = { 0.0f, 0.5f };
+		}
+		moving = true;
 		player_in_radar = CheckForPlayer();
 	}
 	else if (bat_going_right && !moving) {
@@ -53,10 +68,10 @@ void Bat::Move()
 		iPoint goal = App->map->WorldToMap(position.x, position.y);
 
 		goal.x += 1;
-		movementGoal = App->map->MapToWorld(goal.x, goal.y);
+		movementGoal = goal;
 		moving = true;
 		bat_IA++;
-		
+		movementSpeed = { 0.5f,0.0f };
 		animation = &fly_r;
 
 	}
@@ -64,32 +79,28 @@ void Bat::Move()
 
 		iPoint goal = App->map->WorldToMap(position.x, position.y);
 		goal.x -= 1;
-		movementGoal = App->map->MapToWorld(goal.x, goal.y);
+		movementGoal = goal;
 		moving = true;
 		bat_IA--;
-
+		movementSpeed = { -0.5f,0.0f };
 		animation = &fly_l;
 
 	}
 	else {
-		if (moving && bat_going_right) {
+		if (moving) {
 			position = position + movementSpeed;
 		}
-		else if (moving && !bat_going_right) {
-			position = position - movementSpeed;
-		}
-		else if (moving &&player_in_radar) {
 
-		}
-
-		if ((int)position.x == (int)movementGoal.x) {
+		if (bat_pos == movementGoal) {
 			moving = false;
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
-			SetRadar();
+			
 			player_in_radar = CheckForPlayer();
 		}
 	}
+	LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
+	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
 	
 }
 
@@ -116,7 +127,9 @@ bool Bat::CheckForPlayer() {
 	{
 		if (tile_radar[i] == tmp_player) {
 			LOG("NANANANANANANA BAAAAT RADAAAAR ~ PLAYER IS IN THE BAT RADAR!!!");
-			movementGoal = tile_radar[i];
+			playerGoal = tile_radar[i];
+			if (playerGoal == iPoint(App->map->WorldToMap(position.x, position.y)))
+				return false;
 			return true;
 		}
 	}
