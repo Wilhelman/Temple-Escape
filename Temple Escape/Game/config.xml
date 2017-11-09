@@ -91,11 +91,19 @@
 	</file_system>
 	<map>
 		<folder>maps/</folder>
-		<spritesheetSource name="maps/animations_spritesheet.png">
-			<animation name="lava_waterfall" speed="0.001" loop="true">
-				<frame x="0" y="31" width="16" height="16" />
-				<frame x="16" y="31" width="16" height="16" />
-				<frame x="31" y="31" width="16" height="16" />
+		<spritesheetSource name="maps/enviroment-tiles.png">
+			<animation name="lava_waterfall" speed="0.01" loop="true">
+				<frame x="144" y="32" width="16" height="16" />
+				<frame x="160" y="32" width="16" height="16" />
+				<frame x="176" y="32" width="16" height="16" />
+			</animation>
+			<animation name="lava_animation_1" speed="0.01" loop="true">
+				<frame x="144" y="0" width="16" height="31" />
+				<frame x="160" y="0" width="16" height="31" />
+				<frame x="176" y="0" width="16" height="31" />
+				<frame x="192" y="0" width="16" height="31" />
+				<frame x="208" y="0" width="16" height="31" />
+				<frame x="224" y="0" width="16" height="31" />
 			</animation>
 		</spritesheetSource>
 		<scene>

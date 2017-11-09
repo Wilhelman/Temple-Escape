@@ -50,14 +50,16 @@ bool j1Map::Awake(pugi::xml_node& config)
 	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
 	{
 		p2SString tmp(animations.attribute("name").as_string());
-		if (tmp == "lava_waterfall") {
+
+		if (tmp == "lava_animation_1") {
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_waterfall.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+				lava_animation_1.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-			lava_waterfall.speed = animations.attribute("speed").as_float();
-			lava_waterfall.loop = animations.attribute("loop").as_bool();
+			lava_animation_1.speed = animations.attribute("speed").as_float();
+			lava_animation_1.loop = animations.attribute("loop").as_bool();
 		}
+
 	}
 
 	return ret;
@@ -206,7 +208,7 @@ void j1Map::Draw()
 						{
 							if (layersBlit->data->layer_type == GROUND_1) {
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
-								if (layersBlit->data->Get(i, j) == 33)
+								if (layersBlit->data->Get(i, j) == 94)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
 							}
 
@@ -214,13 +216,21 @@ void j1Map::Draw()
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
 							if (layersBlit->data->layer_type == DEAD_ZONE)
+							{
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
+								//if (layersBlit->data->Get(i, j) == 10)
+									//App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_1.GetCurrentFrame(), 1.0f);
+							}
+								
 								
 							if (layersBlit->data->layer_type == PARALLAX)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.5f);
 								
 							if (layersBlit->data->layer_type == BACKGROUND)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.1f);
+								
+							
+								
 						}
 					}
 				}
