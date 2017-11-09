@@ -11,7 +11,8 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
-	moving = player_in_radar = have_to_chill = false;
+	moving = player_in_radar = false;
+	have_to_chill = false; //check this
 
 	fly_r.PushBack({ 76, 35, 16, 12 });
 	fly_r.PushBack({ 92, 35, 16, 12 });
@@ -46,6 +47,8 @@ void Bat::Move()
 			movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
 			//TODO FOLLOW THIS..
 			//ill do this working around NO DIAGONALS so this will need an update
+			//if (path->Count() == 1)
+				//movementGoal.y--;
 
 			if (movementGoal.x < bat_pos.x) {
 				movementSpeed = { -0.5f,0.0f };
@@ -133,6 +136,7 @@ void Bat::Move()
 	}
 	LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
 	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
+	LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
 	
 }
 
