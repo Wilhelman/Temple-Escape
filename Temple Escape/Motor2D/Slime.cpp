@@ -8,8 +8,8 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 {
 	slime_IA = 0;
 	slime_going_right = true;
-	moving = false;
-
+	moving = dead = false;
+	lives = 3;
 
 	original_pos.x = x;
 	original_pos.y = y;
@@ -58,10 +58,34 @@ void Slime::Move()
 	animation = standard_right_jump;
 }
 
+uint Slime::getLives() 
+{
+	return lives;
+}
+
+void Slime::resetLives()
+{
+	lives = SLIME_LIVES;
+}
+
+
 void Slime::OnCollision(Collider* collider)
 {
-	/*if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT || collider->type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT) {
-	//App->particles->AddParticle(App->particles->playerShotCollison, (collider->rect.x - (((collider->rect.w)) / 2)), (collider->rect.y - (((collider->rect.h)))));
-	//animation = &bee_white;
-	}*/
+	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER)
+	{
+		//player_in_radar = false;
+		//have_to_chill = true;
+	}
+	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+		lives--;
+
+	if (lives <= 0)
+	{
+		if (this->collider != nullptr)
+		{
+			App->collider->EraseCollider(this->collider);
+			this->collider = nullptr;
+		}
+		dead = true;
+	}
 }

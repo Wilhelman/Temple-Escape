@@ -9,6 +9,7 @@
 #include "Bat.h"
 #include "Slime.h"
 #include "j1Collider.h"
+#include "j1Player.h"
 
 #include "p2Log.h"
 #include "p2Defs.h"
@@ -30,7 +31,6 @@ j1Enemies::~j1Enemies()
 {
 
 }
-
 
 bool j1Enemies::Awake(pugi::xml_node& config)
 {
@@ -127,6 +127,12 @@ bool j1Enemies::Update(float dt)
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Draw(enemy_sprites);
 
+	if (App->player->isDead)
+	{
+		for (uint i = 0; i < MAX_ENEMIES; ++i)
+			if (enemies[i] != nullptr) enemies[i]->resetLives();
+	}
+
 	return true;
 }
 
@@ -190,7 +196,6 @@ bool j1Enemies::AddEnemy(ENEMY_TYPES type, int x, int y)
 			break;
 		}
 	}
-
 	return ret;
 }
 
@@ -229,16 +234,33 @@ void j1Enemies::OnCollision(Collider* c1, Collider* c2)
 		if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
 		{
 			enemies[i]->OnCollision(c2);
-			if (enemies[i]->type == ENEMY_TYPES::BAT) {
-				if (/*c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT || c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BOMB*/1) {
-					//App->ui->score += 200;
-					//App->audio->PlayFx(medium_explosion);
-					//App->particles->AddParticle(App->particles->torpedoExplosion, (c1->rect.x - ((49 - (c1->rect.w)) / 2)), (c1->rect.y - ((35 - (c1->rect.h)) / 2)));
-					//delete enemies[i];
-					//enemies[i] = nullptr;
-					break;
+			if (enemies[i]->type == ENEMY_TYPES::BAT)
+			{
+				if (enemies[i]->getLives() <= 0) 
+				{
+					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+					{
+						//App->audio->PlayFx(medium_explosion);
+						delete enemies[i];
+						enemies[i] = nullptr;
+						break;
+					}
 				}
 			}
+			if (enemies[i]->type == ENEMY_TYPES::SLIME)
+			{
+				if (enemies[i]->getLives() <= 0)
+				{
+					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+					{
+						//App->audio->PlayFx(medium_explosion);
+						delete enemies[i];
+						enemies[i] = nullptr;
+						break;
+					}
+				}
+			}
+
 		}
 	} 
 }

@@ -13,8 +13,8 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
-	moving = player_in_radar = false;
-	have_to_chill = false; //check this
+	moving = player_in_radar = have_to_chill = dead = false; //check have to chill
+	lives = 2;
 
 	animation = standard_right_fly;
 
@@ -27,7 +27,6 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 void Bat::Move()
 {
-	
 	iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
 
 	if (have_to_chill && !player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos) != -1) {
@@ -167,13 +166,33 @@ bool Bat::CheckForPlayer() {
 	}
 	return false;
 }
+uint Bat::getLives() 
+{
+	return lives;
+}
+
+void Bat::resetLives()
+{
+	lives = BAT_LIVES;
+}
 
 void Bat::OnCollision(Collider* collider)
 {
-	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER) {
+	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER) 
+	{
 		player_in_radar = false;
 		have_to_chill = true;
-		//App->particles->AddParticle(App->particles->playerShotCollison, (collider->rect.x - (((collider->rect.w)) / 2)), (collider->rect.y - (((collider->rect.h)))));
-		//animation = &bee_white;
+	}	
+	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+		lives--;
+
+	if (lives <= 0)
+	{
+		if (this->collider != nullptr)
+		{
+			App->collider->EraseCollider(this->collider);
+			this->collider = nullptr;
+		}
+		dead = true;
 	}
 }

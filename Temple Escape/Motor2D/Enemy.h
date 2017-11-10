@@ -36,6 +36,7 @@ public:
 	virtual void Draw(SDL_Texture* sprites);
 	virtual void OnCollision(Collider* collider);
 	virtual uint getLives() { return 0; }
+	virtual void resetLives() { }
 };
 
 #endif // __ENEMY_H__

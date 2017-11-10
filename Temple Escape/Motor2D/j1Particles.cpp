@@ -212,20 +212,20 @@ Particle::~Particle() {
 
 void j1Particles::OnCollision(Collider* c1, Collider* c2)
 {
-	/*
-	if ((c1->type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT || c1->type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT || c1->type == COLLIDER_TYPE::COLLIDER_PLAYER2_BOMB || c1->type == COLLIDER_TYPE::COLLIDER_PLAYER_BOMB) && (c2->type == COLLIDER_TYPE::COLLIDER_ENEMY || c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_FLYING))
-		App->audio->PlayFx(enemy_hitted);
-	if (c1->type == COLLIDER_TYPE::COLLIDER_PLAYER2_BOMB || c1->type == COLLIDER_TYPE::COLLIDER_PLAYER_BOMB)
-		return;
-	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
+	if ((c1->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT 
+		&& (c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_BAT 
+		|| c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_SLIME)))
 	{
-		if (active[i] != nullptr && active[i]->collider == c1)
+		//App->audio->PlayFx(enemy_hitted);
+
+		for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 		{
-			delete active[i];
-			active[i] = nullptr;
-			break;
+			if (active[i] != nullptr && active[i]->collider == c1)
+			{
+				delete active[i];
+				active[i] = nullptr;
+				break;
+			}
 		}
-	}*/
-
-
+	}
 }
