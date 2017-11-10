@@ -290,7 +290,7 @@ void j1Map::Draw()
 
 								if (layersBlit->data->Get(i, j) == 15)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_6.GetCurrentFrame(), 1.0f);
-							}
+							} 
 
 							if (layersBlit->data->layer_type == PARALLAX)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.5f);

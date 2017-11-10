@@ -49,22 +49,22 @@ bool j1Particles::Awake(pugi::xml_node& config)
 					for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
 						player_basic_shot_right.anim.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-					player_basic_shot_right.anim.speed = animations.attribute("speed").as_float();
+					player_basic_shot_right.anim.speed = particle.attribute("speed").as_float();
 					player_basic_shot_right.anim.loop = animations.attribute("loop").as_bool();
-					player_basic_shot_right.speed.x = animations.attribute("abs_speed_x").as_int();
-					player_basic_shot_right.speed.y = animations.attribute("abs_speed_y").as_int();
-					player_basic_shot_right.life = animations.attribute("life_time").as_uint();
+					player_basic_shot_right.speed.x = animations.attribute("speed_x").as_int();
+					player_basic_shot_right.speed.y = animations.attribute("speed_y").as_int();
+					player_basic_shot_right.life = particle.attribute("life_time").as_uint();
 				}
 				if (animation_type == "player_basic_shot_left")
 				{
 					for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
 						player_basic_shot_left.anim.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-					player_basic_shot_left.anim.speed = animations.attribute("speed").as_float();
+					player_basic_shot_left.anim.speed = particle.attribute("speed").as_float();
 					player_basic_shot_left.anim.loop = animations.attribute("loop").as_bool();
-					player_basic_shot_left.speed.x = animations.attribute("abs_speed_x").as_int();
-					player_basic_shot_left.speed.y = animations.attribute("abs_speed_y").as_int();
-					player_basic_shot_left.life = animations.attribute("life_time").as_uint();
+					player_basic_shot_left.speed.x = animations.attribute("speed_x").as_int();
+					player_basic_shot_left.speed.y = animations.attribute("speed_y").as_int();
+					player_basic_shot_left.life = particle.attribute("life_time").as_uint();
 				}
 
 			}
@@ -89,7 +89,8 @@ bool j1Particles::Start()
 		ret = false;
 
 	LOG("Loading fx sound to laser particle");
-	//basic_shot.fx = App->audio->LoadFx("Assets/audio/effects/valnus_shot_1_2.wav");
+
+	player_basic_shot_left.fx = player_basic_shot_right.fx = App->audio->LoadFx("audio/fx/player_basic_shot_fx.wav");
 
 	return ret;
 }
