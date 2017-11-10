@@ -7,7 +7,6 @@
 class Slime : public Enemy
 {
 private:
-	p2Animation idle_right, idle_left;
 	fPoint original_pos;
 	int slime_IA; 
 	bool slime_going_right, moving;

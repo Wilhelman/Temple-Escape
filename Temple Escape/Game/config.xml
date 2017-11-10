@@ -89,6 +89,16 @@
 				<frame x="123" y="67" width="16" height="16" />
 				<frame x="139" y="67" width="16" height="16" />
 			</animation>
+			<animation name="bat_fly_right" speed="0.15" loop="true">
+				<frame x="76" y="35" width="16" height="12" />
+				<frame x="92" y="35" width="16" height="12" />
+				<frame x="109" y="35" width="16" height="12" />
+			</animation>
+			<animation name="bat_fly_left" speed="0.15" loop="true">
+				<frame x="47" y="182" width="16" height="12" />
+				<frame x="31" y="182" width="16" height="12" />
+				<frame x="14" y="182" width="16" height="12" />
+			</animation>
 		</spritesheetSource>
 	</enemies>
 	<particles>

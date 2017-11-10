@@ -47,6 +47,8 @@ public:
 
 	p2Animation slime_right_jump;
 	p2Animation slime_left_jump;
+	p2Animation bat_fly_right;
+	p2Animation bat_fly_left;
 
 private:
 

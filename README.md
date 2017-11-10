@@ -1,4 +1,4 @@
-# TEMPLE ESCAPE
+﻿# TEMPLE ESCAPE
 
 Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
 
@@ -62,7 +62,7 @@ _Masó Garcia, Víctor's Github account:_
 
 Sprites and sound fx:
 
-* Artwork created by Luis Zuno (@ansimuz). Sprites and sound fx can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
+* Artwork created by Luis Zuno (@ansimuz). Sprites can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
 * Artwork created by [Henry Sofware](https://henrysoftware.itch.io/). Sprites can be found [here](https://henrysoftware.itch.io/free-pixel-mob)
 
 Tileset:
@@ -72,3 +72,10 @@ Tileset:
 Music:
 
 * Game music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/arcade-funk/)
+
+Sound FX:
+
+* Player shot and jump sound fx can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
+* This game uses these sounds from freesound:
+      
+	- 249616__vincentm400__function-fail.wav by [OwlStorm / Natalie Kirk](https://freesound.org/people/OwlStorm/)

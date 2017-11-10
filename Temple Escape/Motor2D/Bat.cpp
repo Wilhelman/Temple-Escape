@@ -16,7 +16,6 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 	moving = player_in_radar = false;
 	have_to_chill = false; //check this
 
-	fly_r.PushBack({ 76, 35, 16, 12 });
 	fly_r.PushBack({ 92, 35, 16, 12 });
 	fly_r.PushBack({ 109, 35, 16, 12 });
 	fly_r.speed = 0.15f;
@@ -28,7 +27,6 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 	fly_l.speed = 0.15f;
 	fly_l.loop = true;
 
-	animation = &fly_r;
 
 	original_pos = App->map->WorldToMap(x, y);
 
@@ -52,11 +50,9 @@ void Bat::Move()
 			fPoint xSpeed(0.0f,0.0f), ySpeed(0.0f,0.0f);
 			if (movementGoal.x < bat_pos.x) {
 				xSpeed = { -0.5f,0.0f };
-				animation = &fly_l;
 			}
 			else if (movementGoal.x > bat_pos.x) {
 				xSpeed = { 0.5f,0.0f };
-				animation = &fly_r;
 			}
 			
 			if (movementGoal.y < bat_pos.y) {
@@ -85,11 +81,9 @@ void Bat::Move()
 		fPoint xSpeed(0.0f,0.0f), ySpeed(0.0f,0.0f);
 		if (movementGoal.x < bat_pos.x) {
 			xSpeed = { -0.5f,0.0f };
-			animation = &fly_l;
 		}
 		else if (movementGoal.x > bat_pos.x) {
 			xSpeed = { 0.5f,0.0f };
-			animation = &fly_r;
 		}
 
 		if (movementGoal.y < bat_pos.y) {
@@ -111,7 +105,6 @@ void Bat::Move()
 		moving = true;
 		bat_IA++;
 		movementSpeed = { 0.5f,0.0f };
-		animation = &fly_r;
 
 	}
 	else if (!bat_going_right && !moving) {
@@ -122,7 +115,6 @@ void Bat::Move()
 		moving = true;
 		bat_IA--;
 		movementSpeed = { -0.5f,0.0f };
-		animation = &fly_l;
 
 	}
 	else {

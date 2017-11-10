@@ -59,6 +59,22 @@ bool j1Enemies::Awake(pugi::xml_node& config)
 			slime_left_jump.speed = animations.attribute("speed").as_float();
 			slime_left_jump.loop = animations.attribute("loop").as_bool();
 		}
+		if (tmp == "bat_fly_right") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				bat_fly_right.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			bat_fly_right.speed = animations.attribute("speed").as_float();
+			bat_fly_right.loop = animations.attribute("loop").as_bool();
+		}
+		if (tmp == "bat_fly_left") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				bat_fly_left.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			bat_fly_left.speed = animations.attribute("speed").as_float();
+			bat_fly_left.loop = animations.attribute("loop").as_bool();
+		}
 
 	}
 	return ret;
@@ -191,6 +207,8 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::BAT:
 			enemies[i] = new Bat(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::BAT;
+			enemies[i]->standard_right_fly = &bat_fly_right;
+			enemies[i]->standard_left_fly = &bat_fly_left;
 			break;
 		case ENEMY_TYPES::SLIME:
 			enemies[i] = new Slime(info.x, info.y);
@@ -198,10 +216,6 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 			enemies[i]->standard_left_jump = &slime_left_jump;
 			enemies[i]->standard_right_jump = &slime_right_jump;
 			break;
-		/*case ENEMY_TYPES::METALLICBALLOON:
-			enemies[i] = new Enemy_MetallicBalloon(info.x, info.y);
-			enemies[i]->type = ENEMY_TYPES::METALLICBALLOON;
-			break;*/
 		default:
 			break;
 		}

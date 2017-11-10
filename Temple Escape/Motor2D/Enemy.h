@@ -22,6 +22,8 @@ public:
 	int type;
 	p2Animation* standard_left_jump;
 	p2Animation* standard_right_jump;
+	p2Animation* standard_right_fly;
+	p2Animation* standard_left_fly;
 
 public:
 	Enemy(int x, int y);
