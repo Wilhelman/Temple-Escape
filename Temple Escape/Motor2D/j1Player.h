@@ -106,10 +106,13 @@ public:
 	p2Animation* current_animation;
 	fPoint position;
 	fPoint tmp;
+
 	p2SString spritesheetName;
+	p2SString fxPlayerDead;
+	p2SString fxPlayerJump;
+
 	bool reachedEnd;
 	bool isDead;
-
 };
 
 #endif

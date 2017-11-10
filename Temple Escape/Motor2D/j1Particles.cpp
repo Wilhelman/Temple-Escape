@@ -30,10 +30,12 @@ bool j1Particles::Awake(pugi::xml_node& config)
 	LOG("Loading Player from config file");
 	bool ret = true;
 
+	
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
+	fxPlayerBasicShot.create(config.child("fxPlayerBasicShot").attribute("name").as_string());
+
 
 	//set all the animations
-
 
 	for (pugi::xml_node particle = config.child("spritesheetSource").child("particle"); particle && ret; particle = particle.next_sibling("particle"))
 	{
@@ -81,16 +83,13 @@ bool j1Particles::Start()
 	bool ret = true;
 
 	LOG("Loading particles");
-	//graphics = App->tex->Load("Assets/particles/particles.png");
-	//MotionTree = App->tex->Load("Assets/maps/forest/Motion_trees.png");
-
 	graphics = App->tex->Load(spritesheetName.GetString());
 	if (graphics == nullptr)
 		ret = false;
 
 	LOG("Loading fx sound to laser particle");
 
-	player_basic_shot_left.fx = player_basic_shot_right.fx = App->audio->LoadFx("audio/fx/player_basic_shot_fx.wav");
+	player_basic_shot_left.fx = player_basic_shot_right.fx = App->audio->LoadFx(fxPlayerBasicShot.GetString());
 
 	return ret;
 }
@@ -100,8 +99,9 @@ bool j1Particles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->audio->UnLoadFx(player_basic_shot_right.fx);
+	App->audio->UnLoadFx(player_basic_shot_left.fx);
 
-	//App->tex->Unload(graphics); TODO we need to do this?
+	App->tex->UnLoad(graphics); //TODO we need to do this?
 	graphics = nullptr;
 
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
@@ -144,7 +144,6 @@ bool j1Particles::Update(float dt)
 				App->audio->PlayFx(p->fx);
 			}
 		}
-
 	}
 
 	return true;

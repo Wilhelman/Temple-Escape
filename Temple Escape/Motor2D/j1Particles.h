@@ -56,7 +56,9 @@ private:
 	SDL_Texture* graphics = nullptr;
 	Particle* active[MAX_ACTIVE_PARTICLES];
 	uint last_particle = 0;
+
 	p2SString spritesheetName;
+	p2SString fxPlayerBasicShot;
 
 public:
 

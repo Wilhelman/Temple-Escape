@@ -14,7 +14,12 @@
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 	</window>
+	<music>
+		<lvlMusic name="textures/source_spritesheet.png" />
+	</music>
 	<player>
+		<fxPlayerDead name="audio/fx/dead_fx.wav" />
+		<fxPlayerJump name="audio/fx/jump_fx.wav" />
 		<spritesheetSource name="textures/source_spritesheet.png">
 			<animation name="right_idle" speed="0.02" loop="true">
 				<frame x="17" y="18" width="14" height="14" />
@@ -87,6 +92,7 @@
 		</spritesheetSource>
 	</enemies>
 	<particles>
+		<fxPlayerBasicShot name="audio/fx/player_basic_shot_fx.wav" />
 		<spritesheetSource name="textures/source_spritesheet.png">
 			<particle name="player_basic_shot" speed="0.1" life_time="3000">
 				<animation name="player_basic_shot_right" speed_x="2" speed_y="0.0" loop="true">
@@ -163,8 +169,8 @@
 			</animation>
 		</spritesheetSource>
 		<scene>
-			<data name="lvl1.tmx" start="true" currentLvl="true" />
-			<data name="lvl2.tmx" start="false" currentLvl="false" />
+			<data name="lvl1.tmx" start="true" currentLvl="false" />
+			<data name="lvl2.tmx" start="false" currentLvl="true" />
 		</scene>
 	</map>
 </config>

@@ -28,6 +28,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
+	fxPlayerJump.create(config.child("fxPlayerJump").attribute("name").as_string());
+	fxPlayerDead.create(config.child("fxPlayerDead").attribute("name").as_string());
 	
 	//set all the animations
 	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
@@ -101,7 +103,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
 				right_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
+			
 			right_shoot.speed = animations.attribute("speed").as_float();
 			right_shoot.loop = animations.attribute("loop").as_bool();
 		}
@@ -143,8 +145,8 @@ bool j1Player::Start()
 	pCollider = App->collider->AddCollider({ (int)position.x,(int)position.y,39,21 }, COLLIDER_PLAYER, this);
 
 	LOG("Loading player audios");
-	player_jump = App->audio->LoadFx("audio/fx/jump_fx.wav");
-	player_dead = App->audio->LoadFx("audio/fx/dead_fx.wav");
+	player_jump = App->audio->LoadFx(fxPlayerJump.GetString());
+	player_dead = App->audio->LoadFx(fxPlayerDead.GetString());
 
 	return ret;
 }
@@ -327,11 +329,13 @@ bool j1Player::Update(float dt)
 			current_animation = &right_death_blink;
 		else
 			current_animation = &left_death_blink;
+		pCollider->type = COLLIDER_PLAYER_DEAD;
 	}
 
 	else if (isDead)
 	{
 		isDead = false;
+		pCollider->type = COLLIDER_PLAYER;
 		iPoint spawnPos = App->map->spawn;
 		this->position.x = spawnPos.x;
 		this->position.y = spawnPos.y;
