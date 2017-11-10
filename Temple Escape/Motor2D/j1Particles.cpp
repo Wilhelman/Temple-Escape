@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Audio.h"
 #include "j1Particles.h"
+#include "j1Player.h"
 #include "j1Collider.h"
 #include "j1Window.h"
 #include "p2Log.h"
@@ -77,15 +78,20 @@ bool j1Particles::Awake(pugi::xml_node& config)
 // Load assets
 bool j1Particles::Start()
 {
+	bool ret = true;
 
 	LOG("Loading particles");
-	graphics = App->tex->Load("Assets/particles/particles.png");
-	MotionTree = App->tex->Load("Assets/maps/forest/Motion_trees.png");
+	//graphics = App->tex->Load("Assets/particles/particles.png");
+	//MotionTree = App->tex->Load("Assets/maps/forest/Motion_trees.png");
+
+	graphics = App->tex->Load(spritesheetName.GetString());
+	if (graphics == nullptr)
+		ret = false;
 
 	LOG("Loading fx sound to laser particle");
 	//basic_shot.fx = App->audio->LoadFx("Assets/audio/effects/valnus_shot_1_2.wav");
 
-	return true;
+	return ret;
 }
 
 // Unload assets
