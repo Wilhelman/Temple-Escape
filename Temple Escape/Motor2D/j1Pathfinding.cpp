@@ -2,6 +2,8 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1PathFinding.h"
+//TODO: delete this in release
+#include "Brofiler\Brofiler.h"
 
 j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
 {
@@ -189,6 +191,7 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
+	BROFILER_CATEGORY("A*", Profiler::Color::Purple)
 	last_path.Clear();
 	// if origin or destination are not walkable, return -1
 	if (IsWalkable(origin) && IsWalkable(destination)) {

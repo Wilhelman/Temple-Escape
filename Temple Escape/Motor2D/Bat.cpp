@@ -5,6 +5,8 @@
 #include "j1Player.h"
 #include "p2Log.h"
 #include "j1Pathfinding.h"
+
+
 //#include "Path.h"
 
 Bat::Bat(int x, int y) : Enemy(x, y)
@@ -37,6 +39,7 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 void Bat::Move()
 {
+	
 	iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
 
 	if (have_to_chill && !player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos) != -1) {
