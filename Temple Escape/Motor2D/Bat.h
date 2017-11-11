@@ -4,7 +4,7 @@
 #include "Enemy.h"
 #include "p2Animation.h"
 
-#define TILE_RADAR 56
+#define TILE_RADAR 36
 
 class Bat : public Enemy
 {

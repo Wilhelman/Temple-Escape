@@ -237,8 +237,11 @@ bool j1Player::Update(float dt)
 
 		if (!isGettingHigh) 
 		{
-			if (float gravity = gravityHaveToWork())
+			if (float gravity = gravityHaveToWork()) {
 				this->position.y += gravity;
+				isJumping = true;
+			}
+				
 		}
 
 		if (isJumping && isGettingHigh && canGoUp()) 
@@ -405,21 +408,23 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 float j1Player::gravityHaveToWork() 
 {
-	isJumping = true;
 
-	//variables checking the next 1 pixel
-	fPoint tmpPositionLeft;
-	tmpPositionLeft.x = (int)pCollider->rect.x + (int)(pCollider->rect.w/4);
-	tmpPositionLeft.y = (int)pCollider->rect.y + (int)pCollider->rect.h;
-	fPoint tmpPositionRight;
-	tmpPositionRight.x = (int)pCollider->rect.x + (int)pCollider->rect.w - (int)(pCollider->rect.w / 4);
-	tmpPositionRight.y = (int)pCollider->rect.y + (int)pCollider->rect.h;
+	fPoint tmpPosLeft;
+	tmpPosLeft.x = position.x + 1;
+	tmpPosLeft.y = position.y - 2;
 
-	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPositionLeft.x, tmpPositionLeft.y);
-	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPositionRight.x, tmpPositionRight.y);
+	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
-	//TOUCHING DEAD TILE COLLIDER
-	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 596 && !isDead) {
+	fPoint tmpPosRight;
+	tmpPosRight.x = position.x + pCollider->rect.w - 1;
+	tmpPosRight.y = position.y - 2;
+
+	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
+
+	characterPosInTileWorldLeft.y++;
+	characterPosInTileWorldRight.y++;
+
+	if ((App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 596 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 596) && !isDead) {
 		didDoubleJump = isJumping = false;
 		left_jump.Reset();
 		right_jump.Reset();
@@ -427,36 +432,47 @@ float j1Player::gravityHaveToWork()
 		isDead = true;
 		App->audio->PlayFx(player_dead);
 		deadTime = SDL_GetTicks();
-		return 0.0f;
+		
+
+		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
+		characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
+		SDL_Rect tileColliderUp = { characterPosInTileWorldLeft.x,characterPosInTileWorldLeft.y, App->map->data.tile_width , App->map->data.tile_height };
+
+		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
+
+		SDL_Rect player = { position.x , position.y - pCollider->rect.h + 2, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect res = { 0, 0, 0, 0 };
+
+		SDL_Rect realPlayer = { position.x , position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+
+		if (SDL_IntersectRect(&realPlayer, &tileColliderUp, &res) || SDL_IntersectRect(&realPlayer, &tileColliderDown, &res))
+			return -1.0f;
+
+		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
+			return 0.0f;
 	}
 
-	//TOUCHING THE GROUND COLLIDER TILE
-	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43) {
+	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 43) {
 		didDoubleJump = isJumping = false;
 		left_jump.Reset();
 		right_jump.Reset();
-		return 0.0f;
-	}
-	if (App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 43) {
-		didDoubleJump = isJumping = false;
-		left_jump.Reset();
-		right_jump.Reset();
-		return 0.0f;
-	}
-	//END TOUCHING THE GROUND COLLIDER TILE
 
-	//variables checking the next 2 pixels
-	tmpPositionLeft.y = (int)pCollider->rect.y + (int)pCollider->rect.h + 1;
-	tmpPositionRight.y = (int)pCollider->rect.y + (int)pCollider->rect.h + 1;
+		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
+		characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
+		SDL_Rect tileColliderUp = { characterPosInTileWorldLeft.x,characterPosInTileWorldLeft.y, App->map->data.tile_width , App->map->data.tile_height };
 
-	characterPosInTileWorldLeft = App->map->WorldToMap(tmpPositionLeft.x, tmpPositionLeft.y);
-	characterPosInTileWorldRight = App->map->WorldToMap(tmpPositionRight.x, tmpPositionRight.y);
+		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43) {
-		return 1.0f;
-	}
-	if (App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y + 1) == 43) {
-		return 1.0f;
+		SDL_Rect player = { position.x , position.y - pCollider->rect.h + 1, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect res = { 0, 0, 0, 0 };
+
+		SDL_Rect realPlayer = { position.x , position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+
+		if (SDL_IntersectRect(&realPlayer, &tileColliderUp, &res) || SDL_IntersectRect(&realPlayer, &tileColliderDown, &res))
+			return -1.0f;
+
+		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
+			return 0.0f;
 	}
 
 	return 2.0f;
@@ -525,13 +541,12 @@ bool j1Player::canGoUp()
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x , position.y - pCollider->rect.h - 2, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x , position.y - pCollider->rect.h - 4, pCollider->rect.w, pCollider->rect.h };
 		SDL_Rect res = { 0, 0, 0, 0 };
 
 		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
 			ret = false;
 	}
-
 
 	return ret;
 }

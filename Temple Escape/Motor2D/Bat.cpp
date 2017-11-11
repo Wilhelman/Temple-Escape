@@ -149,10 +149,11 @@ void Bat::SetRadar() {
 			tile_radar[counter++] = tmp_radar;
 		}
 	}
+
 }
 
 bool Bat::CheckForPlayer() {
-	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y);
+	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{
