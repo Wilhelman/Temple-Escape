@@ -213,7 +213,8 @@ void j1Particles::OnCollision(Collider* c1, Collider* c2)
 {
 	if ((c1->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT 
 		&& (c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_BAT 
-		|| c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_SLIME)))
+		|| c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_SLIME
+		|| c2->type == COLLIDER_TYPE::COLLIDER_GROUND)))
 	{
 		//App->audio->PlayFx(enemy_hitted);
 

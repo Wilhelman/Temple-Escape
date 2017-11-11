@@ -387,7 +387,7 @@ bool j1Player::CleanUp()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
-	if (c2->type == COLLIDER_ENEMY_BAT && !isDead) {
+	if ((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) {
 		isDead = true;
 		App->audio->PlayFx(player_dead);
 		deadTime = SDL_GetTicks();
@@ -403,8 +403,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 
 
-float j1Player::gravityHaveToWork() {
-
+float j1Player::gravityHaveToWork() 
+{
 	isJumping = true;
 
 	//variables checking the next 1 pixel
@@ -462,8 +462,8 @@ float j1Player::gravityHaveToWork() {
 	return 2.0f;
 }
 
-bool j1Player::canGoLeft() {
-
+bool j1Player::canGoLeft() 
+{
 	bool ret = true;
 
 	fPoint tmpPosition;
@@ -486,8 +486,8 @@ bool j1Player::canGoLeft() {
 	return ret;
 }
 
-bool j1Player::canGoUp() {
-
+bool j1Player::canGoUp() 
+{
 	bool ret = true;
 	fPoint tmpPosition;
 	tmpPosition.x = (int)pCollider->rect.x;
@@ -509,8 +509,8 @@ bool j1Player::canGoUp() {
 	return ret;
 }
 
-bool j1Player::canGoRight() {
-
+bool j1Player::canGoRight() 
+{
 	bool ret = true;
 
 	fPoint tmpPosition;
@@ -528,16 +528,13 @@ bool j1Player::canGoRight() {
 		SDL_Rect player = { position.x, position.y, pCollider->rect.w, pCollider->rect.h };
 		SDL_Rect res = { 0, 0, 0, 0 };
 
-		if (check_collision(player,tileCollider)) {
+		if (CheckCollision(player,tileCollider))
 			ret = false;
-		}
 	}
-	
 	return ret;
-
 }
 
-bool j1Player::check_collision(SDL_Rect A, SDL_Rect B)
+bool j1Player::CheckCollision(SDL_Rect A, SDL_Rect B)
 {
 	//The sides of the rectangles
 	int leftA, leftB;
@@ -556,35 +553,30 @@ bool j1Player::check_collision(SDL_Rect A, SDL_Rect B)
 	rightB = B.x + B.w;
 	topB = B.y;
 	bottomB = B.y + B.h;
+
 	//If any of the sides from A are outside of B
 	if (bottomA <= topB)
-	{
 		return true;
-	}
 
 	if (topA >= bottomB)
-	{
 		return true;
-	}
 
 	if (rightA <= leftB)
-	{
 		return true;
-	}
 
 	if (leftA >= rightB)
-	{
 		return true;
-	}
 
 	//If none of the sides from A are outside B
 	return false;
 }
 
-bool j1Player::Load(pugi::xml_node& load) {
+bool j1Player::Load(pugi::xml_node& load) 
+{
 	bool ret = true;
 
-	if (!load.child("position").empty()) {
+	if (!load.child("position").empty()) 
+	{
 		tmp.x = load.child("position").attribute("x").as_float();
 		tmp.y = load.child("position").attribute("y").as_float() - 2.0f;
 	}
@@ -595,21 +587,25 @@ bool j1Player::Load(pugi::xml_node& load) {
 	return ret;
 }
 
-void j1Player::ImplementLoad() {
+void j1Player::ImplementLoad() 
+{
 	position.x = tmp.x;
 	position.y = tmp.y;
 }
 
 
-bool j1Player::Save(pugi::xml_node& save) const {
+bool j1Player::Save(pugi::xml_node& save) const 
+{
 	bool ret = true;
 
-	if (save.child("position").empty()) {
+	if (save.child("position").empty()) 
+	{
 		save = save.append_child("position");
 		save.append_attribute("x").set_value(position.x);
 		save.append_attribute("y").set_value(position.y);
 	}
-	else {
+	else 
+	{
 		save.child("position").attribute("x").set_value(position.x);
 		save.child("position").attribute("y").set_value(position.y);
 	}
