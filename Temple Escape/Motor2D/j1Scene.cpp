@@ -97,10 +97,10 @@ bool j1Scene::Update(float dt)
 	App->input->GetMousePosition(m_x, m_y);
 	iPoint p = App->map->WorldToMap(m_x, m_y);
 
-	p2SString title("TEMPLE ESCAPE - Map:%dx%d Tiles:%dx%d Tilesets:%d || Coords in World: X->%i Y->%i",
+	p2SString title("TEMPLE ESCAPE - Map:%dx%d Tiles:%dx%d Tilesets:%d || Coords in Map: X->%i Y->%i || Coords in World: X->%i Y->%i",
 					App->map->data.width, App->map->data.height,
 					App->map->data.tile_width, App->map->data.tile_height,
-					App->map->data.tilesets.count(),p.x,p.y);
+					App->map->data.tilesets.count(),p.x,p.y,m_x,m_y);
 
 	App->win->SetTitle(title.GetString()); // TODO: remove this if not needed and above too
 
