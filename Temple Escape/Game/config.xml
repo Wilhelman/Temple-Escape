@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-	<app>
+	<app framerate_cap="60">
 		<title>Temple Escape</title>
 		<organization>UPC</organization>
 	</app>

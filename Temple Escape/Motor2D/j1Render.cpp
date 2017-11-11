@@ -71,6 +71,22 @@ bool j1Render::PreUpdate()
 
 bool j1Render::Update(float dt)
 {
+
+	/*
+		// TODO: Make the camera movement independent of framerate
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		f_CameraPos.y += 200 * dt;
+
+	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		f_CameraPos.y -= 200 * dt;
+
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		f_CameraPos.x += 200 * dt;
+
+	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		f_CameraPos.x -= 200 * dt;
+	*/
+
 	uint winWidth, winHeight;
 
 	App->win->GetWindowSize(winWidth, winHeight);
