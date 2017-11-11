@@ -68,6 +68,7 @@ private:
 	bool canGoRight();
 	bool canGoLeft();
 	bool canGoUp();
+	bool check_collision(SDL_Rect A, SDL_Rect B);
 
 public:
 	j1Player();

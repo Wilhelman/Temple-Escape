@@ -5,7 +5,6 @@
 #include "p2Animation.h"
 
 #define TILE_RADAR 56
-#define BAT_LIVES 2
 
 class Bat : public Enemy
 {
@@ -28,9 +27,6 @@ public:
 	void SetRadar();
 	bool CheckForPlayer();
 	uint getLives();
-	void resetLives();
-
-
 	
 };
 

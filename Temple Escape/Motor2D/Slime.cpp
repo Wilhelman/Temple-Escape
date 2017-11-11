@@ -63,12 +63,6 @@ uint Slime::getLives()
 	return lives;
 }
 
-void Slime::resetLives()
-{
-	lives = SLIME_LIVES;
-}
-
-
 void Slime::OnCollision(Collider* collider)
 {
 	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER)

@@ -4,8 +4,6 @@
 #include "Enemy.h"
 #include "p2Animation.h"
 
-#define SLIME_LIVES 3
-
 class Slime : public Enemy
 {
 private:
@@ -21,7 +19,6 @@ public:
 	void OnCollision(Collider* collider);
 	void Move();
 	uint getLives();
-	void resetLives();
 };
 
 #endif

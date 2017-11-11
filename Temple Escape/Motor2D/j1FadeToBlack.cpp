@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "j1Enemies.h"
+#include "j1Particles.h"
 #include "p2Log.h"
 
 j1FadeToBlack::j1FadeToBlack()
@@ -58,6 +59,7 @@ bool j1FadeToBlack::Update(float dt)
 		{
 			App->enemies->CleanUp();
 			App->player->CleanUp();
+			App->particles->CleanUp();
 			App->collider->CleanUp();
 			App->map->CleanUp();
 			pugi::xml_node firstData;
@@ -128,6 +130,7 @@ bool j1FadeToBlack::Update(float dt)
 			App->map->setAllLogicForMap();
 			App->player->Start();
 			App->enemies->Start();
+			App->particles->Start();
 
 			if(lvlName != "" && !F1)
 				App->player->ImplementLoad();

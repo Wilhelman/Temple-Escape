@@ -329,9 +329,7 @@ bool j1Player::Update(float dt)
 			current_animation = &right_death_blink;
 		else
 			current_animation = &left_death_blink;
-		pCollider->type = COLLIDER_PLAYER_DEAD;
 	}
-
 	else if (isDead)
 	{
 		isDead = false;
@@ -389,7 +387,7 @@ bool j1Player::CleanUp()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
-	if (c2->type == COLLIDER_ENEMY_BAT) {
+	if (c2->type == COLLIDER_ENEMY_BAT && !isDead) {
 		isDead = true;
 		App->audio->PlayFx(player_dead);
 		deadTime = SDL_GetTicks();
@@ -516,25 +514,71 @@ bool j1Player::canGoRight() {
 	bool ret = true;
 
 	fPoint tmpPosition;
-	tmpPosition.x = (int)pCollider->rect.x + (int)pCollider->rect.w;
-	tmpPosition.y = (int)pCollider->rect.y + (int)pCollider->rect.h - 1;
+	tmpPosition.x = (int)pCollider->rect.x ;
+	tmpPosition.y = (int)pCollider->rect.y + (int)pCollider->rect.h / 2;
 
 	iPoint characterPosInTileWorld = App->map->WorldToMap(tmpPosition.x, tmpPosition.y);
+	characterPosInTileWorld.x++;
 
-	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
-		ret = false;
+	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0) {
+		characterPosInTileWorld = App->map->MapToWorld(characterPosInTileWorld.x, characterPosInTileWorld.y);
 
-	tmpPosition.x = (int)pCollider->rect.x + (int)pCollider->rect.w;
-	tmpPosition.y = (int)pCollider->rect.y;
+		SDL_Rect tileCollider = { characterPosInTileWorld.x,characterPosInTileWorld.y, App->map->data.tile_width , App->map->data.tile_height };
 
-	characterPosInTileWorld = App->map->WorldToMap(tmpPosition.x, tmpPosition.y);
+		SDL_Rect player = { position.x, position.y, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect res = { 0, 0, 0, 0 };
 
-	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
-		ret = false;
-
-
+		if (check_collision(player,tileCollider)) {
+			ret = false;
+		}
+	}
+	
 	return ret;
 
+}
+
+bool j1Player::check_collision(SDL_Rect A, SDL_Rect B)
+{
+	//The sides of the rectangles
+	int leftA, leftB;
+	int rightA, rightB;
+	int topA, topB;
+	int bottomA, bottomB;
+
+	//Calculate the sides of rect A
+	leftA = A.x;
+	rightA = A.x + A.w;
+	topA = A.y;
+	bottomA = A.y + A.h;
+
+	//Calculate the sides of rect B
+	leftB = B.x;
+	rightB = B.x + B.w;
+	topB = B.y;
+	bottomB = B.y + B.h;
+	//If any of the sides from A are outside of B
+	if (bottomA <= topB)
+	{
+		return true;
+	}
+
+	if (topA >= bottomB)
+	{
+		return true;
+	}
+
+	if (rightA <= leftB)
+	{
+		return true;
+	}
+
+	if (leftA >= rightB)
+	{
+		return true;
+	}
+
+	//If none of the sides from A are outside B
+	return false;
 }
 
 bool j1Player::Load(pugi::xml_node& load) {

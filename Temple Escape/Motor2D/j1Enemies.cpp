@@ -127,12 +127,6 @@ bool j1Enemies::Update(float dt)
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Draw(enemy_sprites);
 
-	if (App->player->isDead)
-	{
-		for (uint i = 0; i < MAX_ENEMIES; ++i)
-			if (enemies[i] != nullptr) enemies[i]->resetLives();
-	}
-
 	return true;
 }
 

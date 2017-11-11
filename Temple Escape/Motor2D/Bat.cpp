@@ -63,10 +63,10 @@ void Bat::Move()
 			
 	}else if (player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), playerGoal) != -1) {
 		
-		LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
+		//LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
 		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 		movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
-		LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y); 
+		//LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y); 
 		//TODO FOLLOW THIS..
 		//ill do this working around NO DIAGONALS so this will need an update
 		fPoint xSpeed(0.0f,0.0f), ySpeed(0.0f,0.0f);
@@ -129,10 +129,10 @@ void Bat::Move()
 				have_to_chill = true;
 		}
 	}
-	LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
+	/*LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
 	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
 	LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
-	
+	*/
 }
 
 void Bat::SetRadar() {
@@ -157,7 +157,7 @@ bool Bat::CheckForPlayer() {
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{
 		if (tile_radar[i] == tmp_player) {
-			LOG("NANANANANANANA BAAAAT RADAAAAR ~ PLAYER IS IN THE BAT RADAR!!!");
+			//LOG("NANANANANANANA BAAAAT RADAAAAR ~ PLAYER IS IN THE BAT RADAR!!!");
 			playerGoal = tile_radar[i];
 			if (playerGoal == iPoint(App->map->WorldToMap(position.x, position.y)))
 				return false;
@@ -169,11 +169,6 @@ bool Bat::CheckForPlayer() {
 uint Bat::getLives() 
 {
 	return lives;
-}
-
-void Bat::resetLives()
-{
-	lives = BAT_LIVES;
 }
 
 void Bat::OnCollision(Collider* collider)

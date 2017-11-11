@@ -99,7 +99,6 @@ bool j1Particles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->audio->UnLoadFx(player_basic_shot_right.fx);
-	App->audio->UnLoadFx(player_basic_shot_left.fx);
 
 	App->tex->UnLoad(graphics); //TODO we need to do this?
 	graphics = nullptr;
@@ -126,7 +125,7 @@ bool j1Particles::Update(float dt)
 		if (p == nullptr)
 			continue;
 
-		if (p->position.y < -10 || p->position.y > App->win->screen_surface->h) {
+		if (p->position.x < -10 || p->position.x > App->win->screen_surface->w) { //todo is this right?
 			delete p;
 			active[i] = nullptr;
 		}

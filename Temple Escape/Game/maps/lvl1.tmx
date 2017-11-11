@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="left-up" width="120" height="68" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="120" height="68" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="environment-tiles" tilewidth="16" tileheight="16" tilecount="672" columns="42">
   <image source="environment-tiles.png" width="672" height="256"/>
   <tile id="42">
@@ -20217,10 +20217,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="171"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="171"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -20337,10 +20337,10 @@
    <tile gid="509"/>
    <tile gid="510"/>
    <tile gid="510"/>
-   <tile gid="0"/>
+   <tile gid="171"/>
    <tile gid="0"/>
    <tile gid="509"/>
-   <tile gid="0"/>
+   <tile gid="171"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -36664,7 +36664,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="167"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="434"/>
    <tile gid="0"/>
@@ -44715,8 +44715,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -44833,12 +44835,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -52761,17 +52761,17 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="631"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
