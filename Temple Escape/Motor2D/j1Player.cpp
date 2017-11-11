@@ -467,22 +467,22 @@ bool j1Player::canGoLeft()
 	bool ret = true;
 
 	fPoint tmpPosition;
-	tmpPosition.x = (int)pCollider->rect.x - 1;
-	tmpPosition.y = (int)pCollider->rect.y + (int)pCollider->rect.h - 1;
+	tmpPosition.x = (int)pCollider->rect.x + (int)pCollider->rect.w;
+	tmpPosition.y = (int)pCollider->rect.y + (int)pCollider->rect.h / 2;
 
-	iPoint characterPosInTileWorld = App->map->WorldToMap((int)tmpPosition.x, (int)tmpPosition.y);
+	iPoint characterPosInTileWorld = App->map->WorldToMap(tmpPosition.x, tmpPosition.y);
+	characterPosInTileWorld.x++;
 
-	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
-		ret = false;
+	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0) {
+		characterPosInTileWorld = App->map->MapToWorld(characterPosInTileWorld.x, characterPosInTileWorld.y);
 
-	tmpPosition.x = (int)pCollider->rect.x - 1;
-	tmpPosition.y = (int)pCollider->rect.y;
+		SDL_Rect tileCollider = { characterPosInTileWorld.x,characterPosInTileWorld.y, App->map->data.tile_width , App->map->data.tile_height };
+		SDL_Rect player = { position.x, position.y, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect res = { 0, 0, 0, 0 };
 
-	characterPosInTileWorld = App->map->WorldToMap((int)tmpPosition.x, (int)tmpPosition.y);
-
-	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0)
-		ret = false;
-
+		if (CheckCollision(player, tileCollider))
+			ret = false;
+	}
 	return ret;
 }
 
@@ -514,21 +514,21 @@ bool j1Player::canGoRight()
 	bool ret = true;
 
 	fPoint tmpPosition;
-	tmpPosition.x = (int)pCollider->rect.x ;
-	tmpPosition.y = (int)pCollider->rect.y + (int)pCollider->rect.h / 2;
+	tmpPosition.x = position.x ;
+	tmpPosition.y = position.y;
 
 	iPoint characterPosInTileWorld = App->map->WorldToMap(tmpPosition.x, tmpPosition.y);
+	LOG("Pos Player X = %i | Y = %i", characterPosInTileWorld.x, characterPosInTileWorld.y);
+
 	characterPosInTileWorld.x++;
-
 	if (App->map->collisionLayer->Get(characterPosInTileWorld.x, characterPosInTileWorld.y) != 0) {
+
 		characterPosInTileWorld = App->map->MapToWorld(characterPosInTileWorld.x, characterPosInTileWorld.y);
-
 		SDL_Rect tileCollider = { characterPosInTileWorld.x,characterPosInTileWorld.y, App->map->data.tile_width , App->map->data.tile_height };
-
-		SDL_Rect player = { position.x, position.y, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x + 2, position.y, pCollider->rect.w, pCollider->rect.h };
 		SDL_Rect res = { 0, 0, 0, 0 };
 
-		if (CheckCollision(player,tileCollider))
+		if (SDL_IntersectRect(&player, &tileCollider, &res))
 			ret = false;
 	}
 	return ret;

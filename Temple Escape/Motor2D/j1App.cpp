@@ -231,13 +231,13 @@ void j1App::FinishUpdate()
 	static char title[256];
 	sprintf_s(title, 256, "%s - Av.FPS: %.2f Last Frame Ms: %u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ",
 		game_title.GetString(), avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
-	App->win->SetTitle(title);
+	//App->win->SetTitle(title); TODO: check this
 
 	if (capped_ms > 0 && last_frame_ms < capped_ms)
 	{
 		j1PerfTimer t;
 		SDL_Delay(capped_ms - last_frame_ms);
-		LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
+		//LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
 	}
 }
 
@@ -305,7 +305,7 @@ bool j1App::PostUpdate()
 		ret = item->data->PostUpdate();
 	}
 
-	PERF_PEEK(ptimer);
+	//PERF_PEEK(ptimer);
 	return ret;
 }
 
