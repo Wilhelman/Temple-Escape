@@ -63,6 +63,8 @@ private:
 	uint player_jump = 0;
 	uint player_dead = 0;
 
+	float player_speed = 2.0f;
+
 private:
 	float gravityHaveToWork();
 	bool canGoRight();

@@ -65,6 +65,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	//let me tell u about fade
 	AddModule(fadeToBlack);
 
+	
+
 	PERF_PEEK(ptimer);
 }
 

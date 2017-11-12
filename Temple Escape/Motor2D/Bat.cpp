@@ -27,16 +27,51 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 void Bat::Move()
 {
-	iPoint bat_pos = App->map->WorldToMap(position.x, position.y);
+	iPoint bat_pos = App->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h / 2);
 
-	if (have_to_chill && !player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos) != -1) {
+	if (playerGoal != bat_pos) {
+		if (have_to_chill && !player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos) != -1) {
 
-		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-		if (path->Count() > 0) {
+			const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+			if (path->Count() > 0) {
+				movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
+				//TODO FOLLOW THIS..
+				//ill do this working around NO DIAGONALS so this will need an update
+				fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
+				if (movementGoal.x < bat_pos.x) {
+					xSpeed = { -0.5f,0.0f };
+					animation = standard_left_fly;
+				}
+				else if (movementGoal.x > bat_pos.x) {
+					xSpeed = { 0.5f,0.0f };
+					animation = standard_right_fly;
+				}
+
+				if (movementGoal.y < bat_pos.y) {
+					ySpeed = { 0.0f,-0.5f };
+				}
+				else if (movementGoal.y > bat_pos.y) {
+					ySpeed = { 0.0f, 0.5f };
+				}
+				movementSpeed.x = xSpeed.x;
+				movementSpeed.y = ySpeed.y;
+				moving = true;
+			}
+			else {
+				bat_IA = 1;
+				have_to_chill = false;
+			}
+
+		}
+		else if (player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), playerGoal) != -1) {
+
+			//LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
+			const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 			movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
+			//LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y); 
 			//TODO FOLLOW THIS..
 			//ill do this working around NO DIAGONALS so this will need an update
-			fPoint xSpeed(0.0f,0.0f), ySpeed(0.0f,0.0f);
+			fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
 			if (movementGoal.x < bat_pos.x) {
 				xSpeed = { -0.5f,0.0f };
 				animation = standard_left_fly;
@@ -45,7 +80,7 @@ void Bat::Move()
 				xSpeed = { 0.5f,0.0f };
 				animation = standard_right_fly;
 			}
-			
+
 			if (movementGoal.y < bat_pos.y) {
 				ySpeed = { 0.0f,-0.5f };
 			}
@@ -56,83 +91,54 @@ void Bat::Move()
 			movementSpeed.y = ySpeed.y;
 			moving = true;
 		}
-		else {
-			bat_IA = 1;
-			have_to_chill = false;
-		}
-			
-	}else if (player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), playerGoal) != -1) {
-		
-		//LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
-		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-		movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
-		//LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y); 
-		//TODO FOLLOW THIS..
-		//ill do this working around NO DIAGONALS so this will need an update
-		fPoint xSpeed(0.0f,0.0f), ySpeed(0.0f,0.0f);
-		if (movementGoal.x < bat_pos.x) {
-			xSpeed = { -0.5f,0.0f };
-			animation = standard_left_fly;
-		}
-		else if (movementGoal.x > bat_pos.x) {
-			xSpeed = { 0.5f,0.0f };
+		else if (bat_going_right && !moving) {
+
+			iPoint goal = bat_pos;
+
+			goal.x += 1;
+			movementGoal = goal;
+			moving = true;
+			bat_IA++;
+			movementSpeed = { 0.5f,0.0f };
 			animation = standard_right_fly;
-		}
 
-		if (movementGoal.y < bat_pos.y) {
-			ySpeed = { 0.0f,-0.5f };
 		}
-		else if (movementGoal.y > bat_pos.y) {
-			ySpeed = { 0.0f, 0.5f };
+		else if (!bat_going_right && !moving) {
+
+			iPoint goal = bat_pos;
+			goal.x -= 1;
+			movementGoal = goal;
+			moving = true;
+			bat_IA--;
+			movementSpeed = { -0.5f,0.0f };
+			animation = standard_left_fly;
+
 		}
-		movementSpeed.x = xSpeed.x;
-		movementSpeed.y = ySpeed.y;
-		moving = true;
+		else {
+			if (moving) {
+				position = position + movementSpeed;
+			}
+
+			if (bat_pos == movementGoal) {
+				moving = false;
+				if (bat_IA == 3 || bat_IA == 0)
+					bat_going_right = !bat_going_right;
+
+				if (!App->player->isDead)
+					player_in_radar = CheckForPlayer();
+
+				if (!have_to_chill && player_in_radar)
+					have_to_chill = true;
+			}
+		}
+		LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
+		LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
+		LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
 	}
-	else if (bat_going_right && !moving) {
-
-		iPoint goal = App->map->WorldToMap(position.x, position.y);
-
-		goal.x += 1;
-		movementGoal = goal;
-		moving = true;
-		bat_IA++;
-		movementSpeed = { 0.5f,0.0f };
-		animation = standard_right_fly;
-
-	}
-	else if (!bat_going_right && !moving) {
-
-		iPoint goal = App->map->WorldToMap(position.x, position.y);
-		goal.x -= 1;
-		movementGoal = goal;
-		moving = true;
-		bat_IA--;
-		movementSpeed = { -0.5f,0.0f };
-		animation = standard_left_fly;
-
-	}
-	else {
-		if (moving) {
-			position = position + movementSpeed;
-		}
-
-		if (bat_pos == movementGoal) {
-			moving = false;
-			if (bat_IA == 3 || bat_IA == 0)
-				bat_going_right = !bat_going_right;
-			
-			if(!App->player->isDead)
-				player_in_radar = CheckForPlayer();
-
-			if (!have_to_chill && player_in_radar)
-				have_to_chill = true;
-		}
-	}
-	/*LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
-	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
-	LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
-	*/
+	//TODO CHECK THIS
+	player_in_radar = CheckForPlayer();
+	
+	
 }
 
 void Bat::SetRadar() {

@@ -162,8 +162,12 @@ bool j1Player::PreUpdate()
 // Called each loop iteration
 bool j1Player::Update(float dt)
 {
-	
 	bool ret = true;
+
+	//deadTime = ceil(deadTime * dt);
+	//currentTime = ceil(currentTime * dt);
+	//jumpTimer = ceil(jumpTimer * dt);
+	player_speed = ceil(player_speed * dt);
 
 	current_state = PlayerState::ST_UNKNOWN;
 	
@@ -183,14 +187,14 @@ bool j1Player::Update(float dt)
 				left_jump.Reset();
 				right_jump.Reset();
 			}
-			jumpTimer = SDL_GetTicks();
+			jumpTimer = ceil(SDL_GetTicks() * dt);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
 		{
 			if (canGoRight()) 
 			{
-				this->position.x += 2.0f;
+				this->position.x += player_speed;
 			}
 			current_state = PlayerState::ST_RUN_RIGHT;
 			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
@@ -199,7 +203,7 @@ bool j1Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
 		{
 			if (canGoLeft())
-				this->position.x -= 2.0f;
+				this->position.x -= player_speed;
 
 			current_state = PlayerState::ST_RUN_LEFT;
 			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
@@ -238,7 +242,7 @@ bool j1Player::Update(float dt)
 		if (!isGettingHigh) 
 		{
 			if (float gravity = gravityHaveToWork()) {
-				this->position.y += gravity;
+				this->position.y += ceil(gravity * dt);
 				isJumping = true;
 			}
 				
@@ -247,9 +251,9 @@ bool j1Player::Update(float dt)
 		if (isJumping && isGettingHigh && canGoUp()) 
 		{
 			if (currentTime <= jumpTimer + 150)
-				this->position.y -= 2.2f;
+				this->position.y -= ceil(2.2f * dt);
 			else
-				this->position.y -= 1.5f;
+				this->position.y -= ceil(1.5f * dt);
 		}
 	}
 	
@@ -391,9 +395,9 @@ bool j1Player::CleanUp()
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	if ((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) {
-		isDead = true;
+		/*isDead = true;
 		App->audio->PlayFx(player_dead);
-		deadTime = SDL_GetTicks();
+		deadTime = SDL_GetTicks();*/
 	}
 
 
