@@ -102,7 +102,7 @@ bool j1Scene::Update(float dt)
 					App->map->data.tile_width, App->map->data.tile_height,
 					App->map->data.tilesets.count(),p.x,p.y,m_x,m_y);
 
-	App->win->SetTitle(title.GetString()); // TODO: remove this if not needed and above too
+	//App->win->SetTitle(title.GetString()); // TODO: remove this if not needed and above too
 
 	if (App->player->reachedEnd && App->fadeToBlack->FadeIsOver()) 
 	{

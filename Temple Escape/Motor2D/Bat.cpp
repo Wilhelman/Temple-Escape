@@ -29,7 +29,7 @@ void Bat::Move()
 {
 	iPoint bat_pos = App->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h / 2);
 
-	if (playerGoal != bat_pos) {
+	//if (playerGoal != bat_pos) {
 		if (have_to_chill && !player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos) != -1) {
 
 			const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
@@ -134,9 +134,7 @@ void Bat::Move()
 		LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
 		LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
 		LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
-	}
-	//TODO CHECK THIS
-	player_in_radar = CheckForPlayer();
+	//}
 	
 	
 }

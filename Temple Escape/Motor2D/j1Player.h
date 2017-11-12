@@ -5,6 +5,8 @@
 #include "p2Animation.h"
 #include "p2Point.h"
 
+#define PLAYER_SPEED 40.0f
+
 struct SDL_Texture;
 struct Collider;
 
@@ -63,7 +65,8 @@ private:
 	uint player_jump = 0;
 	uint player_dead = 0;
 
-	float player_speed = 2.0f;
+	float player_speed;
+	float current_dt;
 
 private:
 	float gravityHaveToWork();

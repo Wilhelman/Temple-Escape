@@ -164,10 +164,13 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
+	current_dt = dt;
+
 	//deadTime = ceil(deadTime * dt);
 	//currentTime = ceil(currentTime * dt);
 	//jumpTimer = ceil(jumpTimer * dt);
-	player_speed = ceil(player_speed * dt);
+	player_speed = ceil(PLAYER_SPEED * dt);
+	LOG("PVEL %f", player_speed);
 
 	current_state = PlayerState::ST_UNKNOWN;
 	
@@ -236,7 +239,7 @@ bool j1Player::Update(float dt)
 		}
 
 		bool isGettingHigh = false;
-		if (currentTime <= jumpTimer + 300 && isJumping)
+		if (currentTime <= jumpTimer + ceil(500 * dt) && isJumping)
 			isGettingHigh = true;
 
 		if (!isGettingHigh) 
@@ -250,10 +253,10 @@ bool j1Player::Update(float dt)
 
 		if (isJumping && isGettingHigh && canGoUp()) 
 		{
-			if (currentTime <= jumpTimer + 150)
-				this->position.y -= ceil(2.2f * dt);
+			if (currentTime <= jumpTimer + ceil(300 * dt))
+				this->position.y -= ceil(40.0f * dt);
 			else
-				this->position.y -= ceil(1.5f * dt);
+				this->position.y -= ceil(30.0f * dt);
 		}
 	}
 	
@@ -330,7 +333,7 @@ bool j1Player::Update(float dt)
 	}
 
 	//DEAD ANIMATION WITH TIMER
-	if (isDead && currentTime < deadTime + 1000) 
+	if (isDead && currentTime < deadTime + ceil(1000 * dt)) 
 	{
 		if (last_state == LAST_ST_RUN_RIGHT)
 			current_animation = &right_death_blink;
@@ -359,7 +362,7 @@ bool j1Player::Update(float dt)
 		ret = false;
 	}
 
-	currentTime = SDL_GetTicks();
+	currentTime = ceil(SDL_GetTicks() * dt);
 	
 	return ret;
 }
@@ -435,7 +438,7 @@ float j1Player::gravityHaveToWork()
 		jumpTimer = 0;
 		isDead = true;
 		App->audio->PlayFx(player_dead);
-		deadTime = SDL_GetTicks();
+		deadTime = ceil(SDL_GetTicks() * current_dt);
 		
 
 		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);

@@ -65,8 +65,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	//let me tell u about fade
 	AddModule(fadeToBlack);
 
-	
-
 	PERF_PEEK(ptimer);
 }
 
@@ -233,7 +231,7 @@ void j1App::FinishUpdate()
 	static char title[256];
 	sprintf_s(title, 256, "%s - Av.FPS: %.2f Last Frame Ms: %u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ",
 		game_title.GetString(), avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
-	//App->win->SetTitle(title); TODO: check this
+	App->win->SetTitle(title);
 
 	if (capped_ms > 0 && last_frame_ms < capped_ms)
 	{
