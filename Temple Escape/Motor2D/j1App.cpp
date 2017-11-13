@@ -59,11 +59,11 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(particles);
 	AddModule(collider);
 
-	// render last to swap buffer
-	AddModule(render);
-
 	//let me tell u about fade
 	AddModule(fadeToBlack);
+
+	// render last to swap buffer
+	AddModule(render);
 
 	PERF_PEEK(ptimer);
 }

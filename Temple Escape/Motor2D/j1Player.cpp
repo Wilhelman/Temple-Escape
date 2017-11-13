@@ -166,11 +166,18 @@ bool j1Player::Update(float dt)
 
 	current_dt = dt;
 
-	//deadTime = ceil(deadTime * dt);
-	//currentTime = ceil(currentTime * dt);
-	//jumpTimer = ceil(jumpTimer * dt);
 	player_speed = ceil(PLAYER_SPEED * dt);
-	LOG("PVEL %f", player_speed);
+
+	right_idle.speed = 5 * dt;
+	left_idle.speed = 5 * dt;
+	right_run.speed = 5 * dt;;
+	left_run.speed = 5 * dt;;
+	right_jump.speed = 5 * dt;
+	left_jump.speed = 5 * dt;
+	right_death_blink.speed = 5 * dt;
+	left_death_blink.speed = 5 * dt;
+	right_shoot.speed = 5 * dt;
+	left_shoot.speed = 5 * dt;
 
 	current_state = PlayerState::ST_UNKNOWN;
 	
@@ -190,7 +197,7 @@ bool j1Player::Update(float dt)
 				left_jump.Reset();
 				right_jump.Reset();
 			}
-			jumpTimer = ceil(SDL_GetTicks() * dt);
+			jumpTimer = SDL_GetTicks();
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
@@ -239,7 +246,7 @@ bool j1Player::Update(float dt)
 		}
 
 		bool isGettingHigh = false;
-		if (currentTime <= jumpTimer + ceil(500 * dt) && isJumping)
+		if (currentTime <= jumpTimer + 500 && isJumping)
 			isGettingHigh = true;
 
 		if (!isGettingHigh) 
@@ -253,10 +260,10 @@ bool j1Player::Update(float dt)
 
 		if (isJumping && isGettingHigh && canGoUp()) 
 		{
-			if (currentTime <= jumpTimer + ceil(300 * dt))
-				this->position.y -= ceil(40.0f * dt);
+			if (currentTime <= jumpTimer + 450)
+				this->position.y -= ceil(45.0f * dt);
 			else
-				this->position.y -= ceil(30.0f * dt);
+				this->position.y -= ceil(35.0f * dt);
 		}
 	}
 	
@@ -333,7 +340,7 @@ bool j1Player::Update(float dt)
 	}
 
 	//DEAD ANIMATION WITH TIMER
-	if (isDead && currentTime < deadTime + ceil(1000 * dt)) 
+	if (isDead && currentTime < deadTime + 1000 * dt) 
 	{
 		if (last_state == LAST_ST_RUN_RIGHT)
 			current_animation = &right_death_blink;
@@ -362,7 +369,7 @@ bool j1Player::Update(float dt)
 		ret = false;
 	}
 
-	currentTime = ceil(SDL_GetTicks() * dt);
+	currentTime = SDL_GetTicks();
 	
 	return ret;
 }
@@ -438,7 +445,7 @@ float j1Player::gravityHaveToWork()
 		jumpTimer = 0;
 		isDead = true;
 		App->audio->PlayFx(player_dead);
-		deadTime = ceil(SDL_GetTicks() * current_dt);
+		deadTime = SDL_GetTicks();
 		
 
 		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
@@ -453,7 +460,7 @@ float j1Player::gravityHaveToWork()
 		SDL_Rect realPlayer = { position.x , position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
 		if (SDL_IntersectRect(&realPlayer, &tileColliderUp, &res) || SDL_IntersectRect(&realPlayer, &tileColliderDown, &res))
-			return -1.0f;
+			return -20.0f;
 
 		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
 			return 0.0f;
@@ -476,13 +483,13 @@ float j1Player::gravityHaveToWork()
 		SDL_Rect realPlayer = { position.x , position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
 		if (SDL_IntersectRect(&realPlayer, &tileColliderUp, &res) || SDL_IntersectRect(&realPlayer, &tileColliderDown, &res))
-			return -1.0f;
+			return -20.0f;
 
 		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
 			return 0.0f;
 	}
 
-	return 2.0f;
+	return 40.0f;
 }
 
 bool j1Player::canGoLeft() 

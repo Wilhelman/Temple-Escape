@@ -118,11 +118,14 @@ bool j1Enemies::PreUpdate()
 // Called before render is available
 bool j1Enemies::Update(float dt)
 {
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
-		if (enemies[i] != nullptr) enemies[i]->Move();
+	bat_fly_right.speed = 10 * dt;
+	bat_fly_left.speed = 10 * dt;
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
-		if (enemies[i] != nullptr) enemies[i]->Shoot();
+		if (enemies[i] != nullptr) enemies[i]->Move(dt);
+
+	for (uint i = 0; i < MAX_ENEMIES; ++i)
+		if (enemies[i] != nullptr) enemies[i]->Shoot(dt);
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Draw(enemy_sprites);
@@ -206,14 +209,12 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::BAT:
 			enemies[i] = new Bat(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::BAT;
-			enemies[i]->standard_right_fly = &bat_fly_right;
-			enemies[i]->standard_left_fly = &bat_fly_left;
 			break;
 		case ENEMY_TYPES::SLIME:
 			enemies[i] = new Slime(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::SLIME;
-			enemies[i]->standard_left_jump = &slime_left_jump;
-			enemies[i]->standard_right_jump = &slime_right_jump;
+			//enemies[i]->standard_left_jump = &slime_left_jump;
+			//enemies[i]->standard_right_jump = &slime_right_jump;
 			break;
 		default:
 			break;

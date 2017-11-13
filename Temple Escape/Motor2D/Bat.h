@@ -4,7 +4,7 @@
 #include "Enemy.h"
 #include "p2Animation.h"
 
-#define TILE_RADAR 36
+#define TILE_RADAR 34
 
 class Bat : public Enemy
 {
@@ -23,7 +23,7 @@ public:
 
 	Bat(int x, int y);
 	void OnCollision(Collider* collider);
-	void Move();
+	void Move(float dt);
 	void SetRadar();
 	bool CheckForPlayer();
 	uint getLives();

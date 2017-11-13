@@ -16,7 +16,15 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 	moving = player_in_radar = have_to_chill = dead = false; //check have to chill
 	lives = 2;
 
-	animation = standard_right_fly;
+	standard_right_fly.PushBack({ 76,35,16,12 });
+	standard_right_fly.PushBack({ 92,35,16,12 });
+	standard_right_fly.PushBack({ 76,35,16,12 });
+
+	standard_left_fly.PushBack({ 47,182,16,12 });
+	standard_left_fly.PushBack({ 31,182,16,12 });
+	standard_left_fly.PushBack({ 14,182,16,12 });
+
+	animation = &standard_right_fly;
 
 	original_pos = App->map->WorldToMap(x, y);
 
@@ -25,8 +33,9 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 	SetRadar();
 }
 
-void Bat::Move()
+void Bat::Move(float dt)
 {
+	animation->speed = 10 * dt;
 	iPoint bat_pos = App->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h / 2);
 
 	//if (playerGoal != bat_pos) {
@@ -39,19 +48,19 @@ void Bat::Move()
 				//ill do this working around NO DIAGONALS so this will need an update
 				fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
 				if (movementGoal.x < bat_pos.x) {
-					xSpeed = { -0.5f,0.0f };
-					animation = standard_left_fly;
+					xSpeed = { -20.0f * dt, 0.0f * dt };
+					animation = &standard_left_fly;
 				}
 				else if (movementGoal.x > bat_pos.x) {
-					xSpeed = { 0.5f,0.0f };
-					animation = standard_right_fly;
+					xSpeed = { 20.0f * dt,0.0f * dt};
+					animation = &standard_right_fly;
 				}
 
 				if (movementGoal.y < bat_pos.y) {
-					ySpeed = { 0.0f,-0.5f };
+					ySpeed = { 0.0f * dt ,-20.0f * dt };
 				}
 				else if (movementGoal.y > bat_pos.y) {
-					ySpeed = { 0.0f, 0.5f };
+					ySpeed = { 0.0f * dt, 20.0f * dt };
 				}
 				movementSpeed.x = xSpeed.x;
 				movementSpeed.y = ySpeed.y;
@@ -73,19 +82,19 @@ void Bat::Move()
 			//ill do this working around NO DIAGONALS so this will need an update
 			fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
 			if (movementGoal.x < bat_pos.x) {
-				xSpeed = { -0.5f,0.0f };
-				animation = standard_left_fly;
+				xSpeed = { -20.0f * dt ,0.0f * dt };
+				animation = &standard_left_fly;
 			}
 			else if (movementGoal.x > bat_pos.x) {
-				xSpeed = { 0.5f,0.0f };
-				animation = standard_right_fly;
+				xSpeed = { 20.0f * dt ,0.0f * dt};
+				animation = &standard_right_fly;
 			}
 
 			if (movementGoal.y < bat_pos.y) {
-				ySpeed = { 0.0f,-0.5f };
+				ySpeed = { 0.0f * dt,-20.0f * dt };
 			}
 			else if (movementGoal.y > bat_pos.y) {
-				ySpeed = { 0.0f, 0.5f };
+				ySpeed = { 0.0f * dt, 20.0f * dt };
 			}
 			movementSpeed.x = xSpeed.x;
 			movementSpeed.y = ySpeed.y;
@@ -99,8 +108,8 @@ void Bat::Move()
 			movementGoal = goal;
 			moving = true;
 			bat_IA++;
-			movementSpeed = { 0.5f,0.0f };
-			animation = standard_right_fly;
+			movementSpeed = { 10.0f * dt, 0.0f * dt };
+			animation = &standard_right_fly;
 
 		}
 		else if (!bat_going_right && !moving) {
@@ -110,8 +119,8 @@ void Bat::Move()
 			movementGoal = goal;
 			moving = true;
 			bat_IA--;
-			movementSpeed = { -0.5f,0.0f };
-			animation = standard_left_fly;
+			movementSpeed = { -10.0f * dt,0.0f * dt};
+			animation = &standard_left_fly;
 
 		}
 		else {
@@ -131,11 +140,10 @@ void Bat::Move()
 					have_to_chill = true;
 			}
 		}
-		LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
+		/*LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
 		LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
-		LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
+		LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);*/
 	//}
-	
 	
 }
 
@@ -146,17 +154,20 @@ void Bat::SetRadar() {
 	{
 		for (int k = -3; k < 4; k++)
 		{
-			iPoint tmp_radar = App->map->WorldToMap(position.x, position.y);
+			iPoint tmp_radar = App->map->WorldToMap(original_pos.x, original_pos.y);
 			//LOG("x : %i y : %i",tmp_radar.x,tmp_radar.y);
-			tmp_radar.x += i;
-			tmp_radar.y += k;
-			tile_radar[counter++] = tmp_radar;
+			if (!(i == 0 && k == 0)) {
+				tmp_radar.x += i;
+				tmp_radar.y += k;
+				tile_radar[counter++] = tmp_radar;
+			}
 		}
 	}
 
 }
 
 bool Bat::CheckForPlayer() {
+	LOG("CHECKING 4 PLAYER");
 	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
@@ -169,6 +180,7 @@ bool Bat::CheckForPlayer() {
 			return true;
 		}
 	}
+
 	return false;
 }
 uint Bat::getLives() 

@@ -13,6 +13,8 @@
 #include "j1FadeToBlack.h"
 #include "j1Pathfinding.h"
 
+#include "j1Enemies.h"
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -88,6 +90,10 @@ bool j1Scene::Update(float dt)
 		
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame();
+
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
+		App->enemies->AddEnemy(BAT, App->map->MapToWorld(10, 1).x, App->map->MapToWorld(10,3).y);
+	}
 
 	//END DEBUG
 

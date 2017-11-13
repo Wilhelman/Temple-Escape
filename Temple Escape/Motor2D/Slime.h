@@ -17,7 +17,7 @@ public:
 
 	Slime(int x, int y);
 	void OnCollision(Collider* collider);
-	void Move();
+	void Move(float dt);
 	uint getLives();
 };
 

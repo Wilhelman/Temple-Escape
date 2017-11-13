@@ -17,7 +17,7 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->enemies);
 }
 
-void Slime::Move()
+void Slime::Move(float dt)
 {
 	/*if (slime_going_right && !moving) {
 
@@ -55,7 +55,7 @@ void Slime::Move()
 		}
 	}*/
 
-	animation = standard_right_jump;
+	animation = &standard_right_jump;
 }
 
 uint Slime::getLives() 
