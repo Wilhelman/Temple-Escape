@@ -340,7 +340,7 @@ bool j1Player::Update(float dt)
 	}
 
 	//DEAD ANIMATION WITH TIMER
-	if (isDead && currentTime < deadTime + 1000 * dt) 
+	if (isDead && currentTime < deadTime + 1000) 
 	{
 		if (last_state == LAST_ST_RUN_RIGHT)
 			current_animation = &right_death_blink;
@@ -405,9 +405,9 @@ bool j1Player::CleanUp()
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	if ((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) {
-		/*isDead = true;
+		isDead = true;
 		App->audio->PlayFx(player_dead);
-		deadTime = SDL_GetTicks();*/
+		deadTime = SDL_GetTicks();
 	}
 
 

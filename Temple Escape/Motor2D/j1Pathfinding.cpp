@@ -194,7 +194,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	BROFILER_CATEGORY("A*", Profiler::Color::Purple)
 	last_path.Clear();
 	// if origin or destination are not walkable, return -1
-	if (IsWalkable(origin) && IsWalkable(destination)) {
+	if ((IsWalkable(origin) && IsWalkable(destination)) && (origin != destination)) {
 
 		// Create two lists: open, close
 		PathList open, close;

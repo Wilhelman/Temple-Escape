@@ -209,6 +209,8 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::BAT:
 			enemies[i] = new Bat(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::BAT;
+			enemies[i]->standard_left_fly = bat_fly_left;
+			enemies[i]->standard_right_fly = bat_fly_right;
 			break;
 		case ENEMY_TYPES::SLIME:
 			enemies[i] = new Slime(info.x, info.y);
