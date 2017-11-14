@@ -25,7 +25,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
 	PERF_START(ptimer);
 
-	want_to_save = want_to_load = false;
+	want_to_save = want_to_load = all_modules_loaded = false;
 	load_game = "save_game";
 	save_game = "save_game";
 
@@ -239,6 +239,9 @@ void j1App::FinishUpdate()
 		SDL_Delay(capped_ms - last_frame_ms);
 		//LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
 	}
+
+	if (!all_modules_loaded)
+		all_modules_loaded = true;
 }
 
 // Call modules before each loop iteration
@@ -280,7 +283,7 @@ bool j1App::DoUpdate()
 			continue;
 		}
 
-		ret = item->data->Update(dt);
+		(all_modules_loaded) ? ret = item->data->Update(dt) : ret = item->data->Update(0);
 	}
 
 	return ret;

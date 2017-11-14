@@ -122,6 +122,7 @@ private:
 	uint32				prev_last_sec_frame_count = 0;
 	float				dt = 0.0f;
 	int					capped_ms = -1;
+	bool				all_modules_loaded;
 	
 };
 
