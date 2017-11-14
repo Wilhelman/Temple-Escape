@@ -7,7 +7,6 @@
 #include "j1Pathfinding.h"
 
 
-//#include "Path.h"
 
 Bat::Bat(int x, int y) : Enemy(x, y)
 {
@@ -97,7 +96,7 @@ void Bat::Move(float dt)
 			movementSpeed.y = ySpeed.y;
 			moving = true;
 		}
-		else if (bat_going_right && !moving) {
+		else if (bat_going_right && !moving && dt != 0.0f) {
 
 			iPoint goal = bat_pos;
 
@@ -109,7 +108,7 @@ void Bat::Move(float dt)
 			animation = &standard_right_fly;
 
 		}
-		else if (!bat_going_right && !moving) {
+		else if (!bat_going_right && !moving  && dt != 0.0f) {
 
 			iPoint goal = bat_pos;
 			goal.x -= 1;
