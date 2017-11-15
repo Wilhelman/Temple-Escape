@@ -18,8 +18,6 @@ private:
 
 	iPoint tile_radar[TILE_RADAR];
 
-	bool dead;
-
 public:
 
 	Bat(int x, int y);
@@ -30,7 +28,6 @@ public:
 	uint getLives();
 
 	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
-	
 };
 
 #endif

@@ -45,8 +45,12 @@ public:
 
 	bool AddEnemy(ENEMY_TYPES type, int x, int y);
 
+	
+	p2Animation slime_right_idle;
+	p2Animation slime_left_idle;
 	p2Animation slime_right_jump;
 	p2Animation slime_left_jump;
+
 	p2Animation bat_fly_right;
 	p2Animation bat_fly_left;
 

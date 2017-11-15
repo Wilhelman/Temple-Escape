@@ -43,6 +43,24 @@ bool j1Enemies::Awake(pugi::xml_node& config)
 	{
 		p2SString tmp(animations.attribute("name").as_string());
 
+		if (tmp == "slime_right_idle") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				slime_right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			slime_right_idle.speed = animations.attribute("speed").as_float();
+			slime_right_idle.loop = animations.attribute("loop").as_bool();
+		}
+
+		if (tmp == "slime_left_idle") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				slime_left_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			slime_left_idle.speed = animations.attribute("speed").as_float();
+			slime_left_idle.loop = animations.attribute("loop").as_bool();
+		}
+
 		if (tmp == "slime_right_jump") {
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
@@ -215,8 +233,10 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::SLIME:
 			enemies[i] = new Slime(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::SLIME;
-			//enemies[i]->standard_left_jump = &slime_left_jump;
-			//enemies[i]->standard_right_jump = &slime_right_jump;
+			enemies[i]->standard_left_jump = slime_left_jump;
+			enemies[i]->standard_right_jump = slime_right_jump;
+			enemies[i]->standard_left_idle = slime_left_idle;
+			enemies[i]->standard_right_idle = slime_right_idle;
 			break;
 		default:
 			break;

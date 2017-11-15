@@ -11,7 +11,7 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
-	moving = player_in_radar = have_to_chill = dead = false;
+	moving = player_in_radar = have_to_chill = false;
 	lives = 2;
 
 	animation = &standard_right_fly;
@@ -201,28 +201,28 @@ void Bat::OnCollision(Collider* collider)
 			App->collider->EraseCollider(this->collider);
 			this->collider = nullptr;
 		}
-		dead = true;
 	}
 }
 
-void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position) {
+void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position) 
+{
 	movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
 
 	fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
 	if (movementGoal.x < position.x) {
-		xSpeed = { -30.0f * dt, 0.0f * dt };
+		xSpeed = { -20.0f * dt, 0.0f * dt };
 		animation = &standard_left_fly;
 	}
 	else if (movementGoal.x > position.x) {
-		xSpeed = { 30.0f * dt,0.0f * dt };
+		xSpeed = { 20.0f * dt,0.0f * dt };
 		animation = &standard_right_fly;
 	}
 
 	if (movementGoal.y < position.y) {
-		ySpeed = { 0.0f * dt ,-30.0f * dt };
+		ySpeed = { 0.0f * dt ,-20.0f * dt };
 	}
 	else if (movementGoal.y > position.y) {
-		ySpeed = { 0.0f * dt, 30.0f * dt };
+		ySpeed = { 0.0f * dt, 20.0f * dt };
 	}
 
 	movementSpeed.x = xSpeed.x;

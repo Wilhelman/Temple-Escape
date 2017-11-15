@@ -8,7 +8,7 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 {
 	slime_IA = 0;
 	slime_going_right = true;
-	moving = dead = false;
+	moving = false;
 	lives = 3;
 
 	original_pos.x = x;
@@ -27,7 +27,7 @@ void Slime::Move(float dt)
 		moving = true;
 		slime_IA++;
 
-		animation = &idle_right;
+		//animation = &idle_right;
 
 	}
 	else if (!slime_going_right && !moving) {
@@ -38,7 +38,7 @@ void Slime::Move(float dt)
 		moving = true;
 		slime_IA--;
 
-		animation = &idle_left;
+		//animation = &idle_left;
 	}
 	else {
 		if (moving && slime_going_right) {
@@ -55,7 +55,8 @@ void Slime::Move(float dt)
 		}
 	}*/
 
-	animation = &standard_right_jump;
+
+	animation = &standard_left_idle;
 }
 
 uint Slime::getLives() 
@@ -80,6 +81,31 @@ void Slime::OnCollision(Collider* collider)
 			App->collider->EraseCollider(this->collider);
 			this->collider = nullptr;
 		}
-		dead = true;
 	}
+}
+
+void Slime::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position)
+{
+	movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
+
+	fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
+	if (movementGoal.x < position.x) {
+		xSpeed = { -20.0f * dt, 0.0f * dt };
+		animation = &standard_left_idle;
+	}
+	else if (movementGoal.x > position.x) {
+		xSpeed = { 20.0f * dt,0.0f * dt };
+		animation = &standard_right_idle;
+	}
+
+	if (movementGoal.y < position.y) {
+		ySpeed = { 0.0f * dt ,-20.0f * dt };
+	}
+	else if (movementGoal.y > position.y) {
+		ySpeed = { 0.0f * dt, 20.0f * dt };
+	}
+
+	movementSpeed.x = xSpeed.x;
+	movementSpeed.y = ySpeed.y;
+	moving = true;
 }
