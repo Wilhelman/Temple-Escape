@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 #include "p2Animation.h"
+#include "p2DynArray.h"
 
 #define TILE_RADAR 48
 
@@ -27,6 +28,8 @@ public:
 	void SetRadar();
 	bool CheckForPlayer();
 	uint getLives();
+
+	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
 	
 };
 

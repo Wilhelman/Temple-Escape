@@ -7,18 +7,17 @@
 #include "j1Pathfinding.h"
 
 
-
 Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
-	moving = player_in_radar = have_to_chill = dead = false; //check have to chill
+	moving = player_in_radar = have_to_chill = dead = false;
 	lives = 2;
 
 	animation = &standard_right_fly;
 
 	original_pos = App->map->WorldToMap(x, y);
-
+	//LOG("original_pos x : %i | original_pos y : %i", x, y);
 
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->enemies);
 
@@ -28,35 +27,35 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 void Bat::Move(float dt)
 {
 	animation->speed = 10 * dt;
-	iPoint bat_pos = App->map->WorldToMap(position.x + collider->rect.w / 2, position.y + collider->rect.h / 2);
+	iPoint bat_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
+	iPoint bat_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
 
 		if (have_to_chill && !player_in_radar && !moving) {
+			const p2DynArray<iPoint>* path1 = nullptr;
+			const p2DynArray<iPoint>* path2 = nullptr;
+			if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), original_pos) != -1) {
+				path1 = App->pathfinding->GetLastPath();
+				if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), original_pos) != -1)
+					path2 = App->pathfinding->GetLastPath();
 
-			if (App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), original_pos) != -1) {
-				const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-				if (path->Count() > 0) {
-					movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
-					//TODO FOLLOW THIS..
-					//ill do this working around NO DIAGONALS so this will need an update
-					fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
-					if (movementGoal.x < bat_pos.x) {
-						xSpeed = { -20.0f * dt, 0.0f * dt };
-						animation = &standard_left_fly;
-					}
-					else if (movementGoal.x > bat_pos.x) {
-						xSpeed = { 20.0f * dt,0.0f * dt };
-						animation = &standard_right_fly;
-					}
+				if (path2 != nullptr && path1->Count() < path2->Count()) {
+					SetMovementWithPath(path2, dt, bat_pos_DOWN_RIGHT);
+				}
+				else if (path1->Count() > 0) {
+					SetMovementWithPath(path1, dt, bat_pos_UP_LEFT);
+				}
+				
 
-					if (movementGoal.y < bat_pos.y) {
-						ySpeed = { 0.0f * dt ,-20.0f * dt };
-					}
-					else if (movementGoal.y > bat_pos.y) {
-						ySpeed = { 0.0f * dt, 20.0f * dt };
-					}
-					movementSpeed.x = xSpeed.x;
-					movementSpeed.y = ySpeed.y;
-					moving = true;
+			} else if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), original_pos) != -1) {
+				path1 = App->pathfinding->GetLastPath();
+				if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), original_pos) != -1)
+					path2 = App->pathfinding->GetLastPath();
+
+				if (path2 != nullptr && path1->Count() < path2->Count()) {
+					SetMovementWithPath(path2, dt, bat_pos_UP_LEFT);
+				}
+				else if (path1->Count() > 0) {
+					SetMovementWithPath(path1, dt, bat_pos_DOWN_RIGHT);
 				}
 			}
 			else {
@@ -65,40 +64,43 @@ void Bat::Move(float dt)
 				bat_going_right = true;
 				have_to_chill = false;
 			}
-			
 
 		}
-		else if (player_in_radar && !moving && App->pathfinding->CreatePath(iPoint(bat_pos.x, bat_pos.y), playerGoal) != -1) {
+		else if (player_in_radar && !moving) {
 
-			//LOG("x : %i y : %i", bat_pos.x, bat_pos.y);
-			const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-			movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
-			//LOG("goal x : %i goal y : %i", movementGoal.x, movementGoal.y); 
-			//TODO FOLLOW THIS..
-			//ill do this working around NO DIAGONALS so this will need an update
-			fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
-			if (movementGoal.x < bat_pos.x) {
-				xSpeed = { -20.0f * dt ,0.0f * dt };
-				animation = &standard_left_fly;
+			const p2DynArray<iPoint>* path1 = nullptr;
+			const p2DynArray<iPoint>* path2 = nullptr;
+			if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), playerGoal) != -1) {
+				path1 = App->pathfinding->GetLastPath();
+				if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), playerGoal) != -1)
+					path2 = App->pathfinding->GetLastPath();
+
+				if (path2 != nullptr && path1->Count() < path2->Count()) {
+					SetMovementWithPath(path2, dt, bat_pos_DOWN_RIGHT);
+				}
+				else if (path1->Count() > 0) {
+					SetMovementWithPath(path1, dt, bat_pos_UP_LEFT);
+				}
+
+
 			}
-			else if (movementGoal.x > bat_pos.x) {
-				xSpeed = { 20.0f * dt ,0.0f * dt};
-				animation = &standard_right_fly;
+			else if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), playerGoal) != -1) {
+				path1 = App->pathfinding->GetLastPath();
+				if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), playerGoal) != -1)
+					path2 = App->pathfinding->GetLastPath();
+
+				if (path2 != nullptr && path1->Count() < path2->Count()) {
+					SetMovementWithPath(path2, dt, bat_pos_UP_LEFT);
+				}
+				else if (path1->Count() > 0) {
+					SetMovementWithPath(path1, dt, bat_pos_DOWN_RIGHT);
+				}
 			}
 
-			if (movementGoal.y < bat_pos.y) {
-				ySpeed = { 0.0f * dt,-20.0f * dt };
-			}
-			else if (movementGoal.y > bat_pos.y) {
-				ySpeed = { 0.0f * dt, 20.0f * dt };
-			}
-			movementSpeed.x = xSpeed.x;
-			movementSpeed.y = ySpeed.y;
-			moving = true;
 		}
 		else if (bat_going_right && !moving && dt != 0.0f) {
 
-			iPoint goal = bat_pos;
+			iPoint goal = bat_pos_UP_LEFT;
 
 			goal.x += 1;
 			movementGoal = goal;
@@ -110,7 +112,7 @@ void Bat::Move(float dt)
 		}
 		else if (!bat_going_right && !moving  && dt != 0.0f) {
 
-			iPoint goal = bat_pos;
+			iPoint goal = bat_pos_UP_LEFT;
 			goal.x -= 1;
 			movementGoal = goal;
 			moving = true;
@@ -124,7 +126,7 @@ void Bat::Move(float dt)
 				position = position + movementSpeed;
 			}
 
-			if (bat_pos == movementGoal) {
+			if (bat_pos_UP_LEFT == movementGoal && bat_pos_DOWN_RIGHT == movementGoal) {
 				moving = false;
 				if (bat_IA == 3 || bat_IA == 0)
 					bat_going_right = !bat_going_right;
@@ -136,11 +138,9 @@ void Bat::Move(float dt)
 					have_to_chill = true;
 			}
 		}
-		LOG("BAT POS x : %i y : %i", bat_pos.x, bat_pos.y);
-		LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
-		LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
-	
-	
+		//LOG("BAT POS x : %i y : %i", bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y);
+		//LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
+		//LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
 }
 
 void Bat::SetRadar() {
@@ -168,9 +168,9 @@ bool Bat::CheckForPlayer() {
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{
 		if (tile_radar[i] == tmp_player) {
-			//LOG("NANANANANANANA BAAAAT RADAAAAR ~ PLAYER IS IN THE BAT RADAR!!!");
+			//LOG("NANANANANANANA BAAAAT RADAAAAR");
+			//LOG("Player goal x = %i | player goal y = %i", playerGoal.x, playerGoal.y);
 			playerGoal = tile_radar[i];
-			LOG("Player goal x = %i | player goal y = %i", playerGoal.x, playerGoal.y);
 			if (playerGoal == iPoint(App->map->WorldToMap(position.x, position.y)))
 				return false;
 			return true;
@@ -203,4 +203,29 @@ void Bat::OnCollision(Collider* collider)
 		}
 		dead = true;
 	}
+}
+
+void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position) {
+	movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
+
+	fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
+	if (movementGoal.x < position.x) {
+		xSpeed = { -30.0f * dt, 0.0f * dt };
+		animation = &standard_left_fly;
+	}
+	else if (movementGoal.x > position.x) {
+		xSpeed = { 30.0f * dt,0.0f * dt };
+		animation = &standard_right_fly;
+	}
+
+	if (movementGoal.y < position.y) {
+		ySpeed = { 0.0f * dt ,-30.0f * dt };
+	}
+	else if (movementGoal.y > position.y) {
+		ySpeed = { 0.0f * dt, 30.0f * dt };
+	}
+
+	movementSpeed.x = xSpeed.x;
+	movementSpeed.y = ySpeed.y;
+	moving = true;
 }
