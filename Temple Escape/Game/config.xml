@@ -75,13 +75,13 @@
 	</player>
 	<enemies>
 		<spritesheetSource name="textures/source_spritesheet.png">
-			<animation name="slime_right_idle" speed="0.20" loop="true">
-				<frame x="74" y="85" width="16" height="11" />
-				<frame x="90" y="85" width="16" height="11" />
+			<animation name="slime_right_idle" speed="0.05" loop="true">
+				<frame x="124" y="45" width="16" height="16" />
+				<frame x="140" y="45" width="16" height="16" />
 			</animation>
-			<animation name="slime_left_idle" speed="0.20" loop="true">
-				<frame x="76" y="50" width="16" height="11" />
-				<frame x="92" y="50" width="16" height="11" />
+			<animation name="slime_left_idle" speed="0.05" loop="true">
+				<frame x="76" y="45" width="16" height="16" />
+				<frame x="92" y="45" width="16" height="16" />
 			</animation>
 			<animation name="slime_right_jump" speed="0.20" loop="true">
 				<frame x="139" y="96" width="16" height="16" />

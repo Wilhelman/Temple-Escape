@@ -2,14 +2,19 @@
 #include "Slime.h"
 #include "j1Collider.h"
 #include "j1Map.h"
-//#include "Path.h"
+#include "j1Pathfinding.h"
+#include "j1Player.h"
+#include "p2Log.h"
+
 
 Slime::Slime(int x, int y) : Enemy(x, y)
 {
-	slime_IA = 0;
+	slime_IA = slime_time_chilling = 0;
 	slime_going_right = true;
 	moving = false;
 	lives = 3;
+
+	animation = &standard_right_jump;
 
 	original_pos.x = x;
 	original_pos.y = y;
@@ -19,47 +24,103 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 
 void Slime::Move(float dt)
 {
-	/*if (slime_going_right && !moving) {
+		animation->speed = 10 * dt;
 
-		iPoint goal = App->map->WorldToMap(position.x, position.y);
-		goal.x += 1;
-		movementGoal = App->map->MapToWorld(goal.x, goal.y);
-		moving = true;
-		slime_IA++;
+	iPoint slime_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
+	iPoint slime_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
 
-		//animation = &idle_right;
+	if (player_in_radar && !moving) {
+
+		const p2DynArray<iPoint>* path1 = nullptr;
+		const p2DynArray<iPoint>* path2 = nullptr;
+
+		if (App->pathfinding->CreatePath(iPoint(slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y), playerGoal) != -1) {
+
+			path1 = App->pathfinding->GetLastPath();
+			if (App->pathfinding->CreatePath(iPoint(slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y), playerGoal) != -1)
+				path2 = App->pathfinding->GetLastPath();
+
+			if (path2 != nullptr && path1->Count() < path2->Count()) {
+				SetMovementWithPath(path2, dt, slime_pos_DOWN_RIGHT);
+			}
+			else if (path1->Count() > 0) {
+				SetMovementWithPath(path1, dt, slime_pos_UP_LEFT);
+			}
+
+		}
+		else if (App->pathfinding->CreatePath(iPoint(slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y), playerGoal) != -1) {
+			path1 = App->pathfinding->GetLastPath();
+			if (App->pathfinding->CreatePath(iPoint(slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y), playerGoal) != -1)
+				path2 = App->pathfinding->GetLastPath();
+
+			if (path2 != nullptr && path1->Count() < path2->Count()) {
+				SetMovementWithPath(path2, dt, slime_pos_UP_LEFT);
+			}
+			else if (path1->Count() > 0) {
+				SetMovementWithPath(path1, dt, slime_pos_DOWN_RIGHT);
+			}
+		}
 
 	}
-	else if (!slime_going_right && !moving) {
+	else if (slime_going_right && !moving && dt != 0.0f) {
 
-		iPoint goal = App->map->WorldToMap(position.x, position.y);
-		goal.x -= 1;
-		movementGoal = App->map->MapToWorld(goal.x, goal.y);
-		moving = true;
-		slime_IA--;
-
-		//animation = &idle_left;
-	}
-	else {
-		if (moving && slime_going_right) {
-			position = position + movementSpeed;
+		if (currentTime < slime_time_chilling + 500) {
+			if (animation->Finished())
+				animation = &standard_right_idle;
 		}
-		else if (moving && !slime_going_right) {
-			position = position - movementSpeed;
-		}
+		else {
+			iPoint goal = slime_pos_UP_LEFT;
 
-		if ((int)position.x == (int)movementGoal.x) {
-			moving = false;
-			if (slime_IA == 3 || slime_IA == 0)
+			if (App->map->collisionLayer->Get(goal.x + 1, goal.y + 1) == 43 && App->map->collisionLayer->Get(goal.x + 1, goal.y) != 43) {
+				goal.x += 1;
+				movementGoal = goal;
+				moving = true;
+				movementSpeed = { 10.0f * dt, 0.0f * dt };
+				animation = &standard_right_jump;
+			}
+			else
 				slime_going_right = !slime_going_right;
 		}
-	}*/
 
+	}
+	else if (!slime_going_right && !moving  && dt != 0.0f) {
 
-	animation = &standard_left_idle;
+		if (currentTime < slime_time_chilling + 500) {
+			if (animation->Finished())
+				animation = &standard_left_idle;
+		}
+		else {
+			iPoint goal = slime_pos_DOWN_RIGHT;
+			if (App->map->collisionLayer->Get(goal.x - 1, goal.y + 1) == 43 && App->map->collisionLayer->Get(goal.x - 1, goal.y) != 43) {
+				goal.x -= 1;
+				movementGoal = goal;
+				moving = true;
+				movementSpeed = { -10.0f * dt,0.0f * dt };
+				animation = &standard_left_jump;
+			}
+			else
+				slime_going_right = !slime_going_right;
+		}
+	}
+	else {
+		if (moving) {
+			position = position + movementSpeed;
+		}
+
+		if (slime_pos_UP_LEFT == movementGoal && slime_pos_DOWN_RIGHT == movementGoal) {
+			moving = false;
+			slime_time_chilling = SDL_GetTicks();
+			//if (!App->player->isDead)
+			//player_in_radar = CheckForPlayer();
+		}
+	}
+	//LOG("BAT POS x : %i y : %i", bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y);
+	//LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
+	//LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
+	currentTime = SDL_GetTicks();
 }
 
-uint Slime::getLives() 
+uint Slime::getLives()
 {
 	return lives;
 }
@@ -91,11 +152,11 @@ void Slime::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint
 	fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
 	if (movementGoal.x < position.x) {
 		xSpeed = { -20.0f * dt, 0.0f * dt };
-		animation = &standard_left_idle;
+		animation = &standard_left_jump;
 	}
 	else if (movementGoal.x > position.x) {
 		xSpeed = { 20.0f * dt,0.0f * dt };
-		animation = &standard_right_idle;
+		animation = &standard_right_jump;
 	}
 
 	if (movementGoal.y < position.y) {

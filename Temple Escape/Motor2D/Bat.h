@@ -11,7 +11,7 @@ class Bat : public Enemy
 {
 private:
 	iPoint original_pos;
-	int bat_IA; //lol
+	int bat_IA;
 	bool bat_going_right, moving, player_in_radar, have_to_chill;
 	fPoint movementSpeed;
 	iPoint movementGoal, playerGoal;
