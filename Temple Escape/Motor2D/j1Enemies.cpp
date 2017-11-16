@@ -102,6 +102,8 @@ bool j1Enemies::Start()
 {
 	bool ret = true;
 
+	set_entities_speed = false;
+
 	enemy_sprites = App->tex->Load(spritesheetName.GetString());
 
 	if (enemy_sprites == NULL) {
@@ -136,8 +138,10 @@ bool j1Enemies::PreUpdate()
 // Called before render is available
 bool j1Enemies::Update(float dt)
 {
-	bat_fly_right.speed = 10 * dt;
-	bat_fly_left.speed = 10 * dt;
+	if (!set_entities_speed && dt > 0)
+		SetEntitiesSpeed(dt);
+	
+	
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Move(dt);
@@ -231,7 +235,7 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 			enemies[i]->standard_right_fly = bat_fly_right;
 			break;
 		case ENEMY_TYPES::SLIME:
-			enemies[i] = new Slime(info.x, info.y);
+			Slime* slime = (Slime*)enemies[i] = new Slime(info.x, info.y);
 			enemies[i]->type = ENEMY_TYPES::SLIME;
 			enemies[i]->standard_left_jump = slime_left_jump;
 			enemies[i]->standard_right_jump = slime_right_jump;
@@ -281,3 +285,4 @@ void j1Enemies::OnCollision(Collider* c1, Collider* c2)
 		}
 	} 
 }
+

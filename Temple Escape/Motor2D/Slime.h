@@ -20,11 +20,17 @@ private:
 
 	uint current_time, slime_time_chilling;
 
+	p2Animation standard_left_idle;
+	p2Animation standard_right_idle;
+	p2Animation standard_left_jump;
+	p2Animation standard_right_jump;
+
 public:
 
 	Slime(int x, int y);
 	void OnCollision(Collider* collider);
 	void Move(float dt);
+	void SetEntitiesSpeed(float dt);
 	//void SetRadar();
 	//bool CheckForPlayer();
 	uint getLives();

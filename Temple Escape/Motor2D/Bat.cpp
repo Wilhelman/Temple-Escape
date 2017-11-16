@@ -26,7 +26,7 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 void Bat::Move(float dt)
 {
-	animation->speed = 10 * dt;
+
 	iPoint bat_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint bat_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
 

@@ -16,15 +16,11 @@ protected:
 	uint lives;
 	uint currentTime;
 	uint lastTime;
+	bool key_entities_speed;
 
 public:
 	fPoint position;
 	int type;
-
-	p2Animation standard_left_idle;
-	p2Animation standard_right_idle;
-	p2Animation standard_left_jump;
-	p2Animation standard_right_jump;
 
 	p2Animation standard_right_fly;
 	p2Animation standard_left_fly;
@@ -40,6 +36,7 @@ public:
 	virtual void Draw(SDL_Texture* sprites);
 	virtual void OnCollision(Collider* collider);
 	virtual uint getLives() { return 0; };
+	virtual void SetEntitiesSpeed(float dt) {};
 };
 
 #endif // __ENEMY_H__

@@ -24,7 +24,9 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 
 void Slime::Move(float dt)
 {
-		animation->speed = 10 * dt;
+
+	if (!key_entities_speed && dt > 0)
+		SetEntitiesSpeed(dt);
 
 	iPoint slime_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint slime_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
@@ -169,4 +171,12 @@ void Slime::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint
 	movementSpeed.x = xSpeed.x;
 	movementSpeed.y = ySpeed.y;
 	moving = true;
+}
+
+void Slime::SetEntitiesSpeed(float dt) {
+	slime_left_idle.speed *= dt;
+	slime_left_jump.speed *= dt;
+	slime_right_idle.speed *= dt;
+	slime_right_jump.speed *= dt;
+	set_entities_speed = true;
 }
