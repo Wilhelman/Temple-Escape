@@ -102,8 +102,6 @@ bool j1Enemies::Start()
 {
 	bool ret = true;
 
-	set_entities_speed = false;
-
 	enemy_sprites = App->tex->Load(spritesheetName.GetString());
 
 	if (enemy_sprites == NULL) {
@@ -138,10 +136,6 @@ bool j1Enemies::PreUpdate()
 // Called before render is available
 bool j1Enemies::Update(float dt)
 {
-	if (!set_entities_speed && dt > 0)
-		SetEntitiesSpeed(dt);
-	
-	
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Move(dt);
@@ -228,20 +222,24 @@ void j1Enemies::SpawnEnemy(const EnemyInfo& info)
 	{
 		switch (info.type)
 		{
-		case ENEMY_TYPES::BAT:
-			enemies[i] = new Bat(info.x, info.y);
+		case ENEMY_TYPES::BAT: {
+			Bat* bat = new Bat(info.x, info.y);
+			enemies[i] = bat;
 			enemies[i]->type = ENEMY_TYPES::BAT;
-			enemies[i]->standard_left_fly = bat_fly_left;
-			enemies[i]->standard_right_fly = bat_fly_right;
+			bat->standard_left_fly = bat_fly_left;
+			bat->standard_right_fly = bat_fly_right;
 			break;
-		case ENEMY_TYPES::SLIME:
-			Slime* slime = (Slime*)enemies[i] = new Slime(info.x, info.y);
+		}
+		case ENEMY_TYPES::SLIME: {
+			Slime* slime = new Slime(info.x, info.y);
+			enemies[i] = slime;
 			enemies[i]->type = ENEMY_TYPES::SLIME;
-			enemies[i]->standard_left_jump = slime_left_jump;
-			enemies[i]->standard_right_jump = slime_right_jump;
-			enemies[i]->standard_left_idle = slime_left_idle;
-			enemies[i]->standard_right_idle = slime_right_idle;
+			slime->standard_left_jump = slime_left_jump;
+			slime->standard_right_jump = slime_right_jump;
+			slime->standard_left_idle = slime_left_idle;
+			slime->standard_right_idle = slime_right_idle;
 			break;
+		}
 		default:
 			break;
 		}

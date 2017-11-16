@@ -6,6 +6,8 @@
 #include "p2Point.h"
 
 #define PLAYER_SPEED 40.0f
+#define JUMP_SPEED 80.0f
+#define GRAVITY 50.0f
 
 struct SDL_Texture;
 struct Collider;
@@ -42,6 +44,15 @@ class j1Player : public j1Module
 		LAST_ST_SHOOT_LEFT
 	};
 
+	enum Direction {
+		RIGHT,
+		LEFT,
+		UP,
+		DOWN,
+
+		NO_DIR
+	};
+
 private:
 	p2Animation right_idle;
 	p2Animation left_idle;
@@ -70,9 +81,10 @@ private:
 
 private:
 	float gravityHaveToWork();
-	bool canGoRight();
-	bool canGoLeft();
-	bool canGoUp();
+	float canGoRight();
+	float canGoLeft();
+	float canGoUp();
+	float DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction);
 
 public:
 	j1Player();

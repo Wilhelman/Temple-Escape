@@ -166,8 +166,6 @@ bool j1Player::Update(float dt)
 
 	current_dt = dt;
 
-	player_speed = ceil(PLAYER_SPEED * dt);
-
 	right_idle.speed = 5 * dt;
 	left_idle.speed = 5 * dt;
 	right_run.speed = 5 * dt;;
@@ -202,18 +200,16 @@ bool j1Player::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
 		{
-			if (canGoRight()) 
-			{
-				this->position.x += player_speed;
-			}
+			
+			this->position.x += ceil(canGoRight() * dt);
+			
 			current_state = PlayerState::ST_RUN_RIGHT;
 			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
 		{
-			if (canGoLeft())
-				this->position.x -= player_speed;
+			this->position.x -= ceil(canGoLeft() * dt);
 
 			current_state = PlayerState::ST_RUN_LEFT;
 			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
@@ -252,18 +248,18 @@ bool j1Player::Update(float dt)
 		if (!isGettingHigh) 
 		{
 			if (float gravity = gravityHaveToWork()) {
-				this->position.y += ceil(gravity * dt);
-				isJumping = true;
+				//this->position.y += ceil(gravity * dt);
+				//isJumping = true;
 			}
 				
 		}
 
-		if (isJumping && isGettingHigh && canGoUp()) 
+		if (float jump_speed = canGoUp() && isJumping && isGettingHigh)
 		{
 			if (currentTime <= jumpTimer + 450)
-				this->position.y -= ceil(45.0f * dt);
+				this->position.y -= ceil(jump_speed * dt);
 			else
-				this->position.y -= ceil(35.0f * dt);
+				this->position.y -= ceil(jump_speed * dt);
 		}
 	}
 	
@@ -425,13 +421,13 @@ float j1Player::gravityHaveToWork()
 
 	fPoint tmpPosLeft;
 	tmpPosLeft.x = position.x + 1;
-	tmpPosLeft.y = position.y - 2;
+	tmpPosLeft.y = position.y - 1;
 
 	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
 	fPoint tmpPosRight;
 	tmpPosRight.x = position.x + pCollider->rect.w - 1;
-	tmpPosRight.y = position.y - 2;
+	tmpPosRight.y = position.y - 1;
 
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
 
@@ -454,16 +450,17 @@ float j1Player::gravityHaveToWork()
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x , position.y - pCollider->rect.h + 2, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 		SDL_Rect res = { 0, 0, 0, 0 };
 
-		SDL_Rect realPlayer = { position.x , position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
-
-		if (SDL_IntersectRect(&realPlayer, &tileColliderUp, &res) || SDL_IntersectRect(&realPlayer, &tileColliderDown, &res))
-			return -20.0f;
-
-		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
+		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
+		
+		if (distance_to_wall == 0.0f)
 			return 0.0f;
+		else if (distance_to_wall >= GRAVITY)
+			return GRAVITY;
+		else if (distance_to_wall < GRAVITY)
+			return GRAVITY - distance_to_wall;
 	}
 
 	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 43) {
@@ -477,22 +474,23 @@ float j1Player::gravityHaveToWork()
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x , position.y - pCollider->rect.h + 1, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 		SDL_Rect res = { 0, 0, 0, 0 };
 
-		SDL_Rect realPlayer = { position.x , position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
-
-		if (SDL_IntersectRect(&realPlayer, &tileColliderUp, &res) || SDL_IntersectRect(&realPlayer, &tileColliderDown, &res))
-			return -20.0f;
-
-		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
+		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
+		LOG("DISTANCE TO GROUND %f", distance_to_wall);
+		if (distance_to_wall == 0.0f)
 			return 0.0f;
+		else if (distance_to_wall >= GRAVITY)
+			return GRAVITY;
+		else if (distance_to_wall < GRAVITY)
+			return GRAVITY - distance_to_wall;
 	}
 
-	return 40.0f;
+	return GRAVITY;
 }
 
-bool j1Player::canGoLeft() 
+float j1Player::canGoLeft() 
 {
 	bool ret = true;
 
@@ -512,24 +510,30 @@ bool j1Player::canGoLeft()
 	characterPosInTileWorldDown.x--;
 	if (App->map->collisionLayer->Get(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y) != 0 || App->map->collisionLayer->Get(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y) != 0) {
 
-		characterPosInTileWorldUp = App->map->MapToWorld(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y);
+		//characterPosInTileWorldUp = App->map->MapToWorld(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y);
 		characterPosInTileWorldDown = App->map->MapToWorld(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y);
-		SDL_Rect tileColliderUp = { characterPosInTileWorldUp.x,characterPosInTileWorldUp.y, App->map->data.tile_width , App->map->data.tile_height };
+		//SDL_Rect tileColliderUp = { characterPosInTileWorldUp.x,characterPosInTileWorldUp.y, App->map->data.tile_width , App->map->data.tile_height };
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldDown.x,characterPosInTileWorldDown.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x - 2, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
-		SDL_Rect res = { 0, 0, 0, 0 };
+		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+		
 
-		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
-			ret = false;
+		float distance_to_wall = DistanceToWall(tileColliderDown, player, LEFT);
+
+		if (distance_to_wall == 0.0f)
+			return 0.0f;
+		else if (distance_to_wall >= PLAYER_SPEED)
+			return PLAYER_SPEED;
+		else if (distance_to_wall < PLAYER_SPEED)
+			return PLAYER_SPEED - distance_to_wall;
 	}
 
 
-	return ret;
+	return PLAYER_SPEED;
 }
 
-bool j1Player::canGoUp() 
+float j1Player::canGoUp() 
 {
 	bool ret = true;
 
@@ -547,28 +551,34 @@ bool j1Player::canGoUp()
 
 	characterPosInTileWorldLeft.y--;
 	characterPosInTileWorldRight.y--;
+
 	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) != 0 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) != 0) {
+
+		isJumping = false;
 
 		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
 		characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
 		SDL_Rect tileColliderUp = { characterPosInTileWorldLeft.x,characterPosInTileWorldLeft.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
+		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y - App->map->data.tile_height, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x , position.y - pCollider->rect.h - 4, pCollider->rect.w, pCollider->rect.h };
-		SDL_Rect res = { 0, 0, 0, 0 };
+		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
-		if (SDL_IntersectRect(&player, &tileColliderUp, &res) || SDL_IntersectRect(&player, &tileColliderDown, &res))
-			ret = false;
+		float distance_to_wall = DistanceToWall(tileColliderDown, player, UP);
+
+		if (distance_to_wall == 0.0f)
+			return 0.0f;
+		else if (distance_to_wall >= JUMP_SPEED)
+			return JUMP_SPEED;
+		else if (distance_to_wall < JUMP_SPEED)
+			return JUMP_SPEED - distance_to_wall;
 	}
 
-	return ret;
+	return JUMP_SPEED;
 }
 
-bool j1Player::canGoRight() 
+float j1Player::canGoRight() 
 {
-	bool ret = true;
-
 	fPoint tmpPosUp;
 	tmpPosUp.x = position.x ;
 	tmpPosUp.y = position.y - pCollider->rect.h;
@@ -585,21 +595,52 @@ bool j1Player::canGoRight()
 	characterPosInTileWorldDown.x++;
 	if (App->map->collisionLayer->Get(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y) != 0 || App->map->collisionLayer->Get(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y) != 0) {
 
-		characterPosInTileWorldUp = App->map->MapToWorld(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y);
+		//characterPosInTileWorldUp = App->map->MapToWorld(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y);
 		characterPosInTileWorldDown = App->map->MapToWorld(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y);
-		SDL_Rect tileColliderUp = { characterPosInTileWorldUp.x,characterPosInTileWorldUp.y, App->map->data.tile_width , App->map->data.tile_height };
-
+		//SDL_Rect tileColliderUp = { characterPosInTileWorldUp.x,characterPosInTileWorldUp.y, App->map->data.tile_width , App->map->data.tile_height };
 		SDL_Rect tileColliderDown = { characterPosInTileWorldDown.x,characterPosInTileWorldDown.y, App->map->data.tile_width , App->map->data.tile_height };
+		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
-		SDL_Rect player = { position.x + 2, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
-		SDL_Rect res = { 0, 0, 0, 0 };
+		float distance_to_wall = DistanceToWall(tileColliderDown, player, RIGHT);
+
+		if (distance_to_wall == 0.0f)
+			return 0.0f;
+		else if (distance_to_wall >= PLAYER_SPEED)
+			return PLAYER_SPEED;
+		else if (distance_to_wall < PLAYER_SPEED)
+			return PLAYER_SPEED - distance_to_wall;
+		
+		/*SDL_Rect res = { 0, 0, 0, 0 };
 
 		if (SDL_IntersectRect(&player, &tileColliderUp, &res)|| SDL_IntersectRect(&player, &tileColliderDown, &res))
-			ret = false;
+			ret = false;*/
 	}
 
 
-	return ret;
+	return PLAYER_SPEED;
+}
+
+float j1Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction)
+{
+	switch (direction)
+	{
+	case Direction::RIGHT:
+		return player.x + player.w - wall.x;
+		break;
+	case Direction::LEFT:
+		return wall.x + wall.w - player.x;
+		break;
+	case Direction::UP:
+		return wall.y + wall.h - player.y;
+		break;
+	case Direction::DOWN:
+		return player.y + player.h - wall.y;
+		break;
+	case Direction::NO_DIR:
+	default:
+		LOG("YOU ARE DOING IT WRONG!");
+		break;
+	}
 }
 
 bool j1Player::Load(pugi::xml_node& load) 

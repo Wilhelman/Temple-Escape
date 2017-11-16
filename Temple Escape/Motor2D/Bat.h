@@ -28,6 +28,12 @@ public:
 	uint getLives();
 
 	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
+	void SetEntitiesSpeed(float dt);
+
+	//animations
+	p2Animation standard_right_fly;
+	p2Animation standard_left_fly;
+
 };
 
 #endif

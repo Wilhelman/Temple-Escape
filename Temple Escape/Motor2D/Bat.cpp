@@ -11,7 +11,7 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
-	moving = player_in_radar = have_to_chill = false;
+	moving = player_in_radar = have_to_chill = key_entities_speed = false;
 	lives = 2;
 
 	animation = &standard_right_fly;
@@ -26,6 +26,9 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 
 void Bat::Move(float dt)
 {
+
+	if (!key_entities_speed && dt > 0)
+		SetEntitiesSpeed(dt);
 
 	iPoint bat_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint bat_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
@@ -228,4 +231,10 @@ void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint p
 	movementSpeed.x = xSpeed.x;
 	movementSpeed.y = ySpeed.y;
 	moving = true;
+}
+
+void Bat::SetEntitiesSpeed(float dt) {
+	standard_right_fly.speed *= dt;
+	standard_left_fly.speed *= dt;
+	key_entities_speed = true;
 }
