@@ -181,7 +181,8 @@ bool j1Player::Update(float dt)
 	
 	if (!isDead) 
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump) 
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump
+			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 		{
 			if (!isJumping) 
 			{
@@ -198,7 +199,8 @@ bool j1Player::Update(float dt)
 			jumpTimer = SDL_GetTicks();
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT
+			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 		{
 			
 			this->position.x += ceil(canGoRight() * dt);
@@ -207,7 +209,8 @@ bool j1Player::Update(float dt)
 			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT
+			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 		{
 			this->position.x -= ceil(canGoLeft() * dt);
 

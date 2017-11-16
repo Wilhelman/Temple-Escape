@@ -120,7 +120,7 @@
 				</animation>
 				<animation name="player_basic_shot_left" speed_x="-2" speed_y="0.0" loop="true">
 					<frame x="34" y="115" width="9" height="5" />
-					<frame x="18" y="115" width="9" height="5" />
+					<frame x="20" y="115" width="9" height="5" />
 					<frame x="4" y="115" width="9" height="5" />
 				</animation>
 			</particle>
