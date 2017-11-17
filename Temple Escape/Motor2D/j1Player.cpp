@@ -427,7 +427,7 @@ float j1Player::gravityHaveToWork()
 	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
 	fPoint tmpPosRight;
-	tmpPosRight.x = position.x + pCollider->rect.w;
+	tmpPosRight.x = position.x + pCollider->rect.w - 1;
 	tmpPosRight.y = position.y - 1;
 
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
@@ -560,15 +560,18 @@ float j1Player::canGoUp()
 
 		characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
 
-		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y - App->map->data.tile_height, App->map->data.tile_width , App->map->data.tile_height };
+		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y + App->map->data.tile_height, App->map->data.tile_width , App->map->data.tile_height };
 
 		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, UP);
-		distance_to_wall *= -1;
+		//distance_to_wall *= -1;
 		LOG("DISTANCE TO WALL %f", distance_to_wall);
-		if (distance_to_wall == 0.0f)
+		if (distance_to_wall == 0.0f) {
+			isJumping = false;
+			jumpTimer = 0;
 			return 0.0f;
+		}
 		else if (distance_to_wall >= ceil(JUMP_SPEED * current_dt))
 			return ceil(JUMP_SPEED*current_dt);
 		else if (distance_to_wall < ceil(JUMP_SPEED*current_dt)) {
@@ -576,7 +579,6 @@ float j1Player::canGoUp()
 			return distance_to_wall;
 		}
 	}
-	LOG("DT = %f TO RETURN: %f", current_dt, ceil(JUMP_SPEED*current_dt));
 	return ceil(JUMP_SPEED*current_dt);
 }
 
@@ -627,7 +629,7 @@ float j1Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction directi
 		return wall.x + wall.w - player.x;
 		break;
 	case Direction::UP:
-		return wall.y + wall.h - player.y;
+		return player.y - wall.y;
 		break;
 	case Direction::DOWN:
 		return player.y + player.h - wall.y;

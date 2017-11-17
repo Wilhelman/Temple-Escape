@@ -40,7 +40,12 @@ void Slime::Move(float dt)
 		goal.y += 1;
 		movementGoal = goal;
 		moving = true;
-		movementSpeed = { 0.0f * dt, 40.0f * dt };
+
+		float diference = App->map->MapToWorld(goal.x, goal.y).y - 16 - position.y;
+		if (position.y + ceil(GRAVITY * dt) > diference) {
+			movementSpeed = { 0.0f * dt, diference};
+		}else
+			movementSpeed = { 0.0f * dt, ceil(GRAVITY * dt) };
 	}
 	else if (player_in_radar && !moving) {
 
@@ -88,7 +93,19 @@ void Slime::Move(float dt)
 				goal.x += 1;
 				movementGoal = goal;
 				moving = true;
-				movementSpeed = { 10.0f * dt, 0.0f * dt };
+
+				float diference = position.x + collider->rect.w - App->map->MapToWorld(goal.x, goal.y).x;
+				diference *= -1;
+				if (position.x + collider->rect.w + ceil(SLIME_SPEED* dt) > diference) {
+					iPoint tmpPos = App->map->WorldToMap(position.x + collider->rect.w + ceil(SLIME_SPEED* dt), position.y + 1);
+					if(App->map->collisionLayer->Get(tmpPos.x, tmpPos.y) == 43)
+						movementSpeed = { diference, 0.0f };
+					else
+						movementSpeed = { ceil(SLIME_SPEED * dt),0.0f };
+				}
+				else
+					movementSpeed = { ceil(SLIME_SPEED * dt), 0.0f };
+
 				animation = &standard_right_jump;
 			}
 			else
@@ -108,7 +125,20 @@ void Slime::Move(float dt)
 				goal.x -= 1;
 				movementGoal = goal;
 				moving = true;
-				movementSpeed = { -10.0f * dt,0.0f * dt };
+				
+				float diference = App->map->MapToWorld(goal.x, goal.y).x + 16 - position.x ;
+				diference *= -1;
+				if (position.x - ceil(SLIME_SPEED* dt) > diference) {
+					iPoint tmpPos = App->map->WorldToMap(position.x + collider->rect.w + ceil(SLIME_SPEED* dt), position.y + 1);
+					if (App->map->collisionLayer->Get(tmpPos.x, tmpPos.y) == 43)
+						movementSpeed = { -diference, 0.0f };
+					else
+						movementSpeed = { -ceil(SLIME_SPEED * dt),0.0f };
+				}
+				else
+					movementSpeed = { -ceil(SLIME_SPEED * dt), 0.0f };
+
+
 				animation = &standard_left_jump;
 			}
 			else
@@ -130,7 +160,6 @@ void Slime::Move(float dt)
 	LOG("SLIME LEFT UP POS x : %i y : %i", slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y);
 	LOG("SLIME DOWN RIGHT POS x : %i y : %i", slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y);
 	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
-	LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
 	currentTime = SDL_GetTicks();
 }
 
@@ -202,19 +231,19 @@ void Slime::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint
 
 	fPoint xSpeed(0.0f, 0.0f), ySpeed(0.0f, 0.0f);
 	if (movementGoal.x < position.x) {
-		xSpeed = { -20.0f * dt, 0.0f * dt };
+		xSpeed = { ceil(-20.0f * dt), 0.0f * dt };
 		animation = &standard_left_jump;
 	}
 	else if (movementGoal.x > position.x) {
-		xSpeed = { 20.0f * dt,0.0f * dt };
+		xSpeed = { ceil(20.0f * dt),0.0f * dt };
 		animation = &standard_right_jump;
 	}
 
 	if (movementGoal.y < position.y) {
-		ySpeed = { 0.0f * dt ,-20.0f * dt };
+		ySpeed = { 0.0f * dt ,ceil(-20.0f * dt) };
 	}
 	else if (movementGoal.y > position.y) {
-		ySpeed = { 0.0f * dt, 20.0f * dt };
+		ySpeed = { 0.0f * dt, ceil(20.0f * dt) };
 	}
 
 	movementSpeed.x = xSpeed.x;
@@ -223,9 +252,9 @@ void Slime::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint
 }
 
 void Slime::SetEntitiesSpeed(float dt) {
-	standard_left_idle.speed *= dt;
-	standard_left_jump.speed *= dt;
-	standard_right_idle.speed *= dt;
-	standard_right_jump.speed *= dt;
+	standard_left_idle.speed = standard_left_idle.speed*dt;
+	standard_left_jump.speed = standard_left_jump.speed*dt;
+	standard_right_idle.speed = standard_right_idle.speed*dt;
+	standard_right_jump.speed = standard_right_jump.speed*dt;
 	key_entities_speed = true;
 }

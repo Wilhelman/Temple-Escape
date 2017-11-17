@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-	<app framerate_cap="10">
+	<app framerate_cap="60">
 		<title>Temple Escape</title>
 		<organization>UPC</organization>
 	</app>
@@ -40,10 +40,10 @@
 				<frame x="85" y="146" width="14" height="15" />
 			</animation>
 			<animation name="right_jump" speed="5.0" loop="false">
-				<frame x="2" y="16" width="12" height="14" />
+				<frame x="2" y="16" width="14" height="14" />
 			</animation>
 			<animation name="left_jump" speed="5.0" loop="false">
-				<frame x="122" y="161" width="12" height="14" />
+				<frame x="122" y="161" width="14" height="14" />
 			</animation>
 			<animation name="left_dead" speed="5.0" loop="true">
 				<frame x="105" y="180" width="13" height="8" />
@@ -75,34 +75,34 @@
 	</player>
 	<enemies>
 		<spritesheetSource name="textures/source_spritesheet.png">
-			<animation name="slime_right_idle" speed="10.0" loop="true">
+			<animation name="slime_right_idle" speed="2.0" loop="true">
 				<frame x="124" y="45" width="16" height="16" />
 				<frame x="140" y="45" width="16" height="16" />
 			</animation>
-			<animation name="slime_left_idle" speed="10.0" loop="true">
+			<animation name="slime_left_idle" speed="2.0" loop="true">
 				<frame x="76" y="45" width="16" height="16" />
 				<frame x="92" y="45" width="16" height="16" />
 			</animation>
-			<animation name="slime_right_jump" speed="10.0" loop="true">
+			<animation name="slime_right_jump" speed="2.0" loop="true">
 				<frame x="139" y="96" width="16" height="16" />
 				<frame x="123" y="96" width="16" height="16" />
 				<frame x="107" y="96" width="16" height="16" />
 				<frame x="91" y="96" width="16" height="16" />
 				<frame x="75" y="96" width="16" height="16" />
 			</animation>
-			<animation name="slime_left_jump" speed="10.0" loop="true">
+			<animation name="slime_left_jump" speed="2.0" loop="true">
 				<frame x="75" y="67" width="16" height="16" />
 				<frame x="91" y="67" width="16" height="16" />
 				<frame x="107" y="67" width="16" height="16" />
 				<frame x="123" y="67" width="16" height="16" />
 				<frame x="139" y="67" width="16" height="16" />
 			</animation>
-			<animation name="bat_fly_right" speed="10.0" loop="true">
+			<animation name="bat_fly_right" speed="2.0" loop="true">
 				<frame x="76" y="35" width="16" height="12" />
 				<frame x="92" y="35" width="16" height="12" />
 				<frame x="109" y="35" width="16" height="12" />
 			</animation>
-			<animation name="bat_fly_left" speed="10.0" loop="true">
+			<animation name="bat_fly_left" speed="2.0" loop="true">
 				<frame x="47" y="182" width="16" height="12" />
 				<frame x="31" y="182" width="16" height="12" />
 				<frame x="14" y="182" width="16" height="12" />

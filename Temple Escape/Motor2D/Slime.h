@@ -6,13 +6,15 @@
 #include "p2DynArray.h"
 
 #define TILE_RADAR 40
+#define GRAVITY 40
+#define SLIME_SPEED 20
 
 class Slime : public Enemy
 {
 private:
 	fPoint original_pos;
 	int slime_IA;
-	bool slime_going_right, moving, player_in_radar;
+	bool slime_going_right, moving, player_in_radar, know_go;
 	fPoint movementSpeed;
 	iPoint movementGoal, playerGoal;
 
