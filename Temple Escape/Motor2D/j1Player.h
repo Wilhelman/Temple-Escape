@@ -6,8 +6,8 @@
 #include "p2Point.h"
 
 #define PLAYER_SPEED 40.0f
-#define JUMP_SPEED 80.0f
-#define GRAVITY 50.0f
+#define JUMP_SPEED 60.0f
+#define GRAVITY 60.0f
 
 struct SDL_Texture;
 struct Collider;

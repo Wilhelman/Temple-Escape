@@ -202,8 +202,8 @@ bool j1Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT
 			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 		{
-			
-			this->position.x += ceil(canGoRight() * dt);
+
+			this->position.x += canGoRight();
 			
 			current_state = PlayerState::ST_RUN_RIGHT;
 			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
@@ -212,7 +212,7 @@ bool j1Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT
 			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 		{
-			this->position.x -= ceil(canGoLeft() * dt);
+			this->position.x -= canGoLeft();
 
 			current_state = PlayerState::ST_RUN_LEFT;
 			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
@@ -251,19 +251,17 @@ bool j1Player::Update(float dt)
 		if (!isGettingHigh) 
 		{
 			if (float gravity = gravityHaveToWork()) {
-				//this->position.y += ceil(gravity * dt);
-				//isJumping = true;
+				this->position.y += gravity;
+				isJumping = true;
 			}
 				
 		}
 
-		if (float jump_speed = canGoUp() && isJumping && isGettingHigh)
-		{
-			if (currentTime <= jumpTimer + 450)
-				this->position.y -= ceil(jump_speed * dt);
-			else
-				this->position.y -= ceil(jump_speed * dt);
+		if (isJumping && isGettingHigh) {
+			this->position.y -= canGoUp();
 		}
+			
+		
 	}
 	
 	//SEARCH THE STATE AND SET THE ANIMATION
@@ -423,13 +421,13 @@ float j1Player::gravityHaveToWork()
 {
 
 	fPoint tmpPosLeft;
-	tmpPosLeft.x = position.x + 1;
+	tmpPosLeft.x = position.x;
 	tmpPosLeft.y = position.y - 1;
 
 	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
 	fPoint tmpPosRight;
-	tmpPosRight.x = position.x + pCollider->rect.w - 1;
+	tmpPosRight.x = position.x + pCollider->rect.w;
 	tmpPosRight.y = position.y - 1;
 
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
@@ -454,16 +452,15 @@ float j1Player::gravityHaveToWork()
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
 		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
-		SDL_Rect res = { 0, 0, 0, 0 };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
-		
+		distance_to_wall *= -1;
 		if (distance_to_wall == 0.0f)
 			return 0.0f;
-		else if (distance_to_wall >= GRAVITY)
-			return GRAVITY;
-		else if (distance_to_wall < GRAVITY)
-			return GRAVITY - distance_to_wall;
+		else if (distance_to_wall >= ceil(GRAVITY * current_dt))
+			return ceil(GRAVITY*current_dt);
+		else if (distance_to_wall < ceil(GRAVITY*current_dt)) 
+			return distance_to_wall;
 	}
 
 	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 43) {
@@ -481,16 +478,18 @@ float j1Player::gravityHaveToWork()
 		SDL_Rect res = { 0, 0, 0, 0 };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
-		LOG("DISTANCE TO GROUND %f", distance_to_wall);
+		distance_to_wall *= -1;
+		
 		if (distance_to_wall == 0.0f)
 			return 0.0f;
-		else if (distance_to_wall >= GRAVITY)
-			return GRAVITY;
-		else if (distance_to_wall < GRAVITY)
-			return GRAVITY - distance_to_wall;
+		else if (distance_to_wall >= ceil(GRAVITY * current_dt))
+			return ceil(GRAVITY*current_dt);
+		else if (distance_to_wall < ceil(GRAVITY*current_dt)) {
+			return distance_to_wall;
+		}
 	}
 
-	return GRAVITY;
+	return ceil(GRAVITY*current_dt);
 }
 
 float j1Player::canGoLeft() 
@@ -523,17 +522,17 @@ float j1Player::canGoLeft()
 		
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, LEFT);
-
+		distance_to_wall *= -1;
 		if (distance_to_wall == 0.0f)
 			return 0.0f;
-		else if (distance_to_wall >= PLAYER_SPEED)
-			return PLAYER_SPEED;
-		else if (distance_to_wall < PLAYER_SPEED)
-			return PLAYER_SPEED - distance_to_wall;
+		else if (distance_to_wall >= ceil(PLAYER_SPEED * current_dt))
+			return ceil(PLAYER_SPEED*current_dt);
+		else if (distance_to_wall < ceil(PLAYER_SPEED*current_dt)) 
+			return distance_to_wall;
+		
 	}
 
-
-	return PLAYER_SPEED;
+	return ceil(PLAYER_SPEED*current_dt);
 }
 
 float j1Player::canGoUp() 
@@ -547,7 +546,7 @@ float j1Player::canGoUp()
 	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
 	fPoint tmpPosRight;
-	tmpPosRight.x = position.x + pCollider->rect.w - 2;
+	tmpPosRight.x = position.x + pCollider->rect.w - 1;
 	tmpPosRight.y = position.y - pCollider->rect.h;
 
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
@@ -557,39 +556,40 @@ float j1Player::canGoUp()
 
 	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) != 0 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) != 0) {
 
-		isJumping = false;
+		//isJumping = false;
 
-		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
 		characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
-		SDL_Rect tileColliderUp = { characterPosInTileWorldLeft.x,characterPosInTileWorldLeft.y, App->map->data.tile_width , App->map->data.tile_height };
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y - App->map->data.tile_height, App->map->data.tile_width , App->map->data.tile_height };
 
 		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, UP);
-
+		distance_to_wall *= -1;
+		LOG("DISTANCE TO WALL %f", distance_to_wall);
 		if (distance_to_wall == 0.0f)
 			return 0.0f;
-		else if (distance_to_wall >= JUMP_SPEED)
-			return JUMP_SPEED;
-		else if (distance_to_wall < JUMP_SPEED)
-			return JUMP_SPEED - distance_to_wall;
+		else if (distance_to_wall >= ceil(JUMP_SPEED * current_dt))
+			return ceil(JUMP_SPEED*current_dt);
+		else if (distance_to_wall < ceil(JUMP_SPEED*current_dt)) {
+			LOG("VEL TO RETURN %f - distance to wall: %f", ceil(JUMP_SPEED*current_dt), distance_to_wall);
+			return distance_to_wall;
+		}
 	}
-
-	return JUMP_SPEED;
+	LOG("DT = %f TO RETURN: %f", current_dt, ceil(JUMP_SPEED*current_dt));
+	return ceil(JUMP_SPEED*current_dt);
 }
 
 float j1Player::canGoRight() 
 {
 	fPoint tmpPosUp;
-	tmpPosUp.x = position.x ;
+	tmpPosUp.x = position.x + pCollider->rect.w - 1;
 	tmpPosUp.y = position.y - pCollider->rect.h;
 
 	iPoint characterPosInTileWorldUp = App->map->WorldToMap(tmpPosUp.x, tmpPosUp.y);
 
 	fPoint tmpPosDown;
-	tmpPosDown.x = position.x;
+	tmpPosDown.x = position.x + pCollider->rect.w - 1;
 	tmpPosDown.y = position.y - 1;
 
 	iPoint characterPosInTileWorldDown = App->map->WorldToMap(tmpPosDown.x, tmpPosDown.y);
@@ -598,29 +598,22 @@ float j1Player::canGoRight()
 	characterPosInTileWorldDown.x++;
 	if (App->map->collisionLayer->Get(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y) != 0 || App->map->collisionLayer->Get(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y) != 0) {
 
-		//characterPosInTileWorldUp = App->map->MapToWorld(characterPosInTileWorldUp.x, characterPosInTileWorldUp.y);
 		characterPosInTileWorldDown = App->map->MapToWorld(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y);
-		//SDL_Rect tileColliderUp = { characterPosInTileWorldUp.x,characterPosInTileWorldUp.y, App->map->data.tile_width , App->map->data.tile_height };
 		SDL_Rect tileColliderDown = { characterPosInTileWorldDown.x,characterPosInTileWorldDown.y, App->map->data.tile_width , App->map->data.tile_height };
 		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, RIGHT);
-
+		distance_to_wall *= -1;
 		if (distance_to_wall == 0.0f)
 			return 0.0f;
-		else if (distance_to_wall >= PLAYER_SPEED)
-			return PLAYER_SPEED;
-		else if (distance_to_wall < PLAYER_SPEED)
-			return PLAYER_SPEED - distance_to_wall;
+		else if (distance_to_wall >= ceil(PLAYER_SPEED * current_dt))
+			return ceil(PLAYER_SPEED*current_dt);
+		else if (distance_to_wall < ceil(PLAYER_SPEED*current_dt)) 
+			return distance_to_wall;
 		
-		/*SDL_Rect res = { 0, 0, 0, 0 };
-
-		if (SDL_IntersectRect(&player, &tileColliderUp, &res)|| SDL_IntersectRect(&player, &tileColliderDown, &res))
-			ret = false;*/
 	}
 
-
-	return PLAYER_SPEED;
+	return ceil(PLAYER_SPEED*current_dt);
 }
 
 float j1Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction)
