@@ -30,16 +30,16 @@ bool j1Player::Awake(pugi::xml_node& config)
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
 	fxPlayerJump.create(config.child("fxPlayerJump").attribute("name").as_string());
 	fxPlayerDead.create(config.child("fxPlayerDead").attribute("name").as_string());
-	
+
 	//set all the animations
 	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
-	{	
+	{
 		p2SString tmp(animations.attribute("name").as_string());
 		if (tmp == "right_idle") {
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
 				right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-			
+
 			right_idle.speed = animations.attribute("speed").as_float();
 			right_idle.loop = animations.attribute("loop").as_bool();
 		}
@@ -103,7 +103,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
 				right_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-			
+
 			right_shoot.speed = animations.attribute("speed").as_float();
 			right_shoot.loop = animations.attribute("loop").as_bool();
 		}
@@ -127,7 +127,7 @@ bool j1Player::Start()
 {
 	bool ret = true;
 	jumpTimer = deadTime = 0;
-	isJumping = didDoubleJump = reachedEnd = isDead = false;
+	isJumping = didDoubleJump = reachedEnd = isDead = god_mode = false;
 	current_state = PlayerState::ST_IDLE_RIGHT;
 	last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 
@@ -155,7 +155,7 @@ bool j1Player::Start()
 bool j1Player::PreUpdate()
 {
 	bool ret = true;
-	
+
 	return ret;
 }
 
@@ -178,18 +178,22 @@ bool j1Player::Update(float dt)
 	left_shoot.speed = 5 * dt;
 
 	current_state = PlayerState::ST_UNKNOWN;
-	
-	if (!isDead) 
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN && !isDead) {
+		god_mode = !god_mode;
+	}
+
+	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump
 			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 		{
-			if (!isJumping) 
+			if (!isJumping)
 			{
 				App->audio->PlayFx(player_jump);
 				isJumping = true;
 			}
-			else 
+			else
 			{
 				App->audio->PlayFx(player_jump);
 				didDoubleJump = true;
@@ -204,7 +208,7 @@ bool j1Player::Update(float dt)
 		{
 
 			this->position.x += canGoRight();
-			
+
 			current_state = PlayerState::ST_RUN_RIGHT;
 			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 		}
@@ -221,8 +225,8 @@ bool j1Player::Update(float dt)
 		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
-			|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
-			|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
+				|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
+				|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
 			&& !isJumping)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -234,8 +238,8 @@ bool j1Player::Update(float dt)
 		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_LEFT
-			|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
-			|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
+				|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
+				|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
 			&& !isJumping)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -248,22 +252,22 @@ bool j1Player::Update(float dt)
 		if (currentTime <= jumpTimer + 500 && isJumping)
 			isGettingHigh = true;
 
-		if (!isGettingHigh) 
+		if (!isGettingHigh)
 		{
 			if (float gravity = gravityHaveToWork()) {
 				this->position.y += gravity;
 				isJumping = true;
 			}
-				
+
 		}
 
 		if (isJumping && isGettingHigh) {
 			this->position.y -= canGoUp();
 		}
-			
-		
+
+
 	}
-	
+
 	//SEARCH THE STATE AND SET THE ANIMATION
 	switch (current_state)
 	{
@@ -277,7 +281,7 @@ bool j1Player::Update(float dt)
 		case j1Player::LAST_ST_IDLE_LEFT:
 			break;
 		case j1Player::LAST_ST_RUN_RIGHT:
-			if(isJumping)
+			if (isJumping)
 				current_animation = &right_jump;
 			else
 				current_animation = &right_idle;
@@ -311,25 +315,25 @@ bool j1Player::Update(float dt)
 	case j1Player::ST_RUN_RIGHT:
 		if (isJumping)
 			current_animation = &right_jump;
-		else 
+		else
 			current_animation = &right_run;
 		break;
 	case j1Player::ST_RUN_LEFT:
 		if (isJumping)
 			current_animation = &left_jump;
-		else 
+		else
 			current_animation = &left_run;
 		break;
 	case j1Player::ST_SHOOT_RIGHT:
 		if (isJumping)
 			current_animation = &right_jump;
-		else 
+		else
 			current_animation = &right_shoot;
 		break;
 	case j1Player::ST_SHOOT_LEFT:
 		if (isJumping)
 			current_animation = &left_jump;
-		else 
+		else
 			current_animation = &left_shoot;
 		break;
 	default:
@@ -337,7 +341,7 @@ bool j1Player::Update(float dt)
 	}
 
 	//DEAD ANIMATION WITH TIMER
-	if (isDead && currentTime < deadTime + 1000) 
+	if (isDead && currentTime < deadTime + 1000)
 	{
 		if (last_state == LAST_ST_RUN_RIGHT)
 			current_animation = &right_death_blink;
@@ -367,7 +371,7 @@ bool j1Player::Update(float dt)
 	}
 
 	currentTime = SDL_GetTicks();
-	
+
 	return ret;
 }
 
@@ -401,23 +405,22 @@ bool j1Player::CleanUp()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
-	if ((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) {
+	if (((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) && !god_mode) {
 		isDead = true;
 		App->audio->PlayFx(player_dead);
 		deadTime = SDL_GetTicks();
 	}
 
-
 	if (c2->type == COLLIDER_LVL_END)
 	{
-		if(!reachedEnd)
+		if (!reachedEnd)
 			reachedEnd = true;
 	}
 }
 
 
 
-float j1Player::gravityHaveToWork() 
+float j1Player::gravityHaveToWork()
 {
 
 	fPoint tmpPosLeft;
@@ -436,31 +439,37 @@ float j1Player::gravityHaveToWork()
 	characterPosInTileWorldRight.y++;
 
 	if ((App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 596 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 596) && !isDead) {
-		didDoubleJump = isJumping = false;
-		left_jump.Reset();
-		right_jump.Reset();
-		jumpTimer = 0;
-		isDead = true;
-		App->audio->PlayFx(player_dead);
-		deadTime = SDL_GetTicks();
-		
+		if (god_mode) {
+			position.x = App->map->MapToWorld(last_save_position.x, last_save_position.y).x;
+			position.y = App->map->MapToWorld(last_save_position.x, last_save_position.y).y;
+		}
+		else {
+			didDoubleJump = isJumping = false;
+			left_jump.Reset();
+			right_jump.Reset();
+			jumpTimer = 0;
+			isDead = true;
+			App->audio->PlayFx(player_dead);
+			deadTime = SDL_GetTicks();
 
-		characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
-		characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
-		SDL_Rect tileColliderUp = { characterPosInTileWorldLeft.x,characterPosInTileWorldLeft.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
+			characterPosInTileWorldLeft = App->map->MapToWorld(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y);
+			characterPosInTileWorldRight = App->map->MapToWorld(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y);
+			SDL_Rect tileColliderUp = { characterPosInTileWorldLeft.x,characterPosInTileWorldLeft.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+			SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
-		distance_to_wall *= -1;
-		if (distance_to_wall == 0.0f)
-			return 0.0f;
-		else if (distance_to_wall >= ceil(GRAVITY * current_dt))
-			return ceil(GRAVITY*current_dt);
-		else if (distance_to_wall < ceil(GRAVITY*current_dt)) 
-			return distance_to_wall;
+			SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+
+			float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
+			distance_to_wall *= -1;
+			if (distance_to_wall == 0.0f)
+				return 0.0f;
+			else if (distance_to_wall >= ceil(GRAVITY * current_dt))
+				return ceil(GRAVITY*current_dt);
+			else if (distance_to_wall < ceil(GRAVITY*current_dt))
+				return distance_to_wall;
+		}
 	}
 
 	if (App->map->collisionLayer->Get(characterPosInTileWorldLeft.x, characterPosInTileWorldLeft.y) == 43 || App->map->collisionLayer->Get(characterPosInTileWorldRight.x, characterPosInTileWorldRight.y) == 43) {
@@ -479,7 +488,21 @@ float j1Player::gravityHaveToWork()
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
 		distance_to_wall *= -1;
-		
+
+		fPoint tmpPosL;
+		tmpPosL.x = position.x;
+		tmpPosL.y = position.y - 1;
+		iPoint characterLeft = App->map->WorldToMap(tmpPosL.x, tmpPosL.y);
+		fPoint tmpPosR;
+		tmpPosR.x = position.x + pCollider->rect.w - 1;
+		tmpPosR.y = position.y - 1;
+
+		(App->map->collisionLayer->Get(characterLeft.x, characterLeft.y + 1) == 43) ?
+			last_save_position = App->map->WorldToMap(tmpPosL.x, tmpPosL.y)
+			:
+			last_save_position = App->map->WorldToMap(tmpPosR.x, tmpPosR.y);
+
+
 		if (distance_to_wall == 0.0f)
 			return 0.0f;
 		else if (distance_to_wall >= ceil(GRAVITY * current_dt))
@@ -492,7 +515,7 @@ float j1Player::gravityHaveToWork()
 	return ceil(GRAVITY*current_dt);
 }
 
-float j1Player::canGoLeft() 
+float j1Player::canGoLeft()
 {
 	bool ret = true;
 
@@ -519,7 +542,7 @@ float j1Player::canGoLeft()
 		SDL_Rect tileColliderDown = { characterPosInTileWorldDown.x,characterPosInTileWorldDown.y, App->map->data.tile_width , App->map->data.tile_height };
 
 		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
-		
+
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, LEFT);
 		distance_to_wall *= -1;
@@ -527,15 +550,15 @@ float j1Player::canGoLeft()
 			return 0.0f;
 		else if (distance_to_wall >= ceil(PLAYER_SPEED * current_dt))
 			return ceil(PLAYER_SPEED*current_dt);
-		else if (distance_to_wall < ceil(PLAYER_SPEED*current_dt)) 
+		else if (distance_to_wall < ceil(PLAYER_SPEED*current_dt))
 			return distance_to_wall;
-		
+
 	}
 
 	return ceil(PLAYER_SPEED*current_dt);
 }
 
-float j1Player::canGoUp() 
+float j1Player::canGoUp()
 {
 	bool ret = true;
 
@@ -582,7 +605,7 @@ float j1Player::canGoUp()
 	return ceil(JUMP_SPEED*current_dt);
 }
 
-float j1Player::canGoRight() 
+float j1Player::canGoRight()
 {
 	fPoint tmpPosUp;
 	tmpPosUp.x = position.x + pCollider->rect.w - 1;
@@ -610,9 +633,9 @@ float j1Player::canGoRight()
 			return 0.0f;
 		else if (distance_to_wall >= ceil(PLAYER_SPEED * current_dt))
 			return ceil(PLAYER_SPEED*current_dt);
-		else if (distance_to_wall < ceil(PLAYER_SPEED*current_dt)) 
+		else if (distance_to_wall < ceil(PLAYER_SPEED*current_dt))
 			return distance_to_wall;
-		
+
 	}
 
 	return ceil(PLAYER_SPEED*current_dt);
@@ -641,11 +664,11 @@ float j1Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction directi
 	}
 }
 
-bool j1Player::Load(pugi::xml_node& load) 
+bool j1Player::Load(pugi::xml_node& load)
 {
 	bool ret = true;
 
-	if (!load.child("position").empty()) 
+	if (!load.child("position").empty())
 	{
 		tmp.x = load.child("position").attribute("x").as_float();
 		tmp.y = load.child("position").attribute("y").as_float() - 2.0f;
@@ -653,28 +676,28 @@ bool j1Player::Load(pugi::xml_node& load)
 
 	if (App->fadeToBlack->FadeIsOver())
 		ImplementLoad();
-	
+
 	return ret;
 }
 
-void j1Player::ImplementLoad() 
+void j1Player::ImplementLoad()
 {
 	position.x = tmp.x;
 	position.y = tmp.y;
 }
 
 
-bool j1Player::Save(pugi::xml_node& save) const 
+bool j1Player::Save(pugi::xml_node& save) const
 {
 	bool ret = true;
 
-	if (save.child("position").empty()) 
+	if (save.child("position").empty())
 	{
 		save = save.append_child("position");
 		save.append_attribute("x").set_value(position.x);
 		save.append_attribute("y").set_value(position.y);
 	}
-	else 
+	else
 	{
 		save.child("position").attribute("x").set_value(position.x);
 		save.child("position").attribute("y").set_value(position.y);

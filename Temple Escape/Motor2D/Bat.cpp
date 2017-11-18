@@ -33,122 +33,123 @@ void Bat::Move(float dt)
 	iPoint bat_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint bat_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
 
-		if (have_to_chill && !player_in_radar && !moving) {
-			const p2DynArray<iPoint>* path1 = nullptr;
-			const p2DynArray<iPoint>* path2 = nullptr;
-			if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), original_pos) != -1) {
-				path1 = App->pathfinding->GetLastPath();
-				if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), original_pos) != -1)
-					path2 = App->pathfinding->GetLastPath();
+	if (have_to_chill && !player_in_radar && !moving) {
+		const p2DynArray<iPoint>* path1 = nullptr;
+		const p2DynArray<iPoint>* path2 = nullptr;
+		if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), original_pos) != -1) {
+			path1 = App->pathfinding->GetLastPath();
+			if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), original_pos) != -1)
+				path2 = App->pathfinding->GetLastPath();
 
-				if (path2 != nullptr && path1->Count() < path2->Count()) {
-					SetMovementWithPath(path2, dt, bat_pos_DOWN_RIGHT);
-				}
-				else if (path1->Count() > 0) {
-					SetMovementWithPath(path1, dt, bat_pos_UP_LEFT);
-				}
-				
-
-			} else if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), original_pos) != -1) {
-				path1 = App->pathfinding->GetLastPath();
-				if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), original_pos) != -1)
-					path2 = App->pathfinding->GetLastPath();
-
-				if (path2 != nullptr && path1->Count() < path2->Count()) {
-					SetMovementWithPath(path2, dt, bat_pos_UP_LEFT);
-				}
-				else if (path1->Count() > 0) {
-					SetMovementWithPath(path1, dt, bat_pos_DOWN_RIGHT);
-				}
+			if (path2 != nullptr && path1->Count() < path2->Count()) {
+				SetMovementWithPath(path2, dt, bat_pos_DOWN_RIGHT);
 			}
-			else {
-				animation = &standard_right_fly;
-				bat_IA = 1;
-				bat_going_right = true;
-				have_to_chill = false;
+			else if (path1->Count() > 0) {
+				SetMovementWithPath(path1, dt, bat_pos_UP_LEFT);
 			}
+
 
 		}
-		else if (player_in_radar && !moving) {
+		else if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), original_pos) != -1) {
+			path1 = App->pathfinding->GetLastPath();
+			if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), original_pos) != -1)
+				path2 = App->pathfinding->GetLastPath();
 
-			const p2DynArray<iPoint>* path1 = nullptr;
-			const p2DynArray<iPoint>* path2 = nullptr;
-			if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), playerGoal) != -1) {
-				path1 = App->pathfinding->GetLastPath();
-				if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), playerGoal) != -1)
-					path2 = App->pathfinding->GetLastPath();
-
-				if (path2 != nullptr && path1->Count() < path2->Count()) {
-					SetMovementWithPath(path2, dt, bat_pos_DOWN_RIGHT);
-				}
-				else if (path1->Count() > 0) {
-					SetMovementWithPath(path1, dt, bat_pos_UP_LEFT);
-				}
-
-
+			if (path2 != nullptr && path1->Count() < path2->Count()) {
+				SetMovementWithPath(path2, dt, bat_pos_UP_LEFT);
 			}
-			else if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), playerGoal) != -1) {
-				path1 = App->pathfinding->GetLastPath();
-				if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), playerGoal) != -1)
-					path2 = App->pathfinding->GetLastPath();
-
-				if (path2 != nullptr && path1->Count() < path2->Count()) {
-					SetMovementWithPath(path2, dt, bat_pos_UP_LEFT);
-				}
-				else if (path1->Count() > 0) {
-					SetMovementWithPath(path1, dt, bat_pos_DOWN_RIGHT);
-				}
+			else if (path1->Count() > 0) {
+				SetMovementWithPath(path1, dt, bat_pos_DOWN_RIGHT);
 			}
-
-		}
-		else if (bat_going_right && !moving && dt != 0.0f) {
-
-			iPoint goal = bat_pos_UP_LEFT;
-
-			goal.x += 1;
-			movementGoal = goal;
-			moving = true;
-			bat_IA++;
-			movementSpeed = { 10.0f * dt, 0.0f * dt };
-			animation = &standard_right_fly;
-
-		}
-		else if (!bat_going_right && !moving  && dt != 0.0f) {
-
-			iPoint goal = bat_pos_UP_LEFT;
-			goal.x -= 1;
-			movementGoal = goal;
-			moving = true;
-			bat_IA--;
-			movementSpeed = { -10.0f * dt,0.0f * dt};
-			animation = &standard_left_fly;
-
 		}
 		else {
-			if (moving) {
-				position = position + movementSpeed;
+			animation = &standard_right_fly;
+			bat_IA = 1;
+			bat_going_right = true;
+			have_to_chill = false;
+		}
+
+	}
+	else if (player_in_radar && !moving) {
+
+		const p2DynArray<iPoint>* path1 = nullptr;
+		const p2DynArray<iPoint>* path2 = nullptr;
+		if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), playerGoal) != -1) {
+			path1 = App->pathfinding->GetLastPath();
+			if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), playerGoal) != -1)
+				path2 = App->pathfinding->GetLastPath();
+
+			if (path2 != nullptr && path1->Count() < path2->Count()) {
+				SetMovementWithPath(path2, dt, bat_pos_DOWN_RIGHT);
+			}
+			else if (path1->Count() > 0) {
+				SetMovementWithPath(path1, dt, bat_pos_UP_LEFT);
 			}
 
-			if (bat_pos_UP_LEFT == movementGoal && bat_pos_DOWN_RIGHT == movementGoal) {
-				moving = false;
-				if (bat_IA == 3 || bat_IA == 0)
-					bat_going_right = !bat_going_right;
 
-				if (!App->player->isDead)
-					player_in_radar = CheckForPlayer();
+		}
+		else if (App->pathfinding->CreatePath(iPoint(bat_pos_DOWN_RIGHT.x, bat_pos_DOWN_RIGHT.y), playerGoal) != -1) {
+			path1 = App->pathfinding->GetLastPath();
+			if (App->pathfinding->CreatePath(iPoint(bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y), playerGoal) != -1)
+				path2 = App->pathfinding->GetLastPath();
 
-				if (!have_to_chill && player_in_radar)
-					have_to_chill = true;
+			if (path2 != nullptr && path1->Count() < path2->Count()) {
+				SetMovementWithPath(path2, dt, bat_pos_UP_LEFT);
+			}
+			else if (path1->Count() > 0) {
+				SetMovementWithPath(path1, dt, bat_pos_DOWN_RIGHT);
 			}
 		}
-		//LOG("BAT POS x : %i y : %i", bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y);
-		//LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
-		//LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
+
+	}
+	else if (bat_going_right && !moving && dt != 0.0f) {
+
+		iPoint goal = bat_pos_UP_LEFT;
+
+		goal.x += 1;
+		movementGoal = goal;
+		moving = true;
+		bat_IA++;
+		movementSpeed = { 10.0f * dt, 0.0f * dt };
+		animation = &standard_right_fly;
+
+	}
+	else if (!bat_going_right && !moving  && dt != 0.0f) {
+
+		iPoint goal = bat_pos_UP_LEFT;
+		goal.x -= 1;
+		movementGoal = goal;
+		moving = true;
+		bat_IA--;
+		movementSpeed = { -10.0f * dt,0.0f * dt };
+		animation = &standard_left_fly;
+
+	}
+	else {
+		if (moving) {
+			position = position + movementSpeed;
+		}
+
+		if (bat_pos_UP_LEFT == movementGoal && bat_pos_DOWN_RIGHT == movementGoal) {
+			moving = false;
+			if (bat_IA == 3 || bat_IA == 0)
+				bat_going_right = !bat_going_right;
+
+			if (!App->player->isDead && !App->player->god_mode)
+				player_in_radar = CheckForPlayer();
+
+			if (!have_to_chill && player_in_radar)
+				have_to_chill = true;
+		}
+	}
+	//LOG("BAT POS x : %i y : %i", bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y);
+	//LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
+	//LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
 }
 
 void Bat::SetRadar() {
 	uint counter = 0;
-	
+
 	for (int i = -3; i < 4; i++)
 	{
 		for (int k = -3; k < 4; k++)
@@ -182,18 +183,18 @@ bool Bat::CheckForPlayer() {
 
 	return false;
 }
-uint Bat::getLives() 
+uint Bat::getLives()
 {
 	return lives;
 }
 
 void Bat::OnCollision(Collider* collider)
 {
-	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER) 
+	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER)
 	{
 		player_in_radar = false;
 		have_to_chill = true;
-	}	
+	}
 	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 		lives--;
 
@@ -207,7 +208,7 @@ void Bat::OnCollision(Collider* collider)
 	}
 }
 
-void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position) 
+void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position)
 {
 	movementGoal = iPoint(path->At(0)->x, path->At(0)->y);
 

@@ -79,6 +79,8 @@ private:
 	float player_speed;
 	float current_dt;
 
+	iPoint last_save_position;
+
 private:
 	float gravityHaveToWork();
 	float canGoRight();
@@ -130,6 +132,7 @@ public:
 
 	bool reachedEnd;
 	bool isDead;
+	bool god_mode;
 };
 
 #endif

@@ -6,8 +6,9 @@
 #include "p2DynArray.h"
 
 #define TILE_RADAR 40
-#define GRAVITY 40
-#define SLIME_SPEED 20
+#define GRAVITY_SLIME 20
+#define SLIME_SPEED 5
+#define ANGRY_SLIME_SPEED 10
 
 class Slime : public Enemy
 {
