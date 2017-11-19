@@ -36,11 +36,13 @@ Player::Player(int x, int y) : Entity(x, y)
 Player::~Player()
 {
 	LOG("Freeing the player");
+	
 }
 
 // Called each loop iteration
 void Player::Update(float dt)
 {
+	current_frame = animation->GetCurrentFrame();
 
 	if (!key_entities_speed && dt > 0)
 		SetEntitiesSpeed(dt);
@@ -439,7 +441,6 @@ float Player::canGoUp()
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, UP);
 		//distance_to_wall *= -1;
-		LOG("DISTANCE TO WALL %f", distance_to_wall);
 		if (distance_to_wall == 0.0f) {
 			isJumping = false;
 			jumpTimer = 0;
@@ -448,7 +449,6 @@ float Player::canGoUp()
 		else if (distance_to_wall >= ceil(JUMP_SPEED * current_dt))
 			return ceil(JUMP_SPEED*current_dt);
 		else if (distance_to_wall < ceil(JUMP_SPEED*current_dt)) {
-			LOG("VEL TO RETURN %f - distance to wall: %f", ceil(JUMP_SPEED*current_dt), distance_to_wall);
 			return distance_to_wall;
 		}
 	}

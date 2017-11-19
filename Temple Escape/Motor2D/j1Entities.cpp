@@ -194,12 +194,25 @@ bool j1Entities::Start()
 	App->win->GetWindowSize(screen_width, screen_height);
 	screen_scale = App->win->GetScale();
 
-	App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y);
-
 	LOG("Loading player audios");
 	player_jump = App->audio->LoadFx(fxPlayerJump.GetString());
 	player_dead = App->audio->LoadFx(fxPlayerDead.GetString());
 
+
+	App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y);
+
+	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	{
+		if (queue[i].type != ENTITY_TYPES::NO_TYPE)
+		{
+			if (queue[i].x * screen_scale < App->render->camera.x + (App->render->camera.w * screen_scale) + SPAWN_MARGIN)
+			{
+				SpawnEntity(queue[i]);
+				queue[i].type = ENTITY_TYPES::NO_TYPE;
+				LOG("Spawning entity at %d", queue[i].x * App->win->GetScale());
+			}
+		}
+	}
 	return ret;
 }
 
@@ -214,7 +227,7 @@ bool j1Entities::PreUpdate()
 			{
 				SpawnEntity(queue[i]);
 				queue[i].type = ENTITY_TYPES::NO_TYPE;
-				LOG ("Spawning enemy at %d", queue[i].x * App->win->GetScale());
+				LOG ("Spawning entity at %d", queue[i].x * App->win->GetScale());
 			}
 		}
 	}
@@ -384,19 +397,32 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 bool j1Entities::Load(pugi::xml_node& load)
 {
 	bool ret = true;
-	
+
 	for (uint i = 0; i < MAX_ENTITIES; ++i)
 	{
 		if (entities[i] != nullptr)
 		{
-			if (entities[i]->type == PLAYER) {
-				if (!load.child("player").empty())
-				{
-					load = load.child("player");
-					entities[i]->Load(load);
-				}
+			if (entities[i]->type != PLAYER) {
+				delete entities[i];
+				entities[i] = nullptr;
 			}
 		}
+	}
+
+	if (!load.child("player").empty())
+	{
+		pugi::xml_node& player_load = load.child("player");
+		player->Load(player_load);
+	}
+			
+	for (pugi::xml_node bat = load.child("bat"); bat && ret; bat = bat.next_sibling("bat"))
+	{
+		AddEntity(BAT, bat.child("position").attribute("x").as_float(), bat.child("position").attribute("y").as_float());
+	}
+	
+	for (pugi::xml_node slime = load.child("slime"); slime && ret; slime = slime.next_sibling("slime"))
+	{
+		AddEntity(SLIME, slime.child("position").attribute("x").as_float(), slime.child("position").attribute("y").as_float());
 	}
 
 	return ret;
@@ -413,11 +439,21 @@ bool j1Entities::Save(pugi::xml_node& save) const
 			if (entities[i]->type == PLAYER) {
 				if (save.child("player").empty())
 				{
-					save = save.append_child("player");
-					entities[i]->Save(save);
+					pugi::xml_node& player_save = save.append_child("player");
+					entities[i]->Save(player_save);
 				}
 				else
 					entities[i]->Save(save);
+			}
+
+			if (entities[i]->type == BAT) {
+				pugi::xml_node& bat_save = save.append_child("bat");
+				entities[i]->Save(bat_save);
+			}
+
+			if (entities[i]->type == SLIME) {
+				pugi::xml_node& slime_save = save.append_child("slime");
+				entities[i]->Save(slime_save);
 			}
 		}
 	}

@@ -58,6 +58,7 @@ bool j1FadeToBlack::Update(float dt)
 		if (now >= total_time)
 		{
 			App->entities->CleanUp();
+			App->entities->active = false;
 			//App->player->CleanUp();
 			App->particles->CleanUp();
 			App->collider->CleanUp();
@@ -130,6 +131,7 @@ bool j1FadeToBlack::Update(float dt)
 			App->map->setAllLogicForMap();
 			//App->player->Start();
 			App->entities->Start();
+			App->entities->active = true;
 			App->particles->Start();
 
 			if(lvlName != "" && !F1)

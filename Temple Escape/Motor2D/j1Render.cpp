@@ -5,6 +5,8 @@
 #include "j1Render.h"
 
 #include "Player.h"
+#include "j1Entities.h"
+#include "j1FadeToBlack.h"
 
 #define VSYNC true
 
@@ -59,6 +61,8 @@ bool j1Render::Start()
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
+	last_camera.x = 0;
+	last_camera.y = 0;
 	return true;
 }
 
@@ -72,30 +76,19 @@ bool j1Render::PreUpdate()
 bool j1Render::Update(float dt)
 {
 
-	/*
-		// TODO: Make the camera movement independent of framerate
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		f_CameraPos.y += 200 * dt;
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		f_CameraPos.y -= 200 * dt;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		f_CameraPos.x += 200 * dt;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		f_CameraPos.x -= 200 * dt;
-	*/
-
-	/*uint winWidth, winHeight;
+	uint winWidth, winHeight;
 
 	App->win->GetWindowSize(winWidth, winHeight);
 	
-	if (App->player->active) {
-		camera.x = (App->player->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->player->current_animation->GetCurrentFrame().w/2) * - (int)App->win->GetScale();
-		camera.y = (App->player->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->player->current_animation->GetCurrentFrame().h / 2) * -(int)App->win->GetScale() + 100;
+	if (App->entities->active) {
+		last_camera.x = camera.x = (App->entities->player->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->entities->player->current_frame.w/2) * - (int)App->win->GetScale();
+		last_camera.y = camera.y = (App->entities->player->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->entities->player->current_frame.h / 2) * -(int)App->win->GetScale() + 100;
 	}
-	*/
+	else {
+		camera.x = last_camera.x;
+		camera.y = last_camera.y;
+	}
+	
 	return true;
 }
 

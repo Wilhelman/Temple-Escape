@@ -12,6 +12,7 @@
 struct SDL_Texture;
 struct Collider;
 
+static fPoint tmp;
 
 class Player : public Entity
 {
@@ -90,7 +91,7 @@ public:
 
 public:
 	PlayerState current_state;
-
+	SDL_Rect current_frame;
 	PlayerLastState last_state;
 
 	uint right_idle_vel, left_idle_vel, right_run_vel, left_run_vel, right_jump_vel,
@@ -113,10 +114,9 @@ public:
 
 	uint deadTime;
 
-	fPoint tmp;
+	
 
 	p2SString spritesheetName;
-
 	bool reachedEnd;
 	bool isDead;
 	bool god_mode;

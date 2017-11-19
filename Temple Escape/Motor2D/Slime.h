@@ -36,6 +36,8 @@ public:
 	bool CheckForPlayer();
 	uint getLives();
 
+	bool Save(pugi::xml_node&) const;
+
 	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
 
 	//animations

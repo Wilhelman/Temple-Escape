@@ -244,3 +244,22 @@ void Bat::SetEntitiesSpeed(float dt) {
 	standard_left_fly_vel = standard_left_fly.speed;
 	key_entities_speed = true;
 }
+
+bool Bat::Save(pugi::xml_node& save) const
+{
+	bool ret = true;
+
+	if (save.child("position").empty())
+	{
+		save = save.append_child("position");
+		save.append_attribute("x").set_value(position.x);
+		save.append_attribute("y").set_value(position.y);
+	}
+	else
+	{
+		save.child("position").attribute("x").set_value(position.x);
+		save.child("position").attribute("y").set_value(position.y);
+	}
+
+	return ret;
+}

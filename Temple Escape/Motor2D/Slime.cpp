@@ -165,7 +165,6 @@ void Slime::Update(float dt)
 	}
 	else {
 		if (moving) {
-			LOG("MOVMENT SPEED x : %f y : %f", movementSpeed.x, movementSpeed.y);
 			position = position + movementSpeed;
 		}
 
@@ -293,4 +292,23 @@ void Slime::SetEntitiesSpeed(float dt) {
 	standard_right_jump_vel = standard_right_jump.speed;
 	standard_left_jump_vel = standard_left_jump.speed;
 	key_entities_speed = true;
+}
+
+bool Slime::Save(pugi::xml_node& save) const
+{
+	bool ret = true;
+
+	if (save.child("position").empty())
+	{
+		save = save.append_child("position");
+		save.append_attribute("x").set_value(position.x);
+		save.append_attribute("y").set_value(position.y);
+	}
+	else
+	{
+		save.child("position").attribute("x").set_value(position.x);
+		save.child("position").attribute("y").set_value(position.y);
+	}
+
+	return ret;
 }

@@ -85,10 +85,10 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) 
 		putPlayerToSpawn();
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 		App->SaveGame();
 		
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 		App->LoadGame();
 
 	//END DEBUG
