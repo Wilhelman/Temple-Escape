@@ -129,7 +129,7 @@ bool j1Particles::Update(float dt)
 			delete p;
 			active[i] = nullptr;
 		}
-		else if (p->Update() == false)
+		else if (p->Update(dt) == false)
 		{
 			delete p;
 			active[i] = nullptr;
@@ -178,7 +178,7 @@ Particle::Particle(const Particle& p) :
 	fx(p.fx), born(p.born), life(p.life)
 {}
 
-bool Particle::Update()
+bool Particle::Update(float dt)
 {
 	bool ret = true;
 
@@ -192,8 +192,9 @@ bool Particle::Update()
 			ret = false;
 
 	if (!SDL_GetTicks() - born > 0) {
-		position.x += speed.x;
-		position.y += speed.y;
+
+		(speed.x < 0) ? position.x += floor(speed.x * dt): position.x += ceil(speed.x * dt);
+		position.y += ceil (speed.y * dt);
 	}
 
 	if (collider != nullptr)

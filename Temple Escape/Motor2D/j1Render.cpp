@@ -8,6 +8,8 @@
 #include "j1Entities.h"
 #include "j1FadeToBlack.h"
 
+#include "Brofiler\Brofiler.h"
+
 #define VSYNC true
 
 j1Render::j1Render() : j1Module()
@@ -96,6 +98,7 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate()
 {
+	BROFILER_CATEGORY("Buffer swap", Profiler::Color::LightCyan)
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;

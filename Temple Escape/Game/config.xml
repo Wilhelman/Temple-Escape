@@ -108,13 +108,13 @@
 	<particles>
 		<fxPlayerBasicShot name="audio/fx/player_basic_shot_fx.wav" />
 		<spritesheetSource name="textures/source_spritesheet.png">
-			<particle name="player_basic_shot" speed="0.1" life_time="3000">
-				<animation name="player_basic_shot_right" speed_x="2" speed_y="0.0" loop="true">
+			<particle name="player_basic_shot" speed="10.0" life_time="3000">
+				<animation name="player_basic_shot_right" speed_x="60" speed_y="0.0" loop="true">
 					<frame x="4" y="83" width="9" height="5" />
 					<frame x="18" y="83" width="9" height="5" />
 					<frame x="34" y="83" width="9" height="5" />
 				</animation>
-				<animation name="player_basic_shot_left" speed_x="-2" speed_y="0.0" loop="true">
+				<animation name="player_basic_shot_left" speed_x="-60" speed_y="0.0" loop="true">
 					<frame x="34" y="115" width="9" height="5" />
 					<frame x="20" y="115" width="9" height="5" />
 					<frame x="4" y="115" width="9" height="5" />

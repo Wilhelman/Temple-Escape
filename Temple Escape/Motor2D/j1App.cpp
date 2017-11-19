@@ -339,6 +339,7 @@ bool j1App::DoUpdate()
 // Call modules after each loop iteration
 bool j1App::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate", Profiler::Color::Blue)
 	PERF_START(ptimer);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
@@ -427,6 +428,7 @@ void j1App::GetSaveGames(p2List<p2SString>& list_to_fill) const
 
 bool j1App::LoadGameNow()
 {
+	BROFILER_CATEGORY("LoadGame", Profiler::Color::Orange)
 	bool ret = false;
 
 	pugi::xml_document data;
@@ -464,6 +466,7 @@ bool j1App::LoadGameNow()
 
 bool j1App::SavegameNow() const
 {
+	BROFILER_CATEGORY("SaveGame", Profiler::Color::Purple)
 	bool ret = true;
 
 	LOG("Saving Game State to %s...", save_game.GetString());

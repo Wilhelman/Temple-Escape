@@ -235,6 +235,16 @@ void j1Map::Draw()
 							{
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
+								
+								
+								if (layersBlit->data->Get(i, j) == 10)
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation.GetCurrentFrame(), 1.0f);
+								if (layersBlit->data->Get(i, j) == 16)
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &water_animation.GetCurrentFrame(), 1.0f);
+							}
+
+							if (layersBlit->data->layer_type == GROUND_2) {
+								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 								if (layersBlit->data->Get(i, j) == 94)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
 								if (layersBlit->data->Get(i, j) == 97)
@@ -242,19 +252,8 @@ void j1Map::Draw()
 								
 							}
 
-							if (layersBlit->data->layer_type == GROUND_2)
-								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
-
-							if (layersBlit->data->layer_type == DEAD_ZONE)
-							{
-								if (layersBlit->data->Get(i, j) == 10)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation.GetCurrentFrame(), 1.0f);
-								if (layersBlit->data->Get(i, j) == 16)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &water_animation.GetCurrentFrame(), 1.0f);
-							} 
-
 							if (layersBlit->data->layer_type == PARALLAX)
-								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.5f);
+								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.7f);
 								
 							if (layersBlit->data->layer_type == BACKGROUND)
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 0.1f); 

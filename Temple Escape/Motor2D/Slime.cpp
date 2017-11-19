@@ -43,7 +43,7 @@ void Slime::Update(float dt)
 	iPoint slime_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint slime_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
 
-
+	
 	if (App->map->collisionLayer->Get(slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y + 1) != 43 && !moving) {
 		iPoint goal = slime_pos_UP_LEFT;
 		goal.y += 1;
@@ -62,8 +62,12 @@ void Slime::Update(float dt)
 		else
 			movementSpeed = { 0.0f, ceil(GRAVITY_SLIME * dt) };
 
+		animation->loop = false;
+		
+
 	}
 	else if (player_in_radar && !moving) {
+		animation->loop = true;
 
 		const p2DynArray<iPoint>* path1 = nullptr;
 		const p2DynArray<iPoint>* path2 = nullptr;
@@ -83,6 +87,7 @@ void Slime::Update(float dt)
 
 		}
 		else if (App->pathfinding->CreatePath(iPoint(slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y), playerGoal) != -1) {
+			animation->loop = true;
 			path1 = App->pathfinding->GetLastPath();
 			if (App->pathfinding->CreatePath(iPoint(slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y), playerGoal) != -1)
 				path2 = App->pathfinding->GetLastPath();
@@ -97,7 +102,7 @@ void Slime::Update(float dt)
 
 	}
 	else if (slime_going_right && !moving && dt != 0.0f) {
-
+		animation->loop = true;
 		if (currentTime < slime_time_chilling + 500) {
 			if (animation->Finished())
 				animation = &standard_right_idle;
@@ -131,7 +136,7 @@ void Slime::Update(float dt)
 
 	}
 	else if (!slime_going_right && !moving  && dt != 0.0f) {
-
+		animation->loop = true;
 		if (currentTime < slime_time_chilling + 500) {
 			if (animation->Finished())
 				animation = &standard_left_idle;
