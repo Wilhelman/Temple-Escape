@@ -133,53 +133,20 @@
 				<frame x="160" y="32" width="16" height="16" />
 				<frame x="176" y="32" width="16" height="16" />
 			</animation>
-			<animation name="lava_animation_1" speed="0.05" loop="true">
-				<frame x="144" y="0" width="16" height="32" />
-				<frame x="160" y="0" width="16" height="32" />
-				<frame x="176" y="0" width="16" height="32" />
-				<frame x="192" y="0" width="16" height="32" />
-				<frame x="208" y="0" width="16" height="32" />
-				<frame x="224" y="0" width="16" height="32" />
+			<animation name="waterfall" speed="0.01" loop="true">
+				<frame x="192" y="32" width="16" height="16" />
+				<frame x="208" y="32" width="16" height="16" />
+				<frame x="224" y="32" width="16" height="16" />
 			</animation>
-			<animation name="lava_animation_2" speed="0.05" loop="true">
-				<frame x="160" y="0" width="16" height="32" />
-				<frame x="176" y="0" width="16" height="32" />
-				<frame x="192" y="0" width="16" height="32" />
-				<frame x="208" y="0" width="16" height="32" />
-				<frame x="224" y="0" width="16" height="32" />
-				<frame x="144" y="0" width="16" height="32" />
+			<animation name="lava_animation" speed="0.01" loop="true">
+				<frame x="144" y="0" width="32" height="32" />
+				<frame x="176" y="0" width="32" height="32" />
+				<frame x="208" y="0" width="32" height="32" />
 			</animation>
-			<animation name="lava_animation_3" speed="0.05" loop="true">
-				<frame x="176" y="0" width="16" height="31" />
-				<frame x="192" y="0" width="16" height="31" />
-				<frame x="208" y="0" width="16" height="31" />
-				<frame x="224" y="0" width="16" height="31" />
-				<frame x="144" y="0" width="16" height="31" />
-				<frame x="160" y="0" width="16" height="31" />
-			</animation>
-			<animation name="lava_animation_4" speed="0.05" loop="true">
-				<frame x="192" y="0" width="16" height="31" />
-				<frame x="208" y="0" width="16" height="31" />
-				<frame x="224" y="0" width="16" height="31" />
-				<frame x="144" y="0" width="16" height="31" />
-				<frame x="160" y="0" width="16" height="31" />
-				<frame x="176" y="0" width="16" height="31" />
-			</animation>
-			<animation name="lava_animation_5" speed="0.05" loop="true">
-				<frame x="208" y="0" width="16" height="31" />
-				<frame x="224" y="0" width="16" height="31" />
-				<frame x="144" y="0" width="16" height="31" />
-				<frame x="160" y="0" width="16" height="31" />
-				<frame x="176" y="0" width="16" height="31" />
-				<frame x="192" y="0" width="16" height="31" />
-			</animation>
-			<animation name="lava_animation_6" speed="0.05" loop="true">
-				<frame x="224" y="0" width="16" height="31" />
-				<frame x="144" y="0" width="16" height="31" />
-				<frame x="160" y="0" width="16" height="31" />
-				<frame x="176" y="0" width="16" height="31" />
-				<frame x="192" y="0" width="16" height="31" />
-				<frame x="208" y="0" width="16" height="31" />
+			<animation name="water_animation" speed="0.01" loop="true">
+				<frame x="240" y="0" width="32" height="29" />
+				<frame x="272" y="0" width="32" height="29" />
+				<frame x="304" y="0" width="32" height="29" />
 			</animation>
 		</spritesheetSource>
 		<scene>

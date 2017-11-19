@@ -60,57 +60,29 @@ bool j1Map::Awake(pugi::xml_node& config)
 			lava_waterfall.loop = animations.attribute("loop").as_bool();
 		}
 
-		if (tmp == "lava_animation_1") {
+		if (tmp == "lava_animation") {
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation_1.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+				lava_animation.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-			lava_animation_1.speed = animations.attribute("speed").as_float();
-			lava_animation_1.loop = animations.attribute("loop").as_bool();
+			lava_animation.speed = animations.attribute("speed").as_float();
+			lava_animation.loop = animations.attribute("loop").as_bool();
 		}
-		if (tmp == "lava_animation_2") {
+		if (tmp == "water_animation") {
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation_2.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+				water_animation.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-			lava_animation_2.speed = animations.attribute("speed").as_float();
-			lava_animation_2.loop = animations.attribute("loop").as_bool();
+			water_animation.speed = animations.attribute("speed").as_float();
+			water_animation.loop = animations.attribute("loop").as_bool();
 		}
-
-		if (tmp == "lava_animation_3") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation_3.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			lava_animation_3.speed = animations.attribute("speed").as_float();
-			lava_animation_3.loop = animations.attribute("loop").as_bool();
-		}
-
-		if (tmp == "lava_animation_4") {
+		if (tmp == "waterfall") {
 
 			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation_4.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+				waterfall.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-			lava_animation_4.speed = animations.attribute("speed").as_float();
-			lava_animation_4.loop = animations.attribute("loop").as_bool();
-		}
-
-		if (tmp == "lava_animation_5") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation_5.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			lava_animation_5.speed = animations.attribute("speed").as_float();
-			lava_animation_5.loop = animations.attribute("loop").as_bool();
-		}
-
-		if (tmp == "lava_animation_6") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation_6.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			lava_animation_6.speed = animations.attribute("speed").as_float();
-			lava_animation_6.loop = animations.attribute("loop").as_bool();
+			waterfall.speed = animations.attribute("speed").as_float();
+			waterfall.loop = animations.attribute("loop").as_bool();
 		}
 
 	}
@@ -265,6 +237,8 @@ void j1Map::Draw()
 
 								if (layersBlit->data->Get(i, j) == 94)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
+								if (layersBlit->data->Get(i, j) == 97)
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &waterfall.GetCurrentFrame(), 1.0f);
 								
 							}
 
@@ -274,22 +248,9 @@ void j1Map::Draw()
 							if (layersBlit->data->layer_type == DEAD_ZONE)
 							{
 								if (layersBlit->data->Get(i, j) == 10)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_1.GetCurrentFrame(), 1.0f);
-
-								if (layersBlit->data->Get(i, j) == 11)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_2.GetCurrentFrame(), 1.0f);
-
-								if (layersBlit->data->Get(i, j) == 12)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_3.GetCurrentFrame(), 1.0f);
-
-								if (layersBlit->data->Get(i, j) == 13)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_4.GetCurrentFrame(), 1.0f);
-
-								if (layersBlit->data->Get(i, j) == 14)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_5.GetCurrentFrame(), 1.0f);
-
-								if (layersBlit->data->Get(i, j) == 15)
-									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation_6.GetCurrentFrame(), 1.0f);
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation.GetCurrentFrame(), 1.0f);
+								if (layersBlit->data->Get(i, j) == 16)
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &water_animation.GetCurrentFrame(), 1.0f);
 							} 
 
 							if (layersBlit->data->layer_type == PARALLAX)

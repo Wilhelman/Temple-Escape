@@ -183,12 +183,10 @@ private:
 	bool				map_loaded;
 
 	p2Animation			lava_waterfall;
-	p2Animation			lava_animation_1;
-	p2Animation			lava_animation_2;
-	p2Animation			lava_animation_3;
-	p2Animation			lava_animation_4;
-	p2Animation			lava_animation_5;
-	p2Animation			lava_animation_6;
+	p2Animation			lava_animation;
+	p2Animation			water_animation;
+	p2Animation			waterfall;
+
 };
 
 #endif // __j1MAP_H__
