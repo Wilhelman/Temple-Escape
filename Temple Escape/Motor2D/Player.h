@@ -112,7 +112,7 @@ public:
 	uint player_jump = 0;
 	uint player_dead = 0;
 
-	uint deadTime;
+	uint deadTime, shoot_timer;
 
 	
 

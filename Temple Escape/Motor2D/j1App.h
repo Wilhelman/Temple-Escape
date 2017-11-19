@@ -105,14 +105,20 @@ private:
 
 	p2SString			game_title;
 	p2SString			organization;
+	p2SString			vsync_to_show;
+	p2SString			cap_to_show;
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	mutable p2SString	save_game;
 	p2SString			load_game;
 
+	j1PerfTimer			perf_timer;
+	j1Timer				simple_timer;
+
 	j1PerfTimer			ptimer;
 	uint64				frame_count = 0;
+	uint				cap;
 	j1Timer				startup_time;
 	j1Timer				frame_time;
 	j1Timer				last_sec_frame_time;
@@ -121,7 +127,7 @@ private:
 	float				dt = 0.0f;
 	int					capped_ms = -1;
 	bool				all_modules_loaded;
-	
+	bool				cap_state;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

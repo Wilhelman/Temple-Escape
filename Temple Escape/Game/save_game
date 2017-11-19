@@ -13,19 +13,19 @@
 	</scene>
 	<entities>
 		<bat>
-			<position x="440.229492" y="480" />
+			<position x="464.066956" y="480" />
 		</bat>
-		<slime>
-			<position x="480" y="528" />
-		</slime>
 		<bat>
-			<position x="472.229492" y="496" />
+			<position x="496.066956" y="496" />
 		</bat>
 		<slime>
 			<position x="447" y="528" />
 		</slime>
+		<slime>
+			<position x="480" y="528" />
+		</slime>
 		<player>
-			<position x="368" y="515" />
+			<position x="368" y="544" />
 		</player>
 	</entities>
 	<particles />

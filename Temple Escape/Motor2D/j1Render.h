@@ -50,6 +50,7 @@ public:
 	SDL_Rect		last_camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+	bool			vsync_state;
 };
 
 #endif // __j1RENDER_H__

@@ -28,12 +28,14 @@ bool j1Render::Awake(pugi::xml_node& config)
 {
 	LOG("Create SDL rendering context");
 	bool ret = true;
+	vsync_state = false;
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
 	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
+		vsync_state = true;
 		LOG("Using vsync");
 	}
 

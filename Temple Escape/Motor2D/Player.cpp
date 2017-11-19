@@ -18,7 +18,7 @@
 Player::Player(int x, int y) : Entity(x, y)
 {
 	bool ret = true;
-	jumpTimer = deadTime = 0;
+	jumpTimer = deadTime = shoot_timer = 0;
 	isJumping = didDoubleJump = reachedEnd = isDead = god_mode = false;
 	current_state = PlayerState::ST_IDLE_RIGHT;
 	last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
@@ -36,7 +36,7 @@ Player::Player(int x, int y) : Entity(x, y)
 Player::~Player()
 {
 	LOG("Freeing the player");
-	
+
 }
 
 // Called each loop iteration
@@ -114,8 +114,10 @@ void Player::Update(float dt)
 				|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
 			&& !isJumping)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-				App->particles->AddParticle(App->particles->player_basic_shot_right, position.x + 5, position.y - 8, COLLIDER_PLAYER_BASIC_SHOT);
+			if (currentTime > shoot_timer + 700) {
+				App->particles->AddParticle(App->particles->player_basic_shot_right, position.x + 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
+				shoot_timer = SDL_GetTicks();
+			}
 			current_state = PlayerState::ST_SHOOT_RIGHT;
 			last_state = PlayerLastState::LAST_ST_SHOOT_RIGHT;
 		}
@@ -127,8 +129,12 @@ void Player::Update(float dt)
 				|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
 			&& !isJumping)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-				App->particles->AddParticle(App->particles->player_basic_shot_left, position.x + 5, position.y - 8, COLLIDER_PLAYER_BASIC_SHOT);
+
+			if (currentTime > shoot_timer + 700) {
+				App->particles->AddParticle(App->particles->player_basic_shot_left, position.x - 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
+				shoot_timer = SDL_GetTicks();
+			}
+
 			current_state = PlayerState::ST_SHOOT_LEFT;
 			last_state = PlayerLastState::LAST_ST_SHOOT_LEFT;
 		}
@@ -251,20 +257,20 @@ void Player::Update(float dt)
 	collider->rect.h = r.h;
 	/*
 	if (!App->render->Blit(graphics, (int)position.x, (int)position.y - r.h, &r)) {
-		LOG("Cannot blit the texture in j1Player %s\n", SDL_GetError());
+	LOG("Cannot blit the texture in j1Player %s\n", SDL_GetError());
 	}
 	*/
 	currentTime = SDL_GetTicks();
 }
 
-void Player::OnCollision(Collider* collider){
+void Player::OnCollision(Collider* collider) {
 
 	if (((collider->type == COLLIDER_ENEMY_BAT || collider->type == COLLIDER_ENEMY_SLIME) && !isDead) && !god_mode) {
 		isDead = true;
 		App->audio->PlayFx(player_dead);
 		deadTime = SDL_GetTicks();
 	}
-	
+
 	if (collider->type == COLLIDER_LVL_END)
 	{
 		if (!reachedEnd)
@@ -563,7 +569,7 @@ void Player::SetEntitiesSpeed(float dt) {
 	left_jump_vel = left_jump.speed;
 	right_run_vel = right_run.speed;
 	left_run_vel = left_run.speed;
-	right_death_blink_vel= right_death_blink.speed;
+	right_death_blink_vel = right_death_blink.speed;
 	left_death_blink_vel = left_death_blink.speed;
 	key_entities_speed = true;
 }
