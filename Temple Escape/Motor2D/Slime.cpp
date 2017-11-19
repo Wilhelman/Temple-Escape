@@ -12,7 +12,7 @@ Slime::Slime(int x, int y) : Entity(x, y)
 {
 	slime_IA = slime_time_chilling = standard_left_idle_vel = standard_left_jump_vel = standard_right_idle_vel = standard_right_jump_vel = 0;
 	slime_going_right = true;
-	moving = key_entities_speed = false;
+	moving = key_entities_speed = player_in_radar = false;
 	lives = 3;
 
 	animation = &standard_right_jump;
@@ -165,6 +165,7 @@ void Slime::Update(float dt)
 	}
 	else {
 		if (moving) {
+			LOG("MOVMENT SPEED x : %f y : %f", movementSpeed.x, movementSpeed.y);
 			position = position + movementSpeed;
 		}
 

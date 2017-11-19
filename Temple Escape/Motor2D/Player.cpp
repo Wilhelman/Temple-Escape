@@ -255,15 +255,15 @@ void Player::Update(float dt)
 	currentTime = SDL_GetTicks();
 }
 
-void Player::OnCollision(Collider* c1, Collider* c2) {
+void Player::OnCollision(Collider* collider){
 
-	if (((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) && !god_mode) {
+	if (((collider->type == COLLIDER_ENEMY_BAT || collider->type == COLLIDER_ENEMY_SLIME) && !isDead) && !god_mode) {
 		isDead = true;
 		App->audio->PlayFx(player_dead);
 		deadTime = SDL_GetTicks();
 	}
-
-	if (c2->type == COLLIDER_LVL_END)
+	
+	if (collider->type == COLLIDER_LVL_END)
 	{
 		if (!reachedEnd)
 			reachedEnd = true;

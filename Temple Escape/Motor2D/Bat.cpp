@@ -30,6 +30,11 @@ void Bat::Update(float dt)
 	if (!key_entities_speed && dt > 0)
 		SetEntitiesSpeed(dt);
 
+	if (dt > 0) {
+		(player_in_radar) ? standard_right_fly.speed = standard_right_fly_vel * 2 * dt : standard_right_fly.speed = standard_right_fly_vel * dt;
+		(player_in_radar) ? standard_left_fly.speed = standard_left_fly_vel * 2 * dt : standard_left_fly.speed = standard_left_fly_vel * dt;
+	}
+
 	iPoint bat_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint bat_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
 
@@ -166,7 +171,7 @@ void Bat::SetRadar() {
 }
 
 bool Bat::CheckForPlayer() {
-	LOG("CHECKING 4 PLAYER");
+	//LOG("CHECKING 4 PLAYER");
 	iPoint tmp_player = App->map->WorldToMap(App->entities->player->position.x, App->entities->player->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
@@ -235,7 +240,7 @@ void Bat::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint p
 }
 
 void Bat::SetEntitiesSpeed(float dt) {
-	standard_right_fly.speed *= dt;
-	standard_left_fly.speed *= dt;
+	standard_right_fly_vel = standard_right_fly.speed;
+	standard_left_fly_vel = standard_left_fly.speed;
 	key_entities_speed = true;
 }

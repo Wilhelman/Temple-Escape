@@ -54,10 +54,9 @@ class Player : public Entity
 	};
 
 private:
-	Collider* collider;
 	bool didDoubleJump;
 	bool isJumping;
-	uint deadTime;
+
 	uint currentTime;
 	uint jumpTimer;
 
@@ -81,7 +80,7 @@ public:
 
 	void SetEntitiesSpeed(float dt);
 
-	void OnCollision(Collider* c1, Collider* c2);
+	void OnCollision(Collider* collider);
 
 	bool Load(pugi::xml_node&);
 
@@ -111,6 +110,8 @@ public:
 	//playerSoundEffects
 	uint player_jump = 0;
 	uint player_dead = 0;
+
+	uint deadTime;
 
 	fPoint tmp;
 

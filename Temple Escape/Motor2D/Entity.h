@@ -34,6 +34,16 @@ public:
 	virtual void OnCollision(Collider* collider);
 	virtual uint getLives() { return 0; };
 	virtual void SetEntitiesSpeed(float dt) {};
+	
+	virtual bool Load(pugi::xml_node&)
+	{
+		return true;
+	}
+
+	virtual bool Save(pugi::xml_node&) const
+	{
+		return true;
+	}
 };
 
 #endif // __ENTITY_H__

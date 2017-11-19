@@ -11,12 +11,13 @@
 	<scene>
 		<currentLvl name="lvl1.tmx" />
 	</scene>
-	<player>
-		<position x="48" y="209" />
-	</player>
-	<enemies />
+	<entities>
+		<player>
+			<position x="30" y="80" />
+		</player>
+	</entities>
 	<particles />
 	<collider />
-	<renderer />
 	<fadeToBlack />
+	<renderer />
 </game_state>

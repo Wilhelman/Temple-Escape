@@ -361,7 +361,66 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				}
 			}
 
+			if (entities[i]->type == ENTITY_TYPES::PLAYER)
+			{
+				if (((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !player->isDead) && !player->god_mode) {
+					player->isDead = true;
+					App->audio->PlayFx(player_dead);
+					player->deadTime = SDL_GetTicks();
+				}
+
+				if (c2->type == COLLIDER_LVL_END)
+				{
+					if (!player->reachedEnd)
+						player->reachedEnd = true;
+				}
+			}
+
 		}
 	} 
 }
 
+
+bool j1Entities::Load(pugi::xml_node& load)
+{
+	bool ret = true;
+	
+	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	{
+		if (entities[i] != nullptr)
+		{
+			if (entities[i]->type == PLAYER) {
+				if (!load.child("player").empty())
+				{
+					load = load.child("player");
+					entities[i]->Load(load);
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+bool j1Entities::Save(pugi::xml_node& save) const
+{
+	bool ret = true;
+
+	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	{
+		if (entities[i] != nullptr)
+		{
+			if (entities[i]->type == PLAYER) {
+				if (save.child("player").empty())
+				{
+					save = save.append_child("player");
+					entities[i]->Save(save);
+				}
+				else
+					entities[i]->Save(save);
+			}
+		}
+	}
+
+	return ret;
+}

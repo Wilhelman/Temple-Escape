@@ -38,6 +38,10 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
+	bool Load(pugi::xml_node&);
+
+	bool Save(pugi::xml_node&) const;
+
 	// Called before quitting
 	bool CleanUp();;
 	void OnCollision(Collider* c1, Collider* c2);

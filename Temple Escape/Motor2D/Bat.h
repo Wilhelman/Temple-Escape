@@ -30,6 +30,9 @@ public:
 	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
 	void SetEntitiesSpeed(float dt);
 
+	//speeds
+	uint standard_right_fly_vel, standard_left_fly_vel;
+
 	//animations
 	p2Animation standard_right_fly;
 	p2Animation standard_left_fly;
