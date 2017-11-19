@@ -4,7 +4,7 @@
 #include "j1Render.h"
 #include "j1Audio.h"
 #include "j1Particles.h"
-#include "j1Player.h"
+#include "Player.h"
 #include "j1Collider.h"
 #include "j1Window.h"
 #include "p2Log.h"

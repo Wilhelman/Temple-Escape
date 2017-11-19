@@ -3,13 +3,14 @@
 #include "j1Collider.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
-#include "j1Player.h"
 #include "p2Log.h"
+#include "j1Entities.h"
+#include "Player.h"
 
 
-Slime::Slime(int x, int y) : Enemy(x, y)
+Slime::Slime(int x, int y) : Entity(x, y)
 {
-	slime_IA = slime_time_chilling = 0;
+	slime_IA = slime_time_chilling = standard_left_idle_vel = standard_left_jump_vel = standard_right_idle_vel = standard_right_jump_vel = 0;
 	slime_going_right = true;
 	moving = key_entities_speed = false;
 	lives = 3;
@@ -19,17 +20,25 @@ Slime::Slime(int x, int y) : Enemy(x, y)
 	original_pos.x = x;
 	original_pos.y = y;
 
-	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->enemies);
+	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->entities);
 
 }
 
-void Slime::Move(float dt)
+void Slime::Update(float dt)
 {
 
 	SetRadar();
 
 	if (!key_entities_speed && dt > 0)
 		SetEntitiesSpeed(dt);
+
+	if (dt > 0) {
+		standard_left_idle.speed = standard_left_idle_vel*dt;
+		standard_left_jump.speed = standard_left_jump_vel*dt;
+		standard_right_idle.speed = standard_right_idle_vel*dt;
+		standard_right_jump.speed = standard_right_jump_vel*dt;
+	}
+	
 
 	iPoint slime_pos_UP_LEFT = App->map->WorldToMap(position.x + 1, position.y + 1);
 	iPoint slime_pos_DOWN_RIGHT = App->map->WorldToMap(position.x + collider->rect.w - 1, position.y + collider->rect.h - 1);
@@ -162,13 +171,13 @@ void Slime::Move(float dt)
 		if (slime_pos_UP_LEFT == movementGoal && slime_pos_DOWN_RIGHT == movementGoal) {
 			moving = false;
 			slime_time_chilling = SDL_GetTicks();
-			if (!App->player->isDead && !App->player->god_mode)
+			if (!App->entities->player->isDead && !App->entities->player->god_mode)
 				player_in_radar = CheckForPlayer();
 		}
 	}
-	LOG("SLIME LEFT UP POS x : %i y : %i", slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y);
+	/*LOG("SLIME LEFT UP POS x : %i y : %i", slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y);
 	LOG("SLIME DOWN RIGHT POS x : %i y : %i", slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y);
-	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
+	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);*/
 	currentTime = SDL_GetTicks();
 }
 
@@ -216,7 +225,7 @@ void Slime::SetRadar() {
 
 bool Slime::CheckForPlayer() {
 
-	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y - 1);
+	iPoint tmp_player = App->map->WorldToMap(App->entities->player->position.x, App->entities->player->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{
@@ -278,9 +287,9 @@ void Slime::SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint
 }
 
 void Slime::SetEntitiesSpeed(float dt) {
-	standard_left_idle.speed = standard_left_idle.speed*dt;
-	standard_left_jump.speed = standard_left_jump.speed*dt;
-	standard_right_idle.speed = standard_right_idle.speed*dt;
-	standard_right_jump.speed = standard_right_jump.speed*dt;
+	standard_left_idle_vel = standard_left_idle.speed;
+	standard_right_idle_vel = standard_right_idle.speed;
+	standard_right_jump_vel = standard_right_jump.speed;
+	standard_left_jump_vel = standard_left_jump.speed;
 	key_entities_speed = true;
 }

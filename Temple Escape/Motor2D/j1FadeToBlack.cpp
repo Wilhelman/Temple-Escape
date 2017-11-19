@@ -7,8 +7,8 @@
 #include "j1Window.h"
 #include "j1Collider.h"
 #include "j1Map.h"
-#include "j1Player.h"
-#include "j1Enemies.h"
+#include "Player.h"
+#include "j1Entities.h"
 #include "j1Particles.h"
 #include "p2Log.h"
 
@@ -57,8 +57,8 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
-			App->enemies->CleanUp();
-			App->player->CleanUp();
+			App->entities->CleanUp();
+			//App->player->CleanUp();
 			App->particles->CleanUp();
 			App->collider->CleanUp();
 			App->map->CleanUp();
@@ -128,12 +128,12 @@ bool j1FadeToBlack::Update(float dt)
 			App->map->LayersSetUp();
 			
 			App->map->setAllLogicForMap();
-			App->player->Start();
-			App->enemies->Start();
+			//App->player->Start();
+			App->entities->Start();
 			App->particles->Start();
 
 			if(lvlName != "" && !F1)
-				App->player->ImplementLoad();
+				App->entities->player->ImplementLoad();
 
 			F1 = false;
 			

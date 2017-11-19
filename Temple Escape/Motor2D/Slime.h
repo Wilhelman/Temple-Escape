@@ -1,7 +1,7 @@
 #ifndef __Slime_H__
 #define __Slime_H__
 
-#include "Enemy.h"
+#include "Entity.h"
 #include "p2Animation.h"
 #include "p2DynArray.h"
 
@@ -10,7 +10,7 @@
 #define SLIME_SPEED 5
 #define ANGRY_SLIME_SPEED 10
 
-class Slime : public Enemy
+class Slime : public Entity
 {
 private:
 	fPoint original_pos;
@@ -23,11 +23,14 @@ private:
 
 	uint current_time, slime_time_chilling;
 
+	//speeds
+	uint standard_left_idle_vel, standard_right_idle_vel, standard_right_jump_vel, standard_left_jump_vel;
+
 public:
 
 	Slime(int x, int y);
 	void OnCollision(Collider* collider);
-	void Move(float dt);
+	void Update(float dt);
 	void SetEntitiesSpeed(float dt);
 	void SetRadar();
 	bool CheckForPlayer();

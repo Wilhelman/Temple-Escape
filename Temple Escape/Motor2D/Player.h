@@ -1,9 +1,9 @@
 #ifndef __j1Player_H__
 #define __j1Player_H__
 
-#include "j1Module.h"
 #include "p2Animation.h"
 #include "p2Point.h"
+#include "Entity.h"
 
 #define PLAYER_SPEED 40.0f
 #define JUMP_SPEED 40.0f
@@ -13,7 +13,7 @@ struct SDL_Texture;
 struct Collider;
 
 
-class j1Player : public j1Module
+class Player : public Entity
 {
 
 	enum PlayerState
@@ -54,27 +54,12 @@ class j1Player : public j1Module
 	};
 
 private:
-	p2Animation right_idle;
-	p2Animation left_idle;
-	p2Animation right_run;
-	p2Animation left_run;
-	p2Animation right_jump;
-	p2Animation left_jump;
-	p2Animation right_death_blink;
-	p2Animation left_death_blink;
-	p2Animation right_shoot;
-	p2Animation left_shoot;
-
-	Collider* pCollider;
+	Collider* collider;
 	bool didDoubleJump;
 	bool isJumping;
 	uint deadTime;
 	uint currentTime;
 	uint jumpTimer;
-
-	//playerSoundEffects
-	uint player_jump = 0;
-	uint player_dead = 0;
 
 	float player_speed;
 	float current_dt;
@@ -89,26 +74,12 @@ private:
 	float DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction);
 
 public:
-	j1Player();
-	~j1Player();
+	Player(int x, int y);
+	~Player();
 
-	// Called before render is available
-	bool Awake(pugi::xml_node& conf);
+	void Update(float dt);
 
-	// Called before the first frame
-	bool Start();
-
-	// Called before all Updates
-	bool PreUpdate();
-
-	// Called each loop iteration
-	bool Update(float dt);
-
-	// Called before all Updates
-	bool PostUpdate();
-
-	// Called before quitting
-	bool CleanUp();
+	void SetEntitiesSpeed(float dt);
 
 	void OnCollision(Collider* c1, Collider* c2);
 
@@ -119,16 +90,31 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 public:
-	SDL_Texture* graphics = nullptr;
 	PlayerState current_state;
+
 	PlayerLastState last_state;
-	p2Animation* current_animation;
-	fPoint position;
+
+	uint right_idle_vel, left_idle_vel, right_run_vel, left_run_vel, right_jump_vel,
+		left_jump_vel, right_death_blink_vel, left_death_blink_vel, right_shoot_vel, left_shoot_vel;
+
+	p2Animation right_idle;
+	p2Animation left_idle;
+	p2Animation right_run;
+	p2Animation left_run;
+	p2Animation right_jump;
+	p2Animation left_jump;
+	p2Animation right_death_blink;
+	p2Animation left_death_blink;
+	p2Animation right_shoot;
+	p2Animation left_shoot;
+
+	//playerSoundEffects
+	uint player_jump = 0;
+	uint player_dead = 0;
+
 	fPoint tmp;
 
 	p2SString spritesheetName;
-	p2SString fxPlayerDead;
-	p2SString fxPlayerJump;
 
 	bool reachedEnd;
 	bool isDead;

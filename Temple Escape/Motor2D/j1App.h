@@ -15,8 +15,7 @@ class j1Textures;
 class j1Audio;
 class j1Collider;
 class j1Scene;
-class j1Player;
-class j1Enemies;
+class j1Entities;
 class j1Particles;
 class j1Map;
 class j1PathFinding;
@@ -93,8 +92,7 @@ public:
 	j1Scene*			scene;
 	j1Map*				map;
 	j1PathFinding*		pathfinding;
-	j1Player*			player;
-	j1Enemies*			enemies;
+	j1Entities*			entities;
 	j1Particles*		particles;
 	j1FadeToBlack*		fadeToBlack;
 

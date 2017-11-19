@@ -1,13 +1,13 @@
 #ifndef __Bat_H__
 #define __Bat_H__
 
-#include "Enemy.h"
+#include "Entity.h"
 #include "p2Animation.h"
 #include "p2DynArray.h"
 
 #define TILE_RADAR 48
 
-class Bat : public Enemy
+class Bat : public Entity
 {
 private:
 	iPoint original_pos;
@@ -22,7 +22,7 @@ public:
 
 	Bat(int x, int y);
 	void OnCollision(Collider* collider);
-	void Move(float dt);
+	void Update(float dt);
 	void SetRadar();
 	bool CheckForPlayer();
 	uint getLives();

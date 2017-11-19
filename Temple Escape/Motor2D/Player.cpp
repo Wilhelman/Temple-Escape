@@ -9,121 +9,13 @@
 #include "j1FadeToBlack.h"
 #include "j1Audio.h"
 #include "j1Particles.h"
+#include "j1Entities.h"
 
-#include "j1Player.h"
+#include "Player.h"
 
-j1Player::j1Player() : j1Module()
-{
-	name.create("player");
-}
-
-// Destructor
-j1Player::~j1Player()
-{}
-
-// Called before render is available
-bool j1Player::Awake(pugi::xml_node& config)
-{
-	LOG("Loading Player from config file");
-	bool ret = true;
-
-	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
-	fxPlayerJump.create(config.child("fxPlayerJump").attribute("name").as_string());
-	fxPlayerDead.create(config.child("fxPlayerDead").attribute("name").as_string());
-
-	//set all the animations
-	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
-	{
-		p2SString tmp(animations.attribute("name").as_string());
-		if (tmp == "right_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_idle.speed = animations.attribute("speed").as_float();
-			right_idle.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_idle.speed = animations.attribute("speed").as_float();
-			left_idle.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_run") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_run.speed = animations.attribute("speed").as_float();
-			right_run.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_run") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_run.speed = animations.attribute("speed").as_float();
-			left_run.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_jump.speed = animations.attribute("speed").as_float();
-			left_jump.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_jump.speed = animations.attribute("speed").as_float();
-			right_jump.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_dead") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_death_blink.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_death_blink.speed = animations.attribute("speed").as_float();
-			left_death_blink.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_dead") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_death_blink.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_death_blink.speed = animations.attribute("speed").as_float();
-			right_death_blink.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_shoot") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_shoot.speed = animations.attribute("speed").as_float();
-			right_shoot.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_shoot") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_shoot.speed = animations.attribute("speed").as_float();
-			left_shoot.loop = animations.attribute("loop").as_bool();
-		}
-	}
-
-	current_animation = &right_idle;
-
-	return ret;
-}
 
 // Called before the first frame
-bool j1Player::Start()
+Player::Player(int x, int y) : Entity(x, y)
 {
 	bool ret = true;
 	jumpTimer = deadTime = 0;
@@ -131,51 +23,42 @@ bool j1Player::Start()
 	current_state = PlayerState::ST_IDLE_RIGHT;
 	last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 
-	LOG("Loading player textures");
-
-	graphics = App->tex->Load(spritesheetName.GetString());
-	if (graphics == nullptr)
-		ret = false;
+	LOG("Creating player collider");
+	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_PLAYER, (j1Module*)App->entities);
 
 	iPoint spawnPos = App->map->spawn;
 	this->position.x = spawnPos.x;
 	this->position.y = spawnPos.y;
 
-	LOG("Creating player collider");
-	pCollider = App->collider->AddCollider({ (int)position.x,(int)position.y,39,21 }, COLLIDER_PLAYER, this);
+	animation = &right_idle;
+}
 
-	LOG("Loading player audios");
-	player_jump = App->audio->LoadFx(fxPlayerJump.GetString());
-	player_dead = App->audio->LoadFx(fxPlayerDead.GetString());
-
-	return ret;
+Player::~Player()
+{
+	LOG("Freeing the player");
 }
 
 // Called each loop iteration
-bool j1Player::PreUpdate()
+void Player::Update(float dt)
 {
-	bool ret = true;
 
-	return ret;
-}
+	if (!key_entities_speed && dt > 0)
+		SetEntitiesSpeed(dt);
 
-// Called each loop iteration
-bool j1Player::Update(float dt)
-{
-	bool ret = true;
+	if (dt > 0) {
+		right_idle.speed = right_idle_vel * dt;
+		left_idle.speed = left_idle_vel * dt;
+		right_run.speed = right_run_vel * dt;;
+		left_run.speed = left_run_vel * dt;;
+		right_jump.speed = right_jump_vel * dt;
+		left_jump.speed = left_jump_vel * dt;
+		right_death_blink.speed = right_death_blink_vel * dt;
+		left_death_blink.speed = left_death_blink_vel * dt;
+		right_shoot.speed = right_shoot_vel * dt;
+		left_shoot.speed = left_shoot_vel * dt;
+	}
 
 	current_dt = dt;
-
-	right_idle.speed = 5 * dt;
-	left_idle.speed = 5 * dt;
-	right_run.speed = 5 * dt;;
-	left_run.speed = 5 * dt;;
-	right_jump.speed = 5 * dt;
-	left_jump.speed = 5 * dt;
-	right_death_blink.speed = 5 * dt;
-	left_death_blink.speed = 5 * dt;
-	right_shoot.speed = 5 * dt;
-	left_shoot.speed = 5 * dt;
 
 	current_state = PlayerState::ST_UNKNOWN;
 
@@ -271,70 +154,70 @@ bool j1Player::Update(float dt)
 	//SEARCH THE STATE AND SET THE ANIMATION
 	switch (current_state)
 	{
-	case j1Player::ST_UNKNOWN:
+	case Player::ST_UNKNOWN:
 		switch (last_state)
 		{
-		case j1Player::LAST_ST_UNKNOWN:
+		case Player::LAST_ST_UNKNOWN:
 			break;
-		case j1Player::LAST_ST_IDLE_RIGHT:
+		case Player::LAST_ST_IDLE_RIGHT:
 			break;
-		case j1Player::LAST_ST_IDLE_LEFT:
+		case Player::LAST_ST_IDLE_LEFT:
 			break;
-		case j1Player::LAST_ST_RUN_RIGHT:
+		case Player::LAST_ST_RUN_RIGHT:
 			if (isJumping)
-				current_animation = &right_jump;
+				animation = &right_jump;
 			else
-				current_animation = &right_idle;
+				animation = &right_idle;
 			break;
-		case j1Player::LAST_ST_RUN_LEFT:
+		case Player::LAST_ST_RUN_LEFT:
 			if (isJumping)
-				current_animation = &left_jump;
+				animation = &left_jump;
 			else
-				current_animation = &left_idle;
+				animation = &left_idle;
 			break;
-		case j1Player::LAST_ST_SHOOT_RIGHT:
+		case Player::LAST_ST_SHOOT_RIGHT:
 			if (isJumping)
-				current_animation = &right_jump;
+				animation = &right_jump;
 			else
-				current_animation = &right_idle;
+				animation = &right_idle;
 			break;
-		case j1Player::LAST_ST_SHOOT_LEFT:
+		case Player::LAST_ST_SHOOT_LEFT:
 			if (isJumping)
-				current_animation = &left_jump;
+				animation = &left_jump;
 			else
-				current_animation = &left_idle;
+				animation = &left_idle;
 			break;
 		default:
 			break;
 		}
 		break;
-	case j1Player::ST_IDLE_RIGHT:
+	case Player::ST_IDLE_RIGHT:
 		break;
-	case j1Player::ST_IDLE_LEFT:
+	case Player::ST_IDLE_LEFT:
 		break;
-	case j1Player::ST_RUN_RIGHT:
+	case Player::ST_RUN_RIGHT:
 		if (isJumping)
-			current_animation = &right_jump;
+			animation = &right_jump;
 		else
-			current_animation = &right_run;
+			animation = &right_run;
 		break;
-	case j1Player::ST_RUN_LEFT:
+	case Player::ST_RUN_LEFT:
 		if (isJumping)
-			current_animation = &left_jump;
+			animation = &left_jump;
 		else
-			current_animation = &left_run;
+			animation = &left_run;
 		break;
-	case j1Player::ST_SHOOT_RIGHT:
+	case Player::ST_SHOOT_RIGHT:
 		if (isJumping)
-			current_animation = &right_jump;
+			animation = &right_jump;
 		else
-			current_animation = &right_shoot;
+			animation = &right_shoot;
 		break;
-	case j1Player::ST_SHOOT_LEFT:
+	case Player::ST_SHOOT_LEFT:
 		if (isJumping)
-			current_animation = &left_jump;
+			animation = &left_jump;
 		else
-			current_animation = &left_shoot;
+			animation = &left_shoot;
 		break;
 	default:
 		break;
@@ -344,66 +227,35 @@ bool j1Player::Update(float dt)
 	if (isDead && currentTime < deadTime + 1000)
 	{
 		if (last_state == LAST_ST_RUN_RIGHT)
-			current_animation = &right_death_blink;
+			animation = &right_death_blink;
 		else
-			current_animation = &left_death_blink;
+			animation = &left_death_blink;
 	}
 	else if (isDead)
 	{
 		isDead = false;
-		pCollider->type = COLLIDER_PLAYER;
+		collider->type = COLLIDER_PLAYER;
 		iPoint spawnPos = App->map->spawn;
 		this->position.x = spawnPos.x;
 		this->position.y = spawnPos.y;
 	}
 
 	// Draw everything --------------------------------------
-	SDL_Rect r = current_animation->GetCurrentFrame();
+	SDL_Rect r = animation->GetCurrentFrame();
 
 	// Update player collider
-	pCollider->SetPos(position.x, position.y - r.h);
-	pCollider->rect.w = r.w;
-	pCollider->rect.h = r.h;
-
+	collider->SetPos(position.x, position.y - r.h);
+	collider->rect.w = r.w;
+	collider->rect.h = r.h;
+	/*
 	if (!App->render->Blit(graphics, (int)position.x, (int)position.y - r.h, &r)) {
 		LOG("Cannot blit the texture in j1Player %s\n", SDL_GetError());
-		ret = false;
 	}
-
+	*/
 	currentTime = SDL_GetTicks();
-
-	return ret;
 }
 
-// Called each loop iteration
-bool j1Player::PostUpdate()
-{
-	bool ret = true;
-
-	return ret;
-}
-
-// Called before quitting
-bool j1Player::CleanUp()
-{
-	LOG("Freeing the player");
-
-	bool ret = true;
-
-	if (pCollider != nullptr) {
-		App->collider->EraseCollider(pCollider);
-		pCollider = nullptr;
-	}
-	App->tex->UnLoad(graphics);
-
-	LOG("Unloading player sound fx");
-	App->audio->UnLoadFx(player_jump);
-	App->audio->UnLoadFx(player_dead);
-
-	return ret;
-}
-
-void j1Player::OnCollision(Collider* c1, Collider* c2) {
+void Player::OnCollision(Collider* c1, Collider* c2) {
 
 	if (((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !isDead) && !god_mode) {
 		isDead = true;
@@ -418,9 +270,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	}
 }
 
-
-
-float j1Player::gravityHaveToWork()
+float Player::gravityHaveToWork()
 {
 
 	fPoint tmpPosLeft;
@@ -430,7 +280,7 @@ float j1Player::gravityHaveToWork()
 	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
 	fPoint tmpPosRight;
-	tmpPosRight.x = position.x + pCollider->rect.w - 1;
+	tmpPosRight.x = position.x + collider->rect.w - 1;
 	tmpPosRight.y = position.y - 1;
 
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
@@ -459,7 +309,7 @@ float j1Player::gravityHaveToWork()
 
 			SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-			SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+			SDL_Rect player = { position.x, position.y - collider->rect.h, collider->rect.w, collider->rect.h };
 
 			float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
 			distance_to_wall *= -1;
@@ -483,7 +333,7 @@ float j1Player::gravityHaveToWork()
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x, position.y - collider->rect.h, collider->rect.w, collider->rect.h };
 		SDL_Rect res = { 0, 0, 0, 0 };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, DOWN);
@@ -494,7 +344,7 @@ float j1Player::gravityHaveToWork()
 		tmpPosL.y = position.y - 1;
 		iPoint characterLeft = App->map->WorldToMap(tmpPosL.x, tmpPosL.y);
 		fPoint tmpPosR;
-		tmpPosR.x = position.x + pCollider->rect.w - 1;
+		tmpPosR.x = position.x + collider->rect.w - 1;
 		tmpPosR.y = position.y - 1;
 
 		(App->map->collisionLayer->Get(characterLeft.x, characterLeft.y + 1) == 43) ?
@@ -515,13 +365,13 @@ float j1Player::gravityHaveToWork()
 	return ceil(GRAVITY*current_dt);
 }
 
-float j1Player::canGoLeft()
+float Player::canGoLeft()
 {
 	bool ret = true;
 
 	fPoint tmpPosUp;
 	tmpPosUp.x = position.x;
-	tmpPosUp.y = position.y - pCollider->rect.h;
+	tmpPosUp.y = position.y - collider->rect.h;
 
 	iPoint characterPosInTileWorldUp = App->map->WorldToMap(tmpPosUp.x, tmpPosUp.y);
 
@@ -541,7 +391,7 @@ float j1Player::canGoLeft()
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldDown.x,characterPosInTileWorldDown.y, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x, position.y - collider->rect.h, collider->rect.w, collider->rect.h };
 
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, LEFT);
@@ -558,19 +408,19 @@ float j1Player::canGoLeft()
 	return ceil(PLAYER_SPEED*current_dt);
 }
 
-float j1Player::canGoUp()
+float Player::canGoUp()
 {
 	bool ret = true;
 
 	fPoint tmpPosLeft;
 	tmpPosLeft.x = position.x;
-	tmpPosLeft.y = position.y - pCollider->rect.h;
+	tmpPosLeft.y = position.y - collider->rect.h;
 
 	iPoint characterPosInTileWorldLeft = App->map->WorldToMap(tmpPosLeft.x, tmpPosLeft.y);
 
 	fPoint tmpPosRight;
-	tmpPosRight.x = position.x + pCollider->rect.w - 1;
-	tmpPosRight.y = position.y - pCollider->rect.h;
+	tmpPosRight.x = position.x + collider->rect.w - 1;
+	tmpPosRight.y = position.y - collider->rect.h;
 
 	iPoint characterPosInTileWorldRight = App->map->WorldToMap(tmpPosRight.x, tmpPosRight.y);
 
@@ -585,7 +435,7 @@ float j1Player::canGoUp()
 
 		SDL_Rect tileColliderDown = { characterPosInTileWorldRight.x,characterPosInTileWorldRight.y + App->map->data.tile_height, App->map->data.tile_width , App->map->data.tile_height };
 
-		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x, position.y - collider->rect.h, collider->rect.w, collider->rect.h };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, UP);
 		//distance_to_wall *= -1;
@@ -605,16 +455,16 @@ float j1Player::canGoUp()
 	return ceil(JUMP_SPEED*current_dt);
 }
 
-float j1Player::canGoRight()
+float Player::canGoRight()
 {
 	fPoint tmpPosUp;
-	tmpPosUp.x = position.x + pCollider->rect.w - 1;
-	tmpPosUp.y = position.y - pCollider->rect.h;
+	tmpPosUp.x = position.x + collider->rect.w - 1;
+	tmpPosUp.y = position.y - collider->rect.h;
 
 	iPoint characterPosInTileWorldUp = App->map->WorldToMap(tmpPosUp.x, tmpPosUp.y);
 
 	fPoint tmpPosDown;
-	tmpPosDown.x = position.x + pCollider->rect.w - 1;
+	tmpPosDown.x = position.x + collider->rect.w - 1;
 	tmpPosDown.y = position.y - 1;
 
 	iPoint characterPosInTileWorldDown = App->map->WorldToMap(tmpPosDown.x, tmpPosDown.y);
@@ -625,7 +475,7 @@ float j1Player::canGoRight()
 
 		characterPosInTileWorldDown = App->map->MapToWorld(characterPosInTileWorldDown.x, characterPosInTileWorldDown.y);
 		SDL_Rect tileColliderDown = { characterPosInTileWorldDown.x,characterPosInTileWorldDown.y, App->map->data.tile_width , App->map->data.tile_height };
-		SDL_Rect player = { position.x, position.y - pCollider->rect.h, pCollider->rect.w, pCollider->rect.h };
+		SDL_Rect player = { position.x, position.y - collider->rect.h, collider->rect.w, collider->rect.h };
 
 		float distance_to_wall = DistanceToWall(tileColliderDown, player, RIGHT);
 		distance_to_wall *= -1;
@@ -641,7 +491,7 @@ float j1Player::canGoRight()
 	return ceil(PLAYER_SPEED*current_dt);
 }
 
-float j1Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction)
+float Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction)
 {
 	switch (direction)
 	{
@@ -664,7 +514,7 @@ float j1Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction directi
 	}
 }
 
-bool j1Player::Load(pugi::xml_node& load)
+bool Player::Load(pugi::xml_node& load)
 {
 	bool ret = true;
 
@@ -680,14 +530,14 @@ bool j1Player::Load(pugi::xml_node& load)
 	return ret;
 }
 
-void j1Player::ImplementLoad()
+void Player::ImplementLoad()
 {
 	position.x = tmp.x;
 	position.y = tmp.y;
 }
 
 
-bool j1Player::Save(pugi::xml_node& save) const
+bool Player::Save(pugi::xml_node& save) const
 {
 	bool ret = true;
 
@@ -704,4 +554,16 @@ bool j1Player::Save(pugi::xml_node& save) const
 	}
 
 	return ret;
+}
+
+void Player::SetEntitiesSpeed(float dt) {
+	right_idle_vel = right_idle.speed;
+	left_idle_vel = left_idle.speed;
+	right_jump_vel = right_jump.speed;
+	left_jump_vel = left_jump.speed;
+	right_run_vel = right_run.speed;
+	left_run_vel = left_run.speed;
+	right_death_blink_vel= right_death_blink.speed;
+	left_death_blink_vel = left_death_blink.speed;
+	key_entities_speed = true;
 }

@@ -8,12 +8,12 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
-#include "j1Player.h"
 #include "j1Collider.h"
 #include "j1FadeToBlack.h"
 #include "j1Pathfinding.h"
+#include "Player.h"
 
-#include "j1Enemies.h"
+#include "j1Entities.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -91,10 +91,6 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame();
 
-	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
-		App->enemies->AddEnemy(BAT, App->map->MapToWorld(10, 1).x, App->map->MapToWorld(10,3).y);
-	}
-
 	//END DEBUG
 
 	App->map->Draw();
@@ -110,9 +106,9 @@ bool j1Scene::Update(float dt)
 
 	App->win->SetTitle(title.GetString()); // TODO: remove this if not needed and above too
 
-	if (App->player->reachedEnd && App->fadeToBlack->FadeIsOver()) 
+	if (App->entities->player->reachedEnd && App->fadeToBlack->FadeIsOver()) 
 	{
-		App->player->reachedEnd = false;
+		App->entities->player->reachedEnd = false;
 		App->fadeToBlack->FadeToBlack();
 	}
 
@@ -121,8 +117,8 @@ bool j1Scene::Update(float dt)
 
 void j1Scene::putPlayerToSpawn() 
 {
-	App->player->position.x = App->map->spawn.x;
-	App->player->position.y = App->map->spawn.y;
+	App->entities->player->position.x = App->map->spawn.x;
+	App->entities->player->position.y = App->map->spawn.y;
 }
 
 // Called each loop iteration
@@ -154,7 +150,7 @@ bool j1Scene::Load(pugi::xml_node& load)
 
 		if (App->map->sceneName != lvlToLoad && App->fadeToBlack->FadeIsOver()) 
 		{
-			App->player->reachedEnd = false;
+			App->entities->player->reachedEnd = false;
 			App->fadeToBlack->FadeToKnowBlack(lvlToLoad);
 		}
 	}

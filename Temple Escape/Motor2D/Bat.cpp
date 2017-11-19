@@ -2,12 +2,13 @@
 #include "Bat.h"
 #include "j1Collider.h"
 #include "j1Map.h"
-#include "j1Player.h"
+#include "Player.h"
 #include "p2Log.h"
 #include "j1Pathfinding.h"
+#include "j1Entities.h"
 
 
-Bat::Bat(int x, int y) : Enemy(x, y)
+Bat::Bat(int x, int y) : Entity(x, y)
 {
 	bat_IA = 1;
 	bat_going_right = true;
@@ -17,14 +18,13 @@ Bat::Bat(int x, int y) : Enemy(x, y)
 	animation = &standard_right_fly;
 
 	original_pos = App->map->WorldToMap(x, y);
-	//LOG("original_pos x : %i | original_pos y : %i", x, y);
 
-	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->enemies);
+	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->entities);
 
 	SetRadar();
 }
 
-void Bat::Move(float dt)
+void Bat::Update(float dt)
 {
 
 	if (!key_entities_speed && dt > 0)
@@ -135,7 +135,7 @@ void Bat::Move(float dt)
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
 
-			if (!App->player->isDead && !App->player->god_mode)
+			if (!App->entities->player->isDead && !App->entities->player->god_mode)
 				player_in_radar = CheckForPlayer();
 
 			if (!have_to_chill && player_in_radar)
@@ -167,7 +167,7 @@ void Bat::SetRadar() {
 
 bool Bat::CheckForPlayer() {
 	LOG("CHECKING 4 PLAYER");
-	iPoint tmp_player = App->map->WorldToMap(App->player->position.x, App->player->position.y - 1);
+	iPoint tmp_player = App->map->WorldToMap(App->entities->player->position.x, App->entities->player->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{

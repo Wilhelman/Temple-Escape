@@ -6,7 +6,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Collider.h"
-#include "j1Enemies.h"
+#include "j1Entities.h"
 #include <math.h>
 
 
@@ -198,10 +198,10 @@ void j1Map::setAllLogicForMap()
 						if (layersBlit->data->layer_type == ENEMIES && tilesetsBlit->data->tileset_type == PLATFORM)
 						{
 							if (id == 631) { //bat
-								App->enemies->AddEnemy(BAT, MapToWorld(i, j).x, MapToWorld(i, j).y);
+								App->entities->AddEntity(BAT, MapToWorld(i, j).x, MapToWorld(i, j).y);
 							}
 							if (id == 127) { //slime
-								App->enemies->AddEnemy(SLIME, MapToWorld(i, j).x, MapToWorld(i, j).y);
+								App->entities->AddEntity(SLIME, MapToWorld(i, j).x, MapToWorld(i, j).y);
 							}
 						}
 						if (layersBlit->data->layer_type == COLLISIONS && tilesetsBlit->data->tileset_type == PLATFORM)

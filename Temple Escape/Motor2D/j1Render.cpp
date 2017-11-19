@@ -4,7 +4,7 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
-#include "j1Player.h"
+#include "Player.h"
 
 #define VSYNC true
 
