@@ -23,6 +23,7 @@ Player controls:
 - JUMP: W key (twice for double jump)
 - LEFT: A key
 - RIGHT: D key
+- SHOOT: SPACE key (hold for continuous shooting)
 
 General/developer controls:
 - EXIT GAME: ESC key
@@ -31,6 +32,8 @@ General/developer controls:
 - SHOW COLLIDERS: F3
 - SAVE GAME (player position and current level):  F5 key
 - LOAD GAME (player position and level saved): F6 key
+- GOD MODE: F10
+- CAP FRAMERATE: F11
 - MUSIC VOLUME: +/- keys
 
 ## Innovations
