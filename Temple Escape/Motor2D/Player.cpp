@@ -71,7 +71,7 @@ void Player::Update(float dt)
 	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump
-			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
+			)
 		{
 			if (!isJumping)
 			{
@@ -87,32 +87,12 @@ void Player::Update(float dt)
 			}
 			jumpTimer = SDL_GetTicks();
 		}
-
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT
-			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
-		{
-
-			this->position.x += canGoRight();
-
-			current_state = PlayerState::ST_RUN_RIGHT;
-			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT
-			&& App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
-		{
-			this->position.x -= canGoLeft();
-
-			current_state = PlayerState::ST_RUN_LEFT;
-			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
-		}
-
 		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
 				|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
 				|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
-			&& !isJumping)
+			)
 		{
 			if (currentTime > shoot_timer + 700) {
 				App->particles->AddParticle(App->particles->player_basic_shot_right, position.x + 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
@@ -127,7 +107,7 @@ void Player::Update(float dt)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_LEFT
 				|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
 				|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
-			&& !isJumping)
+			)
 		{
 
 			if (currentTime > shoot_timer + 700) {
@@ -138,6 +118,26 @@ void Player::Update(float dt)
 			current_state = PlayerState::ST_SHOOT_LEFT;
 			last_state = PlayerLastState::LAST_ST_SHOOT_LEFT;
 		}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT
+			)
+		{
+
+			this->position.x += canGoRight();
+
+			current_state = PlayerState::ST_RUN_RIGHT;
+			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT
+			)
+		{
+			this->position.x -= canGoLeft();
+
+			current_state = PlayerState::ST_RUN_LEFT;
+			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
+		}
+
+		
 
 		bool isGettingHigh = false;
 		if (currentTime <= jumpTimer + 500 && isJumping)

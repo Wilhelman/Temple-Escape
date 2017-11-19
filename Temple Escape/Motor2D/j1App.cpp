@@ -195,11 +195,6 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
-	//CLASS
-	/*frame_count++;
-	last_sec_frame_count++;
-	dt = frame_time.ReadSec();
-	frame_time.Start();*/
 
 	perf_timer.Start();
 
@@ -243,47 +238,19 @@ void j1App::FinishUpdate()
 		cap_state = !cap_state;
 
 	if (cap_state) {
-
 		capped_ms = 1000 / cap;
 
-		if (current_ms_frame < capped_ms)
+		if (current_ms_frame < capped_ms && !App->render->vsync_state)
 			SDL_Delay(capped_ms - current_ms_frame);
 	}
 
-	//CLASS
-	/*if (last_sec_frame_time.Read() > 1000)
-	{
-	last_sec_frame_time.Start();
-	prev_last_sec_frame_count = last_sec_frame_count;
-	last_sec_frame_count = 0;
-	}*/
-
 	double framerate = 1000.0f / perf_timer.ReadMs();
 
-
-
-	//uint32 last_frame_ms = frame_time.Read();
-	//uint32 frames_on_last_update = prev_last_sec_frame_count;
-
 	dt = 1.0f / framerate;
-
-
-
-
-
-	/*if (capped_ms > 0 && last_frame_ms < capped_ms)
-	{
-	SDL_Delay(capped_ms - last_frame_ms);
-	//LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
-	}*/
-
 
 	static char title[256];
 	sprintf_s(title, 256, "%s - FPS: %.2f Av.FPS: %.2f Last Frame Ms: %u (Cap: %s  Vsync: %s) ",
 		game_title.GetString(), framerate, avg_fps, last_frame_ms, cap_to_show.GetString(), vsync_to_show.GetString());
-
-
-
 
 	App->win->SetTitle(title);
 
