@@ -18,7 +18,7 @@
 
 #define SPAWN_MARGIN 500
 
-j1Entities::j1Entities() : player(pugi::xml_node()), bat(pugi::xml_node()), slime(pugi::xml_node())
+j1Entities::j1Entities()
 {
 	for (uint i = 0; i < MAX_ENTITIES; ++i)
 		entities[i] = nullptr;
@@ -38,9 +38,7 @@ bool j1Entities::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
-	fxPlayerJump.create(config.child("fxPlayerJump").attribute("name").as_string());
-	fxPlayerDead.create(config.child("fxPlayerDead").attribute("name").as_string());
-	
+
 	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
 	{
 		p2SString tmp(animations.attribute("name").as_string());
@@ -95,86 +93,6 @@ bool j1Entities::Awake(pugi::xml_node& config)
 			bat_fly_left.speed = animations.attribute("speed").as_float();
 			bat_fly_left.loop = animations.attribute("loop").as_bool();
 		}
-		if (tmp == "right_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_right_idle.speed = animations.attribute("speed").as_float();
-			player_right_idle.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_left_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_left_idle.speed = animations.attribute("speed").as_float();
-			player_left_idle.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_run") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_right_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_right_run.speed = animations.attribute("speed").as_float();
-			player_right_run.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_run") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_left_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_left_run.speed = animations.attribute("speed").as_float();
-			player_left_run.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_right_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_right_jump.speed = animations.attribute("speed").as_float();
-			player_right_jump.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_left_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_left_jump.speed = animations.attribute("speed").as_float();
-			player_left_jump.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_dead") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_right_dead.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_right_dead.speed = animations.attribute("speed").as_float();
-			player_right_dead.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_dead") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_left_dead.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_left_dead.speed = animations.attribute("speed").as_float();
-			player_left_dead.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "right_shoot") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_right_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_right_shoot.speed = animations.attribute("speed").as_float();
-			player_right_shoot.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "left_shoot") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				player_left_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			player_left_shoot.speed = animations.attribute("speed").as_float();
-			player_left_shoot.loop = animations.attribute("loop").as_bool();
-		}
 
 	}
 	return ret;
@@ -190,11 +108,6 @@ bool j1Entities::Start()
 		LOG("Error loading enemies spritesheet!!");
 		ret = false;
 	}
-
-	LOG("Loading player audios");
-	player_jump = App->audio->LoadFx(fxPlayerJump.GetString());
-	player_dead = App->audio->LoadFx(fxPlayerDead.GetString());
-
 
 	App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y);
 
@@ -235,10 +148,6 @@ bool j1Entities::Update(float dt)
 bool j1Entities::CleanUp()
 {
 	LOG("Freeing all enemies");
-
-	LOG("Unloading player sound fx");
-	App->audio->UnLoadFx(player_jump);
-	App->audio->UnLoadFx(player_dead);
 
 	App->tex->UnLoad(entity_sprites);
 
@@ -301,21 +210,8 @@ void j1Entities::SpawnEntity(const EntityInfo& info)
 			break;
 		}
 		case ENTITY_TYPES::PLAYER: {
-			entities[i] = new Player(info.x,info.y,player);
+			entities[i] = new Player(info.x,info.y);
 			entities[i]->type = ENTITY_TYPES::PLAYER;
-			Player * player = (Player*)entities[i];
-			player->right_idle = player_right_idle;
-			player->left_idle = player_left_idle;
-			player->right_jump = player_right_jump;
-			player->left_jump = player_left_jump;
-			player->right_run = player_right_run;
-			player->left_run = player_left_run;
-			player->right_death_blink = player_right_dead;
-			player->left_death_blink = player_left_dead;
-			player->right_shoot = player_right_shoot;
-			player->left_shoot = player_left_shoot;
-			player->player_jump = player_jump;
-			player->player_dead = player_dead;
 			break;
 		}
 		default:

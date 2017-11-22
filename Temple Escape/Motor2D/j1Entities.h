@@ -50,18 +50,6 @@ public:
 
 	Player* GetPlayer()const;
 
-	//PLAYER
-	p2Animation player_right_idle;
-	p2Animation player_left_idle;
-	p2Animation player_right_jump;
-	p2Animation player_left_jump;
-	p2Animation player_right_run;
-	p2Animation player_left_run;
-	p2Animation player_right_dead;
-	p2Animation player_left_dead;
-	p2Animation player_right_shoot;
-	p2Animation player_left_shoot;
-
 	//SLIME
 	p2Animation slime_right_idle;
 	p2Animation slime_left_idle;
@@ -78,15 +66,9 @@ private:
 
 private:
 
-	pugi::xml_node& player;
-	pugi::xml_node& bat;
-	pugi::xml_node& slime;
-
 	EntityInfo queue[MAX_ENTITIES];
 	Entity* entities[MAX_ENTITIES];
 	SDL_Texture* entity_sprites;
-
-	uint player_jump, player_dead;
 
 	p2SString spritesheetName;
 	p2SString fxPlayerJump;

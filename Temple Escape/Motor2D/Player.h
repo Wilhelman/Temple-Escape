@@ -12,7 +12,7 @@
 struct SDL_Texture;
 struct Collider;
 
-static fPoint tmp;
+static fPoint tmp = fPoint();
 
 class Player : public Entity
 {
@@ -55,16 +55,34 @@ class Player : public Entity
 	};
 
 private:
-	bool didDoubleJump;
-	bool isJumping;
+	bool didDoubleJump = false;;
+	bool isJumping = false;
 
-	uint currentTime;
-	uint jumpTimer;
+	//timers
+	uint currentTime = 0u;
+	uint jumpTimer = 0u;
+	uint deadTime = 0u;
+	uint shoot_timer = 0u;
 
-	float player_speed;
-	float current_dt;
+	float current_dt = 0.0f;
 
-	iPoint last_save_position;
+	iPoint last_save_position = iPoint(0,0);
+
+	//playerSoundEffects
+	uint player_jump_fx = 0u;
+	uint player_dead_fx = 0u;
+
+	//anims
+	p2Animation right_idle = p2Animation();
+	p2Animation left_idle = p2Animation();
+	p2Animation right_run = p2Animation();
+	p2Animation left_run = p2Animation();
+	p2Animation right_jump = p2Animation();
+	p2Animation left_jump = p2Animation();
+	p2Animation right_death_blink = p2Animation();
+	p2Animation left_death_blink = p2Animation();
+	p2Animation right_shoot = p2Animation();
+	p2Animation left_shoot = p2Animation();
 
 private:
 	float gravityHaveToWork();
@@ -74,8 +92,8 @@ private:
 	float DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction);
 
 public:
+
 	Player(int x, int y);
-	Player(int x, int y, pugi::xml_node& node);
 	~Player();
 
 	void Update(float dt);
@@ -91,36 +109,17 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 public:
-	PlayerState current_state;
-	SDL_Rect current_frame;
-	PlayerLastState last_state;
+	PlayerState current_state = PlayerState::ST_IDLE_RIGHT;
+	SDL_Rect current_frame = { 0,0,0,0 };
+	PlayerLastState last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 
-	uint right_idle_vel, left_idle_vel, right_run_vel, left_run_vel, right_jump_vel,
-		left_jump_vel, right_death_blink_vel, left_death_blink_vel, right_shoot_vel, left_shoot_vel;
-
-	p2Animation right_idle;
-	p2Animation left_idle;
-	p2Animation right_run;
-	p2Animation left_run;
-	p2Animation right_jump;
-	p2Animation left_jump;
-	p2Animation right_death_blink;
-	p2Animation left_death_blink;
-	p2Animation right_shoot;
-	p2Animation left_shoot;
-
-	//playerSoundEffects
-	uint player_jump = 0;
-	uint player_dead = 0;
-
-	uint deadTime, shoot_timer;
-
-	
+	uint right_idle_vel = 0u, left_idle_vel = 0u, right_run_vel = 0u, left_run_vel = 0u, right_jump_vel = 0u,
+		left_jump_vel = 0u, right_death_blink_vel = 0u, left_death_blink_vel = 0u, right_shoot_vel = 0u, left_shoot_vel = 0u;
 
 	p2SString spritesheetName;
-	bool reachedEnd;
-	bool isDead;
-	bool god_mode;
+	bool reachedEnd = false;
+	bool isDead = false;
+	bool god_mode = false;
 };
 
 #endif

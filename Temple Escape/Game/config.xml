@@ -18,8 +18,62 @@
 		<lvlMusic name="textures/source_spritesheet.png" />
 	</music>
 	<entities>
-		<fxPlayerDead name="audio/fx/dead_fx.wav" />
-		<fxPlayerJump name="audio/fx/jump_fx.wav" />
+		<player>
+			<fxPlayerDead name="audio/fx/dead_fx.wav" />
+			<fxPlayerJump name="audio/fx/jump_fx.wav" />
+			<spritesheetSource name="textures/source_spritesheet.png">
+				<animation name="right_idle" speed="2.0" loop="true">
+					<frame x="17" y="18" width="14" height="14" />
+					<frame x="33" y="18" width="14" height="14" />
+				</animation>
+				<animation name="left_idle" speed="2.0" loop="true">
+					<frame x="88" y="163" width="14" height="14" />
+					<frame x="105" y="163" width="14" height="14" />
+				</animation>
+				<animation name="right_run" speed="3.0" loop="true">
+					<frame x="1" y="1" width="14" height="15" />
+					<frame x="20" y="1" width="14" height="15" />
+					<frame x="37" y="1" width="14" height="15" />
+				</animation>
+				<animation name="left_run" speed="3.0" loop="true">
+					<frame x="121" y="146" width="14" height="15" />
+					<frame x="102" y="146" width="14" height="15" />
+					<frame x="85" y="146" width="14" height="15" />
+				</animation>
+				<animation name="right_jump" speed="2.0" loop="false">
+					<frame x="2" y="16" width="14" height="14" />
+				</animation>
+				<animation name="left_jump" speed="2.0" loop="false">
+					<frame x="122" y="161" width="14" height="14" />
+				</animation>
+				<animation name="left_dead" speed="3.0" loop="true">
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="121" y="180" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="121" y="180" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="121" y="180" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="121" y="180" width="13" height="8" />
+				</animation>
+				<animation name="right_dead" speed="3.0" loop="true">
+					<frame x="2" y="35" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="2" y="35" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="2" y="35" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+					<frame x="2" y="35" width="13" height="8" />
+					<frame x="105" y="180" width="13" height="8" />
+				</animation>
+				<animation name="right_shoot" speed="2.0" loop="true">
+					<frame x="58" y="2" width="14" height="14" />
+				</animation>
+				<animation name="left_shoot" speed="2.0" loop="true">
+					<frame x="64" y="147" width="14" height="14" />
+				</animation>
+			</spritesheetSource>
+		</player>
 		<spritesheetSource name="textures/source_spritesheet.png">
 			<animation name="slime_right_idle" speed="5.0" loop="true">
 				<frame x="124" y="45" width="16" height="16" />
@@ -52,56 +106,6 @@
 				<frame x="47" y="182" width="16" height="12" />
 				<frame x="31" y="182" width="16" height="12" />
 				<frame x="14" y="182" width="16" height="12" />
-			</animation>
-			<animation name="right_idle" speed="2.0" loop="true">
-				<frame x="17" y="18" width="14" height="14" />
-				<frame x="33" y="18" width="14" height="14" />
-			</animation>
-			<animation name="left_idle" speed="2.0" loop="true">
-				<frame x="88" y="163" width="14" height="14" />
-				<frame x="105" y="163" width="14" height="14" />
-			</animation>
-			<animation name="right_run" speed="3.0" loop="true">
-				<frame x="1" y="1" width="14" height="15" />
-				<frame x="20" y="1" width="14" height="15" />
-				<frame x="37" y="1" width="14" height="15" />
-			</animation>
-			<animation name="left_run" speed="3.0" loop="true">
-				<frame x="121" y="146" width="14" height="15" />
-				<frame x="102" y="146" width="14" height="15" />
-				<frame x="85" y="146" width="14" height="15" />
-			</animation>
-			<animation name="right_jump" speed="2.0" loop="false">
-				<frame x="2" y="16" width="14" height="14" />
-			</animation>
-			<animation name="left_jump" speed="2.0" loop="false">
-				<frame x="122" y="161" width="14" height="14" />
-			</animation>
-			<animation name="left_dead" speed="3.0" loop="true">
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="121" y="180" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="121" y="180" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="121" y="180" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="121" y="180" width="13" height="8" />
-			</animation>
-			<animation name="right_dead" speed="3.0" loop="true">
-				<frame x="2" y="35" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="2" y="35" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="2" y="35" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-				<frame x="2" y="35" width="13" height="8" />
-				<frame x="105" y="180" width="13" height="8" />
-			</animation>
-			<animation name="right_shoot" speed="2.0" loop="true">
-				<frame x="58" y="2" width="14" height="14" />
-			</animation>
-			<animation name="left_shoot" speed="2.0" loop="true">
-				<frame x="64" y="147" width="14" height="14" />
 			</animation>
 		</spritesheetSource>
 	</entities>

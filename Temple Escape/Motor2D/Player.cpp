@@ -14,20 +14,120 @@
 #include "Player.h"
 
 
-Player::Player(int x, int y) : Entity(x, y) //todo: remove this after all the clean
-{}
-
-Player::Player(int x, int y, pugi::xml_node& node) : Entity(x, y, node) {
+Player::Player(int x, int y) : Entity(x, y) {
 
 	bool ret = true;
-	jumpTimer = deadTime = shoot_timer = 0;
-	isJumping = didDoubleJump = reachedEnd = isDead = god_mode = false;
-	current_state = PlayerState::ST_IDLE_RIGHT;
-	last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
+
+		//TODO : this looks ugly but it seems the only way :c
+	pugi::xml_document	config_file;
+	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
+	node = &node->child("entities").child("player");
+
+	//read fxs from node
+	player_jump_fx = App->audio->LoadFx(node->child("fxPlayerJump").attribute("name").as_string());
+	player_dead_fx = App->audio->LoadFx(node->child("fxPlayerDead").attribute("name").as_string());
+
+	//read animation from node
+	for (pugi::xml_node animations = node->child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+
+		if (tmp == "right_idle") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			right_idle.speed = animations.attribute("speed").as_float();
+			right_idle.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "left_idle") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				left_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			left_idle.speed = animations.attribute("speed").as_float();
+			left_idle.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "right_run") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				right_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			right_run.speed = animations.attribute("speed").as_float();
+			right_run.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "left_run") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				left_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			left_run.speed = animations.attribute("speed").as_float();
+			left_run.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "right_jump") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				right_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			right_jump.speed = animations.attribute("speed").as_float();
+			right_jump.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "left_jump") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				left_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			left_jump.speed = animations.attribute("speed").as_float();
+			left_jump.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "right_dead") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				right_death_blink.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			right_death_blink.speed = animations.attribute("speed").as_float();
+			right_death_blink.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "left_dead") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				left_death_blink.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			left_death_blink.speed = animations.attribute("speed").as_float();
+			left_death_blink.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "right_shoot") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				right_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			right_shoot.speed = animations.attribute("speed").as_float();
+			right_shoot.loop = animations.attribute("loop").as_bool();
+		}
+		else
+		if (tmp == "left_shoot") {
+
+			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+				left_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+			left_shoot.speed = animations.attribute("speed").as_float();
+			left_shoot.loop = animations.attribute("loop").as_bool();
+		}
+
+	}
 
 	LOG("Creating player collider");
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_PLAYER, (j1Module*)App->entities);
 
+	//todo: need to set it? the scene does it already
 	iPoint spawnPos = App->map->spawn;
 	this->position.x = spawnPos.x;
 	this->position.y = spawnPos.y;
@@ -39,6 +139,10 @@ Player::Player(int x, int y, pugi::xml_node& node) : Entity(x, y, node) {
 Player::~Player()
 {
 	LOG("Freeing the player");
+
+	LOG("Unloading player sound fx");
+	App->audio->UnLoadFx(player_jump_fx);
+	App->audio->UnLoadFx(player_dead_fx);
 
 }
 
@@ -78,12 +182,12 @@ void Player::Update(float dt)
 		{
 			if (!isJumping)
 			{
-				App->audio->PlayFx(player_jump);
+				App->audio->PlayFx(player_jump_fx);
 				isJumping = true;
 			}
 			else
 			{
-				App->audio->PlayFx(player_jump);
+				App->audio->PlayFx(player_jump_fx);
 				didDoubleJump = true;
 				left_jump.Reset();
 				right_jump.Reset();
@@ -270,7 +374,7 @@ void Player::OnCollision(Collider* collider) {
 
 	if (((collider->type == COLLIDER_ENEMY_BAT || collider->type == COLLIDER_ENEMY_SLIME) && !isDead) && !god_mode) {
 		isDead = true;
-		App->audio->PlayFx(player_dead);
+		App->audio->PlayFx(player_dead_fx);
 		deadTime = SDL_GetTicks();
 	}
 
@@ -310,7 +414,7 @@ float Player::gravityHaveToWork()
 			right_jump.Reset();
 			jumpTimer = 0;
 			isDead = true;
-			App->audio->PlayFx(player_dead);
+			App->audio->PlayFx(player_dead_fx);
 			deadTime = SDL_GetTicks();
 
 
