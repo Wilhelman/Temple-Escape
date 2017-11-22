@@ -125,6 +125,7 @@ void Player::Update(float dt)
 
 	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
+
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump
 			)
 		{
@@ -212,79 +213,10 @@ void Player::Update(float dt)
 		}
 
 
-	}
+	} //TODO: do a mehtod for user input -> void SetPlayerState(j1KeyState key_pressed);
 
 	//SEARCH THE STATE AND SET THE ANIMATION
-	switch (current_state)
-	{
-	case Player::ST_UNKNOWN:
-		switch (last_state)
-		{
-		case Player::LAST_ST_UNKNOWN:
-			break;
-		case Player::LAST_ST_IDLE_RIGHT:
-			break;
-		case Player::LAST_ST_IDLE_LEFT:
-			break;
-		case Player::LAST_ST_RUN_RIGHT:
-			if (isJumping)
-				animation = &right_jump;
-			else
-				animation = &right_idle;
-			break;
-		case Player::LAST_ST_RUN_LEFT:
-			if (isJumping)
-				animation = &left_jump;
-			else
-				animation = &left_idle;
-			break;
-		case Player::LAST_ST_SHOOT_RIGHT:
-			if (isJumping)
-				animation = &right_jump;
-			else
-				animation = &right_idle;
-			break;
-		case Player::LAST_ST_SHOOT_LEFT:
-			if (isJumping)
-				animation = &left_jump;
-			else
-				animation = &left_idle;
-			break;
-		default:
-			break;
-		}
-		break;
-	case Player::ST_IDLE_RIGHT:
-		break;
-	case Player::ST_IDLE_LEFT:
-		break;
-	case Player::ST_RUN_RIGHT:
-		if (isJumping)
-			animation = &right_jump;
-		else
-			animation = &right_run;
-		break;
-	case Player::ST_RUN_LEFT:
-		if (isJumping)
-			animation = &left_jump;
-		else
-			animation = &left_run;
-		break;
-	case Player::ST_SHOOT_RIGHT:
-		if (isJumping)
-			animation = &right_jump;
-		else
-			animation = &right_shoot;
-		break;
-	case Player::ST_SHOOT_LEFT:
-		if (isJumping)
-			animation = &left_jump;
-		else
-			animation = &left_shoot;
-		break;
-	default:
-		break;
-	}
+	SetPlayerAnimation(current_state, last_state);
 
 	//DEAD ANIMATION WITH TIMER
 	if (isDead && currentTime < deadTime + 1000)
@@ -571,6 +503,80 @@ float Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction
 	case Direction::NO_DIR:
 	default:
 		LOG("YOU ARE DOING IT WRONG!");
+		break;
+	}
+}
+
+void Player::SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state)
+{
+	switch (current_state)
+	{
+	case Player::ST_UNKNOWN:
+		switch (last_state)
+		{
+		case Player::LAST_ST_UNKNOWN:
+			break;
+		case Player::LAST_ST_IDLE_RIGHT:
+			break;
+		case Player::LAST_ST_IDLE_LEFT:
+			break;
+		case Player::LAST_ST_RUN_RIGHT:
+			if (isJumping)
+				animation = &right_jump;
+			else
+				animation = &right_idle;
+			break;
+		case Player::LAST_ST_RUN_LEFT:
+			if (isJumping)
+				animation = &left_jump;
+			else
+				animation = &left_idle;
+			break;
+		case Player::LAST_ST_SHOOT_RIGHT:
+			if (isJumping)
+				animation = &right_jump;
+			else
+				animation = &right_idle;
+			break;
+		case Player::LAST_ST_SHOOT_LEFT:
+			if (isJumping)
+				animation = &left_jump;
+			else
+				animation = &left_idle;
+			break;
+		default:
+			break;
+		}
+		break;
+	case Player::ST_IDLE_RIGHT:
+		break;
+	case Player::ST_IDLE_LEFT:
+		break;
+	case Player::ST_RUN_RIGHT:
+		if (isJumping)
+			animation = &right_jump;
+		else
+			animation = &right_run;
+		break;
+	case Player::ST_RUN_LEFT:
+		if (isJumping)
+			animation = &left_jump;
+		else
+			animation = &left_run;
+		break;
+	case Player::ST_SHOOT_RIGHT:
+		if (isJumping)
+			animation = &right_jump;
+		else
+			animation = &right_shoot;
+		break;
+	case Player::ST_SHOOT_LEFT:
+		if (isJumping)
+			animation = &left_jump;
+		else
+			animation = &left_shoot;
+		break;
+	default:
 		break;
 	}
 }

@@ -93,6 +93,7 @@ private:
 	float canGoLeft();
 	float canGoUp();
 	float DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction);
+	void  SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state);
 
 public:
 
