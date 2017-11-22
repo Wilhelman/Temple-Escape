@@ -75,6 +75,7 @@ private:
 
 public:
 	Player(int x, int y);
+	Player(int x, int y, pugi::xml_node& node);
 	~Player();
 
 	void Update(float dt);

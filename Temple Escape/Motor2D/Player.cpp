@@ -14,9 +14,11 @@
 #include "Player.h"
 
 
-// Called before the first frame
-Player::Player(int x, int y) : Entity(x, y)
-{
+Player::Player(int x, int y) : Entity(x, y) //todo: remove this after all the clean
+{}
+
+Player::Player(int x, int y, pugi::xml_node& node) : Entity(x, y, node) {
+
 	bool ret = true;
 	jumpTimer = deadTime = shoot_timer = 0;
 	isJumping = didDoubleJump = reachedEnd = isDead = god_mode = false;
@@ -31,6 +33,7 @@ Player::Player(int x, int y) : Entity(x, y)
 	this->position.y = spawnPos.y;
 
 	animation = &right_idle;
+
 }
 
 Player::~Player()

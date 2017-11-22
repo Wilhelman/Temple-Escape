@@ -176,7 +176,7 @@ void Slime::Update(float dt)
 		if (slime_pos_UP_LEFT == movementGoal && slime_pos_DOWN_RIGHT == movementGoal) {
 			moving = false;
 			slime_time_chilling = SDL_GetTicks();
-			if (!App->entities->player->isDead && !App->entities->player->god_mode)
+			if (!App->entities->GetPlayer()->isDead && !App->entities->GetPlayer()->god_mode)
 				player_in_radar = CheckForPlayer();
 		}
 	}
@@ -230,7 +230,7 @@ void Slime::SetRadar() {
 
 bool Slime::CheckForPlayer() {
 
-	iPoint tmp_player = App->map->WorldToMap(App->entities->player->position.x, App->entities->player->position.y - 1);
+	iPoint tmp_player = App->map->WorldToMap(App->entities->GetPlayer()->position.x, App->entities->GetPlayer()->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{

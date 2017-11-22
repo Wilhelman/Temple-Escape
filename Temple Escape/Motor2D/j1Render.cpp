@@ -85,8 +85,8 @@ bool j1Render::Update(float dt)
 	App->win->GetWindowSize(winWidth, winHeight);
 	
 	if (App->entities->active) {
-		last_camera.x = camera.x = (App->entities->player->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->entities->player->current_frame.w/2) * - (int)App->win->GetScale();
-		last_camera.y = camera.y = (App->entities->player->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->entities->player->current_frame.h / 2) * -(int)App->win->GetScale() + 100;
+		last_camera.x = camera.x = (App->entities->GetPlayer()->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->entities->GetPlayer()->current_frame.w/2) * - (int)App->win->GetScale();
+		last_camera.y = camera.y = (App->entities->GetPlayer()->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->entities->GetPlayer()->current_frame.h / 2) * -(int)App->win->GetScale() + 100;
 	}
 	else {
 		camera.x = last_camera.x;

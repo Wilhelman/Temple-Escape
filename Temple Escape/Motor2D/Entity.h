@@ -11,19 +11,20 @@ class Entity
 {
 protected:
 	p2Animation* animation = nullptr;
-
+	pugi::xml_node& node = pugi::xml_node(); //todo: bruh how we init this?
 	Collider* collider = nullptr;
-	uint lives;
-	uint currentTime;
-	uint lastTime;
-	bool key_entities_speed;
+	uint lives = 0u;
+	uint currentTime = 0u;
+	uint lastTime = 0u;
+	bool key_entities_speed = false;
 
 public:
-	fPoint position;
-	int type;
+	fPoint position = fPoint(0, 0);
+	int type = 0;
 
 public:
 	Entity(int x, int y);
+	Entity(int x, int y, pugi::xml_node& node);
 	virtual ~Entity();
 
 	const Collider* GetCollider() const;

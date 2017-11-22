@@ -135,7 +135,7 @@ bool j1FadeToBlack::Update(float dt)
 			App->particles->Start();
 
 			if(lvlName != "" && !F1)
-				App->entities->player->ImplementLoad();
+				App->entities->GetPlayer()->ImplementLoad();
 
 			F1 = false;
 			

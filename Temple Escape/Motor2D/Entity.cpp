@@ -4,7 +4,10 @@
 #include "j1Entities.h"
 #include "j1Render.h"
 
-Entity::Entity(int x, int y) : position(x, y)
+Entity::Entity(int x, int y) : position(x, y), node(pugi::xml_node())
+{}
+
+Entity::Entity(int x, int y, pugi::xml_node& node) : position(x, y), node(node)
 {}
 
 Entity::~Entity()

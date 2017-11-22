@@ -106,9 +106,9 @@ bool j1Scene::Update(float dt)
 
 	//App->win->SetTitle(title.GetString()); // TODO: remove this if not needed and above too
 
-	if (App->entities->player->reachedEnd && App->fadeToBlack->FadeIsOver()) 
+	if (App->entities->GetPlayer()->reachedEnd && App->fadeToBlack->FadeIsOver()) 
 	{
-		App->entities->player->reachedEnd = false;
+		App->entities->GetPlayer()->reachedEnd = false;
 		App->fadeToBlack->FadeToBlack();
 	}
 
@@ -117,8 +117,8 @@ bool j1Scene::Update(float dt)
 
 void j1Scene::putPlayerToSpawn() 
 {
-	App->entities->player->position.x = App->map->spawn.x;
-	App->entities->player->position.y = App->map->spawn.y;
+	App->entities->GetPlayer()->position.x = App->map->spawn.x;
+	App->entities->GetPlayer()->position.y = App->map->spawn.y;
 }
 
 // Called each loop iteration
@@ -150,7 +150,7 @@ bool j1Scene::Load(pugi::xml_node& load)
 
 		if (App->map->sceneName != lvlToLoad && App->fadeToBlack->FadeIsOver()) 
 		{
-			App->entities->player->reachedEnd = false;
+			App->entities->GetPlayer()->reachedEnd = false;
 			App->fadeToBlack->FadeToKnowBlack(lvlToLoad);
 		}
 	}

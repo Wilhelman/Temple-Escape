@@ -18,7 +18,7 @@
 
 #define SPAWN_MARGIN 500
 
-j1Entities::j1Entities()
+j1Entities::j1Entities() : player(pugi::xml_node()), bat(pugi::xml_node()), slime(pugi::xml_node())
 {
 	for (uint i = 0; i < MAX_ENTITIES; ++i)
 		entities[i] = nullptr;
@@ -191,9 +191,6 @@ bool j1Entities::Start()
 		ret = false;
 	}
 
-	App->win->GetWindowSize(screen_width, screen_height);
-	screen_scale = App->win->GetScale();
-
 	LOG("Loading player audios");
 	player_jump = App->audio->LoadFx(fxPlayerJump.GetString());
 	player_dead = App->audio->LoadFx(fxPlayerDead.GetString());
@@ -201,18 +198,8 @@ bool j1Entities::Start()
 
 	App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y);
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
-	{
-		if (queue[i].type != ENTITY_TYPES::NO_TYPE)
-		{
-			if (queue[i].x * screen_scale < App->render->camera.x + (App->render->camera.w * screen_scale) + SPAWN_MARGIN)
-			{
-				SpawnEntity(queue[i]);
-				queue[i].type = ENTITY_TYPES::NO_TYPE;
-				LOG("Spawning entity at %d", queue[i].x * App->win->GetScale());
-			}
-		}
-	}
+	SpawnEntity(queue[0]); //we know already that is the player. TODO: this looks good?
+
 	return ret;
 }
 
@@ -223,12 +210,9 @@ bool j1Entities::PreUpdate()
 	{
 		if (queue[i].type != ENTITY_TYPES::NO_TYPE)
 		{
-			if (queue[i].x * screen_scale < App->render->camera.x + (App->render->camera.w * screen_scale) + SPAWN_MARGIN)
-			{
-				SpawnEntity(queue[i]);
-				queue[i].type = ENTITY_TYPES::NO_TYPE;
-				LOG ("Spawning entity at %d", queue[i].x * App->win->GetScale());
-			}
+			SpawnEntity(queue[i]);
+			queue[i].type = ENTITY_TYPES::NO_TYPE;
+			LOG("Spawning entity at %d", queue[i].x * App->win->GetScale());
 		}
 	}
 	return true;
@@ -317,9 +301,9 @@ void j1Entities::SpawnEntity(const EntityInfo& info)
 			break;
 		}
 		case ENTITY_TYPES::PLAYER: {
-			player = new Player(info.x, info.y);
-			entities[i] = player;
+			entities[i] = new Player(info.x,info.y,player);
 			entities[i]->type = ENTITY_TYPES::PLAYER;
+			Player * player = (Player*)entities[i];
 			player->right_idle = player_right_idle;
 			player->left_idle = player_left_idle;
 			player->right_jump = player_right_jump;
@@ -374,21 +358,6 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				}
 			}
 
-			if (entities[i]->type == ENTITY_TYPES::PLAYER)
-			{
-				if (((c2->type == COLLIDER_ENEMY_BAT || c2->type == COLLIDER_ENEMY_SLIME) && !player->isDead) && !player->god_mode) {
-					player->isDead = true;
-					App->audio->PlayFx(player_dead);
-					player->deadTime = SDL_GetTicks();
-				}
-
-				if (c2->type == COLLIDER_LVL_END)
-				{
-					if (!player->reachedEnd)
-						player->reachedEnd = true;
-				}
-			}
-
 		}
 	} 
 }
@@ -412,7 +381,12 @@ bool j1Entities::Load(pugi::xml_node& load)
 	if (!load.child("player").empty())
 	{
 		pugi::xml_node& player_load = load.child("player");
-		player->Load(player_load);
+		if(Player* tmpPlayer = this->GetPlayer())
+			tmpPlayer->Load(player_load);
+		else {
+			LOG("ERROR: Trying to load a nonexist player ... j1Entities");
+			return false;
+		}
 	}
 			
 	for (pugi::xml_node bat = load.child("bat"); bat && ret; bat = bat.next_sibling("bat"))
@@ -437,20 +411,14 @@ bool j1Entities::Save(pugi::xml_node& save) const
 		if (entities[i] != nullptr)
 		{
 			if (entities[i]->type == PLAYER) {
-				if (save.child("player").empty())
-				{
-					pugi::xml_node& player_save = save.append_child("player");
-					entities[i]->Save(player_save);
-				}
-				else
-					entities[i]->Save(save);
-			}
-
+				pugi::xml_node& player_save = save.append_child("player");
+				entities[i]->Save(player_save);
+			}else
 			if (entities[i]->type == BAT) {
 				pugi::xml_node& bat_save = save.append_child("bat");
 				entities[i]->Save(bat_save);
 			}
-
+			else
 			if (entities[i]->type == SLIME) {
 				pugi::xml_node& slime_save = save.append_child("slime");
 				entities[i]->Save(slime_save);
@@ -459,4 +427,19 @@ bool j1Entities::Save(pugi::xml_node& save) const
 	}
 
 	return ret;
+}
+
+Player* j1Entities::GetPlayer() const {
+
+	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	{
+		if (entities[i] != nullptr)
+		{
+			if (entities[i]->type == PLAYER)
+				return (Player*)entities[i];
+		}
+	}
+
+	return nullptr;
+
 }

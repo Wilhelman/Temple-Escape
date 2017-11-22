@@ -140,7 +140,7 @@ void Bat::Update(float dt)
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
 
-			if (!App->entities->player->isDead && !App->entities->player->god_mode)
+			if (!App->entities->GetPlayer()->isDead && !App->entities->GetPlayer()->god_mode)
 				player_in_radar = CheckForPlayer();
 
 			if (!have_to_chill && player_in_radar)
@@ -172,7 +172,7 @@ void Bat::SetRadar() {
 
 bool Bat::CheckForPlayer() {
 	//LOG("CHECKING 4 PLAYER");
-	iPoint tmp_player = App->map->WorldToMap(App->entities->player->position.x, App->entities->player->position.y - 1);
+	iPoint tmp_player = App->map->WorldToMap(App->entities->GetPlayer()->position.x, App->entities->GetPlayer()->position.y - 1);
 
 	for (uint i = 0; i < TILE_RADAR; i++)
 	{

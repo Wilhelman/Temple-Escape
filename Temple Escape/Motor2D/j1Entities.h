@@ -8,10 +8,10 @@
 
 enum ENTITY_TYPES
 {
-	NO_TYPE,
 	BAT,
 	SLIME,
-	PLAYER
+	PLAYER,
+	NO_TYPE
 };
 
 class Entity;
@@ -20,7 +20,7 @@ class Player;
 struct EntityInfo
 {
 	ENTITY_TYPES type = ENTITY_TYPES::NO_TYPE;
-	int x, y;
+	int x = 0, y = 0;
 };
 
 class j1Entities : public j1Module
@@ -48,6 +48,8 @@ public:
 
 	bool AddEntity(ENTITY_TYPES type, int x, int y);
 
+	Player* GetPlayer()const;
+
 	//PLAYER
 	p2Animation player_right_idle;
 	p2Animation player_left_idle;
@@ -70,20 +72,19 @@ public:
 	p2Animation bat_fly_right;
 	p2Animation bat_fly_left;
 
-	Player* player;
-
 private:
 
 	void SpawnEntity(const EntityInfo& info);
 
 private:
+
+	pugi::xml_node& player;
+	pugi::xml_node& bat;
+	pugi::xml_node& slime;
+
 	EntityInfo queue[MAX_ENTITIES];
 	Entity* entities[MAX_ENTITIES];
 	SDL_Texture* entity_sprites;
-
-	uint screen_scale;
-	uint screen_width;
-	uint screen_height;
 
 	uint player_jump, player_dead;
 
