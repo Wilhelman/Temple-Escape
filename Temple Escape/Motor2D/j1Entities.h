@@ -11,6 +11,7 @@ enum ENTITY_TYPES
 	BAT,
 	SLIME,
 	PLAYER,
+
 	NO_TYPE
 };
 
@@ -57,7 +58,7 @@ private:
 
 private:
 
-	EntityInfo queue[MAX_ENTITIES];
+	EntityInfo entities_array[MAX_ENTITIES];
 
 	Entity* entities[MAX_ENTITIES];
 

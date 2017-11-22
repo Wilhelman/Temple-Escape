@@ -1,20 +1,18 @@
 #include "j1App.h"
-#include "j1Input.h"
 #include "j1Render.h"
 #include "j1Entities.h"
 #include "j1Textures.h"
 #include "Entity.h"
 #include "j1Audio.h"
 #include "j1Window.h"
+#include "j1Collider.h"
+#include "p2Log.h"
+#include "j1Map.h"
+
 #include "Bat.h"
 #include "Slime.h"
-#include "j1Collider.h"
 #include "Player.h"
 
-#include "p2Log.h"
-#include "p2Defs.h"
-
-#include "j1Map.h"
 
 #define SPAWN_MARGIN 500
 
@@ -62,31 +60,21 @@ bool j1Entities::Start()
 		return false;
 
 	//SpawnEntity(queue[0]); 
-	//we know already that is the player. TODO: this looks bad
-
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
-	{
-		if (queue[i].type != ENTITY_TYPES::NO_TYPE)
-		{
-			SpawnEntity(queue[i]);
-			queue[i].type = ENTITY_TYPES::NO_TYPE;
-			LOG("Spawning entity at %d", queue[i].x * App->win->GetScale());
-		}
-	}
+	//we know already that is the player. TODO: this looks bad ?
+	this->PreUpdate();
 
 	return ret;
 }
 
 bool j1Entities::PreUpdate()
 {
-	// TODO: now we will spawn enemies in a different way ...
 	for (uint i = 0; i < MAX_ENTITIES; ++i)
 	{
-		if (queue[i].type != ENTITY_TYPES::NO_TYPE)
+		if (entities_array[i].type != ENTITY_TYPES::NO_TYPE)
 		{
-			SpawnEntity(queue[i]);
-			queue[i].type = ENTITY_TYPES::NO_TYPE;
-			LOG("Spawning entity at %d", queue[i].x * App->win->GetScale());
+			SpawnEntity(entities_array[i]);
+			entities_array[i].type = ENTITY_TYPES::NO_TYPE;
+			LOG("Spawning entity at %d", entities_array[i].x * App->win->GetScale());
 		}
 	}
 	return true;
@@ -130,11 +118,11 @@ bool j1Entities::AddEntity(ENTITY_TYPES type, int x, int y)
 
 	for (uint i = 0; i < MAX_ENTITIES; ++i)
 	{
-		if (queue[i].type == ENTITY_TYPES::NO_TYPE)
+		if (entities_array[i].type == ENTITY_TYPES::NO_TYPE)
 		{
-			queue[i].type = type;
-			queue[i].x = x;
-			queue[i].y = y;
+			entities_array[i].type = type;
+			entities_array[i].x = x;
+			entities_array[i].y = y;
 			ret = true;
 			break;
 		}
@@ -186,7 +174,6 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 					{
-						//App->audio->PlayFx(medium_explosion);
 						delete entities[i];
 						entities[i] = nullptr;
 						break;
@@ -199,7 +186,6 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 					{
-						//App->audio->PlayFx(medium_explosion);
 						delete entities[i];
 						entities[i] = nullptr;
 						break;
@@ -216,6 +202,7 @@ bool j1Entities::Load(pugi::xml_node& load)
 {
 	bool ret = true;
 
+	//delete all enemies but the player
 	for (uint i = 0; i < MAX_ENTITIES; ++i)
 	{
 		if (entities[i] != nullptr)
@@ -239,14 +226,10 @@ bool j1Entities::Load(pugi::xml_node& load)
 	}
 			
 	for (pugi::xml_node bat = load.child("bat"); bat && ret; bat = bat.next_sibling("bat"))
-	{
 		AddEntity(BAT, bat.child("position").attribute("x").as_float(), bat.child("position").attribute("y").as_float());
-	}
 	
 	for (pugi::xml_node slime = load.child("slime"); slime && ret; slime = slime.next_sibling("slime"))
-	{
 		AddEntity(SLIME, slime.child("position").attribute("x").as_float(), slime.child("position").attribute("y").as_float());
-	}
 
 	return ret;
 }
