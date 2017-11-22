@@ -126,8 +126,7 @@ void Player::Update(float dt)
 	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump
-			)
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump)
 		{
 			if (!isJumping)
 			{
@@ -146,56 +145,49 @@ void Player::Update(float dt)
 		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
-				|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
-				|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
+			|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
+			|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
 			)
 		{
 			if (currentTime > shoot_timer + 700) {
 				App->particles->AddParticle(App->particles->player_basic_shot_right, position.x + 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
 				shoot_timer = SDL_GetTicks();
 			}
-			current_state = PlayerState::ST_SHOOT_RIGHT;
-			last_state = PlayerLastState::LAST_ST_SHOOT_RIGHT;
+
+			SetPlayerStates(ST_SHOOT_RIGHT, LAST_ST_SHOOT_RIGHT);
 		}
 
 		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			&& (last_state == PlayerLastState::LAST_ST_RUN_LEFT
-				|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
-				|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
+			|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
+			|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
 			)
 		{
 
-			if (currentTime > shoot_timer + 700) {
+			if (currentTime > shoot_timer + 700) 
+			{
 				App->particles->AddParticle(App->particles->player_basic_shot_left, position.x - 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
 				shoot_timer = SDL_GetTicks();
 			}
 
-			current_state = PlayerState::ST_SHOOT_LEFT;
-			last_state = PlayerLastState::LAST_ST_SHOOT_LEFT;
+			SetPlayerStates(ST_SHOOT_LEFT, LAST_ST_SHOOT_LEFT);
+
 		}
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT
-			)
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-
 			this->position.x += canGoRight();
-
-			current_state = PlayerState::ST_RUN_RIGHT;
-			last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
+			SetPlayerStates(ST_RUN_RIGHT, LAST_ST_RUN_RIGHT);
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT
-			)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			this->position.x -= canGoLeft();
-
-			current_state = PlayerState::ST_RUN_LEFT;
-			last_state = PlayerLastState::LAST_ST_RUN_LEFT;
+			SetPlayerStates(ST_RUN_LEFT, LAST_ST_RUN_LEFT);
 		}
 
-		
-
 		bool isGettingHigh = false;
+
 		if (currentTime <= jumpTimer + 500 && isJumping)
 			isGettingHigh = true;
 
@@ -213,7 +205,7 @@ void Player::Update(float dt)
 		}
 
 
-	} //TODO: do a mehtod for user input -> void SetPlayerState(j1KeyState key_pressed);
+	}
 
 	//SEARCH THE STATE AND SET THE ANIMATION
 	SetPlayerAnimation(current_state, last_state);
@@ -581,6 +573,12 @@ void Player::SetPlayerAnimation(PlayerState current_state, PlayerLastState last_
 	}
 }
 
+void Player::SetPlayerStates(PlayerState current_state, PlayerLastState last_state)
+{
+	this->current_state = current_state;
+	this->last_state = last_state;
+}
+
 bool Player::Load(pugi::xml_node& load)
 {
 	bool ret = true;
@@ -603,7 +601,6 @@ void Player::ImplementLoad()
 	position.y = position_implement_load.y;
 }
 
-
 bool Player::Save(pugi::xml_node& save) const
 {
 	bool ret = true;
@@ -623,7 +620,8 @@ bool Player::Save(pugi::xml_node& save) const
 	return ret;
 }
 
-void Player::SetEntitiesSpeed(float dt) {
+void Player::SetEntitiesSpeed(float dt) 
+{
 	right_idle_vel = right_idle.speed;
 	left_idle_vel = left_idle.speed;
 	right_jump_vel = right_jump.speed;
@@ -632,5 +630,6 @@ void Player::SetEntitiesSpeed(float dt) {
 	left_run_vel = left_run.speed;
 	right_death_blink_vel = right_death_blink.speed;
 	left_death_blink_vel = left_death_blink.speed;
+
 	key_entities_speed = true;
 }
