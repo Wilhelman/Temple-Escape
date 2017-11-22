@@ -18,15 +18,16 @@
 		<lvlMusic name="textures/source_spritesheet.png" />
 	</music>
 	<entities>
+		<spritesheetSource name="textures/source_spritesheet.png" />
 		<player>
 			<fxPlayerDead name="audio/fx/dead_fx.wav" />
 			<fxPlayerJump name="audio/fx/jump_fx.wav" />
-			<spritesheetSource name="textures/source_spritesheet.png">
-				<animation name="right_idle" speed="2.0" loop="true">
+			<animations>
+				<animation name="right_idle" speed="1.0" loop="true">
 					<frame x="17" y="18" width="14" height="14" />
 					<frame x="33" y="18" width="14" height="14" />
 				</animation>
-				<animation name="left_idle" speed="2.0" loop="true">
+				<animation name="left_idle" speed="1.0" loop="true">
 					<frame x="88" y="163" width="14" height="14" />
 					<frame x="105" y="163" width="14" height="14" />
 				</animation>
@@ -72,42 +73,48 @@
 				<animation name="left_shoot" speed="2.0" loop="true">
 					<frame x="64" y="147" width="14" height="14" />
 				</animation>
-			</spritesheetSource>
+			</animations>
 		</player>
-		<spritesheetSource name="textures/source_spritesheet.png">
-			<animation name="slime_right_idle" speed="5.0" loop="true">
-				<frame x="124" y="45" width="16" height="16" />
-				<frame x="140" y="45" width="16" height="16" />
-			</animation>
-			<animation name="slime_left_idle" speed="5.0" loop="true">
-				<frame x="76" y="45" width="16" height="16" />
-				<frame x="92" y="45" width="16" height="16" />
-			</animation>
-			<animation name="slime_right_jump" speed="8.0" loop="true">
-				<frame x="139" y="96" width="16" height="16" />
-				<frame x="123" y="96" width="16" height="16" />
-				<frame x="107" y="96" width="16" height="16" />
-				<frame x="91" y="96" width="16" height="16" />
-				<frame x="75" y="96" width="16" height="16" />
-			</animation>
-			<animation name="slime_left_jump" speed="8.0" loop="true">
-				<frame x="75" y="67" width="16" height="16" />
-				<frame x="91" y="67" width="16" height="16" />
-				<frame x="107" y="67" width="16" height="16" />
-				<frame x="123" y="67" width="16" height="16" />
-				<frame x="139" y="67" width="16" height="16" />
-			</animation>
-			<animation name="bat_fly_right" speed="3.0" loop="true">
-				<frame x="76" y="35" width="16" height="12" />
-				<frame x="92" y="35" width="16" height="12" />
-				<frame x="109" y="35" width="16" height="12" />
-			</animation>
-			<animation name="bat_fly_left" speed="3.0" loop="true">
-				<frame x="47" y="182" width="16" height="12" />
-				<frame x="31" y="182" width="16" height="12" />
-				<frame x="14" y="182" width="16" height="12" />
-			</animation>
-		</spritesheetSource>
+		<bat>
+			<animations>
+				<animation name="bat_fly_right" speed="3.0" loop="true">
+					<frame x="76" y="35" width="16" height="12" />
+					<frame x="92" y="35" width="16" height="12" />
+					<frame x="109" y="35" width="16" height="12" />
+				</animation>
+				<animation name="bat_fly_left" speed="3.0" loop="true">
+					<frame x="47" y="182" width="16" height="12" />
+					<frame x="31" y="182" width="16" height="12" />
+					<frame x="14" y="182" width="16" height="12" />
+				</animation>
+			</animations>
+		</bat>
+		<slime>
+			<animations>
+				<animation name="slime_right_idle" speed="5.0" loop="true">
+					<frame x="124" y="45" width="16" height="16" />
+					<frame x="140" y="45" width="16" height="16" />
+				</animation>
+				<animation name="slime_left_idle" speed="5.0" loop="true">
+					<frame x="76" y="45" width="16" height="16" />
+					<frame x="92" y="45" width="16" height="16" />
+				</animation>
+				<animation name="slime_right_jump" speed="8.0" loop="true">
+					<frame x="139" y="96" width="16" height="16" />
+					<frame x="123" y="96" width="16" height="16" />
+					<frame x="107" y="96" width="16" height="16" />
+					<frame x="91" y="96" width="16" height="16" />
+					<frame x="75" y="96" width="16" height="16" />
+				</animation>
+				<animation name="slime_left_jump" speed="8.0" loop="true">
+					<frame x="75" y="67" width="16" height="16" />
+					<frame x="91" y="67" width="16" height="16" />
+					<frame x="107" y="67" width="16" height="16" />
+					<frame x="123" y="67" width="16" height="16" />
+					<frame x="139" y="67" width="16" height="16" />
+				</animation>
+			</animations>
+		</slime>
 	</entities>
 	<particles>
 		<fxPlayerBasicShot name="audio/fx/player_basic_shot_fx.wav" />

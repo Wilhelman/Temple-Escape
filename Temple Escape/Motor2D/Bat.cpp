@@ -7,13 +7,31 @@
 #include "j1Pathfinding.h"
 #include "j1Entities.h"
 
+#define BAT_MAX_LIVES 2
+
 
 Bat::Bat(int x, int y) : Entity(x, y)
 {
-	bat_IA = 1;
-	bat_going_right = true;
-	moving = player_in_radar = have_to_chill = key_entities_speed = false;
-	lives = 2;
+	bool ret = true;
+
+	//TODO : this looks ugly but it seems the only way :'c
+	pugi::xml_document	config_file;
+	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
+	node = &node->child("entities").child("bat");
+
+	lives = BAT_MAX_LIVES;
+
+	//read animation from node
+	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+
+		if (tmp == "bat_fly_right")
+			LoadAnimation(animations, &standard_right_fly);
+		else if (tmp == "bat_fly_left")
+			LoadAnimation(animations, &standard_left_fly);
+
+	}
 
 	animation = &standard_right_fly;
 
@@ -22,6 +40,16 @@ Bat::Bat(int x, int y) : Entity(x, y)
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->entities);
 
 	SetRadar();
+}
+
+void Bat::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {
+	bool ret = true;
+
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
 }
 
 void Bat::Update(float dt)

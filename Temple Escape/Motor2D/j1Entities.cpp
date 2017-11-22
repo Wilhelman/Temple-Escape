@@ -39,62 +39,6 @@ bool j1Entities::Awake(pugi::xml_node& config)
 
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
 
-	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
-	{
-		p2SString tmp(animations.attribute("name").as_string());
-
-		if (tmp == "slime_right_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				slime_right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			slime_right_idle.speed = animations.attribute("speed").as_float();
-			slime_right_idle.loop = animations.attribute("loop").as_bool();
-		}
-
-		if (tmp == "slime_left_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				slime_left_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			slime_left_idle.speed = animations.attribute("speed").as_float();
-			slime_left_idle.loop = animations.attribute("loop").as_bool();
-		}
-
-		if (tmp == "slime_right_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				slime_right_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			slime_right_jump.speed = animations.attribute("speed").as_float();
-			slime_right_jump.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "slime_left_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				slime_left_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			slime_left_jump.speed = animations.attribute("speed").as_float();
-			slime_left_jump.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "bat_fly_right") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				bat_fly_right.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			bat_fly_right.speed = animations.attribute("speed").as_float();
-			bat_fly_right.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "bat_fly_left") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				bat_fly_left.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			bat_fly_left.speed = animations.attribute("speed").as_float();
-			bat_fly_left.loop = animations.attribute("loop").as_bool();
-		}
-
-	}
 	return ret;
 }
 
@@ -209,21 +153,13 @@ void j1Entities::SpawnEntity(const EntityInfo& info)
 		switch (info.type)
 		{
 		case ENTITY_TYPES::BAT: {
-			Bat* bat = new Bat(info.x, info.y);
-			entities[i] = bat;
+			entities[i] = new Bat(info.x, info.y);
 			entities[i]->type = ENTITY_TYPES::BAT;
-			bat->standard_left_fly = bat_fly_left;
-			bat->standard_right_fly = bat_fly_right;
 			break;
 		}
 		case ENTITY_TYPES::SLIME: {
-			Slime* slime = new Slime(info.x, info.y);
-			entities[i] = slime;
+			entities[i] = new Slime(info.x, info.y);
 			entities[i]->type = ENTITY_TYPES::SLIME;
-			slime->standard_left_jump = slime_left_jump;
-			slime->standard_right_jump = slime_right_jump;
-			slime->standard_left_idle = slime_left_idle;
-			slime->standard_right_idle = slime_right_idle;
 			break;
 		}
 		case ENTITY_TYPES::PLAYER: {

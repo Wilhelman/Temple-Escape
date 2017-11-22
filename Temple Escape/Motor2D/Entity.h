@@ -33,6 +33,8 @@ public:
 	virtual void OnCollision(Collider* collider);
 	virtual uint getLives() { return 0; };
 	virtual void SetEntitiesSpeed(float dt) {};
+
+	virtual void LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {};
 	
 	virtual bool Load(pugi::xml_node&)
 	{

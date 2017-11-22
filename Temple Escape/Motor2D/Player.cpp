@@ -13,12 +13,16 @@
 
 #include "Player.h"
 
+#define PLAYER_SPEED 40.0f
+#define JUMP_SPEED 40.0f
+#define GRAVITY 60.0f
+
 
 Player::Player(int x, int y) : Entity(x, y) {
 
 	bool ret = true;
 
-		//TODO : this looks ugly but it seems the only way :c
+	//TODO : this looks ugly but it seems the only way :'c
 	pugi::xml_document	config_file;
 	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
 	node = &node->child("entities").child("player");
@@ -28,104 +32,38 @@ Player::Player(int x, int y) : Entity(x, y) {
 	player_dead_fx = App->audio->LoadFx(node->child("fxPlayerDead").attribute("name").as_string());
 
 	//read animation from node
-	for (pugi::xml_node animations = node->child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
 	{
 		p2SString tmp(animations.attribute("name").as_string());
 
-		if (tmp == "right_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_idle.speed = animations.attribute("speed").as_float();
-			right_idle.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "left_idle") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_idle.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_idle.speed = animations.attribute("speed").as_float();
-			left_idle.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "right_run") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_run.speed = animations.attribute("speed").as_float();
-			right_run.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "left_run") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_run.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_run.speed = animations.attribute("speed").as_float();
-			left_run.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "right_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_jump.speed = animations.attribute("speed").as_float();
-			right_jump.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "left_jump") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_jump.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_jump.speed = animations.attribute("speed").as_float();
-			left_jump.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "right_dead") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_death_blink.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_death_blink.speed = animations.attribute("speed").as_float();
-			right_death_blink.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "left_dead") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_death_blink.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_death_blink.speed = animations.attribute("speed").as_float();
-			left_death_blink.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "right_shoot") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				right_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			right_shoot.speed = animations.attribute("speed").as_float();
-			right_shoot.loop = animations.attribute("loop").as_bool();
-		}
-		else
-		if (tmp == "left_shoot") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				left_shoot.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			left_shoot.speed = animations.attribute("speed").as_float();
-			left_shoot.loop = animations.attribute("loop").as_bool();
-		}
+		if (tmp == "right_idle")
+			LoadAnimation(animations, &right_idle);
+		else if (tmp == "left_idle")
+			LoadAnimation(animations, &left_idle);
+		else if (tmp == "right_run")
+			LoadAnimation(animations, &right_run);
+		else if (tmp == "left_run")
+			LoadAnimation(animations, &left_run);
+		else if (tmp == "right_jump")
+			LoadAnimation(animations, &right_jump);
+		else if (tmp == "left_jump")
+			LoadAnimation(animations, &left_jump);
+		else if (tmp == "right_dead")
+			LoadAnimation(animations, &right_death_blink);
+		else if (tmp == "left_dead") 
+			LoadAnimation(animations, &left_death_blink);
+		else if (tmp == "right_shoot")
+			LoadAnimation(animations, &right_shoot);
+		else if (tmp == "left_shoot") 
+			LoadAnimation(animations, &left_shoot);
 
 	}
 
 	LOG("Creating player collider");
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_PLAYER, (j1Module*)App->entities);
+
+	if (collider == nullptr)
+		LOG("Error adding player collider");
 
 	//todo: need to set it? the scene does it already
 	iPoint spawnPos = App->map->spawn;
@@ -134,6 +72,16 @@ Player::Player(int x, int y) : Entity(x, y) {
 
 	animation = &right_idle;
 
+}
+
+void Player::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {
+	bool ret = true;
+
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+	
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
 }
 
 Player::~Player()

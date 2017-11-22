@@ -7,21 +7,53 @@
 #include "j1Entities.h"
 #include "Player.h"
 
+#define SLIME_MAX_LIVES 3
+#define GRAVITY_SLIME 20
+#define SLIME_SPEED 5
+#define ANGRY_SLIME_SPEED 10
 
 Slime::Slime(int x, int y) : Entity(x, y)
 {
-	slime_IA = slime_time_chilling = standard_left_idle_vel = standard_left_jump_vel = standard_right_idle_vel = standard_right_jump_vel = 0;
-	slime_going_right = true;
-	moving = key_entities_speed = player_in_radar = false;
-	lives = 3;
 
-	animation = &standard_right_jump;
+	bool ret = true;
 
-	original_pos.x = x;
-	original_pos.y = y;
+	//TODO : this looks ugly but it seems the only way :'c
+	pugi::xml_document	config_file;
+	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
+	node = &node->child("entities").child("slime");
+
+	lives = SLIME_MAX_LIVES;
+
+	//read animation from node
+	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+
+		if (tmp == "slime_right_idle")
+			LoadAnimation(animations, &standard_right_idle);
+		else if (tmp == "slime_left_idle")
+			LoadAnimation(animations, &standard_left_idle);
+		else if (tmp == "slime_right_jump")
+			LoadAnimation(animations, &standard_right_jump);
+		else if (tmp == "slime_left_jump")
+			LoadAnimation(animations, &standard_left_jump);
+
+	}
 
 	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->entities);
 
+	animation = &standard_right_jump;
+
+}
+
+void Slime::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {
+	bool ret = true;
+
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
 }
 
 void Slime::Update(float dt)

@@ -186,7 +186,7 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 	pugi::xml_parse_result result = config_file.load_file("config.xml");
 
 	if (result == NULL)
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
 	else
 		ret = config_file.child("config");
 	return ret;

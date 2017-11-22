@@ -6,25 +6,28 @@
 #include "p2DynArray.h"
 
 #define TILE_RADAR 40
-#define GRAVITY_SLIME 20
-#define SLIME_SPEED 5
-#define ANGRY_SLIME_SPEED 10
 
 class Slime : public Entity
 {
 private:
-	fPoint original_pos;
-	int slime_IA;
-	bool slime_going_right, moving, player_in_radar, know_go;
-	fPoint movementSpeed;
-	iPoint movementGoal, playerGoal;
+	bool slime_going_right = true, moving = false, player_in_radar = false;
+	fPoint movementSpeed = fPoint(0.0f,0.0f);
+	iPoint movementGoal = iPoint(0, 0);
+	iPoint playerGoal = iPoint(0, 0);
 
 	iPoint tile_radar[TILE_RADAR];
 
-	uint current_time, slime_time_chilling;
+	//timers
+	uint current_time = 0u, slime_time_chilling = 0u;
 
-	//speeds
-	uint standard_left_idle_vel, standard_right_idle_vel, standard_right_jump_vel, standard_left_jump_vel;
+	//anims
+	p2Animation standard_left_idle = p2Animation();
+	p2Animation standard_right_idle = p2Animation();
+	p2Animation standard_left_jump = p2Animation();
+	p2Animation standard_right_jump = p2Animation();
+
+	//anims speeds
+	uint standard_left_idle_vel = 0u, standard_right_idle_vel = 0u, standard_right_jump_vel = 0u, standard_left_jump_vel = 0u;
 
 public:
 
@@ -32,6 +35,7 @@ public:
 	void OnCollision(Collider* collider);
 	void Update(float dt);
 	void SetEntitiesSpeed(float dt);
+	void LoadAnimation(pugi::xml_node animation_node, p2Animation* animation);
 	void SetRadar();
 	bool CheckForPlayer();
 	uint getLives();
@@ -39,12 +43,6 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
-
-	//animations
-	p2Animation standard_left_idle;
-	p2Animation standard_right_idle;
-	p2Animation standard_left_jump;
-	p2Animation standard_right_jump;
 };
 
 #endif

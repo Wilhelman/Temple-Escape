@@ -5,10 +5,6 @@
 #include "p2Point.h"
 #include "Entity.h"
 
-#define PLAYER_SPEED 40.0f
-#define JUMP_SPEED 40.0f
-#define GRAVITY 60.0f
-
 struct SDL_Texture;
 struct Collider;
 
@@ -106,6 +102,8 @@ public:
 	void Update(float dt);
 
 	void SetEntitiesSpeed(float dt);
+
+	void LoadAnimation(pugi::xml_node animation_node, p2Animation* animation);
 
 	void OnCollision(Collider* collider);
 

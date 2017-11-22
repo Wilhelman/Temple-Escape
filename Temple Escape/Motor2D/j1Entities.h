@@ -44,21 +44,12 @@ public:
 
 	// Called before quitting
 	bool CleanUp();;
+
 	void OnCollision(Collider* c1, Collider* c2);
 
 	bool AddEntity(ENTITY_TYPES type, int x, int y);
 
 	Player* GetPlayer()const;
-
-	//SLIME
-	p2Animation slime_right_idle;
-	p2Animation slime_left_idle;
-	p2Animation slime_right_jump;
-	p2Animation slime_left_jump;
-
-	//BAT
-	p2Animation bat_fly_right;
-	p2Animation bat_fly_left;
 
 private:
 
@@ -67,8 +58,10 @@ private:
 private:
 
 	EntityInfo queue[MAX_ENTITIES];
+
 	Entity* entities[MAX_ENTITIES];
-	SDL_Texture* entity_sprites;
+
+	SDL_Texture* entity_sprites = nullptr;
 
 	p2SString spritesheetName;
 
