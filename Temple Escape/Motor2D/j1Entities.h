@@ -71,8 +71,6 @@ private:
 	SDL_Texture* entity_sprites;
 
 	p2SString spritesheetName;
-	p2SString fxPlayerJump;
-	p2SString fxPlayerDead;
 
 };
 

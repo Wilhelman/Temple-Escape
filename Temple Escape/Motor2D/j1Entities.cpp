@@ -105,13 +105,30 @@ bool j1Entities::Start()
 	entity_sprites = App->tex->Load(spritesheetName.GetString());
 
 	if (entity_sprites == NULL) {
-		LOG("Error loading enemies spritesheet!!");
+		LOG("Error loading entities spritesheet!!");
 		ret = false;
 	}
 
-	App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y);
+	if (!App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y)) {
+		LOG("Error adding entity player ...");
+		ret = false;
+	}
 
-	SpawnEntity(queue[0]); //we know already that is the player. TODO: this looks good?
+	if (!ret)
+		return false;
+
+	//SpawnEntity(queue[0]); 
+	//we know already that is the player. TODO: this looks bad
+
+	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	{
+		if (queue[i].type != ENTITY_TYPES::NO_TYPE)
+		{
+			SpawnEntity(queue[i]);
+			queue[i].type = ENTITY_TYPES::NO_TYPE;
+			LOG("Spawning entity at %d", queue[i].x * App->win->GetScale());
+		}
+	}
 
 	return ret;
 }

@@ -13,25 +13,25 @@
 	</scene>
 	<entities>
 		<bat>
-			<position x="467.275452" y="464.279053" />
+			<position x="481.389771" y="464" />
+		</bat>
+		<bat>
+			<position x="586.369995" y="480" />
+		</bat>
+		<bat>
+			<position x="940.625793" y="384" />
+		</bat>
+		<bat>
+			<position x="957.697998" y="439" />
 		</bat>
 		<slime>
-			<position x="415" y="496" />
+			<position x="442" y="496" />
 		</slime>
-		<bat>
-			<position x="572.564941" y="480.916473" />
-		</bat>
 		<slime>
-			<position x="832" y="496" />
+			<position x="823" y="496" />
 		</slime>
-		<bat>
-			<position x="926.345032" y="384" />
-		</bat>
-		<bat>
-			<position x="943.837769" y="439.975464" />
-		</bat>
 		<player>
-			<position x="1038" y="528" />
+			<position x="1046" y="528" />
 		</player>
 	</entities>
 	<particles />

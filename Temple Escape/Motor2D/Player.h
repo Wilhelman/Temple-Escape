@@ -12,15 +12,13 @@
 struct SDL_Texture;
 struct Collider;
 
-static fPoint tmp = fPoint();
+static fPoint position_implement_load = fPoint();
 
 class Player : public Entity
 {
 
 	enum PlayerState
 	{
-		ST_UNKNOWN,
-
 		ST_IDLE_RIGHT,
 		ST_IDLE_LEFT,
 		ST_RUN_RIGHT,
@@ -28,13 +26,13 @@ class Player : public Entity
 		ST_JUMP_RIGHT,
 		ST_JUMP_LEFT,
 		ST_SHOOT_RIGHT,
-		ST_SHOOT_LEFT
+		ST_SHOOT_LEFT,
+
+		ST_UNKNOWN
 	};
 
 	enum PlayerLastState
 	{
-		LAST_ST_UNKNOWN,
-
 		LAST_ST_IDLE_RIGHT,
 		LAST_ST_IDLE_LEFT,
 		LAST_ST_RUN_RIGHT,
@@ -42,7 +40,9 @@ class Player : public Entity
 		LAST_ST_JUMP_RIGHT,
 		LAST_ST_JUMP_LEFT,
 		LAST_ST_SHOOT_RIGHT,
-		LAST_ST_SHOOT_LEFT
+		LAST_ST_SHOOT_LEFT,
+
+		LAST_ST_UNKNOWN
 	};
 
 	enum Direction {
@@ -68,6 +68,9 @@ private:
 
 	iPoint last_save_position = iPoint(0,0);
 
+	PlayerState current_state = PlayerState::ST_IDLE_RIGHT;
+	PlayerLastState last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
+
 	//playerSoundEffects
 	uint player_jump_fx = 0u;
 	uint player_dead_fx = 0u;
@@ -83,6 +86,10 @@ private:
 	p2Animation left_death_blink = p2Animation();
 	p2Animation right_shoot = p2Animation();
 	p2Animation left_shoot = p2Animation();
+
+	//anims speed
+	uint right_idle_vel = 0u, left_idle_vel = 0u, right_run_vel = 0u, left_run_vel = 0u, right_jump_vel = 0u,
+		left_jump_vel = 0u, right_death_blink_vel = 0u, left_death_blink_vel = 0u, right_shoot_vel = 0u, left_shoot_vel = 0u;
 
 private:
 	float gravityHaveToWork();
@@ -109,17 +116,13 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 public:
-	PlayerState current_state = PlayerState::ST_IDLE_RIGHT;
+	
 	SDL_Rect current_frame = { 0,0,0,0 };
-	PlayerLastState last_state = PlayerLastState::LAST_ST_RUN_RIGHT;
 
-	uint right_idle_vel = 0u, left_idle_vel = 0u, right_run_vel = 0u, left_run_vel = 0u, right_jump_vel = 0u,
-		left_jump_vel = 0u, right_death_blink_vel = 0u, left_death_blink_vel = 0u, right_shoot_vel = 0u, left_shoot_vel = 0u;
-
-	p2SString spritesheetName;
 	bool reachedEnd = false;
 	bool isDead = false;
 	bool god_mode = false;
+
 };
 
 #endif

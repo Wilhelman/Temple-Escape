@@ -633,8 +633,8 @@ bool Player::Load(pugi::xml_node& load)
 
 	if (!load.child("position").empty())
 	{
-		tmp.x = load.child("position").attribute("x").as_float();
-		tmp.y = load.child("position").attribute("y").as_float() - 2.0f;
+		position_implement_load.x = load.child("position").attribute("x").as_float();
+		position_implement_load.y = load.child("position").attribute("y").as_float() - 2.0f;
 	}
 
 	if (App->fadeToBlack->FadeIsOver())
@@ -645,8 +645,8 @@ bool Player::Load(pugi::xml_node& load)
 
 void Player::ImplementLoad()
 {
-	position.x = tmp.x;
-	position.y = tmp.y;
+	position.x = position_implement_load.x;
+	position.y = position_implement_load.y;
 }
 
 
