@@ -229,19 +229,6 @@ bool j1Collider::EraseCollider(Collider* collider)
 	return false;
 }
 
-bool j1Collider::IsCollisionValid(Collider * c1, Collider * c2)
-{
-	for (uint i = 0; i < COLLIDER_MAX; ++i)
-		for (uint j = 0; j < COLLIDER_MAX; ++j)
-		{
-			{
-				if (i == c1->type && j == c2->type)
-					return matrix[i][j];
-			}
-		}
-	return false;
-}
-
 // -----------------------------------------------------
 
 bool Collider::CheckCollision(const SDL_Rect& r) const
