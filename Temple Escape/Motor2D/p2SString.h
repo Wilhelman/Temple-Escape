@@ -13,8 +13,8 @@ class p2SString
 {
 private:
 
-	char* str;
-	unsigned int size;
+	char* str = nullptr;
+	unsigned int size = 0u;
 
 public:
 

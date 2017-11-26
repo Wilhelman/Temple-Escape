@@ -83,33 +83,33 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Collider*			collider;
-	j1Scene*			scene;
-	j1Map*				map;
-	j1PathFinding*		pathfinding;
-	j1Entities*			entities;
-	j1Particles*		particles;
-	j1FadeToBlack*		fadeToBlack;
+	j1Window*			win = nullptr;
+	j1Input*			input = nullptr;
+	j1Render*			render = nullptr;
+	j1Textures*			tex = nullptr;
+	j1Audio*			audio = nullptr;
+	j1Collider*			collider = nullptr;
+	j1Scene*			scene = nullptr;
+	j1Map*				map = nullptr;
+	j1PathFinding*		pathfinding = nullptr;
+	j1Entities*			entities = nullptr;
+	j1Particles*		particles = nullptr;
+	j1FadeToBlack*		fadeToBlack = nullptr;
 
 
 private:
 
 	p2List<j1Module*>	modules;
-	int					argc;
-	char**				args;
+	int					argc = 0;
+	char**				args = nullptr;
 
 	p2SString			game_title;
 	p2SString			organization;
 	p2SString			vsync_to_show;
 	p2SString			cap_to_show;
 
-	mutable bool		want_to_save;
-	bool				want_to_load;
+	mutable bool		want_to_save = false;
+	bool				want_to_load = false;
 	mutable p2SString	save_game;
 	p2SString			load_game;
 
@@ -118,16 +118,12 @@ private:
 
 	j1PerfTimer			ptimer;
 	uint64				frame_count = 0;
-	uint				cap;
+	uint				cap = 0u;
 	j1Timer				startup_time;
-	j1Timer				frame_time;
-	j1Timer				last_sec_frame_time;
-	uint32				last_sec_frame_count = 0;
-	uint32				prev_last_sec_frame_count = 0;
 	float				dt = 0.0f;
 	int					capped_ms = -1;
-	bool				all_modules_loaded;
-	bool				cap_state;
+	bool				all_modules_loaded = false;
+	bool				cap_state = false;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S
