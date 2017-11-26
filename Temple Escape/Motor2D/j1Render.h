@@ -45,12 +45,12 @@ public:
 
 public:
 
-	SDL_Renderer*	renderer;
-	SDL_Rect		camera;
-	SDL_Rect		last_camera;
-	SDL_Rect		viewport;
-	SDL_Color		background;
-	bool			vsync_state;
+	SDL_Renderer*	renderer = nullptr;
+	SDL_Rect		camera = { 0, 0, 0, 0 };
+	SDL_Rect		last_camera = { 0, 0, 0, 0 };
+	SDL_Rect		viewport = { 0, 0, 0, 0 };
+	SDL_Color		background = { 0, 0, 0, 0 };
+	bool			vsync_state = false;
 };
 
 #endif // __j1RENDER_H__
