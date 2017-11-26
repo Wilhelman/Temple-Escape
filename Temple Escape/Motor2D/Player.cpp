@@ -60,7 +60,7 @@ Player::Player(int x, int y) : Entity(x, y) {
 	}
 
 	LOG("Creating player collider");
-	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_PLAYER, (j1Module*)App->entities);
+	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, ColliderType::COLLIDER_PLAYER, (j1Module*)App->entities);
 
 	if (collider == nullptr)
 		LOG("Error adding player collider");

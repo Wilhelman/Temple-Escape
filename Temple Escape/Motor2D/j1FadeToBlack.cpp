@@ -45,7 +45,7 @@ bool j1FadeToBlack::Start()
 bool j1FadeToBlack::Update(float dt)
 {
 	bool ret = true;
-	if (current_step == fade_step::none)
+	if (current_step == FadeStep::NONE_FADE)
 		return ret;
 
 	Uint32 now = SDL_GetTicks() - start_time;
@@ -53,7 +53,7 @@ bool j1FadeToBlack::Update(float dt)
 
 	switch (current_step)
 	{
-	case fade_step::fade_to_black:
+	case FadeStep::FADE_TO_BLACK:
 	{
 		if (now >= total_time)
 		{
@@ -141,16 +141,16 @@ bool j1FadeToBlack::Update(float dt)
 			
 			total_time += total_time;
 			start_time = SDL_GetTicks();
-			current_step = fade_step::fade_from_black;
+			current_step = FadeStep::FADE_FROM_BLACK;
 		}
 	} break;
 
-	case fade_step::fade_from_black:
+	case FadeStep::FADE_FROM_BLACK:
 	{
 		normalized = 1.0f - normalized;
 
 		if (now >= total_time)
-			current_step = fade_step::none;
+			current_step = FadeStep::NONE_FADE;
 	} break;
 	}
 
@@ -166,9 +166,9 @@ bool j1FadeToBlack::FadeToBlack(float time)
 {
 	lvlName = "";
 	bool ret = false;
-	if (current_step == fade_step::none)
+	if (current_step == FadeStep::NONE_FADE)
 	{
-		current_step = fade_step::fade_to_black;
+		current_step = FadeStep::FADE_TO_BLACK;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
 		ret = true;
@@ -181,9 +181,9 @@ bool j1FadeToBlack::FadeToKnowBlack(p2SString lvlToFade, float time)
 {
 	lvlName = lvlToFade;
 	bool ret = false;
-	if (current_step == fade_step::none)
+	if (current_step == FadeStep::NONE_FADE)
 	{
-		current_step = fade_step::fade_to_black;
+		current_step = FadeStep::FADE_TO_BLACK;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
 		ret = true;
@@ -195,7 +195,7 @@ bool j1FadeToBlack::FadeToKnowBlack(p2SString lvlToFade, float time)
 bool j1FadeToBlack::FadeIsOver() {
 	bool ret = true;
 
-	if (current_step == fade_step::none)
+	if (current_step == FadeStep::NONE_FADE)
 		ret = true;
 	else
 		ret = false;

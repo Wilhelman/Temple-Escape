@@ -37,7 +37,7 @@ Bat::Bat(int x, int y) : Entity(x, y)
 
 	original_pos = App->map->WorldToMap(x, y);
 
-	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_ENEMY_BAT, (j1Module*)App->entities);
+	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, ColliderType::COLLIDER_ENEMY_BAT, (j1Module*)App->entities);
 
 	SetRadar();
 }
@@ -223,11 +223,11 @@ uint Bat::getLives()
 
 void Bat::OnCollision(Collider* collider)
 {
-	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER)
+	if (collider->type == ColliderType::COLLIDER_PLAYER)
 	{
 		player_in_radar = false;
 		have_to_chill = true;
-	}else if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+	}else if (collider->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT)
 		lives--;
 
 	if (lives <= 0)

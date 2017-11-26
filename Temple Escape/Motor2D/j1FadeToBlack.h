@@ -26,12 +26,12 @@ public:
 
 private:
 
-	enum fade_step
+	enum FadeStep
 	{
-		none,
-		fade_to_black,
-		fade_from_black
-	} current_step = fade_step::none;
+		NONE_FADE,
+		FADE_TO_BLACK,
+		FADE_FROM_BLACK
+	} current_step = FadeStep::NONE_FADE;
 
 	Uint32 start_time = 0;
 	Uint32 total_time = 0;

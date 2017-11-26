@@ -109,30 +109,30 @@ bool j1Entities::CleanUp()
 	return true;
 }
 
-bool j1Entities::SpawnEntity(int x, int y, ENTITY_TYPES type)
+bool j1Entities::SpawnEntity(int x, int y, EntityType type)
 {
 	// find room for the new entity
 	bool ret = false;
 
 	switch (type)
 	{
-	case ENTITY_TYPES::BAT: {
+	case EntityType::BAT: {
 		Bat* batty = new Bat(x, y);
-		batty->type = ENTITY_TYPES::BAT; //TODO PARAMETER TO CONSTRUCTOR!
+		batty->type = EntityType::BAT; //TODO PARAMETER TO CONSTRUCTOR!
 		entities.PushBack(batty);
 		ret = true;
 		break;
 	}
-	case ENTITY_TYPES::SLIME: {
+	case EntityType::SLIME: {
 		Slime* slimmy = new Slime(x, y);
-		slimmy->type = ENTITY_TYPES::SLIME; //TODO PARAMETER TO CONSTRUCTOR!
+		slimmy->type = EntityType::SLIME; //TODO PARAMETER TO CONSTRUCTOR!
 		entities.PushBack(slimmy);
 		ret = true;
 		break;
 	}
-	case ENTITY_TYPES::PLAYER: {
+	case EntityType::PLAYER: {
 		Player* player = new Player(x, y);
-		player->type = ENTITY_TYPES::PLAYER; //TODO PARAMETER TO CONSTRUCTOR!
+		player->type = EntityType::PLAYER; //TODO PARAMETER TO CONSTRUCTOR!
 		entities.PushBack(player);
 		ret = true;
 		break;

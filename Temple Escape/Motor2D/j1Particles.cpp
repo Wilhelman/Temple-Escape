@@ -128,7 +128,7 @@ bool j1Particles::Update(float dt)
 	return true;
 }
 
-void j1Particles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
+void j1Particles::AddParticle(const Particle& particle, int x, int y, ColliderType collider_type, Uint32 delay)
 {
 	Particle* p = new Particle(particle);
 	p->born = SDL_GetTicks() + delay;
@@ -192,10 +192,10 @@ Particle::~Particle() {
 
 void j1Particles::OnCollision(Collider* c1, Collider* c2)
 {
-	if ((c1->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT 
-		&& (c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_BAT 
-		|| c2->type == COLLIDER_TYPE::COLLIDER_ENEMY_SLIME
-		|| c2->type == COLLIDER_TYPE::COLLIDER_GROUND)))
+	if ((c1->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT 
+		&& (c2->type == ColliderType::COLLIDER_ENEMY_BAT 
+		|| c2->type == ColliderType::COLLIDER_ENEMY_SLIME
+		|| c2->type == ColliderType::COLLIDER_GROUND)))
 	{
 		//App->audio->PlayFx(enemy_hitted);
 

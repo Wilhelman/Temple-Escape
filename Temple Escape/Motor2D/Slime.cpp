@@ -40,7 +40,7 @@ Slime::Slime(int x, int y) : Entity(x, y)
 
 	}
 
-	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, COLLIDER_TYPE::COLLIDER_ENEMY_SLIME, (j1Module*)App->entities);
+	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, ColliderType::COLLIDER_ENEMY_SLIME, (j1Module*)App->entities);
 
 	animation = &standard_right_jump;
 
@@ -225,9 +225,9 @@ uint Slime::getLives()
 
 void Slime::OnCollision(Collider* collider)
 {
-	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER)
+	if (collider->type == ColliderType::COLLIDER_PLAYER)
 		player_in_radar = false;
-	else if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+	else if (collider->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT)
 		lives--;
 	
 

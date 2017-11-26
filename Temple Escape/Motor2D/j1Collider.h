@@ -8,7 +8,7 @@
 #include "j1Render.h"
 
 
-enum COLLIDER_TYPE
+enum ColliderType
 {
 	COLLIDER_NONE = -1,
 	COLLIDER_GROUND,
@@ -26,10 +26,10 @@ struct Collider
 {
 	SDL_Rect rect = {0, 0, 0, 0};
 	bool to_delete = false;
-	COLLIDER_TYPE type = COLLIDER_NONE;
+	ColliderType type = COLLIDER_NONE;
 	j1Module* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* callback = nullptr) :
+	Collider(SDL_Rect rectangle, ColliderType type, j1Module* callback = nullptr) :
 		rect(rectangle),
 		type(type),
 		callback(callback)
@@ -67,7 +67,7 @@ public:
 	bool CleanUp();
 
 
-	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
+	Collider* AddCollider(SDL_Rect rect, ColliderType type, j1Module* callback = nullptr);
 	void DebugDraw();
 
 	bool EraseCollider(Collider* collider);

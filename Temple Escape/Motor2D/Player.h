@@ -12,7 +12,6 @@ static fPoint position_implement_load = fPoint();
 
 class Player : public Entity
 {
-
 	enum PlayerState
 	{
 		ST_IDLE_RIGHT,
@@ -41,7 +40,8 @@ class Player : public Entity
 		LAST_ST_UNKNOWN
 	};
 
-	enum Direction {
+	enum Direction 
+	{
 		RIGHT,
 		LEFT,
 		UP,

@@ -5,7 +5,7 @@
 #include "p2Animation.h"
 #include "p2DynArray.h"
 
-enum ENTITY_TYPES
+enum EntityType
 {
 	BAT,
 	SLIME,
@@ -42,7 +42,7 @@ public:
 
 	Player* GetPlayer()const;
 
-	bool SpawnEntity(int x, int y, ENTITY_TYPES type);
+	bool SpawnEntity(int x, int y, EntityType type);
 
 private:
 
