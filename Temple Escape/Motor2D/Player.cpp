@@ -119,9 +119,8 @@ void Player::Update(float dt)
 
 	current_state = PlayerState::ST_UNKNOWN;
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN && !isDead) {
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN && !isDead)
 		god_mode = !god_mode;
-	}
 
 	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
@@ -142,38 +141,27 @@ void Player::Update(float dt)
 			}
 			jumpTimer = SDL_GetTicks();
 		}
-		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
-			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-			&& (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
-			|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
-			|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT)
-			)
+
+		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) && PlayerCanShootRight())
 		{
-			if (currentTime > shoot_timer + 700) {
+			if (currentTime > shoot_timer + 700) 
+			{
 				App->particles->AddParticle(App->particles->player_basic_shot_right, position.x + 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
 				shoot_timer = SDL_GetTicks();
 			}
-
 			SetPlayerStates(ST_SHOOT_RIGHT, LAST_ST_SHOOT_RIGHT);
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
-			|| App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-			&& (last_state == PlayerLastState::LAST_ST_RUN_LEFT
-			|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
-			|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT)
-			)
+		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) && PlayerCanShootLeft())
 		{
-
 			if (currentTime > shoot_timer + 700) 
 			{
 				App->particles->AddParticle(App->particles->player_basic_shot_left, position.x - 5, position.y - 9, COLLIDER_PLAYER_BASIC_SHOT);
 				shoot_timer = SDL_GetTicks();
 			}
-
 			SetPlayerStates(ST_SHOOT_LEFT, LAST_ST_SHOOT_LEFT);
-
 		}
+
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			this->position.x += canGoRight();
@@ -193,18 +181,15 @@ void Player::Update(float dt)
 
 		if (!isGettingHigh)
 		{
-			if (float gravity = gravityHaveToWork()) {
+			if (float gravity = gravityHaveToWork()) 
+			{
 				this->position.y += gravity;
 				isJumping = true;
 			}
-
 		}
 
-		if (isJumping && isGettingHigh) {
+		if (isJumping && isGettingHigh)
 			this->position.y -= canGoUp();
-		}
-
-
 	}
 
 	//SEARCH THE STATE AND SET THE ANIMATION
@@ -239,6 +224,7 @@ void Player::Update(float dt)
 	LOG("Cannot blit the texture in j1Player %s\n", SDL_GetError());
 	}
 	*/
+
 	currentTime = SDL_GetTicks();
 }
 
@@ -440,6 +426,20 @@ float Player::canGoUp()
 	return ceil(JUMP_SPEED*current_dt);
 }
 
+bool Player::PlayerCanShootRight()
+{
+	return (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
+			|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
+			|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT);
+}
+
+bool Player::PlayerCanShootLeft()
+{
+	return (last_state == PlayerLastState::LAST_ST_RUN_LEFT
+			|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
+			|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT);
+}
+
 float Player::canGoRight()
 {
 	fPoint tmpPosUp;
@@ -498,6 +498,7 @@ float Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction
 		break;
 	}
 }
+
 
 void Player::SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state)
 {
