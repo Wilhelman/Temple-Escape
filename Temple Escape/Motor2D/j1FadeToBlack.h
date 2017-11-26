@@ -35,12 +35,12 @@ private:
 
 	Uint32 start_time = 0;
 	Uint32 total_time = 0;
-	SDL_Rect screen;
+	SDL_Rect screen = { 0, 0, 0, 0 };
 
 	p2SString lvlName;
 
 public:
-	bool F1;
+	bool F1 = false;
 };
 
 #endif //__MODULEFADETOBLACK_H__
