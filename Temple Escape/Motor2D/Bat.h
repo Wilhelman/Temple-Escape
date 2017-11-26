@@ -42,6 +42,8 @@ public:
 	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
 	void SetEntitiesSpeed(float dt);
 
+	
+
 };
 
 #endif
