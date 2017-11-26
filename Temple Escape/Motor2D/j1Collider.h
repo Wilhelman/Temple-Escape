@@ -73,6 +73,7 @@ public:
 	void DebugDraw();
 
 	bool EraseCollider(Collider* collider);
+	bool IsCollisionValid(Collider* c1, Collider* c2);
 
 private:
 
