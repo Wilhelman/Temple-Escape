@@ -74,7 +74,8 @@ Player::Player(int x, int y) : Entity(x, y) {
 
 }
 
-void Player::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {
+void Player::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) 
+{
 	bool ret = true;
 
 	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
@@ -209,6 +210,7 @@ void Player::Update(float dt)
 	collider->SetPos(position.x, position.y - r.h);
 	collider->rect.w = r.w;
 	collider->rect.h = r.h;
+
 	/*
 	if (!App->render->Blit(graphics, (int)position.x, (int)position.y - r.h, &r)) {
 	LOG("Cannot blit the texture in j1Player %s\n", SDL_GetError());

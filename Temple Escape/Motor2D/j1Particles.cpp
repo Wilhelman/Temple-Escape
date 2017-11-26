@@ -34,7 +34,6 @@ bool j1Particles::Awake(pugi::xml_node& config)
 	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
 	fxPlayerBasicShot.create(config.child("fxPlayerBasicShot").attribute("name").as_string());
 
-
 	//set all the animations
 
 	for (pugi::xml_node particle = config.child("spritesheetSource").child("particle"); particle && ret; particle = particle.next_sibling("particle"))
@@ -47,30 +46,11 @@ bool j1Particles::Awake(pugi::xml_node& config)
 			if (particle_type == "player_basic_shot")
 			{
 				if (animation_type == "player_basic_shot_right")
-				{
-					for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-						player_basic_shot_right.anim.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-					player_basic_shot_right.anim.speed = particle.attribute("speed").as_float();
-					player_basic_shot_right.anim.loop = animations.attribute("loop").as_bool();
-					player_basic_shot_right.speed.x = animations.attribute("speed_x").as_int();
-					player_basic_shot_right.speed.y = animations.attribute("speed_y").as_int();
-					player_basic_shot_right.life = particle.attribute("life_time").as_uint();
-				}
+					LoadParticleAnimation(animations, &player_basic_shot_right.anim, &player_basic_shot_right);
+				
 				if (animation_type == "player_basic_shot_left")
-				{
-					for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-						player_basic_shot_left.anim.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-					player_basic_shot_left.anim.speed = particle.attribute("speed").as_float();
-					player_basic_shot_left.anim.loop = animations.attribute("loop").as_bool();
-					player_basic_shot_left.speed.x = animations.attribute("speed_x").as_int();
-					player_basic_shot_left.speed.y = animations.attribute("speed_y").as_int();
-					player_basic_shot_left.life = particle.attribute("life_time").as_uint();
-				}
-
+					LoadParticleAnimation(animations, &player_basic_shot_left.anim, &player_basic_shot_left);
 			}
-
 		}
 	}
 	return true;
@@ -229,4 +209,18 @@ void j1Particles::OnCollision(Collider* c1, Collider* c2)
 			}
 		}
 	}
+}
+
+void j1Particles::LoadParticleAnimation(pugi::xml_node animation_node, p2Animation * animation, Particle* particle)
+{
+	bool ret = true;
+
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
+	particle->speed.x = animation_node.attribute("speed_x").as_int();
+	particle->speed.y = animation_node.attribute("speed_y").as_int();
+	particle->life = animation_node.attribute("life_time").as_uint();
 }

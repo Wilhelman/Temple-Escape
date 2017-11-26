@@ -51,39 +51,14 @@ bool j1Map::Awake(pugi::xml_node& config)
 	{
 		p2SString tmp(animations.attribute("name").as_string());
 
-		if (tmp == "lava_waterfall") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_waterfall.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			lava_waterfall.speed = animations.attribute("speed").as_float();
-			lava_waterfall.loop = animations.attribute("loop").as_bool();
-		}
-
-		if (tmp == "lava_animation") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				lava_animation.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			lava_animation.speed = animations.attribute("speed").as_float();
-			lava_animation.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "water_animation") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				water_animation.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			water_animation.speed = animations.attribute("speed").as_float();
-			water_animation.loop = animations.attribute("loop").as_bool();
-		}
-		if (tmp == "waterfall") {
-
-			for (pugi::xml_node frame = animations.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
-				waterfall.PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
-
-			waterfall.speed = animations.attribute("speed").as_float();
-			waterfall.loop = animations.attribute("loop").as_bool();
-		}
+		if (tmp == "lava_waterfall") 
+			LoadMapAnimation(animations, &lava_waterfall);
+		if (tmp == "lava_animation")
+			LoadMapAnimation(animations, &lava_animation);
+		if (tmp == "water_animation") 
+			LoadMapAnimation(animations, &water_animation);
+		if (tmp == "waterfall")
+			LoadMapAnimation(animations, &waterfall);
 
 	}
 
@@ -619,6 +594,17 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	}
 
 	return ret;
+}
+
+void j1Map::LoadMapAnimation(pugi::xml_node animation_node, p2Animation * animation)
+{
+	bool ret = true;
+
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
 }
 
 bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const

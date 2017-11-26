@@ -61,6 +61,9 @@ private:
 	p2SString spritesheetName;
 	p2SString fxPlayerBasicShot;
 
+private:
+	void LoadParticleAnimation(pugi::xml_node animation_node, p2Animation* animation, Particle* particle);
+
 public:
 
 	//Player shots

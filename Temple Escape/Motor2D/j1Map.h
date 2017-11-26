@@ -163,6 +163,7 @@ private:
 	
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	void LoadMapAnimation(pugi::xml_node animation_node, p2Animation* animation);
 
 public:
 
