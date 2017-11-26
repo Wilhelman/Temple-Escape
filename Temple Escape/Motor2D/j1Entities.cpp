@@ -63,7 +63,10 @@ bool j1Entities::PreUpdate()
 		if (entities[i]->to_destroy) {
 			delete(entities[i]);
 			entities[i] = nullptr;
-			entities.RemoveAt(i);
+			if (!entities.RemoveAt(i)) {
+				LOG("Error removing entity");
+				return false;
+			}
 		}
 	}
 	return true;
@@ -94,7 +97,10 @@ bool j1Entities::CleanUp()
 		if (entities[i] != nullptr) {
 			delete(entities[i]);
 			entities[i] = nullptr;
-			entities.RemoveAt(i);
+			if (!entities.RemoveAt(i)) {
+				LOG("Error removing entity");
+				return false;
+			}
 		}
 	}
 
@@ -142,35 +148,8 @@ bool j1Entities::SpawnEntity(int x, int y, ENTITY_TYPES type)
 void j1Entities::OnCollision(Collider* c1, Collider* c2)
 {
 	for (uint i = 0; i < entities.Count(); ++i)
-	{
 		if (entities[i] != nullptr && entities[i]->GetCollider() == c1)
-		{
 			entities[i]->OnCollision(c2);
-			if (entities[i]->type == ENTITY_TYPES::BAT)
-			{
-				if (entities[i]->getLives() <= 0)
-				{
-					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
-					{
-						entities[i]->to_destroy = true;
-						break;
-					}
-				}
-			}
-			if (entities[i]->type == ENTITY_TYPES::SLIME)
-			{
-				if (entities[i]->getLives() <= 0)
-				{
-					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
-					{
-						entities[i]->to_destroy = true;
-						break;
-					}
-				}
-			}
-
-		}
-	} 
 }
 
 

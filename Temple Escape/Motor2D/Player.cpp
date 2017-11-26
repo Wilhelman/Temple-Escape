@@ -235,7 +235,7 @@ void Player::OnCollision(Collider* collider) {
 		App->audio->PlayFx(player_dead_fx);
 		deadTime = SDL_GetTicks();
 	}
-
+	else
 	if (collider->type == COLLIDER_LVL_END)
 	{
 		if (!reachedEnd)

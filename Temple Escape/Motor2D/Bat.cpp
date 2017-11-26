@@ -227,17 +227,12 @@ void Bat::OnCollision(Collider* collider)
 	{
 		player_in_radar = false;
 		have_to_chill = true;
-	}
-	if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
+	}else if (collider->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 		lives--;
 
 	if (lives <= 0)
 	{
-		if (this->collider != nullptr)
-		{
-			App->collider->EraseCollider(this->collider);
-			this->collider = nullptr;
-		}
+		this->to_destroy = true;
 	}
 }
 
