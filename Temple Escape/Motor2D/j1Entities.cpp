@@ -14,13 +14,8 @@
 #include "Player.h"
 
 
-#define SPAWN_MARGIN 500
-
 j1Entities::j1Entities()
 {
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
-		entities[i] = nullptr;
-
 	name.create("entities");
 }
 
@@ -51,7 +46,7 @@ bool j1Entities::Start()
 		ret = false;
 	}
 
-	if (!App->entities->AddEntity(PLAYER, App->map->spawn.x, App->map->spawn.y)) {
+	if (!SpawnEntity(App->map->spawn.x, App->map->spawn.y, PLAYER)) {
 		LOG("Error adding entity player ...");
 		ret = false;
 	}
@@ -59,24 +54,12 @@ bool j1Entities::Start()
 	if (!ret)
 		return false;
 
-	//SpawnEntity(queue[0]); 
-	//we know already that is the player. TODO: this looks bad ?
-	this->PreUpdate();
-
 	return ret;
 }
 
 bool j1Entities::PreUpdate()
 {
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
-	{
-		if (entities_array[i].type != ENTITY_TYPES::NO_TYPE)
-		{
-			SpawnEntity(entities_array[i]);
-			entities_array[i].type = ENTITY_TYPES::NO_TYPE;
-			LOG("Spawning entity at %d", entities_array[i].x * App->win->GetScale());
-		}
-	}
+
 	return true;
 }
 
@@ -84,12 +67,12 @@ bool j1Entities::PreUpdate()
 bool j1Entities::Update(float dt)
 {
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
-		if (entities[i] != nullptr) entities[i]->Update(dt);
+	for (int i = 0; i < entities.Count(); i++)
+		if (entities.At(i) != nullptr) entities[i]->Update(dt);
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
-		if (entities[i] != nullptr) entities[i]->Draw(entity_sprites);
-
+	for (int i = 0; i < entities.Count(); i++)
+		if (entities.At(i) != nullptr) entities[i]->Draw(entity_sprites);
+	
 	return true;
 }
 
@@ -100,70 +83,59 @@ bool j1Entities::CleanUp()
 
 	App->tex->UnLoad(entity_sprites);
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	for (uint i = 0; i < entities.Count(); ++i)
 	{
-		if (entities[i] != nullptr)
-		{
-			delete entities[i];
+		if (entities[i] != nullptr) {
+			delete(entities[i]);
 			entities[i] = nullptr;
+			entities.Pop(entities[i]);
 		}
 	}
+
+	entities.Clear();
 
 	return true;
 }
 
-bool j1Entities::AddEntity(ENTITY_TYPES type, int x, int y)
+bool j1Entities::SpawnEntity(int x, int y, ENTITY_TYPES type)
 {
+	// find room for the new entity
 	bool ret = false;
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	switch (type)
 	{
-		if (entities_array[i].type == ENTITY_TYPES::NO_TYPE)
-		{
-			entities_array[i].type = type;
-			entities_array[i].x = x;
-			entities_array[i].y = y;
-			ret = true;
-			break;
-		}
+	case ENTITY_TYPES::BAT: {
+		Bat* batty = new Bat(x, y);
+		batty->type = ENTITY_TYPES::BAT; //TODO PARAMETER TO CONSTRUCTOR!
+		entities.PushBack(batty);
+		ret = true;
+		break;
 	}
+	case ENTITY_TYPES::SLIME: {
+		Slime* slimmy = new Slime(x, y);
+		slimmy->type = ENTITY_TYPES::SLIME; //TODO PARAMETER TO CONSTRUCTOR!
+		entities.PushBack(slimmy);
+		ret = true;
+		break;
+	}
+	case ENTITY_TYPES::PLAYER: {
+		Player* player = new Player(x, y);
+		player->type = ENTITY_TYPES::PLAYER; //TODO PARAMETER TO CONSTRUCTOR!
+		entities.PushBack(player);
+		ret = true;
+		break;
+	}
+	default:
+		break;
+	}
+	
+
 	return ret;
-}
-
-void j1Entities::SpawnEntity(const EntityInfo& info)
-{
-	// find room for the new enemy
-	uint i = 0;
-	for (; entities[i] != nullptr && i < MAX_ENTITIES; ++i);
-
-	if (i != MAX_ENTITIES)
-	{
-		switch (info.type)
-		{
-		case ENTITY_TYPES::BAT: {
-			entities[i] = new Bat(info.x, info.y);
-			entities[i]->type = ENTITY_TYPES::BAT;
-			break;
-		}
-		case ENTITY_TYPES::SLIME: {
-			entities[i] = new Slime(info.x, info.y);
-			entities[i]->type = ENTITY_TYPES::SLIME;
-			break;
-		}
-		case ENTITY_TYPES::PLAYER: {
-			entities[i] = new Player(info.x,info.y);
-			entities[i]->type = ENTITY_TYPES::PLAYER;
-			break;
-		}
-		default:
-			break;
-		}
-	}
 }
 
 void j1Entities::OnCollision(Collider* c1, Collider* c2)
 {
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	for (uint i = 0; i < entities.Count(); ++i)
 	{
 		if (entities[i] != nullptr && entities[i]->GetCollider() == c1)
 		{
@@ -174,8 +146,9 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 					{
-						delete entities[i];
+						delete(entities[i]);
 						entities[i] = nullptr;
+						entities.Pop(entities[i]);
 						break;
 					}
 				}
@@ -186,8 +159,9 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 					{
-						delete entities[i];
+						delete(entities[i]);
 						entities[i] = nullptr;
+						entities.Pop(entities[i]);
 						break;
 					}
 				}
@@ -203,13 +177,13 @@ bool j1Entities::Load(pugi::xml_node& load)
 	bool ret = true;
 
 	//delete all enemies but the player
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	for (uint i = 0; i < entities.Count(); ++i)
 	{
-		if (entities[i] != nullptr)
-		{
+		if (entities[i] != nullptr){
 			if (entities[i]->type != PLAYER) {
-				delete entities[i];
+				delete(entities[i]);
 				entities[i] = nullptr;
+				entities.Pop(entities[i]);
 			}
 		}
 	}
@@ -226,10 +200,10 @@ bool j1Entities::Load(pugi::xml_node& load)
 	}
 			
 	for (pugi::xml_node bat = load.child("bat"); bat && ret; bat = bat.next_sibling("bat"))
-		AddEntity(BAT, bat.child("position").attribute("x").as_float(), bat.child("position").attribute("y").as_float());
+		SpawnEntity(bat.child("position").attribute("x").as_float(), bat.child("position").attribute("y").as_float(), BAT);
 	
 	for (pugi::xml_node slime = load.child("slime"); slime && ret; slime = slime.next_sibling("slime"))
-		AddEntity(SLIME, slime.child("position").attribute("x").as_float(), slime.child("position").attribute("y").as_float());
+		SpawnEntity(slime.child("position").attribute("x").as_float(), slime.child("position").attribute("y").as_float(), SLIME);
 
 	return ret;
 }
@@ -238,7 +212,7 @@ bool j1Entities::Save(pugi::xml_node& save) const
 {
 	bool ret = true;
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	for (uint i = 0; i < entities.Count(); ++i)
 	{
 		if (entities[i] != nullptr)
 		{
@@ -263,7 +237,7 @@ bool j1Entities::Save(pugi::xml_node& save) const
 
 Player* j1Entities::GetPlayer() const {
 
-	for (uint i = 0; i < MAX_ENTITIES; ++i)
+	for (uint i = 0; i < entities.Count(); ++i)
 	{
 		if (entities[i] != nullptr)
 		{

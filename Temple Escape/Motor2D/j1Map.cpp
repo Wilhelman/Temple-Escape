@@ -170,10 +170,10 @@ void j1Map::setAllLogicForMap()
 						if (layersBlit->data->layer_type == ENEMIES && tilesetsBlit->data->tileset_type == PLATFORM)
 						{
 							if (id == 631) { //bat
-								App->entities->AddEntity(BAT, MapToWorld(i, j).x, MapToWorld(i, j).y);
+								App->entities->SpawnEntity(MapToWorld(i, j).x, MapToWorld(i, j).y, BAT);
 							}
 							if (id == 127) { //slime
-								App->entities->AddEntity(SLIME, MapToWorld(i, j).x, MapToWorld(i, j).y);
+								App->entities->SpawnEntity(MapToWorld(i, j).x, MapToWorld(i, j).y, SLIME);
 							}
 						}
 						if (layersBlit->data->layer_type == COLLISIONS && tilesetsBlit->data->tileset_type == PLATFORM)

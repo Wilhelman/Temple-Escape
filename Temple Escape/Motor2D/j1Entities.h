@@ -3,8 +3,7 @@
 
 #include "j1Module.h"
 #include "p2Animation.h"
-
-#define MAX_ENTITIES 500
+#include "p2DynArray.h"
 
 enum ENTITY_TYPES
 {
@@ -18,12 +17,6 @@ enum ENTITY_TYPES
 class Entity;
 class Player;
 
-struct EntityInfo
-{
-	ENTITY_TYPES type = ENTITY_TYPES::NO_TYPE;
-	int x = 0, y = 0;
-};
-
 class j1Entities : public j1Module
 {
 public:
@@ -32,35 +25,28 @@ public:
 	~j1Entities();
 
 	bool Awake(pugi::xml_node& conf);
+
 	bool Start();
-	// Called before all Updates
+
 	bool PreUpdate();
 
-	// Called each loop iteration
 	bool Update(float dt);
 
 	bool Load(pugi::xml_node&);
 
 	bool Save(pugi::xml_node&) const;
 
-	// Called before quitting
-	bool CleanUp();;
+	bool CleanUp();
 
 	void OnCollision(Collider* c1, Collider* c2);
 
-	bool AddEntity(ENTITY_TYPES type, int x, int y);
-
 	Player* GetPlayer()const;
 
-private:
-
-	void SpawnEntity(const EntityInfo& info);
+	bool SpawnEntity(int x, int y, ENTITY_TYPES type);
 
 private:
 
-	EntityInfo entities_array[MAX_ENTITIES];
-
-	Entity* entities[MAX_ENTITIES];
+	p2DynArray<Entity*> entities;
 
 	SDL_Texture* entity_sprites = nullptr;
 
