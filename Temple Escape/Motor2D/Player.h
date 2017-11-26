@@ -50,6 +50,13 @@ class Player : public Entity
 		NO_DIR
 	};
 
+public:
+	SDL_Rect current_frame = { 0,0,0,0 };
+
+	bool reachedEnd = false;
+	bool isDead = false;
+	bool god_mode = false;
+
 private:
 	bool didDoubleJump = false;;
 	bool isJumping = false;
@@ -87,19 +94,6 @@ private:
 	uint right_idle_vel = 0u, left_idle_vel = 0u, right_run_vel = 0u, left_run_vel = 0u, right_jump_vel = 0u,
 		left_jump_vel = 0u, right_death_blink_vel = 0u, left_death_blink_vel = 0u, right_shoot_vel = 0u, left_shoot_vel = 0u;
 
-private:
-	float gravityHaveToWork();
-	float canGoRight();
-	float canGoLeft();
-	float canGoUp();
-	bool PlayerCanShootRight();
-	bool PlayerCanShootLeft();
-	float DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction);
-
-	void SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state);
-	void SetPlayerStates(PlayerState current_state, PlayerLastState last_state);
-	void SetPlayerAnimationsSpeed(float dt);
-
 public:
 
 	Player(int x, int y);
@@ -119,13 +113,19 @@ public:
 
 	bool Save(pugi::xml_node&) const;
 
-public:
-	
-	SDL_Rect current_frame = { 0,0,0,0 };
 
-	bool reachedEnd = false;
-	bool isDead = false;
-	bool god_mode = false;
+private:
+	float gravityHaveToWork();
+	float canGoRight();
+	float canGoLeft();
+	float canGoUp();
+	bool PlayerCanShootRight();
+	bool PlayerCanShootLeft();
+	float DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction);
+
+	void SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state);
+	void SetPlayerStates(PlayerState current_state, PlayerLastState last_state);
+	void SetPlayerAnimationsSpeed(float dt);
 
 };
 

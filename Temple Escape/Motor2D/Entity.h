@@ -9,6 +9,11 @@ struct Collider;
 
 class Entity
 {
+public:
+	fPoint position = fPoint(0, 0);
+	int type = 0;
+	bool to_destroy = false;
+
 protected:
 	p2Animation* animation = nullptr;
 	Collider* collider = nullptr;
@@ -16,11 +21,6 @@ protected:
 	uint currentTime = 0u;
 	uint lastTime = 0u;
 	bool key_entities_speed = false;
-
-public:
-	fPoint position = fPoint(0, 0);
-	int type = 0;
-	bool to_destroy = false;
 
 public:
 	Entity(int x, int y);
