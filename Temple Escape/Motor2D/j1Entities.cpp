@@ -59,7 +59,13 @@ bool j1Entities::Start()
 
 bool j1Entities::PreUpdate()
 {
-
+	for (int i = 0; i < entities.Count(); i++) {
+		if (entities[i]->to_destroy) {
+			delete(entities[i]);
+			entities[i] = nullptr;
+			entities.RemoveAt(i);
+		}
+	}
 	return true;
 }
 
@@ -68,10 +74,10 @@ bool j1Entities::Update(float dt)
 {
 
 	for (int i = 0; i < entities.Count(); i++)
-		if (entities.At(i) != nullptr) entities[i]->Update(dt);
+		if (entities[i] != nullptr) entities[i]->Update(dt);
 
 	for (int i = 0; i < entities.Count(); i++)
-		if (entities.At(i) != nullptr) entities[i]->Draw(entity_sprites);
+		if (entities[i] != nullptr) entities[i]->Draw(entity_sprites);
 	
 	return true;
 }
@@ -88,7 +94,7 @@ bool j1Entities::CleanUp()
 		if (entities[i] != nullptr) {
 			delete(entities[i]);
 			entities[i] = nullptr;
-			entities.Pop(entities[i]);
+			entities.RemoveAt(i);
 		}
 	}
 
@@ -146,9 +152,7 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 					{
-						delete(entities[i]);
-						entities[i] = nullptr;
-						entities.Pop(entities[i]);
+						entities[i]->to_destroy = true;
 						break;
 					}
 				}
@@ -159,9 +163,7 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == COLLIDER_TYPE::COLLIDER_PLAYER_BASIC_SHOT)
 					{
-						delete(entities[i]);
-						entities[i] = nullptr;
-						entities.Pop(entities[i]);
+						entities[i]->to_destroy = true;
 						break;
 					}
 				}
@@ -181,9 +183,7 @@ bool j1Entities::Load(pugi::xml_node& load)
 	{
 		if (entities[i] != nullptr){
 			if (entities[i]->type != PLAYER) {
-				delete(entities[i]);
-				entities[i] = nullptr;
-				entities.Pop(entities[i]);
+				entities[i]->to_destroy = true;
 			}
 		}
 	}

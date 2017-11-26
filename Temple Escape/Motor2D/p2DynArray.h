@@ -72,6 +72,29 @@ public:
 		data[num_elements++] = element;
 	}
 
+	bool RemoveAt(uint x){
+
+		for (int i = 0; i < num_elements; i++)
+		{
+			if (i == x)
+			{
+				for (; i < num_elements - 1; i++)
+				{
+					// Assign the next element to current location.             
+					data[i] = data[i + 1];
+				}
+
+				// Remove the last element as it has been moved to previous index.
+				data[num_elements - 1] = 0;
+				num_elements = num_elements - 1;
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	bool Pop(VALUE& result)
 	{
 		if(num_elements > 0)
