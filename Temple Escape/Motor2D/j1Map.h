@@ -38,7 +38,7 @@ struct Properties
 	struct Property
 	{
 		p2SString name;
-		int value;
+		int value = 0;
 	};
 
 	~Properties()
@@ -62,7 +62,7 @@ struct Properties
 
 struct MapLayer {
 
-	p2SString name = nullptr;
+	p2SString name;
 	uint width = 0; //number of tiles in the x axis
 	uint height = 0; //number of tiles in the y axis
 	Properties	properties;
@@ -85,18 +85,18 @@ struct TileSet
 	SDL_Rect GetTileRect(int id) const;
 
 	p2SString			name;
-	int					firstgid;
-	int					margin;
-	int					spacing;
-	int					tile_width;
-	int					tile_height;
-	SDL_Texture*		texture;
-	int					tex_width;
-	int					tex_height;
-	int					num_tiles_width;
-	int					num_tiles_height;
-	int					offset_x;
-	int					offset_y;
+	int					firstgid = 0;
+	int					margin = 0;
+	int					spacing = 0;
+	int					tile_width = 0;
+	int					tile_height = 0;
+	SDL_Texture*		texture = nullptr;
+	int					tex_width = 0;
+	int					tex_height = 0;
+	int					num_tiles_width = 0;
+	int					num_tiles_height = 0;
+	int					offset_x = 0;
+	int					offset_y = 0;
 
 	TileSetTypes		tileset_type = TILESET_NOT_DEF;
 };
@@ -112,14 +112,14 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	int					width;
-	int					height;
-	int					tile_width;
-	int					tile_height;
-	SDL_Color			background_color;
-	MapTypes			type;
+	int					width = 0;
+	int					height = 0;
+	int					tile_width = 0;
+	int					tile_height = 0;
+	SDL_Color			background_color = { 0, 0, 0, 0 };
+	MapTypes			type = MAPTYPE_UNKNOWN;
 	p2List<TileSet*>	tilesets;
-	p2List<MapLayer*> layers;
+	p2List<MapLayer*>   layers;
 };
 
 // ----------------------------------------------------
@@ -168,10 +168,10 @@ public:
 
 	MapData data;
 	p2SString sceneName;
-	iPoint spawn;
+	iPoint spawn = iPoint({ 0, 0 });
 
 	//for comodity c:
-	MapLayer* collisionLayer;
+	MapLayer* collisionLayer = nullptr;
 
 private:
 
@@ -180,12 +180,12 @@ private:
 	p2SString			folder;
 	p2SString			spritesheetName;
 
-	bool				map_loaded;
+	bool				map_loaded = false;
 
-	p2Animation			lava_waterfall;
-	p2Animation			lava_animation;
-	p2Animation			water_animation;
-	p2Animation			waterfall;
+	p2Animation			lava_waterfall = p2Animation();
+	p2Animation			lava_animation = p2Animation();
+	p2Animation			water_animation = p2Animation();
+	p2Animation			waterfall = p2Animation();
 
 };
 
