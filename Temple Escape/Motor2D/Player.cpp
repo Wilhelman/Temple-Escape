@@ -98,32 +98,22 @@ Player::~Player()
 void Player::Update(float dt)
 {
 	current_frame = animation->GetCurrentFrame();
-
-	if (!key_entities_speed && dt > 0)
-		SetEntitiesSpeed(dt);
-
-	if (dt > 0) {
-		right_idle.speed = right_idle_vel * dt;
-		left_idle.speed = left_idle_vel * dt;
-		right_run.speed = right_run_vel * dt;;
-		left_run.speed = left_run_vel * dt;;
-		right_jump.speed = right_jump_vel * dt;
-		left_jump.speed = left_jump_vel * dt;
-		right_death_blink.speed = right_death_blink_vel * dt;
-		left_death_blink.speed = left_death_blink_vel * dt;
-		right_shoot.speed = right_shoot_vel * dt;
-		left_shoot.speed = left_shoot_vel * dt;
-	}
-
 	current_dt = dt;
-
 	current_state = PlayerState::ST_UNKNOWN;
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN && !isDead)
-		god_mode = !god_mode;
+	if (dt > 0)
+	{
+		if (!key_entities_speed)
+			SetEntitiesSpeed(dt);
 
+		SetPlayerAnimationsSpeed(dt);
+	}
+	
 	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
+
+		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+			god_mode = !god_mode;
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump)
 		{
@@ -578,6 +568,20 @@ void Player::SetPlayerStates(PlayerState current_state, PlayerLastState last_sta
 {
 	this->current_state = current_state;
 	this->last_state = last_state;
+}
+
+void Player::SetPlayerAnimationsSpeed(float dt)
+{
+	right_idle.speed = right_idle_vel * dt;
+	left_idle.speed = left_idle_vel * dt;
+	right_run.speed = right_run_vel * dt;;
+	left_run.speed = left_run_vel * dt;;
+	right_jump.speed = right_jump_vel * dt;
+	left_jump.speed = left_jump_vel * dt;
+	right_death_blink.speed = right_death_blink_vel * dt;
+	left_death_blink.speed = left_death_blink_vel * dt;
+	right_shoot.speed = right_shoot_vel * dt;
+	left_shoot.speed = left_shoot_vel * dt;
 }
 
 bool Player::Load(pugi::xml_node& load)

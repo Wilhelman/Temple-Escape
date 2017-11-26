@@ -98,6 +98,7 @@ private:
 
 	void SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state);
 	void SetPlayerStates(PlayerState current_state, PlayerLastState last_state);
+	void SetPlayerAnimationsSpeed(float dt);
 
 public:
 
