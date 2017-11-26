@@ -50,6 +50,14 @@ class Player : public Entity
 		NO_DIR
 	};
 
+public:
+
+	SDL_Rect current_frame = { 0,0,0,0 };
+
+	bool reachedEnd = false;
+	bool isDead = false;
+	bool god_mode = false;
+
 private:
 	bool didDoubleJump = false;;
 	bool isJumping = false;
@@ -118,14 +126,6 @@ public:
 	void ImplementLoad();
 
 	bool Save(pugi::xml_node&) const;
-
-public:
-	
-	SDL_Rect current_frame = { 0,0,0,0 };
-
-	bool reachedEnd = false;
-	bool isDead = false;
-	bool god_mode = false;
 
 };
 

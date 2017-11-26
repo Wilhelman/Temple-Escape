@@ -16,11 +16,11 @@ private:
 	float current_frame = 0.0f;
 	int last_frame = 0;
 	int loops = 0;
-	enum pingpong
+	enum PingPong
 	{
-		forward,
-		backward
-	} direction = forward;
+		FORWARD,
+		BACKWARD
+	} direction = FORWARD;
 
 public:
 
@@ -41,24 +41,24 @@ public:
 	{
 		switch (direction)
 		{
-		case pingpong::forward:
+		case PingPong::FORWARD:
 		{
 			current_frame += speed;
 			if (current_frame >= last_frame)
 			{
 				current_frame = (loop || pingpong) ? 0.0f : last_frame - 1;
-				direction = pingpong ? pingpong::backward : pingpong::forward;
+				direction = pingpong ? PingPong::BACKWARD : PingPong::FORWARD;
 				loops++;
 			}
 		}
 		break;
-		case pingpong::backward:
+		case PingPong::BACKWARD:
 		{
 			current_frame -= speed;
 			if (current_frame <= 0.0f)
 			{
 				current_frame = 0.0f;
-				direction = pingpong::forward;
+				direction = PingPong::FORWARD;
 				loops++;
 			}
 		}

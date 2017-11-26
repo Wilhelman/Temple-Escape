@@ -33,6 +33,20 @@ struct Particle
 class j1Particles : public j1Module
 {
 public:
+	//Player shots
+	Particle player_basic_shot_right;
+	Particle player_basic_shot_left;
+
+private:
+	SDL_Texture* MotionTree = nullptr;
+	SDL_Texture* graphics = nullptr;
+	Particle* active[MAX_ACTIVE_PARTICLES];
+	uint last_particle = 0;
+
+	p2SString spritesheetName;
+	p2SString fxPlayerBasicShot;
+
+public:
 	j1Particles();
 	~j1Particles();
 
@@ -53,22 +67,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 private:
-	SDL_Texture* MotionTree = nullptr;
-	SDL_Texture* graphics = nullptr;
-	Particle* active[MAX_ACTIVE_PARTICLES];
-	uint last_particle = 0;
-
-	p2SString spritesheetName;
-	p2SString fxPlayerBasicShot;
-
-private:
 	void LoadParticleAnimation(pugi::xml_node animation_node, p2Animation* animation, Particle* particle);
-
-public:
-
-	//Player shots
-	Particle player_basic_shot_right;
-	Particle player_basic_shot_left;
 
 };
 
