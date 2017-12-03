@@ -12,6 +12,10 @@
 #include "j1FadeToBlack.h"
 #include "j1Pathfinding.h"
 #include "Player.h"
+#include "j1UI.h"
+
+#include "UIImage.h"
+#include "UIButton.h"
 
 #include "j1Entities.h"
 
@@ -57,6 +61,13 @@ bool j1Scene::Start()
 
 	RELEASE_ARRAY(data);
 	//end test
+
+	UIImage * window = (UIImage*)App->ui->AddUIImage(300, 100, { 0, 512, 483, 512 }, this);
+	window->draggable = true;
+	buttons.PushBack((UIButton*)App->ui->AddUIButton(350, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
+	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(350, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
+	draggable_btn->draggable = true;
+	buttons.PushBack(draggable_btn);
 
 	return ret;
 }

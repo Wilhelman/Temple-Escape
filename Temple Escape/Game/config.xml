@@ -7,8 +7,14 @@
 	<renderer>
 		<vsync value="false" />
 	</renderer>
+	<font>
+		<default_font file="fonts/FritzQuadrata Regular.ttf" size="12" />
+	</font>
+	<ui>
+		<atlas file="textures/ui/atlas.png" />
+	</ui>
 	<window>
-		<resolution width="1024" height="768" scale="3" />
+		<resolution width="1024" height="768" scale="1" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />
@@ -161,8 +167,8 @@
 			</animation>
 		</spritesheetSource>
 		<scene>
-			<data name="lvl1.tmx" start="true" currentLvl="false" />
-			<data name="lvl2.tmx" start="false" currentLvl="true" />
+			<data name="lvl1.tmx" start="true" currentLvl="true" />
+			<data name="lvl2.tmx" start="false" currentLvl="false" />
 		</scene>
 	</map>
 </config>

@@ -13,6 +13,8 @@
 #include "j1Map.h"
 #include "j1Entities.h"
 #include "j1Particles.h"
+#include "j1Fonts.h"
+#include "j1UI.h"
 #include "j1Pathfinding.h"
 #include "j1FadeToBlack.h"
 #include "j1App.h"
@@ -38,6 +40,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	entities = new j1Entities();
 	particles = new j1Particles();
+	font = new j1Fonts();
+	ui = new j1UI();
 	pathfinding = new j1PathFinding();
 	fadeToBlack = new j1FadeToBlack();
 
@@ -54,9 +58,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(entities);
 	AddModule(particles);
+	AddModule(font);
+	AddModule(ui);
 	AddModule(collider);
-
-	//let me tell u about fade
 	AddModule(fadeToBlack);
 
 	// render last to swap buffer

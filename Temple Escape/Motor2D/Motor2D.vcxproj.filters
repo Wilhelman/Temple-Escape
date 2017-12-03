@@ -44,10 +44,10 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Bat.cpp">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Slime.cpp">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="j1Particles.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
@@ -62,10 +62,28 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Fonts.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImage.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UILabel.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="j1UI.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,10 +154,10 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Bat.h">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Slime.h">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1Particles.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
@@ -154,10 +172,28 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Desenvolupament  ========\Modules\Enemies</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Fonts.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UILabel.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="j1UI.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,8 +215,11 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Modules\Enemies">
+    <Filter Include="Desenvolupament  ========\Modules\Entities">
       <UniqueIdentifier>{2c536657-6abe-4eb1-aba7-667bde091b65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI">
+      <UniqueIdentifier>{9b5d49e9-49d4-4bb0-86b9-b1a80397166a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

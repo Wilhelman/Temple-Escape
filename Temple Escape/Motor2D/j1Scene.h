@@ -2,8 +2,10 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "p2DynArray.h"
 
 struct SDL_Texture;
+class UIButton;
 
 class j1Scene : public j1Module
 {
@@ -38,6 +40,8 @@ public:
 
 private:
 	void putPlayerToSpawn();
+
+	p2DynArray<UIButton*> buttons;
 };
 
 #endif // __j1SCENE_H__

@@ -19,6 +19,8 @@ class j1Entities;
 class j1Particles;
 class j1Map;
 class j1PathFinding;
+class j1Fonts;
+class j1UI;
 class j1FadeToBlack;
 
 class j1App
@@ -94,6 +96,8 @@ public:
 	j1PathFinding*		pathfinding = nullptr;
 	j1Entities*			entities = nullptr;
 	j1Particles*		particles = nullptr;
+	j1Fonts*			font = nullptr;
+	j1UI*				ui = nullptr;
 	j1FadeToBlack*		fadeToBlack = nullptr;
 
 
