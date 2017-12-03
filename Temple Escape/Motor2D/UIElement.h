@@ -34,6 +34,7 @@ protected:
 
 private:
 	bool debug_draw = false;
+	iPoint camera_parent_position = iPoint(0, 0);
 
 public:
 	bool draggable = false;

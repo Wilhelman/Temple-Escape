@@ -62,10 +62,10 @@ bool j1Scene::Start()
 	RELEASE_ARRAY(data);
 	//end test
 
-	UIImage * window = (UIImage*)App->ui->AddUIImage(300, 100, { 0, 512, 483, 512 }, this);
+	UIImage * window = (UIImage*)App->ui->AddUIImage(100, 100, { 0, 512, 483, 512 }, this);
 	window->draggable = true;
-	buttons.PushBack((UIButton*)App->ui->AddUIButton(350, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
-	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(350, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
+	buttons.PushBack((UIButton*)App->ui->AddUIButton(100, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
+	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(100, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
 	draggable_btn->draggable = true;
 	buttons.PushBack(draggable_btn);
 

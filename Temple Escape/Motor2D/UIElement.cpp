@@ -3,19 +3,23 @@
 #include "j1Render.h"
 #include "j1UI.h"
 #include "j1Input.h"
+#include "p2Log.h"
 
 
 UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : screen_position(x,y), type(type), parent(parent)
 {
 	current_state = STATE_NORMAL;
 
-	if (parent == nullptr)
-		local_position = screen_position;
+	if (parent == nullptr) {
+		camera_parent_position.x = x;
+		camera_parent_position.y = y;
+	}
 	else
 	{
 		local_position.x = screen_position.x - parent->screen_position.x;
 		local_position.y = screen_position.y - parent->screen_position.y;
 	}
+
 }
 
 UIElement::~UIElement()
@@ -24,6 +28,11 @@ UIElement::~UIElement()
 
 void UIElement::Update()
 {
+	LOG("Win elem x: %i Win elem y: %i", screen_position.x, screen_position.y);
+
+	if (parent == nullptr) {
+		local_position = camera_parent_position;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) 
 		debug_draw = !debug_draw;
@@ -55,7 +64,7 @@ void UIElement::Update()
 
 		if (current_state == STATE_LEFT_MOUSE_PRESSED) 
 		{
-			if (this->draggable) 
+			if (this->draggable && parent != nullptr) 
 			{
 				App->input->GetMouseMotion(mouse_motion_x, mouse_motion_y);
 
@@ -82,8 +91,11 @@ void UIElement::Update()
 			current_state = STATE_NORMAL;
 	}
 
-	if (parent == nullptr)
-		local_position = screen_position;
+	if (parent == nullptr) {
+		LOG("Cam x: %i Cam y: %i", App->render->camera.x, App->render->camera.y);
+		screen_position.x = App->render->camera.x + local_position.x;
+		screen_position.y = App->render->camera.y + local_position.y;
+	}
 	else
 	{
 		screen_position.x = parent->screen_position.x + local_position.x;
