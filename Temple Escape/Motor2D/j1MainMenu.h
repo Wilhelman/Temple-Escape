@@ -1,20 +1,19 @@
-#ifndef __j1SCENE_H__
-#define __j1SCENE_H__
+#ifndef __j1MAINMENU_H__
+#define __j1MAINMENU_H__
 
 #include "j1Module.h"
 #include "p2DynArray.h"
 
-struct SDL_Texture;
 class UIButton;
 
-class j1Scene : public j1Module
+class j1MainMenu : public j1Module
 {
 public:
 
-	j1Scene();
+	j1MainMenu();
 
 	// Destructor
-	virtual ~j1Scene();
+	virtual ~j1MainMenu();
 
 	// Called before render is available
 	bool Awake();
@@ -41,9 +40,9 @@ public:
 	void OnUITrigger(UIElement* elementTriggered, UI_State ui_state);
 
 private:
-	void putPlayerToSpawn();
 
 	p2DynArray<UIButton*> buttons;
 };
 
-#endif // __j1SCENE_H__
+
+#endif // __j1MAINMENU_H__

@@ -9,6 +9,7 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "j1Scene.h"
+#include "j1MainMenu.h"
 #include "j1Collider.h"
 #include "j1Map.h"
 #include "j1Entities.h"
@@ -36,6 +37,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
+	main_menu = new j1MainMenu();
 	collider = new j1Collider();
 	map = new j1Map();
 	entities = new j1Entities();
@@ -56,6 +58,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(scene);
+	AddModule(main_menu);
 	AddModule(entities);
 	AddModule(particles);
 	AddModule(font);
@@ -65,6 +68,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	//disable
+	scene->active = false;
+	entities->active = false;
 
 	PERF_PEEK(ptimer);
 }
@@ -148,6 +155,10 @@ bool j1App::Start()
 
 	while (item != NULL && ret == true)
 	{
+		if (item->data->active == false) {
+			item = item->next;
+			continue;
+		}
 		ret = item->data->Start();
 		item = item->next;
 	}

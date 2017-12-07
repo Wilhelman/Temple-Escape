@@ -53,19 +53,17 @@ bool j1Scene::Start()
 		LOG("Error playing music in j1Scene Start");
 	}
 
-	//test
 	int w, h;
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 		App->pathfinding->SetMap(w, h, data);
 
 	RELEASE_ARRAY(data);
-	//end test
 
-	UIImage * window = (UIImage*)App->ui->AddUIImage(100, 100, { 0, 512, 483, 512 }, this);
+	UIImage* window = (UIImage*)App->ui->AddUIImage(300, 100, { 0, 512, 483, 512 }, this);
 	window->draggable = true;
-	buttons.PushBack((UIButton*)App->ui->AddUIButton(100, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
-	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(100, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
+	buttons.PushBack((UIButton*)App->ui->AddUIButton(350, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
+	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(350, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
 	draggable_btn->draggable = true;
 	buttons.PushBack(draggable_btn);
 
@@ -186,4 +184,55 @@ bool j1Scene::Save(pugi::xml_node& save) const
 	}
 
 	return ret;
+}
+
+void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
+	if (elementTriggered->type == IMAGE) {
+		UIImage* tmpImg = (UIImage*)elementTriggered;
+		switch (ui_state)
+		{
+		case STATE_NORMAL:
+			break;
+		case STATE_MOUSE_ENTER:
+			break;
+		case STATE_MOUSE_LEAVE:
+			break;
+		case STATE_LEFT_MOUSE_PRESSED:
+			break;
+		case STATE_NO_DEF:
+			break;
+		default:
+			break;
+		}
+	}
+	else if (elementTriggered->type == BUTTON) {
+		UIButton* tmpBtn = (UIButton*)elementTriggered;
+		switch (ui_state)
+		{
+		case STATE_NORMAL:
+			break;
+		case STATE_MOUSE_ENTER: {
+			for (int i = 0; i < buttons.Count(); i++)
+			{
+				if (buttons[i]->current_state == STATE_FOCUSED) {
+					buttons[i]->current_state = STATE_NORMAL;
+					tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
+					break;
+				}
+			}
+			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_focused);
+			break;
+		}
+		case STATE_MOUSE_LEAVE:
+			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
+			break;
+		case STATE_LEFT_MOUSE_PRESSED:
+			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
+			break;
+		case STATE_NO_DEF:
+			break;
+		default:
+			break;
+		}
+	}
 }

@@ -3,23 +3,21 @@
 #include "j1Render.h"
 #include "j1UI.h"
 #include "j1Input.h"
-#include "p2Log.h"
 
 
-UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : screen_position(x,y), type(type), parent(parent)
+UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : screen_position(x, y), type(type), parent(parent)
 {
 	current_state = STATE_NORMAL;
 
 	if (parent == nullptr) {
-		camera_parent_position.x = x;
-		camera_parent_position.y = y;
+		local_position.x = App->render->ScreenToWorld(x, y).x;
+		local_position.y = App->render->ScreenToWorld(x, y).y;
 	}
 	else
 	{
 		local_position.x = screen_position.x - parent->screen_position.x;
 		local_position.y = screen_position.y - parent->screen_position.y;
 	}
-
 }
 
 UIElement::~UIElement()
@@ -28,50 +26,44 @@ UIElement::~UIElement()
 
 void UIElement::Update()
 {
-	LOG("Win elem x: %i Win elem y: %i", screen_position.x, screen_position.y);
 
-	if (parent == nullptr) {
-		local_position = camera_parent_position;
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+		debug_draw = !debug_draw;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) 
-		debug_draw = !debug_draw;
-
 	int mouse_x = 0, mouse_y = 0;
-	App->input->GetMousePosition(mouse_x, mouse_y);
+	App->input->GetWorldMousePosition(mouse_x, mouse_y);
 
 	UIElement* element_to_trigger = nullptr;
 	element_to_trigger = App->ui->GetElementUnderMouse(mouse_x, mouse_y);
-	
-	if (element_to_trigger != nullptr && this == element_to_trigger) 
+
+	if (element_to_trigger != nullptr && this == element_to_trigger)
 	{
-		if (current_state != STATE_MOUSE_ENTER && current_state != STATE_LEFT_MOUSE_PRESSED) 
+		if (current_state != STATE_MOUSE_ENTER && current_state != STATE_LEFT_MOUSE_PRESSED)
 		{
 			current_state = UI_State::STATE_MOUSE_ENTER;
 			this->callback->OnUITrigger(this, current_state);
 		}
 
-		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && current_state == STATE_MOUSE_ENTER) 
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && current_state == STATE_MOUSE_ENTER)
 		{
 			current_state = STATE_LEFT_MOUSE_PRESSED;
 			this->callback->OnUITrigger(this, current_state);
 		}
-		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && current_state == STATE_LEFT_MOUSE_PRESSED) 
+		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
 			current_state = STATE_NORMAL;
 			this->callback->OnUITrigger(this, current_state);
 		}
 
-		if (current_state == STATE_LEFT_MOUSE_PRESSED) 
+		if (current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
-			if (this->draggable && parent != nullptr) 
+			if (this->draggable)
 			{
 				App->input->GetMouseMotion(mouse_motion_x, mouse_motion_y);
 
-				if (mouse_x != tmp_mouse_x || mouse_y != tmp_mouse_y) 
+				if (mouse_x != tmp_mouse_x || mouse_y != tmp_mouse_y)
 				{
-					screen_position.x += mouse_motion_x;
-					screen_position.y += mouse_motion_y;
 					local_position.x += mouse_motion_x;
 					local_position.y += mouse_motion_y;
 					tmp_mouse_x = mouse_x;
@@ -80,9 +72,9 @@ void UIElement::Update()
 			}
 		}
 	}
-	else 
+	else
 	{
-		if (current_state == UI_State::STATE_MOUSE_ENTER || current_state == STATE_LEFT_MOUSE_PRESSED) 
+		if (current_state == UI_State::STATE_MOUSE_ENTER || current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
 			current_state = UI_State::STATE_MOUSE_LEAVE;
 			this->callback->OnUITrigger(this, current_state);
@@ -92,28 +84,26 @@ void UIElement::Update()
 	}
 
 	if (parent == nullptr) {
-		LOG("Cam x: %i Cam y: %i", App->render->camera.x, App->render->camera.y);
-		screen_position.x = App->render->camera.x + local_position.x;
-		screen_position.y = App->render->camera.y + local_position.y;
+		screen_position = App->render->ScreenToWorld(local_position.x, local_position.y);
 	}
 	else
 	{
 		screen_position.x = parent->screen_position.x + local_position.x;
 		screen_position.y = parent->screen_position.y + local_position.y;
 	}
-	
+
 }
 
 void UIElement::Draw(SDL_Texture* sprites)
 {
-	if (current_rect.w > 0 && current_rect.h > 0) 
+	if (current_rect.w > 0 && current_rect.h > 0)
 	{
 		switch (this->type)
 		{
 		case IMAGE:
 		case BUTTON:
 			App->render->Blit(sprites, screen_position.x, screen_position.y, &current_rect);
-				break;
+			break;
 		case LABEL:
 			App->render->Blit(texture, screen_position.x, screen_position.y, &current_rect);
 			break;
@@ -149,7 +139,7 @@ UIElement * UIElement::GetParent() const
 	return this->parent;
 }
 
-SDL_Rect UIElement::GetRect() const 
+SDL_Rect UIElement::GetRect() const
 {
 	return current_rect;
 }

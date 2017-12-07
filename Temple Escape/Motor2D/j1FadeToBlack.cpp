@@ -59,7 +59,6 @@ bool j1FadeToBlack::Update(float dt)
 		{
 			App->entities->CleanUp();
 			App->entities->active = false;
-			//App->player->CleanUp();
 			App->particles->CleanUp();
 			App->collider->CleanUp();
 			App->map->CleanUp();
@@ -112,6 +111,7 @@ bool j1FadeToBlack::Update(float dt)
 					}
 				}
 			}
+
 			if (setFirst) 
 			{
 				firstData.attribute("currentLvl").set_value(true);
@@ -129,7 +129,6 @@ bool j1FadeToBlack::Update(float dt)
 			App->map->LayersSetUp();
 			
 			App->map->setAllLogicForMap();
-			//App->player->Start();
 			App->entities->Start();
 			App->entities->active = true;
 			App->particles->Start();

@@ -63,6 +63,7 @@ public:
 
 	// Get mouse / axis position
 	void GetMousePosition(int &x, int &y);
+	void GetWorldMousePosition(int &x, int &y);
 	void GetMouseMotion(int& x, int& y);
 
 private:
