@@ -58,7 +58,6 @@ public:
 
 	void SetLocalPosition(int x, int y);
 	void SetScreenPosition(int x, int y);
-	void UpdateUIElementState(UI_State current_state);
 
 	void SetParent(UIElement* parent);
 	UIElement* GetParent() const;

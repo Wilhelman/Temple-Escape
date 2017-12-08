@@ -186,10 +186,8 @@ bool j1Scene::Save(pugi::xml_node& save) const
 	return ret;
 }
 
-void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) 
-{
-	if (elementTriggered->type == IMAGE) 
-	{
+void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
+	if (elementTriggered->type == IMAGE) {
 		UIImage* tmpImg = (UIImage*)elementTriggered;
 		switch (ui_state)
 		{
@@ -207,8 +205,7 @@ void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			break;
 		}
 	}
-	else if (elementTriggered->type == BUTTON) 
-	{
+	else if (elementTriggered->type == BUTTON) {
 		UIButton* tmpBtn = (UIButton*)elementTriggered;
 		switch (ui_state)
 		{
