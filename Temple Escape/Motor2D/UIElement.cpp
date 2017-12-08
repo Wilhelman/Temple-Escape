@@ -43,17 +43,20 @@ void UIElement::Update()
 		{
 			current_state = UI_State::STATE_MOUSE_ENTER;
 			this->callback->OnUITrigger(this, current_state);
+			last_state = current_state;
 		}
 
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && current_state == STATE_MOUSE_ENTER)
 		{
 			current_state = STATE_LEFT_MOUSE_PRESSED;
 			this->callback->OnUITrigger(this, current_state);
+			last_state = current_state;
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
 			current_state = STATE_NORMAL;
 			this->callback->OnUITrigger(this, current_state);
+			last_state = current_state;
 		}
 
 		if (current_state == STATE_LEFT_MOUSE_PRESSED)
@@ -78,9 +81,12 @@ void UIElement::Update()
 		{
 			current_state = UI_State::STATE_MOUSE_LEAVE;
 			this->callback->OnUITrigger(this, current_state);
+			last_state = current_state;
 		}
-		else if (current_state == STATE_MOUSE_LEAVE)
+		else if (current_state == STATE_MOUSE_LEAVE) {
 			current_state = STATE_NORMAL;
+			last_state = current_state;
+		}
 	}
 
 	if (parent == nullptr) {

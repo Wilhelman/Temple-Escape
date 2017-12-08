@@ -17,8 +17,12 @@
 
 #include "UIImage.h"
 #include "UIButton.h"
+#include "UILabel.h"
 
 #include "j1Entities.h"
+
+#define BUTTON_HOVER_OFFSET 6
+#define BUTTON_PUSH_OFFSET 3
 
 j1MainMenu::j1MainMenu() : j1Module()
 {
@@ -44,12 +48,16 @@ bool j1MainMenu::Start()
 {
 	bool ret = true;
 
-	UIImage* window = (UIImage*)App->ui->AddUIImage(100, 100, { 0, 512, 483, 512 }, this);
-	window->draggable = true;
-	buttons.PushBack((UIButton*)App->ui->AddUIButton(150, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
-	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(150, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
-	draggable_btn->draggable = true;
-	buttons.PushBack(draggable_btn);
+	uint width = 0u, height = 0u;
+	App->win->GetWindowSize(width, height);
+
+	width /= App->win->GetScale();
+	height /= App->win->GetScale();
+
+	UIButton* new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	buttons.PushBack(new_game_btn);
+	labels.PushBack((UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", GREY, new_game_btn));
+	buttons.PushBack((UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this));
 
 	return ret;
 }
@@ -154,6 +162,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 		switch (ui_state)
 		{
 		case STATE_NORMAL:
+			tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x , tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET));
 			break;
 		case STATE_MOUSE_ENTER: {
 			for (int i = 0; i < buttons.Count(); i++)
@@ -165,13 +174,18 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 				}
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_focused);
+			tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y - BUTTON_HOVER_OFFSET));
 			break;
 		}
 		case STATE_MOUSE_LEAVE:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
+			(tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED) ?
+				tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x , tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET)):
+				tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET));
 			break;
 		case STATE_LEFT_MOUSE_PRESSED:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
+			tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET));
 			break;
 		case STATE_NO_DEF:
 			break;

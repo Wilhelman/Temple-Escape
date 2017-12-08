@@ -5,6 +5,7 @@
 #include "p2DynArray.h"
 
 class UIButton;
+class UILabel;
 
 class j1MainMenu : public j1Module
 {
@@ -42,6 +43,7 @@ public:
 private:
 
 	p2DynArray<UIButton*> buttons;
+	p2DynArray<UILabel*> labels;
 };
 
 

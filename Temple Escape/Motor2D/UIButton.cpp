@@ -19,3 +19,7 @@ void UIButton::UpdateButtonWithSelfRect(SDL_Rect self_rect)
 {
 	current_rect = self_rect;
 }
+
+void UIButton::SetNewPosition(iPoint position) {
+	this->local_position = position;
+}

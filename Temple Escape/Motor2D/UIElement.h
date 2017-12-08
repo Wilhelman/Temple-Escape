@@ -42,6 +42,7 @@ public:
 	UIElement* parent = nullptr;
 	UI_Type type = UI_NOT_DEF;
 	UI_State current_state = STATE_NO_DEF;
+	UI_State last_state = STATE_NO_DEF;
 
 public:
 	UIElement(int x, int y, UI_Type type = UI_NOT_DEF, UIElement* parent = nullptr);
