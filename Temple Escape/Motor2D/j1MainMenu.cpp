@@ -54,11 +54,11 @@ bool j1MainMenu::Start()
 	width /= App->win->GetScale();
 	height /= App->win->GetScale();
 
-	UIButton* new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(new_game_btn);
 	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", GREY, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
-
+	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 	buttons.PushBack((UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this));
 
@@ -74,13 +74,44 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
-	//App->win->SetTitle(title.GetString()); // TODO: remove this if not needed and above too
 
-	/*if (App->entities->GetPlayer()->reachedEnd && App->fadeToBlack->FadeIsOver())
-	{
-		App->entities->GetPlayer()->reachedEnd = false;
-		App->fadeToBlack->FadeToBlack();
-	}*/
+	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {
+		bool isAnyButtonFocused = false;
+		for (int i = 0; i < buttons.Count(); i++)
+		{
+			if (buttons[i]->current_state == STATE_FOCUSED) {
+				isAnyButtonFocused = true;
+				buttons[i]->current_state = STATE_NORMAL;
+				buttons[i]->UpdateButtonWithSelfRect(buttons[i]->btn_normal);
+				buttons[i]->SetLocalPosition(buttons[i]->GetLocalPosition().x, buttons[i]->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
+
+				if (i + 1 != buttons.Count()) { //is not the final button
+					buttons[i + 1]->current_state = STATE_FOCUSED;
+					buttons[i + 1]->UpdateButtonWithSelfRect(buttons[i]->btn_focused);
+					if (buttons[i + 1]->button_lbl != nullptr)
+						buttons[i + 1]->button_lbl->SetLocalPosition(buttons[i + 1]->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, buttons[i + 1]->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+					buttons[i + 1]->SetLocalPosition(buttons[i + 1]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[i + 1]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+				}
+				else {
+					buttons[0]->current_state = STATE_FOCUSED;
+					buttons[0]->UpdateButtonWithSelfRect(buttons[i]->btn_focused);
+					if (buttons[0]->button_lbl != nullptr)
+						buttons[0]->button_lbl->SetLocalPosition(buttons[0]->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, buttons[0]->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+					buttons[0]->SetLocalPosition(buttons[0]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[0]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+				}
+				break;
+			}
+
+		}
+
+		if (!isAnyButtonFocused && buttons.Count() > 0) {
+			buttons[0]->current_state = STATE_FOCUSED;
+			buttons[0]->UpdateButtonWithSelfRect(buttons[0]->btn_focused);
+			if (buttons[0]->button_lbl != nullptr)
+				buttons[0]->button_lbl->SetLocalPosition(buttons[0]->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, buttons[0]->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+			buttons[0]->SetLocalPosition(buttons[0]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[0]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+		}
+	}
 
 	return true;
 }
@@ -100,6 +131,10 @@ bool j1MainMenu::PostUpdate()
 bool j1MainMenu::CleanUp()
 {
 	LOG("Freeing main_menu");
+	App->ui->DeleteAllUIElements();
+
+	buttons.Clear();
+	labels.Clear();
 
 	return true;
 }
@@ -146,9 +181,14 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 		UIButton* tmpBtn = (UIButton*)elementTriggered;
 		switch (ui_state)
 		{
-		case STATE_NORMAL:
+		case STATE_NORMAL: {
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
-			break;
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver()) {
+				if(tmpBtn == new_game_btn)
+					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene);
+			}
+				break;
+		}
 		case STATE_MOUSE_ENTER: {
 			for (int i = 0; i < buttons.Count(); i++)
 			{

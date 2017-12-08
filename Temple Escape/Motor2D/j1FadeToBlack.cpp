@@ -57,86 +57,98 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
-			App->entities->CleanUp();
-			App->entities->active = false;
-			App->particles->CleanUp();
-			App->collider->CleanUp();
-			App->map->CleanUp();
-			pugi::xml_node firstData;
-			pugi::xml_document data;
-			
-			pugi::xml_node lvlData = App->LoadConfig(data);
-			p2SString nextLvlName = "";
+			if (moduleOn == nullptr || moduleOff == nullptr) {
+				App->entities->CleanUp();
+				App->entities->active = false;
+				App->particles->CleanUp();
+				App->collider->CleanUp();
+				App->map->CleanUp();
+				pugi::xml_node firstData;
+				pugi::xml_document data;
 
-			bool loadTheNextOne = false;
-			bool setFirst = false;
-			bool loaded = false;
+				pugi::xml_node lvlData = App->LoadConfig(data);
+				p2SString nextLvlName = "";
 
-			for (lvlData = lvlData.child("map").child("scene").child("data"); lvlData && ret; lvlData = lvlData.next_sibling("data"))
-			{
-				if (lvlName == "") 
+				bool loadTheNextOne = false;
+				bool setFirst = false;
+				bool loaded = false;
+
+				for (lvlData = lvlData.child("map").child("scene").child("data"); lvlData && ret; lvlData = lvlData.next_sibling("data"))
 				{
-					if (lvlData.previous_sibling("data") == NULL)
-						firstData = lvlData;
-
-					if (loadTheNextOne) 
+					if (lvlName == "")
 					{
-						lvlData.attribute("currentLvl").set_value(true);
-						nextLvlName = (p2SString)lvlData.attribute("name").as_string();
-						loaded = true;
-					}
+						if (lvlData.previous_sibling("data") == NULL)
+							firstData = lvlData;
 
-					if (lvlData.attribute("currentLvl").as_bool() && !loadTheNextOne) 
+						if (loadTheNextOne)
+						{
+							lvlData.attribute("currentLvl").set_value(true);
+							nextLvlName = (p2SString)lvlData.attribute("name").as_string();
+							loaded = true;
+						}
+
+						if (lvlData.attribute("currentLvl").as_bool() && !loadTheNextOne)
+						{
+							lvlData.attribute("currentLvl").set_value(false);
+							loadTheNextOne = true;
+						}
+
+						if (lvlData.next_sibling("data") == NULL && !loaded) {
+							setFirst = true;
+						}
+					}
+					else
 					{
-						lvlData.attribute("currentLvl").set_value(false);
-						loadTheNextOne = true;
-					}
+						if (lvlData.attribute("currentLvl").as_bool())
+						{
+							lvlData.attribute("currentLvl").set_value(false);
+						}
 
-					if (lvlData.next_sibling("data") == NULL && !loaded) {
-						setFirst = true;
+						p2SString tmp = (p2SString)lvlData.attribute("name").as_string();
+
+						if (tmp == lvlName)
+						{
+							lvlData.attribute("currentLvl").set_value(true);
+						}
 					}
 				}
-				else 
+
+				if (setFirst)
 				{
-					if (lvlData.attribute("currentLvl").as_bool()) 
-					{
-						lvlData.attribute("currentLvl").set_value(false);
-					}
+					firstData.attribute("currentLvl").set_value(true);
+					nextLvlName = (p2SString)firstData.attribute("name").as_string();
+				}
 
-					p2SString tmp = (p2SString)lvlData.attribute("name").as_string();
+				//We save the xml to do a loop through all the lvl's without knowing the number
+				data.save_file("config.xml");
 
-					if (tmp == lvlName) 
-					{
-						lvlData.attribute("currentLvl").set_value(true);
-					}
+				if (lvlName != "")
+					nextLvlName = lvlName;
+
+				App->map->sceneName = nextLvlName;
+				App->map->Load(nextLvlName.GetString());
+				App->map->LayersSetUp();
+
+				App->map->setAllLogicForMap();
+				App->entities->Start();
+				App->entities->active = true;
+				App->particles->Start();
+
+				if (lvlName != "" && !F1)
+					App->entities->GetPlayer()->ImplementLoad();
+
+				F1 = false;
+			}
+			else {
+				this->moduleOff->CleanUp();
+				this->moduleOff->active = false;
+				this->moduleOn->Start();
+				this->moduleOn->active = true;
+				if (moduleOn == (j1Module*)App->scene) {
+					App->entities->Start();
+					App->entities->active = true;
 				}
 			}
-
-			if (setFirst) 
-			{
-				firstData.attribute("currentLvl").set_value(true);
-				nextLvlName = (p2SString)firstData.attribute("name").as_string();
-			}
-
-			//We save the xml to do a loop through all the lvl's without knowing the number
-			data.save_file("config.xml");
-			
-			if (lvlName != "")
-				nextLvlName = lvlName;
-
-			App->map->sceneName = nextLvlName;
-			App->map->Load(nextLvlName.GetString());
-			App->map->LayersSetUp();
-			
-			App->map->setAllLogicForMap();
-			App->entities->Start();
-			App->entities->active = true;
-			App->particles->Start();
-
-			if(lvlName != "" && !F1)
-				App->entities->GetPlayer()->ImplementLoad();
-
-			F1 = false;
 			
 			total_time += total_time;
 			start_time = SDL_GetTicks();
@@ -180,6 +192,24 @@ bool j1FadeToBlack::FadeToKnowBlack(p2SString lvlToFade, float time)
 {
 	lvlName = lvlToFade;
 	bool ret = false;
+	if (current_step == FadeStep::NONE_FADE)
+	{
+		current_step = FadeStep::FADE_TO_BLACK;
+		start_time = SDL_GetTicks();
+		total_time = (Uint32)(time * 0.5f * 1000.0f);
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool j1FadeToBlack::FadeToBlackBetweenModules(j1Module* module_off, j1Module* module_on, float time)
+{
+	bool ret = false;
+
+	moduleOff = module_off;
+	moduleOn = module_on;
+
 	if (current_step == FadeStep::NONE_FADE)
 	{
 		current_step = FadeStep::FADE_TO_BLACK;

@@ -21,6 +21,7 @@ public:
 	bool Update(float dt);
 
 	bool FadeToBlack(float time = 2.0f);
+	bool FadeToBlackBetweenModules(j1Module* module_off, j1Module* module_on, float time = 2.0f);
 	bool FadeToKnowBlack(p2SString lvlToFade, float time = 2.0f);
 	bool FadeIsOver();
 
@@ -38,6 +39,9 @@ private:
 	SDL_Rect screen = { 0, 0, 0, 0 };
 
 	p2SString lvlName;
+
+	j1Module* moduleOff = nullptr;
+	j1Module* moduleOn = nullptr;
 
 public:
 	bool F1 = false;
