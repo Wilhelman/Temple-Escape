@@ -3,6 +3,7 @@
 
 #include "j1Fonts.h"
 #include "UIElement.h"
+#include "UILabel.h"
 
 class UIButton : public UIElement
 {
@@ -10,13 +11,12 @@ public:
 	SDL_Rect btn_normal;
 	SDL_Rect btn_focused;
 	SDL_Rect btn_pressed;
+	UILabel* button_lbl = nullptr;
 
 public:
 	UIButton(int x, int y, UI_Type type, SDL_Rect normal_rect, SDL_Rect focused_rect, SDL_Rect pressed_rect, j1Module* callback, UIElement* parent = nullptr);
 
 	void UpdateButtonWithSelfRect(SDL_Rect self_rect);
-
-	void SetNewPosition(iPoint position);
 };
 
 #endif //__UIIMAGE_H__

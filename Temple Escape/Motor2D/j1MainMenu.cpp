@@ -56,7 +56,10 @@ bool j1MainMenu::Start()
 
 	UIButton* new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	labels.PushBack((UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", GREY, new_game_btn));
+	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", GREY, new_game_btn);
+	new_game_btn->button_lbl = new_game_lbl;
+
+	new_game_lbl->interactable = false;
 	buttons.PushBack((UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this));
 
 	return ret;
@@ -139,30 +142,12 @@ bool j1MainMenu::Save(pugi::xml_node& save) const
 }
 
 void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
-	if (elementTriggered->type == IMAGE) {
-		UIImage* tmpImg = (UIImage*)elementTriggered;
-		switch (ui_state)
-		{
-		case STATE_NORMAL:
-			break;
-		case STATE_MOUSE_ENTER:
-			break;
-		case STATE_MOUSE_LEAVE:
-			break;
-		case STATE_LEFT_MOUSE_PRESSED:
-			break;
-		case STATE_NO_DEF:
-			break;
-		default:
-			break;
-		}
-	}
-	else if (elementTriggered->type == BUTTON) {
+	if (elementTriggered->type == BUTTON) {
 		UIButton* tmpBtn = (UIButton*)elementTriggered;
 		switch (ui_state)
 		{
 		case STATE_NORMAL:
-			tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x , tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET));
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
 			break;
 		case STATE_MOUSE_ENTER: {
 			for (int i = 0; i < buttons.Count(); i++)
@@ -173,19 +158,29 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 					break;
 				}
 			}
+
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_focused);
-			tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y - BUTTON_HOVER_OFFSET));
+			if (tmpBtn->button_lbl != nullptr)
+				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
 			break;
 		}
 		case STATE_MOUSE_LEAVE:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
-			(tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED) ?
-				tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x , tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET)):
-				tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET));
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED) {
+				tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
+			}
+			else {
+				if (tmpBtn->button_lbl != nullptr)
+					tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+				tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+			}
 			break;
 		case STATE_LEFT_MOUSE_PRESSED:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
-			tmpBtn->SetNewPosition(iPoint(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET));
+			if(tmpBtn->button_lbl!=nullptr)
+				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
 			break;
 		case STATE_NO_DEF:
 			break;

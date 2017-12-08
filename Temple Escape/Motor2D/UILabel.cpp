@@ -17,8 +17,3 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, UIElem
 	current_rect.w = width;
 	current_rect.h = height;
 }
-
-void UILabel::Update()
-{
-
-}

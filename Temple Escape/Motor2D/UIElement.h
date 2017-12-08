@@ -38,6 +38,7 @@ private:
 
 public:
 	bool draggable = false;
+	bool interactable = false;
 	bool to_destroy = false;
 	UIElement* parent = nullptr;
 	UI_Type type = UI_NOT_DEF;
@@ -54,8 +55,9 @@ public:
 	iPoint GetLocalPosition() const;
 	iPoint GetScreenPosition() const;
 	SDL_Rect GetRect() const;
-	bool IsPointOutsideRect(const iPoint& point) const;
-	bool IsRectOutside() const;
+
+	void SetLocalPosition(int x, int y);
+	void SetScreenPosition(int x, int y);
 
 	void SetParent(UIElement* parent);
 	UIElement* GetParent() const;

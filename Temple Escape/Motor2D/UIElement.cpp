@@ -5,18 +5,19 @@
 #include "j1Input.h"
 
 
-UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : screen_position(x, y), type(type), parent(parent)
+UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : local_position(x, y), type(type), parent(parent)
 {
 	current_state = STATE_NORMAL;
+	this->interactable = true;
 
 	if (parent == nullptr) {
-		local_position.x = App->render->ScreenToWorld(x, y).x;
-		local_position.y = App->render->ScreenToWorld(x, y).y;
+		screen_position.x = App->render->ScreenToWorld(x, y).x;
+		screen_position.y = App->render->ScreenToWorld(x, y).y;
 	}
 	else
 	{
-		local_position.x = screen_position.x - parent->screen_position.x;
-		local_position.y = screen_position.y - parent->screen_position.y;
+		screen_position.x = parent->screen_position.x + local_position.x;
+		screen_position.y = parent->screen_position.y + local_position.y;
 	}
 }
 
@@ -148,4 +149,13 @@ UIElement * UIElement::GetParent() const
 SDL_Rect UIElement::GetRect() const
 {
 	return current_rect;
+}
+
+
+void UIElement::SetLocalPosition(int x, int y) {
+	this->local_position = iPoint(x, y);
+}
+
+void UIElement::SetScreenPosition(int x, int y) {
+	this->screen_position = iPoint(x, y);
 }

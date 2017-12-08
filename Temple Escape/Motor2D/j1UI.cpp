@@ -159,7 +159,7 @@ UIElement* j1UI::GetElementUnderMouse(int x, int y)
 {
 	ui_elements.Flip();
 	for (int i = 0; i < ui_elements.Count(); i++) {
-		if (ui_elements[i] != nullptr)
+		if (ui_elements[i] != nullptr && ui_elements[i]->interactable)
 		{
 			if ((x > ui_elements[i]->GetScreenPosition().x && x < ui_elements[i]->GetScreenPosition().x + ui_elements[i]->GetRect().w) && (y > ui_elements[i]->GetScreenPosition().y && y < ui_elements[i]->GetScreenPosition().y + ui_elements[i]->GetRect().h))
 			{
