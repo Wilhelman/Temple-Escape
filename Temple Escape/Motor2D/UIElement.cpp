@@ -27,10 +27,8 @@ UIElement::~UIElement()
 
 void UIElement::Update()
 {
-
-	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
 		debug_draw = !debug_draw;
-	}
 
 	int mouse_x = 0, mouse_y = 0;
 	App->input->GetWorldMousePosition(mouse_x, mouse_y);
@@ -42,22 +40,20 @@ void UIElement::Update()
 	{
 		if (current_state != STATE_MOUSE_ENTER && current_state != STATE_LEFT_MOUSE_PRESSED)
 		{
-			current_state = UI_State::STATE_MOUSE_ENTER;
+			UpdateUIElementState(STATE_MOUSE_ENTER);
 			this->callback->OnUITrigger(this, current_state);
-			last_state = current_state;
 		}
 
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && current_state == STATE_MOUSE_ENTER)
 		{
-			current_state = STATE_LEFT_MOUSE_PRESSED;
+			UpdateUIElementState(STATE_LEFT_MOUSE_PRESSED);
 			this->callback->OnUITrigger(this, current_state);
-			last_state = current_state;
+			
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
-			current_state = STATE_NORMAL;
+			UpdateUIElementState(STATE_NORMAL);
 			this->callback->OnUITrigger(this, current_state);
-			last_state = current_state;
 		}
 
 		if (current_state == STATE_LEFT_MOUSE_PRESSED)
@@ -80,25 +76,20 @@ void UIElement::Update()
 	{
 		if (current_state == UI_State::STATE_MOUSE_ENTER || current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
-			current_state = UI_State::STATE_MOUSE_LEAVE;
+			UpdateUIElementState(STATE_MOUSE_LEAVE);
 			this->callback->OnUITrigger(this, current_state);
-			last_state = current_state;
 		}
-		else if (current_state == STATE_MOUSE_LEAVE) {
-			current_state = STATE_NORMAL;
-			last_state = current_state;
-		}
+		else if (current_state == STATE_MOUSE_LEAVE) 
+			UpdateUIElementState(STATE_NORMAL);
 	}
 
-	if (parent == nullptr) {
+	if (parent == nullptr) 
 		screen_position = App->render->ScreenToWorld(local_position.x, local_position.y);
-	}
 	else
 	{
 		screen_position.x = parent->screen_position.x + local_position.x;
 		screen_position.y = parent->screen_position.y + local_position.y;
 	}
-
 }
 
 void UIElement::Draw(SDL_Texture* sprites)
@@ -158,4 +149,10 @@ void UIElement::SetLocalPosition(int x, int y) {
 
 void UIElement::SetScreenPosition(int x, int y) {
 	this->screen_position = iPoint(x, y);
+}
+
+void UIElement::UpdateUIElementState(UI_State current_state)
+{
+	this->current_state = current_state;
+	last_state = this->current_state;
 }
