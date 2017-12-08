@@ -56,7 +56,7 @@ bool j1MainMenu::Start()
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", GREY, new_game_btn);
+	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", BLACK, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
