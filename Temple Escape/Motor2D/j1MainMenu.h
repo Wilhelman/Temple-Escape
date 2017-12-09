@@ -47,6 +47,8 @@ private:
 
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;
+
+	bool quit_btn_pressed = false;
 };
 
 

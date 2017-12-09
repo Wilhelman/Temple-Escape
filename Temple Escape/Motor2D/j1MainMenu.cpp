@@ -130,7 +130,7 @@ bool j1MainMenu::PostUpdate()
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || quit_btn_pressed)
 		ret = false;
 
 	return ret;
@@ -200,7 +200,8 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			{
 				if (tmpBtn == new_game_btn)
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene);
-				//else if (tmpBtn == quit_game_btn)
+				else if (tmpBtn == quit_game_btn)
+					quit_btn_pressed = true;
 
 			}
 				break;
