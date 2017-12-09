@@ -6,7 +6,7 @@
 #include "p2List.h"
 
 #define DEFAULT_FONT "fonts/Munro.ttf"
-#define DEFAULT_FONT_SIZE 13
+#define DEFAULT_FONT_SIZE 20
 
 struct SDL_Texture;
 struct _TTF_Font;

@@ -21,8 +21,7 @@
 
 #include "j1Entities.h"
 
-#define BUTTON_HOVER_OFFSET 6
-#define BUTTON_PUSH_OFFSET 3
+
 
 j1MainMenu::j1MainMenu() : j1Module()
 {
@@ -48,14 +47,13 @@ bool j1MainMenu::Start()
 {
 	bool ret = true;
 
-	uint width = 0u, height = 0u;
-	App->win->GetWindowSize(width, height);
-
-	width /= App->win->GetScale();
-	height /= App->win->GetScale();
+	uint win_width = 0u, win_height = 0u;
+	App->win->GetWindowSize(win_width, win_height);
+	win_width /= App->win->GetScale();
+	win_height /= App->win->GetScale();
 
 	// MAIN MENU BUTTONS
-	new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,32,123,32 }, { 320,105,135,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(new_game_btn);
 
 	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", BLACK, new_game_btn);
@@ -65,7 +63,7 @@ bool j1MainMenu::Start()
 
 
 
-	settings_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	settings_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 42, { 0,32,123,32 }, { 320,105,135,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(settings_btn);
 
 	UILabel* settings_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "SETTINGS", BLACK, settings_btn);
@@ -74,7 +72,7 @@ bool j1MainMenu::Start()
 	settings_lbl->interactable = false;
 
 
-	quit_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	quit_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 42 + 42, { 0,32,123,32 }, { 320,105,135,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(quit_game_btn);
 
 	UILabel* quit_game_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "QUIT", BLACK, quit_game_btn);
@@ -83,7 +81,7 @@ bool j1MainMenu::Start()
 	quit_game_lbl->interactable = false;
 
 	// SETTINGS
-	settings_menu = (UIImage*)App->ui->AddUIImage(42, height / 2 - 25, { 0,32,124,32 }, this);
+	settings_menu = (UIImage*)App->ui->AddUIImage(42, win_height / 2 - 25, { 266,199,192,130 }, this);
 	settings_menu->interactable = false;
 	settings_menu->invisible = true;
 

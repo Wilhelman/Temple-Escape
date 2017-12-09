@@ -4,6 +4,9 @@
 #include "j1Module.h"
 #include "p2DynArray.h"
 
+#define BUTTON_HOVER_OFFSET 6
+#define BUTTON_PUSH_OFFSET 3
+
 class UIButton;
 class UILabel;
 class UIImage;
