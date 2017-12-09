@@ -61,12 +61,13 @@ _Masó Garcia, Víctor's Github account:_
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 and MS Paint
 
-## Credits for artwork and music
+## Credits for artwork, music/sound fx and fonts
 
-Sprites and sound fx:
+Sprites:
 
 * Artwork created by Luis Zuno (@ansimuz). Sprites can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
 * Artwork created by [Henry Sofware](https://henrysoftware.itch.io/). Sprites can be found [here](https://henrysoftware.itch.io/free-pixel-mob)
+* UI artwork created by [Kenny](http://www.kenney.nl/). Sprites can be found [here](https://opengameart.org/content/ui-pack-rpg-extension)
 
 Tileset:
 
@@ -82,3 +83,6 @@ Sound FX:
 * This game uses these sounds from freesound:
       
 	- 249616__vincentm400__function-fail.wav by [OwlStorm / Natalie Kirk](https://freesound.org/people/OwlStorm/)
+	
+Fonts:
+* Fonts can be found here: 
