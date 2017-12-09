@@ -46,6 +46,8 @@ bool j1MainMenu::Awake()
 bool j1MainMenu::Start()
 {
 	bool ret = true;
+	int tmp_x = 0;
+	int tmp_y = 0;
 
 	uint win_width = 0u, win_height = 0u;
 	App->win->GetWindowSize(win_width, win_height);
@@ -53,37 +55,28 @@ bool j1MainMenu::Start()
 	win_height /= App->win->GetScale();
 
 	// MAIN MENU BUTTONS
-	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,32,123,32 }, { 320,105,135,44 }, { 0,64,124,29 }, this);
+	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-
 	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", BLACK, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 
-
-
-	settings_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 42, { 0,32,123,32 }, { 320,105,135,44 }, { 0,64,124,29 }, this);
+	settings_btn = (UIButton*)App->ui->AddUIButton(300, 215, { 0,153,28,32 }, { 62,169,40,42 }, { 28,153,28,29 }, this);
 	buttons.PushBack(settings_btn);
 
-	UILabel* settings_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "SETTINGS", BLACK, settings_btn);
-	settings_btn->button_lbl = settings_lbl;
-	labels.PushBack(settings_lbl);
-	settings_lbl->interactable = false;
-
-
-	quit_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 42 + 42, { 0,32,123,32 }, { 320,105,135,44 }, { 0,64,124,29 }, this);
+	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 215, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
 	buttons.PushBack(quit_game_btn);
-
-	UILabel* quit_game_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "QUIT", BLACK, quit_game_btn);
-	quit_game_btn->button_lbl = quit_game_lbl;
-	labels.PushBack(quit_game_lbl);
-	quit_game_lbl->interactable = false;
+	
 
 	// SETTINGS
-	settings_menu = (UIImage*)App->ui->AddUIImage(42, win_height / 2 - 25, { 266,199,192,130 }, this);
+	tmp_x = GetPointToCenter(293, 231, win_width, win_height).x;
+	tmp_y = GetPointToCenter(293, 231, win_width, win_height).y;
+	settings_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 293, 231 }, this);
 	settings_menu->interactable = false;
 	settings_menu->invisible = true;
+
+	
 
 	return ret;
 }
@@ -265,4 +258,10 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			break;
 		}
 	}
+}
+
+iPoint j1MainMenu::GetPointToCenter(int w_to_center, int h_to_center, int w_ref, int h_ref)
+{
+
+	return iPoint((w_ref - w_to_center) / 2, (h_ref - h_to_center) / 2);
 }

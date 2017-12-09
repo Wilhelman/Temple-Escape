@@ -10,7 +10,8 @@ UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : local_posi
 	current_state = STATE_NORMAL;
 	this->interactable = true;
 
-	if (parent == nullptr) {
+	if (parent == nullptr) 
+	{
 		screen_position.x = App->render->ScreenToWorld(x, y).x;
 		screen_position.y = App->render->ScreenToWorld(x, y).y;
 	}
@@ -27,10 +28,8 @@ UIElement::~UIElement()
 
 void UIElement::Update()
 {
-
-	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
 		debug_draw = !debug_draw;
-	}
 
 	int mouse_x = 0, mouse_y = 0;
 	App->input->GetWorldMousePosition(mouse_x, mouse_y);
@@ -84,15 +83,15 @@ void UIElement::Update()
 			this->callback->OnUITrigger(this, current_state);
 			last_state = current_state;
 		}
-		else if (current_state == STATE_MOUSE_LEAVE) {
+		else if (current_state == STATE_MOUSE_LEAVE) 
+		{
 			current_state = STATE_NORMAL;
 			last_state = current_state;
 		}
 	}
 
-	if (parent == nullptr) {
+	if (parent == nullptr)
 		screen_position = App->render->ScreenToWorld(local_position.x, local_position.y);
-	}
 	else
 	{
 		screen_position.x = parent->screen_position.x + local_position.x;
@@ -122,7 +121,6 @@ void UIElement::Draw(SDL_Texture* sprites)
 			SDL_Rect tmp_rect{ screen_position.x,screen_position.y,current_rect.w,current_rect.h };
 			App->render->DrawQuad(tmp_rect, 255, 0, 0, 255, false);
 		}
-
 	}
 }
 
@@ -150,7 +148,6 @@ SDL_Rect UIElement::GetRect() const
 {
 	return current_rect;
 }
-
 
 void UIElement::SetLocalPosition(int x, int y) {
 	this->local_position = iPoint(x, y);

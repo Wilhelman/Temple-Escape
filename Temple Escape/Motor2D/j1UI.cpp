@@ -147,6 +147,9 @@ UIElement* j1UI::AddUIButton(int position_x, int position_y, SDL_Rect normal_rec
 
 UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, UIElement* parent) {
 
+	parent->GetLocalPosition().x;
+
+
 	UIElement* tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, parent);
 	ui_elements.PushBack(tmp_lbl);
 	return tmp_lbl;
