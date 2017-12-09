@@ -5,7 +5,7 @@
 #include "SDL\include\SDL_pixels.h"
 #include "p2List.h"
 
-#define DEFAULT_FONT "fonts/FritzQuadrata Regular.ttf"
+#define DEFAULT_FONT "fonts/Munro.ttf"
 #define DEFAULT_FONT_SIZE 13
 
 struct SDL_Texture;

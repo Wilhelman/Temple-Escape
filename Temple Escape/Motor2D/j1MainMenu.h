@@ -43,6 +43,7 @@ public:
 private:
 
 	UIButton* new_game_btn = nullptr;
+	UIButton* quit_game_btn = nullptr;
 
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;

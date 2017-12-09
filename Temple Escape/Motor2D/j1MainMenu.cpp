@@ -56,11 +56,20 @@ bool j1MainMenu::Start()
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(new_game_btn);
+
 	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", BLACK, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
-	buttons.PushBack((UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this));
+
+	quit_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	buttons.PushBack(quit_game_btn);
+
+	UILabel* quit_game_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "QUIT", BLACK, quit_game_btn);
+	quit_game_btn->button_lbl = quit_game_lbl;
+	labels.PushBack(quit_game_lbl);
+	quit_game_lbl->interactable = false;
+
 
 	return ret;
 }
@@ -176,23 +185,32 @@ bool j1MainMenu::Save(pugi::xml_node& save) const
 	return ret;
 }
 
-void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
-	if (elementTriggered->type == BUTTON) {
+void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) 
+{
+	if (elementTriggered->type == BUTTON) 
+	{
 		UIButton* tmpBtn = (UIButton*)elementTriggered;
+
 		switch (ui_state)
 		{
-		case STATE_NORMAL: {
+		case STATE_NORMAL: 
+		{
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
-			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver()) {
-				if(tmpBtn == new_game_btn)
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver()) 
+			{
+				if (tmpBtn == new_game_btn)
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene);
+				//else if (tmpBtn == quit_game_btn)
+
 			}
 				break;
 		}
-		case STATE_MOUSE_ENTER: {
+		case STATE_MOUSE_ENTER: 
+		{
 			for (int i = 0; i < buttons.Count(); i++)
 			{
-				if (buttons[i]->current_state == STATE_FOCUSED) {
+				if (buttons[i]->current_state == STATE_FOCUSED) 
+				{
 					buttons[i]->current_state = STATE_NORMAL;
 					tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
 					break;
@@ -207,10 +225,12 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 		}
 		case STATE_MOUSE_LEAVE:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
-			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED) {
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED)
+			{
 				tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
 			}
-			else {
+			else
+			{
 				if (tmpBtn->button_lbl != nullptr)
 					tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
 				tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
@@ -218,7 +238,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 			break;
 		case STATE_LEFT_MOUSE_PRESSED:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
-			if(tmpBtn->button_lbl!=nullptr)
+			if (tmpBtn->button_lbl!=nullptr)
 				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
 			break;
