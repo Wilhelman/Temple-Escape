@@ -57,7 +57,7 @@ bool j1MainMenu::Start()
 	// MAIN MENU BUTTONS
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(10,10, "NEW GAME", BLACK, new_game_btn);
+	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, "NEW GAME", BLACK, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
@@ -76,7 +76,9 @@ bool j1MainMenu::Start()
 	settings_menu->interactable = false;
 	settings_menu->invisible = true;
 
-	
+	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
+	close_settings_btn->invisible = true;
+	buttons.PushBack(quit_game_btn);
 
 	return ret;
 }
@@ -210,8 +212,16 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 				else if (tmpBtn == quit_game_btn)
 					quit_btn_pressed = true;
 				else if (tmpBtn == settings_btn)
+				{
 					settings_menu->invisible = false;
-
+					close_settings_btn->invisible = false;
+				}
+				else if (tmpBtn = close_settings_btn)
+				{
+					settings_menu->invisible = true;
+					close_settings_btn->invisible = true;
+				}
+					
 			}
 				break;
 		}

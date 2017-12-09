@@ -51,6 +51,7 @@ private:
 	UIButton* new_game_btn = nullptr;
 	UIButton* settings_btn = nullptr;
 	UIButton* quit_game_btn = nullptr;
+	UIButton* close_settings_btn = nullptr;
 	UIImage* settings_menu = nullptr;
 
 	p2DynArray<UIButton*> buttons;
