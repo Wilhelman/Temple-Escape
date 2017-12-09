@@ -148,6 +148,8 @@ bool j1FadeToBlack::Update(float dt)
 					App->entities->Start();
 					App->entities->active = true;
 				}
+				moduleOff = nullptr;
+				moduleOn = nullptr;
 			}
 			
 			total_time += total_time;

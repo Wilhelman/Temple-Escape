@@ -54,6 +54,7 @@ bool j1MainMenu::Start()
 	width /= App->win->GetScale();
 	height /= App->win->GetScale();
 
+	// MAIN MENU BUTTONS
 	new_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 25, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(new_game_btn);
 
@@ -62,7 +63,18 @@ bool j1MainMenu::Start()
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 
-	quit_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+
+
+	settings_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
+	buttons.PushBack(settings_btn);
+
+	UILabel* settings_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "SETTINGS", BLACK, settings_btn);
+	settings_btn->button_lbl = settings_lbl;
+	labels.PushBack(settings_lbl);
+	settings_lbl->interactable = false;
+
+
+	quit_game_btn = (UIButton*)App->ui->AddUIButton(width / 2 - 62, height / 2 - 16 + 42 + 42, { 0,32,124,32 }, { 320,105,136,44 }, { 0,64,124,29 }, this);
 	buttons.PushBack(quit_game_btn);
 
 	UILabel* quit_game_lbl = (UILabel*)App->ui->AddUILabel(10, 10, "QUIT", BLACK, quit_game_btn);
@@ -70,6 +82,10 @@ bool j1MainMenu::Start()
 	labels.PushBack(quit_game_lbl);
 	quit_game_lbl->interactable = false;
 
+	// SETTINGS
+	settings_menu = (UIImage*)App->ui->AddUIImage(42, height / 2 - 25, { 0,32,124,32 }, this);
+	settings_menu->interactable = false;
+	settings_menu->invisible = true;
 
 	return ret;
 }
@@ -202,6 +218,8 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene);
 				else if (tmpBtn == quit_game_btn)
 					quit_btn_pressed = true;
+				else if (tmpBtn == settings_btn)
+					settings_menu->invisible = false;
 
 			}
 				break;

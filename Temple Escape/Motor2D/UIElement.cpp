@@ -103,7 +103,7 @@ void UIElement::Update()
 
 void UIElement::Draw(SDL_Texture* sprites)
 {
-	if (current_rect.w > 0 && current_rect.h > 0)
+	if (current_rect.w > 0 && current_rect.h > 0 && !invisible)
 	{
 		switch (this->type)
 		{

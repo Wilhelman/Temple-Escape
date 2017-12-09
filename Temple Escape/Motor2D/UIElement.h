@@ -39,6 +39,7 @@ private:
 public:
 	bool draggable = false;
 	bool interactable = false;
+	bool invisible = false;
 	bool to_destroy = false;
 	UIElement* parent = nullptr;
 	UI_Type type = UI_NOT_DEF;

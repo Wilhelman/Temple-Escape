@@ -6,6 +6,7 @@
 
 class UIButton;
 class UILabel;
+class UIImage;
 
 class j1MainMenu : public j1Module
 {
@@ -43,7 +44,9 @@ public:
 private:
 
 	UIButton* new_game_btn = nullptr;
+	UIButton* settings_btn = nullptr;
 	UIButton* quit_game_btn = nullptr;
+	UIImage* settings_menu = nullptr;
 
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;
