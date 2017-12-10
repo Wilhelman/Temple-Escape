@@ -233,7 +233,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver()) 
 			{
 				if (tmpBtn == new_game_btn)
-					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene);
+					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene,1.0f);
 				else if (tmpBtn == quit_game_btn)
 					quit_btn_pressed = true;
 				else if (tmpBtn == settings_btn)
