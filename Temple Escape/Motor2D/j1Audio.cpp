@@ -74,6 +74,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	Mix_VolumeMusic(20);
+
 	return ret;
 }
 

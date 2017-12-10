@@ -4,37 +4,54 @@
 	<window />
 	<textures />
 	<audio>
-		<volume music="128" />
+		<volume music="20" />
 	</audio>
 	<map />
 	<pathfinding />
 	<scene>
 		<currentLvl name="lvl1.tmx" />
 	</scene>
+	<main_menu>
+		<currentLvl name="lvl1.tmx" />
+	</main_menu>
 	<entities>
+		<coin>
+			<position x="272" y="528" />
+		</coin>
+		<coin>
+			<position x="288" y="528" />
+		</coin>
+		<coin>
+			<position x="304" y="528" />
+		</coin>
+		<coin>
+			<position x="336" y="528" />
+		</coin>
 		<bat>
-			<position x="467.275452" y="464.279053" />
+			<position x="458.551819" y="464" />
 		</bat>
 		<slime>
-			<position x="415" y="496" />
+			<position x="591" y="496" />
 		</slime>
 		<bat>
-			<position x="572.564941" y="480.916473" />
+			<position x="570.550964" y="480" />
 		</bat>
 		<slime>
-			<position x="832" y="496" />
+			<position x="864" y="464" />
 		</slime>
 		<bat>
-			<position x="926.345032" y="384" />
+			<position x="938.550964" y="384" />
 		</bat>
 		<bat>
-			<position x="943.837769" y="439.975464" />
+			<position x="986.550964" y="416" />
 		</bat>
 		<player>
-			<position x="1038" y="528" />
+			<position x="224" y="544" />
 		</player>
 	</entities>
 	<particles />
+	<fonts />
+	<ui />
 	<collider />
 	<fadeToBlack />
 	<renderer />

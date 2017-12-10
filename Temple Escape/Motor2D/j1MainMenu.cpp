@@ -252,6 +252,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 				}
 					
 			}
+			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
 				break;
 		}
 		case STATE_MOUSE_ENTER: 

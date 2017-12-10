@@ -13,9 +13,12 @@ public:
 	SDL_Rect btn_pressed;
 	UILabel* button_lbl = nullptr;
 
+private:
+	uint pressed_fx = 0u, released_fx = 0u, hover_fx = 0u;
+
 public:
 	UIButton(int x, int y, UI_Type type, SDL_Rect normal_rect, SDL_Rect focused_rect, SDL_Rect pressed_rect, j1Module* callback, UIElement* parent = nullptr);
-
+	~UIButton();
 	void UpdateButtonWithSelfRect(SDL_Rect self_rect);
 };
 
