@@ -8,6 +8,7 @@
 #include "j1Collider.h"
 #include "p2Log.h"
 #include "j1Map.h"
+#include "j1FadeToBlack.h"
 
 #include "Bat.h"
 #include "Slime.h"
@@ -78,7 +79,7 @@ bool j1Entities::PreUpdate()
 bool j1Entities::Update(float dt)
 {
 
-	for (int i = 0; i < entities.Count(); i++)
+	for (int i = 0; i < entities.Count() && App->fadeToBlack->FadeIsOver(); i++)
 		if (entities[i] != nullptr) entities[i]->Update(dt);
 
 	for (int i = 0; i < entities.Count(); i++)

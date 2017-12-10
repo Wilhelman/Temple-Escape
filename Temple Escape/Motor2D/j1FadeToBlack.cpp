@@ -57,6 +57,15 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
+			if (moduleOn != nullptr && moduleOff != nullptr) {
+				this->moduleOff->CleanUp();
+				this->moduleOff->active = false;
+				this->moduleOn->Start();
+				this->moduleOn->active = true;
+				moduleOff = nullptr;
+				moduleOn = nullptr;
+			}
+
 			App->entities->CleanUp();
 			App->entities->active = false;
 			App->particles->CleanUp();
@@ -124,15 +133,6 @@ bool j1FadeToBlack::Update(float dt)
 
 			if (lvlName != "")
 				nextLvlName = lvlName;
-
-			if (moduleOn != nullptr && moduleOff != nullptr) {
-				this->moduleOff->CleanUp();
-				this->moduleOff->active = false;
-				this->moduleOn->Start();
-				this->moduleOn->active = true;
-				moduleOff = nullptr;
-				moduleOn = nullptr;
-			}
 
 			App->map->sceneName = nextLvlName;
 			App->map->Load(nextLvlName.GetString());
