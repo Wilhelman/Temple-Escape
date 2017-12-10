@@ -54,7 +54,7 @@ void UIElement::Update()
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && current_state == STATE_LEFT_MOUSE_PRESSED)
 		{
-			current_state = STATE_NORMAL;
+			current_state = STATE_LEFT_MOUSE_RELEASED;
 			this->callback->OnUITrigger(this, current_state);
 			last_state = current_state;
 		}

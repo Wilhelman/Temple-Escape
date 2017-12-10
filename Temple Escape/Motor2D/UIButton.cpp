@@ -43,7 +43,7 @@ void UIButton::UpdateButtonWithSelfRect(SDL_Rect self_rect)
 		App->audio->PlayFx(pressed_fx);
 	else if(self_rect.x == btn_normal.x  && self_rect.y == btn_normal.y && self_rect.w == btn_normal.w && self_rect.h == btn_normal.h && last_state != STATE_MOUSE_ENTER)
 		App->audio->PlayFx(released_fx);
-	else if(self_rect.x == btn_focused.x  && self_rect.y == btn_focused.y && self_rect.w == btn_focused.w && self_rect.h == btn_focused.h)
+	else if(self_rect.x == btn_focused.x  && self_rect.y == btn_focused.y && self_rect.w == btn_focused.w && self_rect.h == btn_focused.h && last_state != STATE_LEFT_MOUSE_RELEASED)
 		App->audio->PlayFx(hover_fx);
 	
 	current_rect = self_rect;

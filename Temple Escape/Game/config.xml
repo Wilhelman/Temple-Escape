@@ -85,6 +85,8 @@
 			</animations>
 		</player>
 		<bat>
+			<fxBatDead name="audio/fx/bat_dead.wav" />
+			<fxBatHit name="audio/fx/bat_hit.wav" />
 			<animations>
 				<animation name="bat_fly_right" speed="3.0" loop="true">
 					<frame x="76" y="35" width="16" height="12" />
@@ -99,6 +101,8 @@
 			</animations>
 		</bat>
 		<slime>
+			<fxSlimeDead name="audio/fx/slime_dead.wav" />
+			<fxSlimeHit name="audio/fx/slime_hit.wav" />
 			<animations>
 				<animation name="slime_right_idle" speed="5.0" loop="true">
 					<frame x="124" y="45" width="16" height="16" />
@@ -125,6 +129,7 @@
 			</animations>
 		</slime>
 		<coin>
+			<fxCoinCollect name="audio/fx/coin_collect.wav" />
 			<animations>
 				<animation name="idle" speed="0.1" loop="true">
 					<frame x="0" y="62" width="16" height="16" />

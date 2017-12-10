@@ -227,10 +227,11 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 
 		switch (ui_state)
 		{
+		case STATE_LEFT_MOUSE_RELEASED:
 		case STATE_NORMAL: 
 		{
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
-			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver()) 
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
 			{
 				if (tmpBtn == new_game_btn)
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene,1.0f);

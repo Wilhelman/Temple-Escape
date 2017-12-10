@@ -6,6 +6,7 @@
 #include "p2Log.h"
 #include "j1Pathfinding.h"
 #include "j1Entities.h"
+#include "j1Audio.h"
 
 #define BAT_MAX_LIVES 2
 
@@ -20,6 +21,10 @@ Bat::Bat(int x, int y) : Entity(x, y)
 	node = &node->child("entities").child("bat");
 
 	lives = BAT_MAX_LIVES;
+
+	//read fxs from node
+	bat_hit_fx = App->audio->LoadFx(node->child("fxBatHit").attribute("name").as_string());
+	bat_dead_fx = App->audio->LoadFx(node->child("fxBatDead").attribute("name").as_string());
 
 	//read animation from node
 	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
@@ -40,6 +45,16 @@ Bat::Bat(int x, int y) : Entity(x, y)
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, ColliderType::COLLIDER_ENEMY_BAT, (j1Module*)App->entities);
 
 	SetRadar();
+}
+
+Bat::~Bat()
+{
+	LOG("Freeing the bat");
+
+	LOG("Unloading bat sound fx");
+	App->audio->UnLoadFx(bat_hit_fx);
+	App->audio->UnLoadFx(bat_dead_fx);
+
 }
 
 void Bat::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {
@@ -227,8 +242,14 @@ void Bat::OnCollision(Collider* collider)
 	{
 		player_in_radar = false;
 		have_to_chill = true;
-	}else if (collider->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT)
+	}
+	else if (collider->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT) {
 		lives--;
+		if(lives <= 0)
+			App->audio->PlayFx(bat_dead_fx);
+		else
+			App->audio->PlayFx(bat_hit_fx);
+	}
 
 	if (lives <= 0)
 	{

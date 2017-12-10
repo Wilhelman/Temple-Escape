@@ -21,6 +21,10 @@ private:
 
 	iPoint tile_radar[TILE_RADAR];
 
+	//bat_fx
+	uint bat_hit_fx = 0u;
+	uint bat_dead_fx = 0u;
+
 	//animations
 	p2Animation standard_right_fly = p2Animation();
 	p2Animation standard_left_fly = p2Animation();
@@ -31,6 +35,8 @@ private:
 public:
 
 	Bat(int x, int y);
+	~Bat();
+
 	void OnCollision(Collider* collider);
 	void Update(float dt);
 	void SetRadar();
