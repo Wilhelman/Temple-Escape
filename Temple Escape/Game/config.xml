@@ -121,6 +121,18 @@
 				</animation>
 			</animations>
 		</slime>
+		<coin>
+			<animations>
+				<animation name="idle" speed="0.1" loop="true">
+					<frame x="0" y="62" width="16" height="16" />
+					<frame x="16" y="62" width="16" height="16" />
+					<frame x="32" y="62" width="16" height="16" />
+					<frame x="49" y="62" width="16" height="16" />
+					<frame x="32" y="62" width="16" height="16" />
+					<frame x="16" y="62" width="16" height="16" />
+				</animation>
+			</animations>
+		</coin>
 	</entities>
 	<particles>
 		<fxPlayerBasicShot name="audio/fx/player_basic_shot_fx.wav" />
@@ -168,8 +180,8 @@
 		</spritesheetSource>
 		<main_menu />
 		<scene>
-			<data name="main_menu.tmx" start="true" currentLvl="false" />
-			<data name="lvl1.tmx" start="false" currentLvl="true" />
+			<data name="main_menu.tmx" start="true" currentLvl="true" />
+			<data name="lvl1.tmx" start="false" currentLvl="false" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
 		</scene>
 	</map>

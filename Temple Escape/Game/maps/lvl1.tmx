@@ -22,6 +22,11 @@
     <property name="spawn" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="588">
+   <properties>
+    <property name="COIN" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="630">
    <properties>
     <property name="BAT" type="bool" value="true"/>
@@ -53011,16 +53016,16 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -61164,11 +61169,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="589"/>
+   <tile gid="589"/>
+   <tile gid="589"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="589"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>

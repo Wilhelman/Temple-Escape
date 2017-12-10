@@ -13,6 +13,7 @@
 #include "Bat.h"
 #include "Slime.h"
 #include "Player.h"
+#include "Coin.h"
 
 
 j1Entities::j1Entities()
@@ -140,6 +141,13 @@ bool j1Entities::SpawnEntity(int x, int y, EntityType type)
 		ret = true;
 		break;
 	}
+	case EntityType::COIN: {
+		Coin* coin = new Coin(x, y);
+		coin->type = EntityType::COIN; //TODO PARAMETER TO CONSTRUCTOR!
+		entities.PushBack(coin);
+		ret = true;
+		break;
+	}
 	default:
 		break;
 	}
@@ -187,6 +195,9 @@ bool j1Entities::Load(pugi::xml_node& load)
 	for (pugi::xml_node slime = load.child("slime"); slime && ret; slime = slime.next_sibling("slime"))
 		SpawnEntity(slime.child("position").attribute("x").as_float(), slime.child("position").attribute("y").as_float(), SLIME);
 
+	for (pugi::xml_node coin = load.child("coin"); coin && ret; coin = coin.next_sibling("coin"))
+		SpawnEntity(coin.child("position").attribute("x").as_float(), coin.child("position").attribute("y").as_float(), COIN);
+
 	return ret;
 }
 
@@ -211,6 +222,11 @@ bool j1Entities::Save(pugi::xml_node& save) const
 				pugi::xml_node& slime_save = save.append_child("slime");
 				entities[i]->Save(slime_save);
 			}
+			else
+				if (entities[i]->type == COIN) {
+					pugi::xml_node& coin_save = save.append_child("coin");
+					entities[i]->Save(coin_save);
+				}
 		}
 	}
 

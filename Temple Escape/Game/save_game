@@ -11,35 +11,30 @@
 	<scene>
 		<currentLvl name="lvl1.tmx" />
 	</scene>
-	<main_menu>
-		<currentLvl name="lvl1.tmx" />
-	</main_menu>
 	<entities>
+		<bat>
+			<position x="467.275452" y="464.279053" />
+		</bat>
+		<slime>
+			<position x="415" y="496" />
+		</slime>
+		<bat>
+			<position x="572.564941" y="480.916473" />
+		</bat>
+		<slime>
+			<position x="832" y="496" />
+		</slime>
+		<bat>
+			<position x="926.345032" y="384" />
+		</bat>
+		<bat>
+			<position x="943.837769" y="439.975464" />
+		</bat>
 		<player>
-			<position x="1028" y="528" />
+			<position x="1038" y="528" />
 		</player>
-		<bat>
-			<position x="464.21701" y="496.333496" />
-		</bat>
-		<bat>
-			<position x="560.965698" y="480" />
-		</bat>
-		<bat>
-			<position x="928.965698" y="384" />
-		</bat>
-		<bat>
-			<position x="976.965698" y="416" />
-		</bat>
-		<slime>
-			<position x="431" y="496" />
-		</slime>
-		<slime>
-			<position x="847" y="464" />
-		</slime>
 	</entities>
 	<particles />
-	<fonts />
-	<ui />
 	<collider />
 	<fadeToBlack />
 	<renderer />

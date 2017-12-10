@@ -151,6 +151,9 @@ void j1Map::setAllLogicForMap()
 							if (id == 127) { //slime
 								App->entities->SpawnEntity(MapToWorld(i, j).x, MapToWorld(i, j).y, SLIME);
 							}
+							if (id == 589) { //coin
+								App->entities->SpawnEntity(MapToWorld(i, j).x, MapToWorld(i, j).y, COIN);
+							}
 						}
 						if (layersBlit->data->layer_type == COLLISIONS && tilesetsBlit->data->tileset_type == PLATFORM)
 						{
@@ -209,10 +212,9 @@ void j1Map::Draw()
 						{
 							if (layersBlit->data->layer_type == GROUND_1) 
 							{
-								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
+								if (layersBlit->data->Get(i, j) != 10 && layersBlit->data->Get(i, j) != 16)
+									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
-								
-								
 								if (layersBlit->data->Get(i, j) == 10)
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation.GetCurrentFrame(), 1.0f);
 								if (layersBlit->data->Get(i, j) == 16)

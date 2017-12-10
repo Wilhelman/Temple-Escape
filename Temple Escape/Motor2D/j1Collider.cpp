@@ -15,6 +15,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_GROUND][COLLIDER_ENEMY_BAT] = false;
 	matrix[COLLIDER_GROUND][COLLIDER_ENEMY_SLIME] = true;
 	matrix[COLLIDER_GROUND][COLLIDER_PLAYER_BASIC_SHOT] = true;
+	matrix[COLLIDER_GROUND][COLLIDER_COIN] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_DEAD] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_GROUND] = true;
@@ -23,6 +24,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_BAT] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_SLIME] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_BASIC_SHOT] = false;
+	matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
 
 	matrix[COLLIDER_DEAD][COLLIDER_GROUND] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_DEAD] = false;
@@ -31,6 +33,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_DEAD][COLLIDER_ENEMY_BAT] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_ENEMY_SLIME] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_PLAYER_BASIC_SHOT] = false;
+	matrix[COLLIDER_DEAD][COLLIDER_COIN] = false;
 
 	matrix[COLLIDER_LVL_END][COLLIDER_LVL_END] = false;
 	matrix[COLLIDER_LVL_END][COLLIDER_PLAYER] = true;
@@ -39,6 +42,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_LVL_END][COLLIDER_ENEMY_SLIME] = false;
 	matrix[COLLIDER_LVL_END][COLLIDER_PLAYER_BASIC_SHOT] = false;
 	matrix[COLLIDER_LVL_END][COLLIDER_GROUND] = false;
+	matrix[COLLIDER_LVL_END][COLLIDER_COIN] = false;
 
 	matrix[COLLIDER_ENEMY_BAT][COLLIDER_ENEMY_BAT] = false;
 	matrix[COLLIDER_ENEMY_BAT][COLLIDER_PLAYER] = true;
@@ -47,6 +51,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_ENEMY_BAT][COLLIDER_GROUND] = false;
 	matrix[COLLIDER_ENEMY_BAT][COLLIDER_PLAYER_BASIC_SHOT] = true;
 	matrix[COLLIDER_ENEMY_BAT][COLLIDER_ENEMY_SLIME] = false;
+	matrix[COLLIDER_ENEMY_BAT][COLLIDER_COIN] = false;
 
 	matrix[COLLIDER_ENEMY_SLIME][COLLIDER_ENEMY_SLIME] = false;
 	matrix[COLLIDER_ENEMY_SLIME][COLLIDER_PLAYER] = true;
@@ -55,6 +60,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_ENEMY_SLIME][COLLIDER_GROUND] = true;
 	matrix[COLLIDER_ENEMY_SLIME][COLLIDER_PLAYER_BASIC_SHOT] = true;
 	matrix[COLLIDER_ENEMY_SLIME][COLLIDER_ENEMY_BAT] = false;
+	matrix[COLLIDER_ENEMY_SLIME][COLLIDER_COIN] = false;
 
 	matrix[COLLIDER_PLAYER_BASIC_SHOT][COLLIDER_ENEMY_BAT] = true;
 	matrix[COLLIDER_PLAYER_BASIC_SHOT][COLLIDER_ENEMY_SLIME] = true;
@@ -63,6 +69,16 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_PLAYER_BASIC_SHOT][COLLIDER_LVL_END] = false;
 	matrix[COLLIDER_PLAYER_BASIC_SHOT][COLLIDER_GROUND] = true;
 	matrix[COLLIDER_PLAYER_BASIC_SHOT][COLLIDER_PLAYER_BASIC_SHOT] = false;
+	matrix[COLLIDER_PLAYER_BASIC_SHOT][COLLIDER_COIN] = false;
+
+	matrix[COLLIDER_COIN][COLLIDER_ENEMY_BAT] = false;
+	matrix[COLLIDER_COIN][COLLIDER_ENEMY_SLIME] = false;
+	matrix[COLLIDER_COIN][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_COIN][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_COIN][COLLIDER_LVL_END] = false;
+	matrix[COLLIDER_COIN][COLLIDER_GROUND] = false;
+	matrix[COLLIDER_COIN][COLLIDER_PLAYER_BASIC_SHOT] = false;
+	matrix[COLLIDER_COIN][COLLIDER_COIN] = false;
 
 	name.create("collider");
 }
@@ -173,6 +189,8 @@ void j1Collider::DebugDraw()
 			break;
 		case COLLIDER_PLAYER_BASIC_SHOT: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+		case COLLIDER_COIN: // yellow
+			App->render->DrawQuad(colliders[i]->rect, 255, 255, 53, alpha);
 			break;
 		default:
 			break;

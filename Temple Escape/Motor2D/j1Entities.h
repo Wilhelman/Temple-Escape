@@ -10,6 +10,7 @@ enum EntityType
 	BAT,
 	SLIME,
 	PLAYER,
+	COIN,
 
 	NO_TYPE
 };
