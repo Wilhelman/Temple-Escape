@@ -168,7 +168,7 @@ void Bat::Update(float dt)
 			if (bat_IA == 3 || bat_IA == 0)
 				bat_going_right = !bat_going_right;
 
-			if (!App->entities->GetPlayer()->isDead && !App->entities->GetPlayer()->god_mode)
+			if (App->entities->GetPlayer() != nullptr && !App->entities->GetPlayer()->isDead && !App->entities->GetPlayer()->god_mode)
 				player_in_radar = CheckForPlayer();
 
 			if (!have_to_chill && player_in_radar)

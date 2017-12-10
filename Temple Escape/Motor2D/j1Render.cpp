@@ -65,8 +65,8 @@ bool j1Render::Start()
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
-	last_camera.x = 0;
-	last_camera.y = 0;
+	last_camera.x = -1030;
+	last_camera.y = -940;
 	return true;
 }
 
@@ -84,7 +84,7 @@ bool j1Render::Update(float dt)
 
 	App->win->GetWindowSize(winWidth, winHeight);
 	
-	if (App->entities->active) {
+	if (App->entities->active && App->entities->GetPlayer() != nullptr) {
 		last_camera.x = camera.x = (App->entities->GetPlayer()->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->entities->GetPlayer()->current_frame.w/2) * - (int)App->win->GetScale();
 		last_camera.y = camera.y = (App->entities->GetPlayer()->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->entities->GetPlayer()->current_frame.h / 2) * -(int)App->win->GetScale() + 100;
 	}

@@ -13,6 +13,7 @@
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
+	spawn = iPoint(-1, -1);
 }
 
 // Destructor
@@ -112,7 +113,7 @@ void j1Map::LayersSetUp()
 	}
 }
 
-void j1Map::setAllLogicForMap() 
+void j1Map::setAllLogicForMap()
 {
 	p2List_item<TileSet*>* tilesetsBlit = data.tilesets.end;
 

@@ -169,7 +169,7 @@ public:
 
 	MapData data;
 	p2SString sceneName;
-	iPoint spawn = iPoint({ 0, 0 });
+	iPoint spawn = iPoint({ -1, -1 });
 
 	//for comodity c:
 	MapLayer* collisionLayer = nullptr;

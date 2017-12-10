@@ -42,23 +42,11 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	bool ret = true;
-	LOG("%s", App->map->sceneName);
-	App->map->Load(App->map->sceneName.GetString());
-
-	App->map->LayersSetUp();
-	App->map->setAllLogicForMap();
 
 	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) {
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
 	}
-
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data))
-		App->pathfinding->SetMap(w, h, data);
-
-	RELEASE_ARRAY(data);
 
 	UIImage* window = (UIImage*)App->ui->AddUIImage(300, 100, { 0, 512, 483, 512 }, this);
 	window->draggable = true;

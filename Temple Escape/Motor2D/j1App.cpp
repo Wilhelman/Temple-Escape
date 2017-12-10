@@ -71,7 +71,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	//disable
 	scene->active = false;
-	entities->active = false;
 
 	PERF_PEEK(ptimer);
 }

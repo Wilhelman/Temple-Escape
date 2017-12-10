@@ -46,9 +46,11 @@ bool j1Entities::Start()
 		ret = false;
 	}
 
-	if (!SpawnEntity(App->map->spawn.x, App->map->spawn.y, PLAYER)) {
-		LOG("Error adding entity player ...");
-		ret = false;
+	if (App->map->spawn.x >= 0 && App->map->spawn.y >= 0) {
+		if (!SpawnEntity(App->map->spawn.x, App->map->spawn.y, PLAYER)) {
+			LOG("Error adding entity player ...");
+			ret = false;
+		}
 	}
 
 	if (!ret)
@@ -92,7 +94,7 @@ bool j1Entities::CleanUp()
 
 	App->tex->UnLoad(entity_sprites);
 
-	for (uint i = 0; i < entities.Count(); ++i)
+	for (int i = entities.Count() - 1; i >= 0; --i)
 	{
 		if (entities[i] != nullptr) {
 			delete(entities[i]);

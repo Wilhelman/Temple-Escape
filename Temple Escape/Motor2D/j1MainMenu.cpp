@@ -46,8 +46,27 @@ bool j1MainMenu::Awake()
 bool j1MainMenu::Start()
 {
 	bool ret = true;
-	int tmp_x = 0;
-	int tmp_y = 0;
+
+	LOG("%s", App->map->sceneName);
+	App->map->Load(App->map->sceneName.GetString());
+
+	App->map->LayersSetUp();
+
+	App->map->setAllLogicForMap();
+
+	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) {
+		//ret = false;
+		LOG("Error playing music in j1Scene Start");
+	}
+
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
+	RELEASE_ARRAY(data);
+
+	
 
 	uint win_width = 0u, win_height = 0u;
 	App->win->GetWindowSize(win_width, win_height);
@@ -55,6 +74,9 @@ bool j1MainMenu::Start()
 	win_height /= App->win->GetScale();
 
 	// MAIN MENU BUTTONS
+	int tmp_x = 0;
+	int tmp_y = 0;
+
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
 	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, "NEW GAME", BLACK, new_game_btn);
@@ -77,6 +99,7 @@ bool j1MainMenu::Start()
 	settings_menu->invisible = true;
 
 	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
+	close_settings_btn->interactable = false;
 	close_settings_btn->invisible = true;
 	buttons.PushBack(quit_game_btn);
 
@@ -130,6 +153,8 @@ bool j1MainMenu::Update(float dt)
 			buttons[0]->SetLocalPosition(buttons[0]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[0]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
 		}
 	}
+
+	App->map->Draw();
 
 	return true;
 }
@@ -214,11 +239,15 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 				else if (tmpBtn == settings_btn)
 				{
 					settings_menu->invisible = false;
+					settings_menu->interactable = true;
+					close_settings_btn->interactable = true;
 					close_settings_btn->invisible = false;
 				}
 				else if (tmpBtn = close_settings_btn)
 				{
 					settings_menu->invisible = true;
+					settings_menu->interactable = false;
+					close_settings_btn->interactable = false;
 					close_settings_btn->invisible = true;
 				}
 					

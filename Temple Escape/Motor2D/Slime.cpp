@@ -208,7 +208,7 @@ void Slime::Update(float dt)
 		if (slime_pos_UP_LEFT == movementGoal && slime_pos_DOWN_RIGHT == movementGoal) {
 			moving = false;
 			slime_time_chilling = SDL_GetTicks();
-			if (!App->entities->GetPlayer()->isDead && !App->entities->GetPlayer()->god_mode)
+			if (App->entities->GetPlayer() != nullptr && !App->entities->GetPlayer()->isDead && !App->entities->GetPlayer()->god_mode)
 				player_in_radar = CheckForPlayer();
 		}
 	}

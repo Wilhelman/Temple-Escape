@@ -166,8 +166,10 @@
 				<frame x="304" y="0" width="32" height="29" />
 			</animation>
 		</spritesheetSource>
+		<main_menu />
 		<scene>
-			<data name="lvl1.tmx" start="true" currentLvl="true" />
+			<data name="main_menu.tmx" start="true" currentLvl="false" />
+			<data name="lvl1.tmx" start="false" currentLvl="true" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
 		</scene>
 	</map>
