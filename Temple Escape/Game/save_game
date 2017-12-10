@@ -15,27 +15,27 @@
 		<currentLvl name="lvl1.tmx" />
 	</main_menu>
 	<entities>
-		<bat>
-			<position x="9410.99609" y="464" />
-		</bat>
-		<slime>
-			<position x="478" y="496" />
-		</slime>
-		<bat>
-			<position x="9522.99609" y="480" />
-		</bat>
-		<slime>
-			<position x="850" y="464" />
-		</slime>
-		<bat>
-			<position x="9890.99902" y="384" />
-		</bat>
-		<bat>
-			<position x="9939" y="416" />
-		</bat>
 		<player>
-			<position x="712" y="544" />
+			<position x="1028" y="528" />
 		</player>
+		<bat>
+			<position x="464.21701" y="496.333496" />
+		</bat>
+		<bat>
+			<position x="560.965698" y="480" />
+		</bat>
+		<bat>
+			<position x="928.965698" y="384" />
+		</bat>
+		<bat>
+			<position x="976.965698" y="416" />
+		</bat>
+		<slime>
+			<position x="431" y="496" />
+		</slime>
+		<slime>
+			<position x="847" y="464" />
+		</slime>
 	</entities>
 	<particles />
 	<fonts />

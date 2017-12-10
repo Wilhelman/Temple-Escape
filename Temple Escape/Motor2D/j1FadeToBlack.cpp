@@ -11,6 +11,7 @@
 #include "j1Entities.h"
 #include "j1Particles.h"
 #include "p2Log.h"
+#include "j1Pathfinding.h"
 
 j1FadeToBlack::j1FadeToBlack()
 {
@@ -139,6 +140,14 @@ bool j1FadeToBlack::Update(float dt)
 			App->map->LayersSetUp();
 
 			App->map->setAllLogicForMap();
+
+			int w, h;
+			uchar* data_map = NULL;
+			if (App->map->CreateWalkabilityMap(w, h, &data_map))
+				App->pathfinding->SetMap(w, h, data_map);
+
+			RELEASE_ARRAY(data_map);
+
 			App->entities->Start();
 			App->entities->active = true;
 			App->particles->Start();
