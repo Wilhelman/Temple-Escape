@@ -10,7 +10,6 @@
 #include "UILabel.h"
 #include "UIImage.h"
 #include "UIButton.h"
-#include "UISlider.h"
 
 #include "UIElement.h"
 
@@ -151,23 +150,16 @@ UIElement* j1UI::AddUIButton(int position_x, int position_y, SDL_Rect normal_rec
 	return nullptr;
 }
 
-UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, UIElement* parent) 
-{
+UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, UIElement* parent) {
+
+	parent->GetLocalPosition().x;
+
+
 	UIElement* tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, parent);
 	ui_elements.PushBack(tmp_lbl);
 	return tmp_lbl;
 	
 	LOG("Error: Cant add the UILabel");
-	return nullptr;
-}
-
-UIElement * j1UI::AddUISlider(int position_x, int position_y, SDL_Rect slider_rect, j1Module * callback, UIElement * parent)
-{
-	UIElement* tmp_sldr = new UISlider(position_x, position_y, SLIDER, slider_rect, callback, parent);
-	ui_elements.PushBack(tmp_sldr);
-	return tmp_sldr;
-
-	LOG("Error: Cant add the UIButton");
 	return nullptr;
 }
 
