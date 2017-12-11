@@ -41,12 +41,16 @@ public:
 
 	void OnUITrigger(UIElement* elementTriggered, UI_State ui_state);
 
+	bool IsGamePaused();
+
 private:
 	void putPlayerToSpawn();
 
 	p2DynArray<UIButton*> buttons;
 
 	UIImage* pause_menu = nullptr;
+
+	bool paused = false;
 };
 
 #endif // __j1SCENE_H__

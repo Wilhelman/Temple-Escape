@@ -101,6 +101,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver()) {
 		pause_menu->invisible = !pause_menu->invisible;
 		pause_menu->interactable = !pause_menu->interactable;
+		paused = !paused;
 	}
 
 	App->map->Draw();
@@ -236,4 +237,8 @@ void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 			break;
 		}
 	}
+}
+
+bool j1Scene::IsGamePaused() {
+	return paused;
 }

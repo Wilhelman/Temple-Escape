@@ -9,6 +9,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1FadeToBlack.h"
+#include "j1Scene.h"
 
 #include "Bat.h"
 #include "Slime.h"
@@ -80,7 +81,7 @@ bool j1Entities::PreUpdate()
 bool j1Entities::Update(float dt)
 {
 
-	for (int i = 0; i < entities.Count() && App->fadeToBlack->FadeIsOver(); i++)
+	for (int i = 0; i < entities.Count() && App->fadeToBlack->FadeIsOver() && !App->scene->IsGamePaused(); i++)
 		if (entities[i] != nullptr) entities[i]->Update(dt);
 
 	for (int i = 0; i < entities.Count(); i++)
