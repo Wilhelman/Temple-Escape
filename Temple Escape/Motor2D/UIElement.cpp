@@ -65,8 +65,40 @@ void UIElement::Update()
 			{
 				App->input->GetMouseMotion(mouse_motion_x, mouse_motion_y);
 
-				if (mouse_x != tmp_mouse_x || mouse_y != tmp_mouse_y)
+				if (parent != nullptr && parent->type == UI_Type::SLIDER)
 				{
+					if (mouse_x != tmp_mouse_x)
+					{
+						int next_x_right = screen_position.x + current_rect.w + mouse_motion_x;
+						int next_x_left = screen_position.x + mouse_motion_x;
+
+						if (next_x_right <= parent->screen_position.x + parent->current_rect.w
+							&& next_x_left >= parent->screen_position.x)
+						{
+							screen_position.x += mouse_motion_x;
+							local_position.x += mouse_motion_x;
+						}
+						else
+						{
+							if (next_x_right > parent->screen_position.x + parent->current_rect.w)
+							{
+								screen_position.x = parent->current_rect.w - current_rect.w;
+								local_position.x = parent->current_rect.w - current_rect.w;
+							}
+							else
+							{
+								screen_position.x = parent->screen_position.x;
+								local_position.x = 0;
+							}
+						}
+						tmp_mouse_x = mouse_x;
+						tmp_mouse_y = mouse_y;
+					}
+				}
+				else if (mouse_x != tmp_mouse_x || mouse_y != tmp_mouse_y)
+				{
+					screen_position.x += mouse_motion_x;
+					screen_position.y += mouse_motion_y;
 					local_position.x += mouse_motion_x;
 					local_position.y += mouse_motion_y;
 					tmp_mouse_x = mouse_x;
@@ -108,6 +140,7 @@ void UIElement::Draw(SDL_Texture* sprites)
 		{
 		case IMAGE:
 		case BUTTON:
+		case SLIDER:
 			App->render->Blit(sprites, screen_position.x, screen_position.y, &current_rect);
 			break;
 		case LABEL:

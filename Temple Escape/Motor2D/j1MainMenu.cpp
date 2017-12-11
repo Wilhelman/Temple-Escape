@@ -18,6 +18,7 @@
 #include "UIImage.h"
 #include "UIButton.h"
 #include "UILabel.h"
+#include "UISlider.h"
 
 #include "j1Entities.h"
 
@@ -102,6 +103,22 @@ bool j1MainMenu::Start()
 	close_settings_btn->interactable = false;
 	close_settings_btn->invisible = true;
 	buttons.PushBack(quit_game_btn);
+
+	//SLIDER TEST
+
+	slider = (UISlider*)App->ui->AddUISlider(100, 100, { 0, 239, 130, 18 }, this);
+
+	slider_btn = (UIButton*)App->ui->AddUIButton(50, 100, { 16,185,16,16 }, { 0,260,28,28 }, { 0,185,16,14 }, this, slider);
+	slider_btn->draggable = true;
+	buttons.PushBack(slider_btn);
+	slider->SetSliderButton(slider_btn);
+
+	slider_left_btn = (UIButton*)App->ui->AddUIButton(60, 100, { 0,201,18,20 }, { 58,257,30,32 }, { 18,221,18,18 }, this);
+	buttons.PushBack(slider_left_btn);
+
+	slider_right_btn = (UIButton*)App->ui->AddUIButton(50, 100, { 18,201,18,20 }, { 28,257,30,32 }, { 0,221,18,18 }, this);
+	buttons.PushBack(slider_right_btn);
+
 
 	return ret;
 }
