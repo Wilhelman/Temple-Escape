@@ -57,7 +57,7 @@ bool j1Scene::Start()
 	int tmp_y = 0;
 	tmp_x = iPoint((win_width - 293) / 2, (win_height - 231) / 2).x;
 	tmp_y = iPoint((win_width - 293) / 2, (win_height - 231) / 2).y;
-	pause_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 293, 231 }, this);
+	pause_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 30, 30 }, this);
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
 

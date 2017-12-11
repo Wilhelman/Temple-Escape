@@ -7,6 +7,7 @@
 #include "j1Map.h"
 #include "j1Collider.h"
 #include "j1Entities.h"
+#include "j1Scene.h"
 #include <math.h>
 
 
@@ -216,16 +217,20 @@ void j1Map::Draw()
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 
 								if (layersBlit->data->Get(i, j) == 10)
+									(App->scene->IsGamePaused()) ? App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation.frames[0], 1.0f):
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_animation.GetCurrentFrame(), 1.0f);
 								if (layersBlit->data->Get(i, j) == 16)
+									(App->scene->IsGamePaused()) ? App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &water_animation.frames[0], 1.0f) :
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &water_animation.GetCurrentFrame(), 1.0f);
 							}
 
 							if (layersBlit->data->layer_type == GROUND_2) {
 								App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &rect, 1.0f);
 								if (layersBlit->data->Get(i, j) == 94)
+									(App->scene->IsGamePaused()) ? App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.frames[0], 1.0f) :
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &lava_waterfall.GetCurrentFrame(), 1.0f);
 								if (layersBlit->data->Get(i, j) == 97)
+									(App->scene->IsGamePaused()) ? App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &waterfall.frames[0], 1.0f) :
 									App->render->Blit(tilesetsBlit->data->texture, world.x, world.y, &waterfall.GetCurrentFrame(), 1.0f);
 								
 							}
