@@ -6,6 +6,7 @@
 #include "p2Log.h"
 #include "j1Pathfinding.h"
 #include "j1Entities.h"
+#include "j1Audio.h"
 
 Coin::Coin(int x, int y) : Entity(x, y)
 {
@@ -15,6 +16,9 @@ Coin::Coin(int x, int y) : Entity(x, y)
 	pugi::xml_document	config_file;
 	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
 	node = &node->child("entities").child("coin");
+
+	//read fxs from node
+	coin_collect_fx = App->audio->LoadFx(node->child("fxCoinCollect").attribute("name").as_string());
 
 	//read animation from node
 	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
@@ -57,6 +61,7 @@ void Coin::OnCollision(Collider* collider)
 	if (collider->type == ColliderType::COLLIDER_PLAYER)
 	{
 		this->to_destroy = true;
+		App->audio->PlayFx(coin_collect_fx);
 		//TODO GIVE SCORE ETC
 	}
 }

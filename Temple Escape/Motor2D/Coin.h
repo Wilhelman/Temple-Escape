@@ -16,6 +16,9 @@ private:
 	//animations speeds
 	uint idle_vel = 0u;
 
+	//coin_fx
+	uint coin_collect_fx = 0u;
+
 public:
 
 	Coin(int x, int y);
@@ -24,7 +27,6 @@ public:
 
 	bool Save(pugi::xml_node&) const;
 	void LoadAnimation(pugi::xml_node animation_node, p2Animation* animation);
-	void SetMovementWithPath(const p2DynArray<iPoint>* path, float dt, iPoint position);
 	void SetEntitiesSpeed(float dt);
 
 };
