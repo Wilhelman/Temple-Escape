@@ -38,6 +38,15 @@ Coin::Coin(int x, int y) : Entity(x, y)
 
 }
 
+Coin::~Coin()
+{
+	LOG("Freeing the coin");
+
+	LOG("Unloading coin sound fx");
+	App->audio->UnLoadFx(coin_collect_fx);
+
+}
+
 void Coin::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) {
 	bool ret = true;
 

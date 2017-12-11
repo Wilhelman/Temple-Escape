@@ -22,6 +22,7 @@ private:
 public:
 
 	Coin(int x, int y);
+	~Coin();
 	void OnCollision(Collider* collider);
 	void Update(float dt);
 
