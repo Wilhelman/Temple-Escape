@@ -11,6 +11,7 @@
 #include "j1Collider.h"
 #include "j1FadeToBlack.h"
 #include "j1Pathfinding.h"
+#include "j1MainMenu.h"
 #include "Player.h"
 #include "j1UI.h"
 
@@ -48,7 +49,7 @@ bool j1Scene::Start()
 		LOG("Error playing music in j1Scene Start");
 	}
 
-	// PAUSE BTN
+	// PAUSE WINDOW
 	uint win_width = 0u, win_height = 0u;
 	App->win->GetWindowSize(win_width, win_height);
 	win_width /= App->win->GetScale();
@@ -61,11 +62,23 @@ bool j1Scene::Start()
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
 
-	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
+	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 44, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
 	buttons.PushBack(quit_btn);
+	quit_btn->interactable = false;
+	quit_btn->invisible = true;
 	UILabel* quit_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "QUIT", BLACK, quit_btn);
 	quit_btn->button_lbl = quit_lbl;
 	quit_lbl->interactable = false;
+	quit_lbl->invisible = true;
+
+	main_menu_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
+	buttons.PushBack(main_menu_btn);
+	main_menu_btn->interactable = false;
+	main_menu_btn->invisible = true;
+	UILabel* main_menu_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "MAIN MENU", BLACK, main_menu_btn);
+	main_menu_btn->button_lbl = main_menu_lbl;
+	main_menu_lbl->interactable = false;
+	main_menu_lbl->invisible = true;
 
 
 	return ret;
@@ -106,6 +119,14 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver()) {
 		pause_menu->invisible = !pause_menu->invisible;
 		pause_menu->interactable = !pause_menu->interactable;
+
+		for (int i = 0; i < buttons.Count(); i++)
+		{
+			buttons[i]->interactable = !buttons[i]->interactable;
+			buttons[i]->invisible = !buttons[i]->invisible;
+			buttons[i]->button_lbl->invisible = !buttons[i]->button_lbl->invisible;
+		}
+
 		paused = !paused;
 	}
 
@@ -142,8 +163,8 @@ bool j1Scene::PostUpdate()
 {
 	bool ret = true;
 
-	//if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		//ret = false;
+	if (quit_btn_pressed)
+		ret = false;
 
 	return ret;
 }
@@ -152,6 +173,11 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	App->ui->DeleteAllUIElements();
+
+	buttons.Clear();
+
+	paused = false;
 
 	return true;
 }
@@ -194,47 +220,77 @@ bool j1Scene::Save(pugi::xml_node& save) const
 }
 
 void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
-	if (elementTriggered->type == IMAGE) {
-		UIImage* tmpImg = (UIImage*)elementTriggered;
+	if (elementTriggered->type == BUTTON)
+	{
+		UIButton* tmpBtn = (UIButton*)elementTriggered;
+
 		switch (ui_state)
 		{
+		case STATE_LEFT_MOUSE_RELEASED:
 		case STATE_NORMAL:
-			break;
-		case STATE_MOUSE_ENTER:
-			break;
-		case STATE_MOUSE_LEAVE:
-			break;
-		case STATE_LEFT_MOUSE_PRESSED:
-			break;
-		case STATE_NO_DEF:
-			break;
-		default:
+		{
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
+			{
+				if (tmpBtn == main_menu_btn)
+					App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
+				else if (tmpBtn == quit_btn)
+					quit_btn_pressed = true;
+				/*else if (tmpBtn == settings_btn)
+				{
+					settings_menu->invisible = false;
+					settings_menu->interactable = true;
+					close_settings_btn->interactable = true;
+					close_settings_btn->invisible = false;
+				}
+				else if (tmpBtn = close_settings_btn)
+				{
+					settings_menu->invisible = true;
+					settings_menu->interactable = false;
+					close_settings_btn->interactable = false;
+					close_settings_btn->invisible = true;
+				}*/
+
+			}
+			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
 			break;
 		}
-	}
-	else if (elementTriggered->type == BUTTON) {
-		UIButton* tmpBtn = (UIButton*)elementTriggered;
-		switch (ui_state)
+		case STATE_MOUSE_ENTER:
 		{
-		case STATE_NORMAL:
-			break;
-		case STATE_MOUSE_ENTER: {
 			for (int i = 0; i < buttons.Count(); i++)
 			{
-				if (buttons[i]->current_state == STATE_FOCUSED) {
+				if (buttons[i]->current_state == STATE_FOCUSED)
+				{
 					buttons[i]->current_state = STATE_NORMAL;
 					tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
 					break;
 				}
 			}
+
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_focused);
+			if (tmpBtn->button_lbl != nullptr)
+				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
 			break;
 		}
 		case STATE_MOUSE_LEAVE:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
+			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED)
+			{
+				tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
+			}
+			else
+			{
+				if (tmpBtn->button_lbl != nullptr)
+					tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+				tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+			}
 			break;
 		case STATE_LEFT_MOUSE_PRESSED:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
+			if (tmpBtn->button_lbl != nullptr)
+				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
 			break;
 		case STATE_NO_DEF:
 			break;

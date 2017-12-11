@@ -62,10 +62,10 @@ bool j1FadeToBlack::Update(float dt)
 			if (moduleOn != nullptr && moduleOff != nullptr) {
 				this->moduleOff->CleanUp();
 				this->moduleOff->active = false;
+				
 				this->moduleOn->Start();
 				this->moduleOn->active = true;
-				moduleOff = nullptr;
-				moduleOn = nullptr;
+				
 			}
 
 			App->entities->CleanUp();
@@ -80,85 +80,115 @@ bool j1FadeToBlack::Update(float dt)
 			pugi::xml_node lvlData = App->LoadConfig(data);
 			p2SString nextLvlName = "";
 
-			bool loadTheNextOne = false;
-			bool setFirst = false;
-			bool loaded = false;
-
-			for (lvlData = lvlData.child("map").child("scene").child("data"); lvlData && ret; lvlData = lvlData.next_sibling("data"))
-			{
-				if (lvlName == "")
-				{
-					if (lvlData.previous_sibling("data") == NULL)
-						firstData = lvlData;
-
-					if (loadTheNextOne)
+			
+				bool loadTheNextOne = false;
+				bool setFirst = false;
+				bool loaded = false;
+				if (moduleOn != (j1Module*)App->main_menu) {
+					for (lvlData = lvlData.child("map").child("scene").child("data"); lvlData && ret; lvlData = lvlData.next_sibling("data"))
 					{
-						lvlData.attribute("currentLvl").set_value(true);
-						nextLvlName = (p2SString)lvlData.attribute("name").as_string();
-						loaded = true;
-						break;
+						if (lvlName == "")
+						{
+							if (lvlData.previous_sibling("data") == NULL)
+								firstData = lvlData;
+
+							if (loadTheNextOne)
+							{
+								lvlData.attribute("currentLvl").set_value(true);
+								nextLvlName = (p2SString)lvlData.attribute("name").as_string();
+								loaded = true;
+								break;
+							}
+
+							if (lvlData.attribute("currentLvl").as_bool() && !loadTheNextOne)
+							{
+								lvlData.attribute("currentLvl").set_value(false);
+								loadTheNextOne = true;
+							}
+
+							if (lvlData.next_sibling("data") == NULL && !loaded) {
+								setFirst = true;
+							}
+						}
+						else
+						{
+							if (lvlData.attribute("currentLvl").as_bool())
+							{
+								lvlData.attribute("currentLvl").set_value(false);
+							}
+
+							p2SString tmp = (p2SString)lvlData.attribute("name").as_string();
+
+							if (tmp == lvlName)
+							{
+								lvlData.attribute("currentLvl").set_value(true);
+							}
+						}
 					}
 
-					if (lvlData.attribute("currentLvl").as_bool() && !loadTheNextOne)
+				}
+				else {
+					for (lvlData = lvlData.child("map").child("scene").child("data"); lvlData && ret; lvlData = lvlData.next_sibling("data"))
 					{
-						lvlData.attribute("currentLvl").set_value(false);
-						loadTheNextOne = true;
-					}
+						if (lvlData.attribute("currentLvl").as_bool())
+						{
+							lvlData.attribute("currentLvl").set_value(false);
+						}
 
-					if (lvlData.next_sibling("data") == NULL && !loaded) {
-						setFirst = true;
+						p2SString tmp = (p2SString)lvlData.attribute("name").as_string();
+						p2SString main_menu;
+						lvlName = main_menu.create("main_menu.tmx");
+
+						if (tmp == main_menu)
+						{
+							lvlData.attribute("currentLvl").set_value(true);
+						}
+						
 					}
 				}
-				else
+
+				if (setFirst)
 				{
-					if (lvlData.attribute("currentLvl").as_bool())
-					{
-						lvlData.attribute("currentLvl").set_value(false);
-					}
-
-					p2SString tmp = (p2SString)lvlData.attribute("name").as_string();
-
-					if (tmp == lvlName)
-					{
-						lvlData.attribute("currentLvl").set_value(true);
-					}
+					firstData.attribute("currentLvl").set_value(true);
+					nextLvlName = (p2SString)firstData.attribute("name").as_string();
 				}
-			}
 
-			if (setFirst)
-			{
-				firstData.attribute("currentLvl").set_value(true);
-				nextLvlName = (p2SString)firstData.attribute("name").as_string();
-			}
+				//We save the xml to do a loop through all the lvl's without knowing the number
+				data.save_file("config.xml");
 
-			//We save the xml to do a loop through all the lvl's without knowing the number
-			data.save_file("config.xml");
+				if (lvlName != "")
+					nextLvlName = lvlName;
 
-			if (lvlName != "")
-				nextLvlName = lvlName;
+				App->map->sceneName = nextLvlName;
+				App->map->Load(nextLvlName.GetString());
+				App->map->LayersSetUp();
 
-			App->map->sceneName = nextLvlName;
-			App->map->Load(nextLvlName.GetString());
-			App->map->LayersSetUp();
+				App->map->setAllLogicForMap();
+				if (moduleOn == (j1Module*)App->main_menu) {
+					App->map->spawn.x = -1;
+					App->map->spawn.y = -1;
+				}
 
-			App->map->setAllLogicForMap();
+				int w, h;
+				uchar* data_map = NULL;
+				if (App->map->CreateWalkabilityMap(w, h, &data_map))
+					App->pathfinding->SetMap(w, h, data_map);
 
-			int w, h;
-			uchar* data_map = NULL;
-			if (App->map->CreateWalkabilityMap(w, h, &data_map))
-				App->pathfinding->SetMap(w, h, data_map);
+				RELEASE_ARRAY(data_map);
 
-			RELEASE_ARRAY(data_map);
-
+			
 			App->entities->Start();
 			App->entities->active = true;
 			App->particles->Start();
 
-			if (lvlName != "" && !F1)
+			if (lvlName != "" && !F1 && (moduleOn == nullptr && moduleOff == nullptr))
 				App->entities->GetPlayer()->ImplementLoad();
 
 			F1 = false;
 
+			moduleOn = nullptr;
+			moduleOff = nullptr;
+			lvlName = "";
 
 			total_time += total_time;
 			start_time = SDL_GetTicks();

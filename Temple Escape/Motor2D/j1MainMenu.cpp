@@ -47,26 +47,29 @@ bool j1MainMenu::Start()
 {
 	bool ret = true;
 
+	if (!App->scene->IsGamePaused()) {
+		LOG("%s", App->map->sceneName);
+
+		App->map->Load(App->map->sceneName.GetString());
+
+		App->map->LayersSetUp();
+
+		App->map->setAllLogicForMap();
+
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+
+		RELEASE_ARRAY(data);
+
+	}
 	LOG("%s", App->map->sceneName);
-	App->map->Load(App->map->sceneName.GetString());
-
-	App->map->LayersSetUp();
-
-	App->map->setAllLogicForMap();
-
+	
 	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) {
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
 	}
-
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data))
-		App->pathfinding->SetMap(w, h, data);
-
-	RELEASE_ARRAY(data);
-
-	
 
 	uint win_width = 0u, win_height = 0u;
 	App->win->GetWindowSize(win_width, win_height);
@@ -165,8 +168,8 @@ bool j1MainMenu::PostUpdate()
 {
 	bool ret = true;
 
-	//if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || quit_btn_pressed)
-		//ret = false;
+	if (quit_btn_pressed)
+		ret = false;
 
 	return ret;
 }

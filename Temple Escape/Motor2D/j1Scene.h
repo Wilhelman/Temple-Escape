@@ -4,6 +4,9 @@
 #include "j1Module.h"
 #include "p2DynArray.h"
 
+#define BUTTON_HOVER_OFFSET 6
+#define BUTTON_PUSH_OFFSET 3
+
 struct SDL_Texture;
 class UIButton;
 class UIImage;
@@ -49,9 +52,11 @@ private:
 	p2DynArray<UIButton*> buttons;
 
 	UIImage* pause_menu = nullptr;
+	UIButton* main_menu_btn = nullptr;
 	UIButton* quit_btn = nullptr;
 
 	bool paused = false;
+	bool quit_btn_pressed = false;
 };
 
 #endif // __j1SCENE_H__
