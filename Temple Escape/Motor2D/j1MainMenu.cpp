@@ -165,8 +165,8 @@ bool j1MainMenu::PostUpdate()
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || quit_btn_pressed)
-		ret = false;
+	//if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || quit_btn_pressed)
+		//ret = false;
 
 	return ret;
 }

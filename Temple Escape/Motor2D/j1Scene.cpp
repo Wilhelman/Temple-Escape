@@ -98,6 +98,11 @@ bool j1Scene::Update(float dt)
 
 	//END DEBUG
 
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver()) {
+		pause_menu->invisible = !pause_menu->invisible;
+		pause_menu->interactable = !pause_menu->interactable;
+	}
+
 	App->map->Draw();
 
 	int m_x; int m_y;
@@ -131,8 +136,8 @@ bool j1Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	//if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		//ret = false;
 
 	return ret;
 }

@@ -6,6 +6,7 @@
 
 struct SDL_Texture;
 class UIButton;
+class UIImage;
 
 class j1Scene : public j1Module
 {
