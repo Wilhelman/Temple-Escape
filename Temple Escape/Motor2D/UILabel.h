@@ -15,6 +15,7 @@ private:
 	Color text_color = COLOR_NOT_DEF;
 public:
 	UILabel(int x, int y, UI_Type type, p2SString text, Color color, UIElement* parent = nullptr);
+	void SetTextFromNum(int value); 
 
 };
 
