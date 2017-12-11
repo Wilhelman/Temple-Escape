@@ -63,7 +63,7 @@ void Coin::Update(float dt)
 	if (!key_entities_speed && dt > 0)
 		SetEntitiesSpeed(dt);
 
-	if (have_to_destroy && currentTime > dead_timer + 150)
+	if (have_to_destroy && currentTime > dead_timer + 100)
 		this->to_destroy = true;
 
 	currentTime = SDL_GetTicks();
@@ -73,7 +73,9 @@ void Coin::OnCollision(Collider* collider)
 {
 	if (collider->type == ColliderType::COLLIDER_PLAYER && !have_to_destroy)
 	{
-		App->audio->PlayFx(coin_collect_fx);
+		if (!App->audio->PlayFx(coin_collect_fx)) {
+			LOG("AUDIO FAILED id: %i",coin_collect_fx);
+		}
 		have_to_destroy = true;
 		dead_timer = SDL_GetTicks();
 		//TODO GIVE SCORE ETC

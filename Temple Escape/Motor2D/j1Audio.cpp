@@ -195,6 +195,8 @@ unsigned int j1Audio::LoadFx(const char* path)
 	{
 		fx[last_fx] = chunk;
 		ret = last_fx++;
+		if (fx[last_fx] == nullptr)
+			LOG("ADASD");
 		if (last_fx == MAX_FX) {
 			last_fx = 0;
 			ret = last_fx;

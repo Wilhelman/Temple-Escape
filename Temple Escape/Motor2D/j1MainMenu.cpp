@@ -74,8 +74,7 @@ bool j1MainMenu::Start()
 	win_height /= App->win->GetScale();
 
 	// MAIN MENU BUTTONS
-	int tmp_x = 0;
-	int tmp_y = 0;
+	
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
@@ -92,6 +91,8 @@ bool j1MainMenu::Start()
 	
 
 	// SETTINGS
+	int tmp_x = 0;
+	int tmp_y = 0;
 	tmp_x = GetPointToCenter(293, 231, win_width, win_height).x;
 	tmp_y = GetPointToCenter(293, 231, win_width, win_height).y;
 	settings_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 293, 231 }, this);

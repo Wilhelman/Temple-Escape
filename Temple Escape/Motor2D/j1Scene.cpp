@@ -48,12 +48,20 @@ bool j1Scene::Start()
 		LOG("Error playing music in j1Scene Start");
 	}
 
-	UIImage* window = (UIImage*)App->ui->AddUIImage(300, 100, { 0, 512, 483, 512 }, this);
-	window->draggable = true;
-	buttons.PushBack((UIButton*)App->ui->AddUIButton(350, 150, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window));
-	UIButton* draggable_btn = (UIButton*)App->ui->AddUIButton(350, 190, { 0,113,229,69 }, { 411,169,229,69 }, { 642,169,229,69 }, this, window);
-	draggable_btn->draggable = true;
-	buttons.PushBack(draggable_btn);
+	// PAUSE BTN
+	uint win_width = 0u, win_height = 0u;
+	App->win->GetWindowSize(win_width, win_height);
+	win_width /= App->win->GetScale();
+	win_height /= App->win->GetScale();
+	int tmp_x = 0;
+	int tmp_y = 0;
+	tmp_x = iPoint((win_width - 293) / 2, (win_height - 231) / 2).x;
+	tmp_y = iPoint((win_width - 293) / 2, (win_height - 231) / 2).y;
+	pause_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 293, 231 }, this);
+	pause_menu->interactable = false;
+	pause_menu->invisible = true;
+
+
 
 	return ret;
 }

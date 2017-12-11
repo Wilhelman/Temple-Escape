@@ -44,6 +44,8 @@ private:
 	void putPlayerToSpawn();
 
 	p2DynArray<UIButton*> buttons;
+
+	UIImage* pause_menu = nullptr;
 };
 
 #endif // __j1SCENE_H__

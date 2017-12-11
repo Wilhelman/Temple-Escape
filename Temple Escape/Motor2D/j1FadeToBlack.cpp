@@ -58,6 +58,7 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
+
 			if (moduleOn != nullptr && moduleOff != nullptr) {
 				this->moduleOff->CleanUp();
 				this->moduleOff->active = false;
@@ -72,6 +73,7 @@ bool j1FadeToBlack::Update(float dt)
 			App->particles->CleanUp();
 			App->collider->CleanUp();
 			App->map->CleanUp();
+
 			pugi::xml_node firstData;
 			pugi::xml_document data;
 
