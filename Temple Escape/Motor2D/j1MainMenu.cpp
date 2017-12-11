@@ -18,6 +18,7 @@
 #include "UIImage.h"
 #include "UIButton.h"
 #include "UILabel.h"
+#include "UISlider.h"
 
 #include "j1Entities.h"
 
@@ -158,6 +159,13 @@ bool j1MainMenu::Update(float dt)
 		}
 	}
 
+	if (slider != nullptr)
+	{
+		slider->SetSliderValue(slider->GetSliderButton()->GetLocalPosition().x);
+		slider_lbl->SetTextFromNum(slider->GetSliderValue());
+	}
+	
+
 	App->map->Draw();
 
 	return true;
@@ -296,6 +304,18 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			if (tmpBtn->button_lbl!=nullptr)
 				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
+			
+			if ((tmpBtn == slider_left_btn || tmpBtn == slider_right_btn) && (slider->GetSliderValue() >= 0 && slider->GetSliderValue() <= 100))
+			{
+				if (tmpBtn == slider_right_btn && (slider_btn->GetLocalPosition().x >= 0) && slider->GetSliderValue() < 100)
+					slider->GetSliderButton()->SetLocalPosition((slider->GetRect().w - slider_btn->GetRect().w) / 100, slider_btn->GetLocalPosition().y);
+				else if (tmpBtn == slider_left_btn && slider_btn->GetLocalPosition().x > 0 && slider->GetSliderValue() > 0)
+					slider->GetSliderButton()->SetLocalPosition(-(slider->GetRect().w - slider_btn->GetRect().w) / 100, slider_btn->GetLocalPosition().y);
+				else if (tmpBtn == slider_left_btn && slider_btn->GetLocalPosition().x > 0)
+					slider->GetSliderButton()->SetLocalPosition(0, slider_btn->GetLocalPosition().y);
+
+			}
+			
 			break;
 		case STATE_NO_DEF:
 			break;
