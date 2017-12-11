@@ -114,7 +114,7 @@ bool j1MainMenu::Start()
 	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(music_volume_slider);
 
-	slider_btn = (UIButton*)App->ui->AddUIButton(0, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
+	slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
 	slider_btn->draggable = true;
 	buttons.PushBack(slider_btn);
 	music_volume_slider->SetSliderButtons(slider_btn);
@@ -184,10 +184,9 @@ bool j1MainMenu::Update(float dt)
 	{
 		music_volume_slider->SetSliderValue(music_volume_slider->GetSliderButton()->GetLocalPosition().x);
 		music_volume_slider_lbl->SetTextFromNum(music_volume_slider->GetSliderValue());
+		Mix_VolumeMusic(128*music_volume_slider->GetSliderValue()/100);
 	}
 
-		
-	
 
 	App->map->Draw();
 
