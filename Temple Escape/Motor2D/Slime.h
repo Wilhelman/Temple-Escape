@@ -21,7 +21,7 @@ private:
 	uint current_time = 0u, slime_time_chilling = 0u;
 
 	// dead control
-	int dead_timer = 0u;
+	int dead_timer = 0;
 	bool have_to_destroy = false;
 
 	//anims

@@ -195,10 +195,10 @@ void Bat::Update(float dt)
 	//LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
 	//LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
 
-	if (have_to_destroy && current_time > dead_timer + 100)
+	if (have_to_destroy && currentTime > dead_timer + 100)
 		this->to_destroy = true;
 
-	current_time = SDL_GetTicks();
+	currentTime = SDL_GetTicks();
 }
 
 void Bat::SetRadar() {

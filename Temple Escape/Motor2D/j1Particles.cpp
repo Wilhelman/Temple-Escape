@@ -197,7 +197,6 @@ void j1Particles::OnCollision(Collider* c1, Collider* c2)
 		|| c2->type == ColliderType::COLLIDER_ENEMY_SLIME
 		|| c2->type == ColliderType::COLLIDER_GROUND)))
 	{
-		//App->audio->PlayFx(enemy_hitted);
 
 		for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 		{

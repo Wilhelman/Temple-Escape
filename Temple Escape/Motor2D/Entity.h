@@ -12,7 +12,7 @@ class Entity
 protected:
 	p2Animation* animation = nullptr;
 	Collider* collider = nullptr;
-	uint lives = 0u;
+	int lives = 0;
 	uint currentTime = 0u;
 	uint lastTime = 0u;
 	bool key_entities_speed = false;

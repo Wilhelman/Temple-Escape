@@ -22,7 +22,7 @@ private:
 	iPoint tile_radar[TILE_RADAR];
 
 	// dead control
-	int current_time = 0u, dead_timer = 0u;
+	uint dead_timer = 0u;
 	bool have_to_destroy = false;
 
 	//bat_fx

@@ -14,7 +14,7 @@ private:
 	p2Animation idle = p2Animation();
 
 	// dead control
-	int current_time = 0u, dead_timer = 0u;
+	int dead_timer = 0;
 	bool have_to_destroy = false;
 
 	//animations speeds

@@ -63,15 +63,15 @@ void Coin::Update(float dt)
 	if (!key_entities_speed && dt > 0)
 		SetEntitiesSpeed(dt);
 
-	if (have_to_destroy && current_time > dead_timer + 100)
+	if (have_to_destroy && currentTime > dead_timer + 150)
 		this->to_destroy = true;
 
-	current_time = SDL_GetTicks();
+	currentTime = SDL_GetTicks();
 }
 
 void Coin::OnCollision(Collider* collider)
 {
-	if (collider->type == ColliderType::COLLIDER_PLAYER)
+	if (collider->type == ColliderType::COLLIDER_PLAYER && !have_to_destroy)
 	{
 		App->audio->PlayFx(coin_collect_fx);
 		have_to_destroy = true;

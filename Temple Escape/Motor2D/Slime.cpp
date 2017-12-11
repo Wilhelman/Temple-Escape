@@ -230,7 +230,7 @@ void Slime::Update(float dt)
 	/*LOG("SLIME LEFT UP POS x : %i y : %i", slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y);
 	LOG("SLIME DOWN RIGHT POS x : %i y : %i", slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y);
 	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);*/
-	if (have_to_destroy && current_time > dead_timer + 100)
+	if (have_to_destroy && currentTime > dead_timer + 100)
 		this->to_destroy = true;
 
 	currentTime = SDL_GetTicks();
