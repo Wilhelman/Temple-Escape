@@ -29,9 +29,13 @@ private:
 	//anims speeds
 	uint standard_left_idle_vel = 0u, standard_right_idle_vel = 0u, standard_right_jump_vel = 0u, standard_left_jump_vel = 0u;
 
+	//slime_fx
+	uint slime_hit_fx = 0u, slime_dead_fx = 0u;
+
 public:
 
 	Slime(int x, int y);
+	~Slime();
 	void OnCollision(Collider* collider);
 	void Update(float dt);
 	void SetEntitiesSpeed(float dt);

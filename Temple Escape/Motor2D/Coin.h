@@ -13,6 +13,10 @@ private:
 	//animations
 	p2Animation idle = p2Animation();
 
+	// dead control
+	int current_time = 0u, dead_timer = 0u;
+	bool have_to_destroy = false;
+
 	//animations speeds
 	uint idle_vel = 0u;
 

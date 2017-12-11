@@ -6,6 +6,7 @@
 #include "p2Log.h"
 #include "j1Entities.h"
 #include "Player.h"
+#include "j1Audio.h"
 
 #define SLIME_MAX_LIVES 3
 #define GRAVITY_SLIME 20
@@ -43,6 +44,16 @@ Slime::Slime(int x, int y) : Entity(x, y)
 	collider = App->collider->AddCollider({ 0, 0, 16, 16 }, ColliderType::COLLIDER_ENEMY_SLIME, (j1Module*)App->entities);
 
 	animation = &standard_right_jump;
+
+}
+
+Slime::~Slime()
+{
+	LOG("Freeing the slimmy");
+
+	LOG("Unloading slime sound fx");
+	App->audio->UnLoadFx(slime_hit_fx);
+	App->audio->UnLoadFx(slime_dead_fx);
 
 }
 
