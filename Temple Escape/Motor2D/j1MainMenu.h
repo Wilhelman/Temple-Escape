@@ -10,7 +10,6 @@
 class UIButton;
 class UILabel;
 class UIImage;
-class UISlider;
 
 class j1MainMenu : public j1Module
 {
@@ -54,12 +53,6 @@ private:
 	UIButton* quit_game_btn = nullptr;
 	UIButton* close_settings_btn = nullptr;
 	UIImage* settings_menu = nullptr;
-
-	UILabel* slider_lbl = nullptr;
-	UISlider* slider = nullptr;
-	UIButton* slider_btn = nullptr;
-	UIButton* slider_left_btn = nullptr;
-	UIButton* slider_right_btn = nullptr;
 
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;
