@@ -91,9 +91,6 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="UISlider.cpp">
-      <Filter>Desenvolupament  ========\Modules\UI</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -209,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="UISlider.h">
-      <Filter>Desenvolupament  ========\Modules\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
