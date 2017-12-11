@@ -188,8 +188,8 @@
 		</spritesheetSource>
 		<main_menu />
 		<scene>
-			<data name="main_menu.tmx" start="true" currentLvl="false" />
-			<data name="lvl1.tmx" start="false" currentLvl="true" />
+			<data name="main_menu.tmx" start="true" currentLvl="true" />
+			<data name="lvl1.tmx" start="false" currentLvl="false" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
 		</scene>
 	</map>
