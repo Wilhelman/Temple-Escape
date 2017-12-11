@@ -105,23 +105,38 @@ bool j1MainMenu::Start()
 	buttons.PushBack(close_settings_btn);
 	settings_elements.PushBack(close_settings_btn);
 
-	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 50, "0%%", GREY);
 	
-	settings_elements.PushBack(music_volume_slider_lbl);
 
 	// SLIDER SETTINGS
+
+	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 50, "0%%", GREY);
+	settings_elements.PushBack(music_volume_slider_lbl);
+	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 100, "0%%", GREY);
+	settings_elements.PushBack(fx_volume_slider_lbl);
 
 	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(music_volume_slider);
 
-	slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
-	slider_btn->draggable = true;
-	buttons.PushBack(slider_btn);
-	music_volume_slider->SetSliderButtons(slider_btn);
-	settings_elements.PushBack(slider_btn);
+	music_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
+	music_slider_btn->draggable = true;
+	buttons.PushBack(music_slider_btn);
+	music_volume_slider->SetSliderButtons(music_slider_btn);
+	settings_elements.PushBack(music_slider_btn);
+
+	fx_volume_slider = (UISlider*)App->ui->AddUISlider(150, 100, { 0, 239, 130, 18 }, this);
+	settings_elements.PushBack(fx_volume_slider);
+
+	fx_slider_btn = (UIButton*)App->ui->AddUIButton(50, 50, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
+	fx_slider_btn->draggable = true;
+	buttons.PushBack(fx_slider_btn);
+	fx_volume_slider->SetSliderButtons(fx_slider_btn);
+	settings_elements.PushBack(fx_slider_btn);
 
 	music_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 49, "Music volume:", BLACK);
 	settings_elements.PushBack(music_volume_lbl);
+
+	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 100, "FX volume:", BLACK);
+	settings_elements.PushBack(fx_volume_lbl);
 
 	for (int i = 0; i < settings_elements.Count(); i++)
 	{
@@ -180,11 +195,15 @@ bool j1MainMenu::Update(float dt)
 		}
 	}
 
-	if (music_volume_slider != nullptr && music_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER)
+	if (music_volume_slider != nullptr && (music_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER && fx_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER))
 	{
 		music_volume_slider->SetSliderValue(music_volume_slider->GetSliderButton()->GetLocalPosition().x);
 		music_volume_slider_lbl->SetTextFromNum(music_volume_slider->GetSliderValue());
 		Mix_VolumeMusic(128*music_volume_slider->GetSliderValue()/100);
+
+		fx_volume_slider->SetSliderValue(fx_volume_slider->GetSliderButton()->GetLocalPosition().x);
+		fx_volume_slider_lbl->SetTextFromNum(fx_volume_slider->GetSliderValue());
+		Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
 	}
 
 

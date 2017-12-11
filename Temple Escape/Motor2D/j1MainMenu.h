@@ -53,14 +53,18 @@ private:
 	UIButton* settings_btn = nullptr;
 	UIButton* quit_game_btn = nullptr;
 	UIButton* close_settings_btn = nullptr;
-	UIButton* slider_btn = nullptr;
+	UIButton* music_slider_btn = nullptr;
+	UIButton* fx_slider_btn = nullptr;
 
 	UIImage* settings_menu = nullptr;
 
 	UISlider* music_volume_slider = nullptr;
+	UISlider* fx_volume_slider = nullptr;
 
 	UILabel* music_volume_slider_lbl = nullptr;
 	UILabel* music_volume_lbl = nullptr;
+	UILabel* fx_volume_slider_lbl = nullptr;
+	UILabel* fx_volume_lbl = nullptr;
 
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;
