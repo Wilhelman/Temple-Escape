@@ -20,6 +20,10 @@ private:
 	//timers
 	uint current_time = 0u, slime_time_chilling = 0u;
 
+	// dead control
+	int dead_timer = 0u;
+	bool have_to_destroy = false;
+
 	//anims
 	p2Animation standard_left_idle = p2Animation();
 	p2Animation standard_right_idle = p2Animation();

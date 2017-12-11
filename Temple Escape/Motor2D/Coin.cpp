@@ -73,7 +73,6 @@ void Coin::OnCollision(Collider* collider)
 {
 	if (collider->type == ColliderType::COLLIDER_PLAYER)
 	{
-		this->to_destroy = true;
 		App->audio->PlayFx(coin_collect_fx);
 		have_to_destroy = true;
 		dead_timer = SDL_GetTicks();

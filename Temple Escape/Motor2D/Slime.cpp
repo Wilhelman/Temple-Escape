@@ -25,6 +25,10 @@ Slime::Slime(int x, int y) : Entity(x, y)
 
 	lives = SLIME_MAX_LIVES;
 
+	//read fxs from node
+	slime_hit_fx = App->audio->LoadFx(node->child("fxSlimeHit").attribute("name").as_string());
+	slime_dead_fx = App->audio->LoadFx(node->child("fxSlimeDead").attribute("name").as_string());
+
 	//read animation from node
 	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
 	{
@@ -226,6 +230,9 @@ void Slime::Update(float dt)
 	/*LOG("SLIME LEFT UP POS x : %i y : %i", slime_pos_UP_LEFT.x, slime_pos_UP_LEFT.y);
 	LOG("SLIME DOWN RIGHT POS x : %i y : %i", slime_pos_DOWN_RIGHT.x, slime_pos_DOWN_RIGHT.y);
 	LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);*/
+	if (have_to_destroy && current_time > dead_timer + 100)
+		this->to_destroy = true;
+
 	currentTime = SDL_GetTicks();
 }
 
@@ -238,13 +245,19 @@ void Slime::OnCollision(Collider* collider)
 {
 	if (collider->type == ColliderType::COLLIDER_PLAYER)
 		player_in_radar = false;
-	else if (collider->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT)
+	else if (collider->type == ColliderType::COLLIDER_PLAYER_BASIC_SHOT) {
 		lives--;
+		if (lives <= 0)
+			App->audio->PlayFx(slime_dead_fx);
+		else
+			App->audio->PlayFx(slime_hit_fx);
+	}
 	
 
 	if (lives <= 0)
 	{
-		this->to_destroy = true;
+		have_to_destroy = true;
+		dead_timer = SDL_GetTicks();
 	}
 }
 
