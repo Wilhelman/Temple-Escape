@@ -19,28 +19,3 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, UIElem
 	current_rect.w = width;
 	current_rect.h = height;
 }
-
-
-void UILabel::SetTextFromNum(uint value)
-{
-	char buffer[5];
-	_itoa_s(value, buffer, 10);
-
-	p2SString text_num;
-	text_num.create(buffer);
-	p2SString percent;
-	percent.create("%%");
-
-	text_num += percent;
-	text = text_num;
-
-	if (text_color == YELLOW)
-		texture = App->font->Print(text.GetString(), { 254, 203,0,255 }, App->font->default);
-	else if (text_color == GREY)
-		texture = App->font->Print(text.GetString(), { 134, 136, 138,255 }, App->font->default);
-
-	int width = 0, height = 0;
-	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
-	current_rect.w = width;
-	current_rect.h = height;
-}
