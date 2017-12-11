@@ -54,11 +54,11 @@ bool j1Scene::Start()
 	App->win->GetWindowSize(win_width, win_height);
 	win_width /= App->win->GetScale();
 	win_height /= App->win->GetScale();
-	int tmp_x = 0;
-	int tmp_y = 0;
-	tmp_x = iPoint((win_width - 293) / 2, (win_height - 231) / 2).x;
-	tmp_y = iPoint((win_width - 293) / 2, (win_height - 231) / 2).y;
-	pause_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 30, 30 }, this);
+	//int tmp_x = 0;
+	//int tmp_y = 0;
+	//tmp_x = iPoint((win_width - 293) / 2, (win_height - 231) / 2).x;
+	//tmp_y = iPoint((win_width - 293) / 2, (win_height - 231) / 2).y;
+	pause_menu = (UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
 
@@ -116,7 +116,8 @@ bool j1Scene::Update(float dt)
 
 	//END DEBUG
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver()) {
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver()) 
+	{
 		pause_menu->invisible = !pause_menu->invisible;
 		pause_menu->interactable = !pause_menu->interactable;
 

@@ -34,6 +34,8 @@ void UILabel::SetTextFromNum(int value)
 		texture = App->font->Print(text.GetString(), { 254, 203,0,255 }, App->font->default);
 	else if (text_color == GREY)
 		texture = App->font->Print(text.GetString(), { 134, 136, 138,255 }, App->font->default);
+	else if (text_color == BLACK)
+		texture = App->font->Print(text.GetString(), { 0, 0, 0, 255 }, App->font->default);
 
 	int width = 0, height = 0;
 	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);

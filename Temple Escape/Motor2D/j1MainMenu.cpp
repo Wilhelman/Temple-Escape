@@ -92,7 +92,6 @@ bool j1MainMenu::Start()
 
 	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 215, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
 	buttons.PushBack(quit_game_btn);
-	
 
 	// SETTINGS
 	int tmp_x = 0;
@@ -100,13 +99,35 @@ bool j1MainMenu::Start()
 	tmp_x = GetPointToCenter(293, 231, win_width, win_height).x;
 	tmp_y = GetPointToCenter(293, 231, win_width, win_height).y;
 	settings_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y, { 135, 0, 293, 231 }, this);
-	settings_menu->interactable = false;
-	settings_menu->invisible = true;
+	settings_elements.PushBack(settings_menu);
 
 	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
-	close_settings_btn->interactable = false;
-	close_settings_btn->invisible = true;
-	buttons.PushBack(quit_game_btn);
+	buttons.PushBack(close_settings_btn);
+	settings_elements.PushBack(close_settings_btn);
+
+	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 50, "0%%", GREY);
+	
+	settings_elements.PushBack(music_volume_slider_lbl);
+
+	// SLIDER SETTINGS
+
+	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50, { 0, 239, 130, 18 }, this);
+	settings_elements.PushBack(music_volume_slider);
+
+	slider_btn = (UIButton*)App->ui->AddUIButton(0, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
+	slider_btn->draggable = true;
+	buttons.PushBack(slider_btn);
+	music_volume_slider->SetSliderButtons(slider_btn);
+	settings_elements.PushBack(slider_btn);
+
+	music_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 49, "Music volume:", BLACK);
+	settings_elements.PushBack(music_volume_lbl);
+
+	for (int i = 0; i < settings_elements.Count(); i++)
+	{
+		settings_elements[i]->interactable = false;
+		settings_elements[i]->invisible = true;
+	}
 
 	return ret;
 }
@@ -159,11 +180,13 @@ bool j1MainMenu::Update(float dt)
 		}
 	}
 
-	if (slider != nullptr)
+	if (music_volume_slider != nullptr && music_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER)
 	{
-		slider->SetSliderValue(slider->GetSliderButton()->GetLocalPosition().x);
-		slider_lbl->SetTextFromNum(slider->GetSliderValue());
+		music_volume_slider->SetSliderValue(music_volume_slider->GetSliderButton()->GetLocalPosition().x);
+		music_volume_slider_lbl->SetTextFromNum(music_volume_slider->GetSliderValue());
 	}
+
+		
 	
 
 	App->map->Draw();
@@ -190,6 +213,7 @@ bool j1MainMenu::CleanUp()
 
 	buttons.Clear();
 	labels.Clear();
+	settings_elements.Clear();
 
 	return true;
 }
@@ -251,19 +275,38 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 					quit_btn_pressed = true;
 				else if (tmpBtn == settings_btn)
 				{
-					settings_menu->invisible = false;
-					settings_menu->interactable = true;
-					close_settings_btn->interactable = true;
-					close_settings_btn->invisible = false;
-				}
-				else if (tmpBtn = close_settings_btn)
+					for (int i = 0; i < settings_elements.Count(); i++)
+					{
+						if (settings_elements[i]->type == LABEL)
+						{
+							settings_elements[i]->interactable = false;
+							settings_elements[i]->invisible = false;
+						}
+						else
+						{
+							settings_elements[i]->interactable = true;
+							settings_elements[i]->invisible = false;
+						}
+						
+					}
+				}			
+				else if (tmpBtn == close_settings_btn)
 				{
-					settings_menu->invisible = true;
-					settings_menu->interactable = false;
-					close_settings_btn->interactable = false;
-					close_settings_btn->invisible = true;
+					for (int i = 0; i < settings_elements.Count(); i++)
+					{
+						if (settings_elements[i]->type == LABEL)
+						{
+							settings_elements[i]->interactable = false;
+							settings_elements[i]->invisible = true;
+						}
+						else
+						{
+							settings_elements[i]->interactable = false;
+							settings_elements[i]->invisible = true;
+						}
+
+					}
 				}
-					
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
 				break;
@@ -303,19 +346,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
 			if (tmpBtn->button_lbl!=nullptr)
 				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
-			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
-			
-			if ((tmpBtn == slider_left_btn || tmpBtn == slider_right_btn) && (slider->GetSliderValue() >= 0 && slider->GetSliderValue() <= 100))
-			{
-				if (tmpBtn == slider_right_btn && (slider_btn->GetLocalPosition().x >= 0) && slider->GetSliderValue() < 100)
-					slider->GetSliderButton()->SetLocalPosition((slider->GetRect().w - slider_btn->GetRect().w) / 100, slider_btn->GetLocalPosition().y);
-				else if (tmpBtn == slider_left_btn && slider_btn->GetLocalPosition().x > 0 && slider->GetSliderValue() > 0)
-					slider->GetSliderButton()->SetLocalPosition(-(slider->GetRect().w - slider_btn->GetRect().w) / 100, slider_btn->GetLocalPosition().y);
-				else if (tmpBtn == slider_left_btn && slider_btn->GetLocalPosition().x > 0)
-					slider->GetSliderButton()->SetLocalPosition(0, slider_btn->GetLocalPosition().y);
-
-			}
-			
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);	
 			break;
 		case STATE_NO_DEF:
 			break;
