@@ -67,9 +67,9 @@ bool j1MainMenu::Start()
 	}
 	LOG("%s", App->map->sceneName);
 	
-	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) {
+	if (!App->audio->PlayMusic("audio/music/8-bit_Detective.ogg")) {
 		//ret = false;
-		LOG("Error playing music in j1Scene Start");
+		LOG("Error playing music in j1MainMenu Start");
 	}
 
 	uint win_width = 0u, win_height = 0u;
