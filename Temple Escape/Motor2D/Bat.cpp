@@ -190,9 +190,15 @@ void Bat::Update(float dt)
 				have_to_chill = true;
 		}
 	}
+
 	//LOG("BAT POS x : %i y : %i", bat_pos_UP_LEFT.x, bat_pos_UP_LEFT.y);
 	//LOG("MOV GOAL x : %i goal y : %i", movementGoal.x, movementGoal.y);
 	//LOG("ORIGINAL POS X: %i | ORIGINAL POS Y: %i", original_pos.x, original_pos.y);
+
+	if (have_to_destroy && current_time > dead_timer + 100)
+		this->to_destroy = true;
+
+	current_time = SDL_GetTicks();
 }
 
 void Bat::SetRadar() {
@@ -253,7 +259,8 @@ void Bat::OnCollision(Collider* collider)
 
 	if (lives <= 0)
 	{
-		this->to_destroy = true;
+		have_to_destroy = true;
+		dead_timer = SDL_GetTicks();
 	}
 }
 
