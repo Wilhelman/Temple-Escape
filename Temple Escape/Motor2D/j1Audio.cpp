@@ -237,7 +237,7 @@ bool j1Audio::UnLoadFx(uint id)
 		Mix_FreeChunk(fx[id]);
 		fx[id] = nullptr;
 		ret = true;
-		last_fx--;
+		//last_fx--;
 	}
 
 	return ret;

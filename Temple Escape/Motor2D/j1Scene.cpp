@@ -61,6 +61,11 @@ bool j1Scene::Start()
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
 
+	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
+	buttons.PushBack(quit_btn);
+	UILabel* quit_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "QUIT", BLACK, quit_btn);
+	quit_btn->button_lbl = quit_lbl;
+	quit_lbl->interactable = false;
 
 
 	return ret;

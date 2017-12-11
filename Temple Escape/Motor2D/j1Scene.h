@@ -49,6 +49,7 @@ private:
 	p2DynArray<UIButton*> buttons;
 
 	UIImage* pause_menu = nullptr;
+	UIButton* quit_btn = nullptr;
 
 	bool paused = false;
 };

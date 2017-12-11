@@ -9,6 +9,8 @@ struct Collider;
 
 class Entity
 {
+private:
+	SDL_Rect last_frame = { 0,0,0,0 };
 protected:
 	p2Animation* animation = nullptr;
 	Collider* collider = nullptr;
