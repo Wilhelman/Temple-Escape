@@ -56,7 +56,7 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 
 score system, timer...
 
-# Controls
+### Controls
 ~~~~~~~~~~~~~~~
 
 Player controls:
@@ -78,11 +78,10 @@ General/developer controls:
 - MUSIC VOLUME: +/- keys
 
 ~~~~~~~~~~~~~~~
-
+___
 
 ## **Credits for artwork, music/sound fx and fonts**
 
-~~~~~~~~~~~~~~~
 
 Sprites:
 
@@ -109,7 +108,7 @@ Sound FX:
 Fonts:
 * Fonts can be found here: 
 
-~~~~~~~~~~~~~~~
+___
 
 ### *Download the last version of the game [HERE]()*
 ### *Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)*
