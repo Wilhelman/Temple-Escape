@@ -157,6 +157,10 @@ bool j1Scene::Update(float dt)
 		paused = !paused;
 	}
 
+	if (App->entities->GetPlayer()->lives == 0) {
+		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
+	}
+
 	App->map->Draw();
 
 	int m_x; int m_y;

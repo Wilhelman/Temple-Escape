@@ -196,6 +196,7 @@ void Player::Update(float dt)
 	}
 	else if (isDead)
 	{
+		lives--;
 		isDead = false;
 		collider->type = COLLIDER_PLAYER;
 		iPoint spawnPos = App->map->spawn;

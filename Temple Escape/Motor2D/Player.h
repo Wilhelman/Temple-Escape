@@ -57,6 +57,7 @@ public:
 	bool reachedEnd = false;
 	bool isDead = false;
 	bool god_mode = false;
+	uint lives = 3;
 
 private:
 	bool didDoubleJump = false;;
