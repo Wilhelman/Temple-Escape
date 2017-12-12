@@ -9,10 +9,41 @@ This project has been done by two catalan students of CITM - UPC (Terrasa, Spain
 
 Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
 
+## Our Team
+
+
+![](frozenSlothStudios_team.JPG)
+
+_García Subirana, Guillermo's responsability and Github account_
+
+* Code
+* [Github account](https://github.com/Wilhelman)
+
+_Masó Garcia, Víctor's responsability and Github account_
+
+* Management
+* [Github account](https://github.com/nintervik)
+
+## Main core system of thr game
+
+# Innovations
+* Player and enemy animations are read from an xml file.
+* Spawn enemy points are created with Tiled and read from the tmx file of the map.
+
+## Tools used
+* IDE: Microsoft Visual Studio 2017
+* Language: C++
+* Graphics and audio: SDL 2.0
+* Data: pugixml 1.8
+* Level editor: Tiled 0.17
+* Profiler: Brofiler
+* Code repository: GitHub
+* Others: Adobe Photoshop CS6, MS Paint and Aseprite
+
+
 ## Gameplay
 
 <iframe width="740" height="590" src="https://www.youtube.com/embed/yBFzOEv0snY" frameborder="0" allowfullscreen></iframe>
-
 
 
 ## Installation instructions
@@ -21,7 +52,12 @@ Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
 
 _IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
 
-## Controls
+
+## How to play
+
+score system, timer...
+
+# Controls
 ~~~~~~~~~~~~~~~
 
 ### Keyboard:
@@ -33,43 +69,19 @@ Player controls:
 - SHOOT: SPACE key (hold for continuous shooting)
 
 General/developer controls:
-- EXIT GAME: ESC key
+- PUASE GAME: ESC key
 - START FROM THE VERY FIRST LEVEL: F1 key
 - START FROM THE BEGGINING OF THE CURRENT LEVEL: F2 key
 - SHOW COLLIDERS: F3
 - SAVE GAME (player position and current level):  F5 key
 - LOAD GAME (player position and level saved): F6 key
+- UI DEBUG MODE: F8
 - GOD MODE: F10
 - CAP FRAMERATE: F11
 - MUSIC VOLUME: +/- keys
 
 ~~~~~~~~~~~~~~~
 
-
-## Innovations
-* Player and enemy animations are read from an xml file.
-* Spawn enemy points are created with Tiled and read from the tmx file of the map.
-
-## Team members
-
-_García Subirana, Guillermo's Github account:_
-
-* [Github account](https://github.com/Wilhelman) 
-
-_Masó Garcia, Víctor's Github account:_
-
-* [Github account](https://github.com/nintervik)
-
-
-## Tools used
-* IDE: Microsoft Visual Studio 2017
-* Language: C++
-* Graphics and audio: SDL 2.0
-* Data: pugixml 1.8
-* Level editor: Tiled 0.17
-* Profiler: Brofiler
-* Code repository: GitHub
-* Others: Adobe Photoshop CS6 and MS Paint
 
 ## Credits for artwork, music/sound fx and fonts
 
@@ -98,22 +110,30 @@ Fonts:
 * Fonts can be found here: 
 
 
-# Our team
-
-![](frozenSlothStudios_team.JPG)
-
-## Team members
-
-* Code
-* [Github account](https://github.com/Wilhelman)
-
-_Masó Garcia, Víctor's responsability and Github account_
-
-* Management
-* [Github account](https://github.com/nintervik)
-
-
-
 
 ### Download the last version of the game [HERE]()
 ### Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)
+
+## Liscense
+
+MIT License
+
+Copyright (c) 2017 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
