@@ -1,72 +1,108 @@
-![Gunbird_logo](http://vignette1.wikia.nocookie.net/fictionalcrossover/images/7/73/Gunbird_logo.png/revision/latest?cb=20150407124404)
 
 ## Our project 
 
-We're going to replicate the 1994 Gunbird game arcade version developed and published by Psyko as a tribute to the game. This project has been done by four catalan students of CITM - UPC (Terrasa, Spain). 
+Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
+
+This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).
 
 ## About the game
 
-Gunbird was released in 1994 for arcades and belongs to the vertically scrolling shoot'em up genre and has both single-player and two-player cooperative modes.
-
-The game allows you to choose between five different characters, each one with their own skills and powers. The objective of the game is to obtain the four shards  of a magic mirror in order to get a wish once they are all assembled. They will fight against The Trump (a group of three pirates) for the fragments of the mirror.
-
-There are two loop with seven levels each. The four shards of the mirror are obtained in the first four levels (which are randomly selected) and the wish is made once the player has completed three extra levels. In the end of each level you’ll have one boss to beat and a piece of the main plot is revealed. But in the second loop the difficult is increased and the story plot is removed.
+Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
 
 ## Gameplay
 
 <iframe width="740" height="590" src="https://www.youtube.com/embed/yBFzOEv0snY" frameborder="0" allowfullscreen></iframe>
 
+
+
+## Installation instructions
+
+Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
+
+_IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
+
 ## Controls
 ~~~~~~~~~~~~~~~
 
-Keyboard Player 1 controls:
-- UP: W key
-- LEFT / MOVE SELECTOR LEFT: A key
-- RIGHT / MOVE SELECTOR RIGHT:: D key
-- DOWN: S key
-- BASIC SHOT: SPACE key
-- SELECT CHARACTER: SPACE key 
-- BOMB: B key
+### Keyboard:
 
-Keyboard Player 2 controls:
-- UP: UP_ARROW key
-- LEFT / MOVE SELECTOR LEFT: LEFT_ARROW key
-- RIGHT / MOVE SELECTOR RIGHT:: RIGHT_ARROW key
-- DOWN: DOWN_ARROW key
-- BASIC SHOT: 1 key (NUMPAD)
-- JOIN THE GAME: 2 key (NUMPAD)
-- JOIN THE GAME (in-game): 1 key (NUMPAD)
-- SELECT CHARACTER: 1 key (NUMPAD)
-- BOMB: 2 key (NUMPAD)
+Player controls:
+- JUMP: W key (twice for double jump)
+- LEFT: A key
+- RIGHT: D key
+- SHOOT: SPACE key (hold for continuous shooting)
 
-General controls:
-- SKIP SCREEN: SPACE key
+General/developer controls:
 - EXIT GAME: ESC key
-
-Gamepad:
-
-- MOVE: JOYSTIC AND D-PAD
-- SHOOT AND SELECT CHARACTER: A 
-- SKIP SCREEN: A
-- BOMB: B
-- START GAME: START
-- EXIT GAME: BACK
-
+- START FROM THE VERY FIRST LEVEL: F1 key
+- START FROM THE BEGGINING OF THE CURRENT LEVEL: F2 key
+- SHOW COLLIDERS: F3
+- SAVE GAME (player position and current level):  F5 key
+- LOAD GAME (player position and level saved): F6 key
+- GOD MODE: F10
+- CAP FRAMERATE: F11
+- MUSIC VOLUME: +/- keys
 
 ~~~~~~~~~~~~~~~
 
-# FrozenSloth Studios - Our team
+
+## Innovations
+* Player and enemy animations are read from an xml file.
+* Spawn enemy points are created with Tiled and read from the tmx file of the map.
+
+## Team members
+
+_García Subirana, Guillermo's Github account:_
+
+* [Github account](https://github.com/Wilhelman) 
+
+_Masó Garcia, Víctor's Github account:_
+
+* [Github account](https://github.com/nintervik)
+
+
+## Tools used
+* IDE: Microsoft Visual Studio 2017
+* Language: C++
+* Graphics and audio: SDL 2.0
+* Data: pugixml 1.8
+* Level editor: Tiled 0.17
+* Profiler: Brofiler
+* Code repository: GitHub
+* Others: Adobe Photoshop CS6 and MS Paint
+
+## Credits for artwork, music/sound fx and fonts
+
+Sprites:
+
+* Artwork created by Luis Zuno (@ansimuz). Sprites can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
+* Artwork created by [Henry Sofware](https://henrysoftware.itch.io/). Sprites can be found [here](https://henrysoftware.itch.io/free-pixel-mob)
+* UI artwork created by [Kenny](http://www.kenney.nl/). Sprites can be found [here](https://opengameart.org/content/ui-pack-rpg-extension)
+
+Tileset:
+
+* Artwork created by Luis Zuno (@ansimuz). Tileset can be found [here](https://ansimuz.itch.io/grotto-escape-ii-art-pack-)
+
+Music:
+
+* Game music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/arcade-funk/)
+* Main menu music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/8-bit-detective/)
+Sound FX:
+
+* Player shot and jump sound fx can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
+* This game uses these sounds from freesound:
+      
+	- 249616__vincentm400__function-fail.wav by [OwlStorm / Natalie Kirk](https://freesound.org/people/OwlStorm/)
+	
+Fonts:
+* Fonts can be found here: 
+
+
+# Our team
 
 ![](frozenSlothStudios_team.JPG)
 
 ## Team members
-
-_Altimira Bernat, Martí's responsability and Github account_
-
-* QA
-* [Github account](https://github.com/martimab)
-
-_García Subirana, Guillermo's responsability and Github account_
 
 * Code
 * [Github account](https://github.com/Wilhelman)
@@ -76,18 +112,8 @@ _Masó Garcia, Víctor's responsability and Github account_
 * Management
 * [Github account](https://github.com/nintervik)
 
-_Termens Vázquez, Ariadna's responsability and Github account_
-
-* Art/Design
-* [Github account](https://github.com/AriTeva)
 
 
 
-### For more information see our wiki page [HERE](https://github.com/Wilhelman/Gunbird_P01/wiki)
-### Download the last version of the game [HERE](https://github.com/Wilhelman/Gunbird_P01/releases/tag/v1.0)
-### Check our Github repository [HERE](https://github.com/Wilhelman/Gunbird_P01)
-
-
-
-
-#### _Tribute by FrozenSloth Studios_
+### Download the last version of the game [HERE]()
+### Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)
