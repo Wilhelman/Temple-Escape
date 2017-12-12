@@ -82,6 +82,8 @@ General/developer controls:
 
 ## **Credits for artwork, music/sound fx and fonts**
 
+~~~~~~~~~~~~~~~
+
 Sprites:
 
 * Artwork created by Luis Zuno (@ansimuz). Sprites can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
@@ -107,7 +109,7 @@ Sound FX:
 Fonts:
 * Fonts can be found here: 
 
-
+~~~~~~~~~~~~~~~
 
 ### *Download the last version of the game [HERE]()*
 ### *Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)*
