@@ -1,16 +1,15 @@
 
-## Our project 
+## **Our project** 
 
 Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
 
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).
 
-## About the game
+## **About the game**
 
 Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
 
-## Our Team
-
+## **Our Team**
 
 ![](frozenSlothStudios_team.JPG)
 
@@ -24,13 +23,13 @@ _Masó Garcia, Víctor's responsability and Github account_
 * Management
 * [Github account](https://github.com/nintervik)
 
-## Main core system of thr game
+## **Main core system of the game**
 
-# Innovations
+### Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
 
-## Tools used
+## **Tools used**
 * IDE: Microsoft Visual Studio 2017
 * Language: C++
 * Graphics and audio: SDL 2.0
@@ -41,26 +40,24 @@ _Masó Garcia, Víctor's responsability and Github account_
 * Others: Adobe Photoshop CS6, MS Paint and Aseprite
 
 
-## Gameplay
+## **Gameplay**
 
 <iframe width="740" height="590" src="https://www.youtube.com/embed/yBFzOEv0snY" frameborder="0" allowfullscreen></iframe>
 
 
-## Installation instructions
+## **Installation instructions**
 
 Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
 
 _IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
 
 
-## How to play
+## **How to play**
 
 score system, timer...
 
 # Controls
 ~~~~~~~~~~~~~~~
-
-### Keyboard:
 
 Player controls:
 - JUMP: W key (twice for double jump)
@@ -83,7 +80,7 @@ General/developer controls:
 ~~~~~~~~~~~~~~~
 
 
-## Credits for artwork, music/sound fx and fonts
+## **Credits for artwork, music/sound fx and fonts**
 
 Sprites:
 
@@ -99,6 +96,7 @@ Music:
 
 * Game music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/arcade-funk/)
 * Main menu music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/8-bit-detective/)
+
 Sound FX:
 
 * Player shot and jump sound fx can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
@@ -111,10 +109,12 @@ Fonts:
 
 
 
-### Download the last version of the game [HERE]()
-### Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)
+### *Download the last version of the game [HERE]()*
+### *Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)*
 
-## Liscense
+## **Liscense**
+
+~~~~~~~~~~~~~~~
 
 MIT License
 
@@ -137,3 +137,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+~~~~~~~~~~~~~~~
