@@ -75,6 +75,8 @@ private:
 	p2DynArray<UIElement*> settings_elements;
 
 	bool quit_btn_pressed = false;
+	bool settings_up = false;
+	bool settings_down = false;
 };
 
 
