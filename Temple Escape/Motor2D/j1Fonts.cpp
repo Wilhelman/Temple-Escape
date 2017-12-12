@@ -57,6 +57,15 @@ bool j1Fonts::CleanUp()
 // Load new texture from file path
 TTF_Font* const j1Fonts::Load(const char* path, int size)
 {
+	p2List_item<TTF_Font*>* item;
+
+	for (item = fonts.start; item != NULL; item = item->next)
+	{
+		TTF_CloseFont(item->data);
+	}
+
+	fonts.clear();
+
 	TTF_Font* font = TTF_OpenFont(path, size);
 
 	if(font == NULL)
@@ -76,7 +85,7 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font, int size)
 {
 	SDL_Texture* ret = NULL;
-	//default = Load(path, size);
+	default = Load(path, size);
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
 
 	if(surface == NULL)

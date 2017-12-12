@@ -7,6 +7,7 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 {
 	this->text = text;
 	this->text_color = color;
+	this->size = size;
 
 	if (color == YELLOW)
 		texture = App->font->Print(text.GetString(), { 254, 203, 0, 255 }, App->font->default, size);
@@ -34,11 +35,11 @@ void UILabel::SetTextFromNum(int value)
 	App->tex->UnLoad(texture);
 
 	if (text_color == YELLOW)
-		texture = App->font->Print(text.GetString(), { 254, 203,0,255 }, App->font->default);
+		texture = App->font->Print(text.GetString(), { 254, 203,0,255 }, App->font->default,size);
 	else if (text_color == GREY)
-		texture = App->font->Print(text.GetString(), { 134, 136, 138,255 }, App->font->default);
+		texture = App->font->Print(text.GetString(), { 134, 136, 138,255 }, App->font->default,size);
 	else if (text_color == BLACK)
-		texture = App->font->Print(text.GetString(), { 0, 0, 0, 255 }, App->font->default);
+		texture = App->font->Print(text.GetString(), { 0, 0, 0, 255 }, App->font->default,size);
 
 	int width = 0, height = 0;
 	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
