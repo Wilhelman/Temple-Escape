@@ -221,22 +221,27 @@ bool j1MainMenu::Update(float dt)
 	else if (App->render->camera.x == -1950)
 	{
 		for (int i = 0; i < buttons.Count(); i++)
-		{
-			buttons[i]->interactable = true;
 			buttons[i]->invisible = false;
-		}
-		for (int i = 0; i < labels.Count(); i++)
-		{
-			labels[i]->invisible = false;
-		}
 
-		if (new_game_btn->GetLocalPosition().y > 103)
+		for (int i = 0; i < labels.Count(); i++)
+			labels[i]->invisible = false;
+
+		if (new_game_btn->GetLocalPosition().y > 103 && !new_game_btn->interactable)
 			new_game_btn->SetLocalPosition(new_game_btn->GetLocalPosition().x, new_game_btn->GetLocalPosition().y - 10);
-		if (settings_btn->GetLocalPosition().y > 215)
+		if (settings_btn->GetLocalPosition().y > 215 && !settings_btn->interactable)
 			settings_btn->SetLocalPosition(settings_btn->GetLocalPosition().x, settings_btn->GetLocalPosition().y - 10);
-		if (quit_game_btn->GetLocalPosition().y > 215)
+		if (quit_game_btn->GetLocalPosition().y > 215 && !quit_game_btn->interactable)
 			quit_game_btn->SetLocalPosition(quit_game_btn->GetLocalPosition().x, quit_game_btn->GetLocalPosition().y - 10);
 	}
+
+	if (new_game_btn->GetLocalPosition().y == 103
+		&& settings_btn->GetLocalPosition().y == 215
+		&& settings_btn->GetLocalPosition().y == 215)
+	{
+		for (int i = 0; i < buttons.Count(); i++)
+			buttons[i]->interactable = true;
+	}
+
 
 	App->map->Draw();
 
