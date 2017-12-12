@@ -263,20 +263,26 @@ void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
 				else if (tmpBtn == quit_btn)
 					quit_btn_pressed = true;
-				/*else if (tmpBtn == settings_btn)
+				else if (tmpBtn == continue_btn)
 				{
-					settings_menu->invisible = false;
-					settings_menu->interactable = true;
-					close_settings_btn->interactable = true;
-					close_settings_btn->invisible = false;
+					pause_menu->invisible = !pause_menu->invisible;
+					pause_menu->interactable = !pause_menu->interactable;
+					for (int i = 0; i < buttons.Count(); i++)
+					{
+						buttons[i]->interactable = !buttons[i]->interactable;
+						buttons[i]->invisible = !buttons[i]->invisible;
+						buttons[i]->button_lbl->invisible = !buttons[i]->button_lbl->invisible;
+					}
+					paused = !paused;
 				}
-				else if (tmpBtn = close_settings_btn)
+				else if (tmpBtn == load_game_btn)
 				{
-					settings_menu->invisible = true;
-					settings_menu->interactable = false;
-					close_settings_btn->interactable = false;
-					close_settings_btn->invisible = true;
-				}*/
+					App->LoadGame();
+				}
+				else if (tmpBtn == save_game_btn)
+				{
+					App->SaveGame();
+				}
 
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);

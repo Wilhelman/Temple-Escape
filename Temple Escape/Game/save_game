@@ -4,7 +4,7 @@
 	<window />
 	<textures />
 	<audio>
-		<volume music="20" />
+		<volume music="55" />
 	</audio>
 	<map />
 	<pathfinding />
@@ -15,38 +15,26 @@
 		<currentLvl name="lvl1.tmx" />
 	</main_menu>
 	<entities>
-		<coin>
-			<position x="272" y="528" />
-		</coin>
-		<coin>
-			<position x="288" y="528" />
-		</coin>
-		<coin>
-			<position x="304" y="528" />
-		</coin>
-		<coin>
-			<position x="336" y="528" />
-		</coin>
 		<bat>
-			<position x="458.551819" y="464" />
+			<position x="467.875214" y="464" />
 		</bat>
 		<slime>
-			<position x="591" y="496" />
+			<position x="608" y="496" />
 		</slime>
 		<bat>
-			<position x="570.550964" y="480" />
+			<position x="579.872742" y="480" />
 		</bat>
 		<slime>
-			<position x="864" y="464" />
+			<position x="847" y="464" />
 		</slime>
 		<bat>
-			<position x="938.550964" y="384" />
+			<position x="947.872742" y="384" />
 		</bat>
 		<bat>
-			<position x="986.550964" y="416" />
+			<position x="995.872742" y="416" />
 		</bat>
 		<player>
-			<position x="224" y="544" />
+			<position x="394" y="512" />
 		</player>
 	</entities>
 	<particles />
