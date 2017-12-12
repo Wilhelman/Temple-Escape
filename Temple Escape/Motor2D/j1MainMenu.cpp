@@ -83,7 +83,7 @@ bool j1MainMenu::Start()
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, "NEW GAME", BLACK, new_game_btn);
+	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, "NEW GAME", BLACK, 20, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
@@ -109,9 +109,9 @@ bool j1MainMenu::Start()
 
 	// SLIDER SETTINGS
 
-	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 50, "0%%", GREY);
+	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 50, "0%%", GREY,10);
 	settings_elements.PushBack(music_volume_slider_lbl);
-	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 100, "0%%", GREY);
+	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 100, "0%%", GREY,10);
 	settings_elements.PushBack(fx_volume_slider_lbl);
 
 	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50, { 0, 239, 130, 18 }, this);
@@ -130,10 +130,10 @@ bool j1MainMenu::Start()
 	fx_volume_slider->SetSliderButtons(fx_slider_btn);
 	settings_elements.PushBack(fx_slider_btn);
 
-	music_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 49, "Music volume:", BLACK);
+	music_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 49, "Music volume:", BLACK,20);
 	settings_elements.PushBack(music_volume_lbl);
 
-	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 100, "FX volume:", BLACK);
+	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(32, 100, "FX volume:", BLACK, 20);
 	settings_elements.PushBack(fx_volume_lbl);
 
 	for (int i = 0; i < settings_elements.Count(); i++)
@@ -206,11 +206,11 @@ bool j1MainMenu::Update(float dt)
 	{
 		music_volume_slider->SetSliderValue(music_volume_slider->GetSliderButton()->GetLocalPosition().x);
 		music_volume_slider_lbl->SetTextFromNum(music_volume_slider->GetSliderValue());
-		Mix_VolumeMusic(128*music_volume_slider->GetSliderValue()/100);
+		//Mix_VolumeMusic(128*music_volume_slider->GetSliderValue()/100);
 
 		fx_volume_slider->SetSliderValue(fx_volume_slider->GetSliderButton()->GetLocalPosition().x);
 		fx_volume_slider_lbl->SetTextFromNum(fx_volume_slider->GetSliderValue());
-		Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
+		//Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !move_camera)

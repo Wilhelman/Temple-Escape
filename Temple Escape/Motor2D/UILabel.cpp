@@ -1,6 +1,7 @@
 #include "j1App.h"
 #include "UILabel.h"
 #include "p2Log.h"
+#include "j1Textures.h"
 
 UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, UIElement* parent) : UIElement(x,y,type,parent)
 {
@@ -29,6 +30,8 @@ void UILabel::SetTextFromNum(int value)
 	s += t;
 
 	text = s.c_str();
+
+	App->tex->UnLoad(texture);
 
 	if (text_color == YELLOW)
 		texture = App->font->Print(text.GetString(), { 254, 203,0,255 }, App->font->default);
