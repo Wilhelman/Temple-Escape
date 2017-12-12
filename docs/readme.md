@@ -1,17 +1,16 @@
 
 ## **Our project** 
-___
 
 Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
 
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).
-___
+
 ## **About the game**
-___
+
 Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
-___
+
 ## **Our Team**
-___
+
 ![](frozenSlothStudios_team.JPG)
 
 _García Subirana, Guillermo's responsability and Github account_
@@ -23,9 +22,9 @@ _Masó Garcia, Víctor's responsability and Github account_
 
 * Management
 * [Github account](https://github.com/nintervik)
-___
+
 ## **Main core system of the game**
-___
+
 ### Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
@@ -40,21 +39,21 @@ ___
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6, MS Paint and Aseprite
 
-___
+
 ## **Gameplay**
 ___
 <iframe width="740" height="590" src="https://www.youtube.com/embed/yBFzOEv0snY" frameborder="0" allowfullscreen></iframe>
 
 ___
 ## **Installation instructions**
-___
+
 Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
 
 _IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
 ___
 
 ## **How to play**
-___
+
 score system, timer...
 
 ### Controls
@@ -79,40 +78,42 @@ General/developer controls:
 - MUSIC VOLUME: +/- keys
 
 ~~~~~~~~~~~~~~~
-___
+
 
 ## **Credits for artwork, music/sound fx and fonts**
 
-___
-Sprites:
+### *Sprites*:
 
 * Artwork created by Luis Zuno (@ansimuz). Sprites can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
 * Artwork created by [Henry Sofware](https://henrysoftware.itch.io/). Sprites can be found [here](https://henrysoftware.itch.io/free-pixel-mob)
 * UI artwork created by [Kenny](http://www.kenney.nl/). Sprites can be found [here](https://opengameart.org/content/ui-pack-rpg-extension)
 
-Tileset:
+### *Tilesets*:
 
 * Artwork created by Luis Zuno (@ansimuz). Tileset can be found [here](https://ansimuz.itch.io/grotto-escape-ii-art-pack-)
 
-Music:
+### *Music*:
 
 * Game music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/arcade-funk/)
 * Main menu music from [DL SOUNDS](https://www.dl-sounds.com/). It can be found [here](https://www.dl-sounds.com/royalty-free/8-bit-detective/)
 
-Sound FX:
+### *Sound FX*:
 
 * Player shot and jump sound fx can be found [here](https://ansimuz.itch.io/grotto-escape-game-art-pack)
 * This game uses these sounds from freesound:
       
 	- 249616__vincentm400__function-fail.wav by [OwlStorm / Natalie Kirk](https://freesound.org/people/OwlStorm/)
 	
-Fonts:
+### *Fonts*:
 * Fonts can be found here: 
 
 ___
 
 > ### *Download the last version of the game [HERE]()*
 > ### *Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)*
+
+***
+***
 
 ## **Liscense**
 
