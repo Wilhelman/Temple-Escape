@@ -66,7 +66,7 @@ bool j1Scene::Start()
 	buttons.PushBack(continue_btn);
 	continue_btn->interactable = false;
 	continue_btn->invisible = true;
-	UILabel* continue_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "CONTINUE", BLACK, continue_btn);
+	UILabel* continue_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "CONTINUE", BLACK, 10, continue_btn);
 	continue_btn->button_lbl = continue_lbl;
 	continue_lbl->interactable = false;
 	continue_lbl->invisible = true;
@@ -75,7 +75,7 @@ bool j1Scene::Start()
 	buttons.PushBack(save_game_btn);
 	save_game_btn->interactable = false;
 	save_game_btn->invisible = true;
-	UILabel* save_game_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "SAVE", BLACK, save_game_btn);
+	UILabel* save_game_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "SAVE", BLACK, 20, save_game_btn);
 	save_game_btn->button_lbl = save_game_lbl;
 	save_game_lbl->interactable = false;
 	save_game_lbl->invisible = true;
@@ -84,7 +84,7 @@ bool j1Scene::Start()
 	buttons.PushBack(load_game_btn);
 	load_game_btn->interactable = false;
 	load_game_btn->invisible = true;
-	UILabel* load_game_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "LOAD", BLACK, load_game_btn);
+	UILabel* load_game_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "LOAD", BLACK, 20, load_game_btn);
 	load_game_btn->button_lbl = load_game_lbl;
 	load_game_lbl->interactable = false;
 	load_game_lbl->invisible = true;
@@ -93,7 +93,7 @@ bool j1Scene::Start()
 	buttons.PushBack(main_menu_btn);
 	main_menu_btn->interactable = false;
 	main_menu_btn->invisible = true;
-	UILabel* main_menu_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "MAIN MENU", BLACK, main_menu_btn);
+	UILabel* main_menu_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "MAIN MENU", BLACK, 20, main_menu_btn);
 	main_menu_btn->button_lbl = main_menu_lbl;
 	main_menu_lbl->interactable = false;
 	main_menu_lbl->invisible = true;
@@ -102,7 +102,7 @@ bool j1Scene::Start()
 	buttons.PushBack(quit_btn);
 	quit_btn->interactable = false;
 	quit_btn->invisible = true;
-	UILabel* quit_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "QUIT", BLACK, quit_btn);
+	UILabel* quit_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "QUIT", BLACK, 20, quit_btn);
 	quit_btn->button_lbl = quit_lbl;
 	quit_lbl->interactable = false;
 	quit_lbl->invisible = true;

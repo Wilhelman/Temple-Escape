@@ -151,9 +151,9 @@ UIElement* j1UI::AddUIButton(int position_x, int position_y, SDL_Rect normal_rec
 	return nullptr;
 }
 
-UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, UIElement* parent) {
+UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, int size, UIElement* parent) {
 
-	UIElement* tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, parent);
+	UIElement* tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, size, parent);
 	ui_elements.PushBack(tmp_lbl);
 	return tmp_lbl;
 	

@@ -30,7 +30,7 @@ public:
 	_TTF_Font* const Load(const char* path, int size = 12);
 
 	// Create a surface from text
-	SDL_Texture* Print(const char* text, SDL_Color color = {255, 255, 255, 255}, _TTF_Font* font = NULL);
+	SDL_Texture* Print(const char* text, SDL_Color color = {255, 255, 255, 255}, _TTF_Font* font = NULL, int size = 20);
 
 	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
 
@@ -38,6 +38,9 @@ public:
 
 	p2List<_TTF_Font*>	fonts;
 	_TTF_Font*			default;
+
+private:
+	const char* path = nullptr;
 };
 
 
