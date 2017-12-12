@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "j1Entities.h"
 #include "j1FadeToBlack.h"
+#include "j1MainMenu.h"
 
 #include "Brofiler\Brofiler.h"
 
@@ -88,7 +89,8 @@ bool j1Render::Update(float dt)
 		camera.x = (App->entities->GetPlayer()->position.x  - (((int)winWidth / (int)App->win->GetScale())/2) + App->entities->GetPlayer()->current_frame.w/2) * - (int)App->win->GetScale();
 		camera.y = (App->entities->GetPlayer()->position.y - (((int)winHeight / (int)App->win->GetScale()) / 2) - App->entities->GetPlayer()->current_frame.h / 2) * -(int)App->win->GetScale() + 100;
 	}
-	else {
+	else if (App->main_menu->move_camera == false)
+	{
 		camera.x = last_camera.x;
 		camera.y = last_camera.y;
 	}

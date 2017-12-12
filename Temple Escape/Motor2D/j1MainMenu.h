@@ -47,6 +47,10 @@ public:
 
 	iPoint GetPointToCenter(int w_to_center, int h_to_center, int w_ref, int h_ref);
 
+public:
+	bool move_camera = false;
+
+
 private:
 
 	UIButton* new_game_btn = nullptr;

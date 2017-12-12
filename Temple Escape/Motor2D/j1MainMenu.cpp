@@ -47,6 +47,7 @@ bool j1MainMenu::Awake()
 bool j1MainMenu::Start()
 {
 	bool ret = true;
+	move_camera = false;
 
 	if (!App->scene->IsGamePaused()) {
 		LOG("%s", App->map->sceneName);
@@ -80,17 +81,17 @@ bool j1MainMenu::Start()
 	// MAIN MENU BUTTONS
 	
 
-	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
+	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
 	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, "NEW GAME", BLACK, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 
-	settings_btn = (UIButton*)App->ui->AddUIButton(300, 215, { 0,153,28,32 }, { 62,169,40,42 }, { 28,153,28,29 }, this);
+	settings_btn = (UIButton*)App->ui->AddUIButton(300, 215 + 250, { 0,153,28,32 }, { 62,169,40,42 }, { 28,153,28,29 }, this);
 	buttons.PushBack(settings_btn);
 
-	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 215, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
+	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 215 + 250, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
 	buttons.PushBack(quit_game_btn);
 
 	// SETTINGS
@@ -102,7 +103,6 @@ bool j1MainMenu::Start()
 	settings_elements.PushBack(settings_menu);
 
 	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
-	buttons.PushBack(close_settings_btn);
 	settings_elements.PushBack(close_settings_btn);
 
 	
@@ -119,7 +119,6 @@ bool j1MainMenu::Start()
 
 	music_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
 	music_slider_btn->draggable = true;
-	buttons.PushBack(music_slider_btn);
 	music_volume_slider->SetSliderButtons(music_slider_btn);
 	settings_elements.PushBack(music_slider_btn);
 
@@ -128,7 +127,6 @@ bool j1MainMenu::Start()
 
 	fx_slider_btn = (UIButton*)App->ui->AddUIButton(50, 50, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
 	fx_slider_btn->draggable = true;
-	buttons.PushBack(fx_slider_btn);
 	fx_volume_slider->SetSliderButtons(fx_slider_btn);
 	settings_elements.PushBack(fx_slider_btn);
 
@@ -143,6 +141,16 @@ bool j1MainMenu::Start()
 		settings_elements[i]->interactable = false;
 		settings_elements[i]->invisible = true;
 	}
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		buttons[i]->interactable = false;
+		buttons[i]->invisible = true;
+	}
+	for (int i = 0; i < labels.Count(); i++)
+	{
+		labels[i]->interactable = false;
+		labels[i]->invisible = true;
+	}
 
 	return ret;
 }
@@ -156,7 +164,6 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
-
 	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {
 		bool isAnyButtonFocused = false;
 		for (int i = 0; i < buttons.Count(); i++)
@@ -206,6 +213,30 @@ bool j1MainMenu::Update(float dt)
 		Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !move_camera)
+		move_camera = true;
+
+	if (move_camera && App->render->camera.x > -1950)
+		App->render->camera.x -= 10;
+	else if (App->render->camera.x == -1950)
+	{
+		for (int i = 0; i < buttons.Count(); i++)
+		{
+			buttons[i]->interactable = true;
+			buttons[i]->invisible = false;
+		}
+		for (int i = 0; i < labels.Count(); i++)
+		{
+			labels[i]->invisible = false;
+		}
+
+		if (new_game_btn->GetLocalPosition().y > 103)
+			new_game_btn->SetLocalPosition(new_game_btn->GetLocalPosition().x, new_game_btn->GetLocalPosition().y - 10);
+		if (settings_btn->GetLocalPosition().y > 215)
+			settings_btn->SetLocalPosition(settings_btn->GetLocalPosition().x, settings_btn->GetLocalPosition().y - 10);
+		if (quit_game_btn->GetLocalPosition().y > 215)
+			quit_game_btn->SetLocalPosition(quit_game_btn->GetLocalPosition().x, quit_game_btn->GetLocalPosition().y - 10);
+	}
 
 	App->map->Draw();
 

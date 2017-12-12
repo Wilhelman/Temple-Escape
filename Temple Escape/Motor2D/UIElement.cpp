@@ -122,14 +122,15 @@ void UIElement::Update()
 		}
 	}
 
-	if (parent == nullptr)
-		screen_position = App->render->ScreenToWorld(local_position.x, local_position.y);
-	else
-	{
-		screen_position.x = parent->screen_position.x + local_position.x;
-		screen_position.y = parent->screen_position.y + local_position.y;
-	}
-
+	
+		if (parent == nullptr)
+			screen_position = App->render->ScreenToWorld(local_position.x, local_position.y);
+		else
+		{
+			screen_position.x = parent->screen_position.x + local_position.x;
+			screen_position.y = parent->screen_position.y + local_position.y;
+		}
+	
 }
 
 void UIElement::Draw(SDL_Texture* sprites)
