@@ -62,16 +62,34 @@ bool j1Scene::Start()
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
 
-	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 44, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
-	buttons.PushBack(quit_btn);
-	quit_btn->interactable = false;
-	quit_btn->invisible = true;
-	UILabel* quit_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "QUIT", BLACK, quit_btn);
-	quit_btn->button_lbl = quit_lbl;
-	quit_lbl->interactable = false;
-	quit_lbl->invisible = true;
+	continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 - 80, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
+	buttons.PushBack(continue_btn);
+	continue_btn->interactable = false;
+	continue_btn->invisible = true;
+	UILabel* continue_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "CONTINUE", BLACK, continue_btn);
+	continue_btn->button_lbl = continue_lbl;
+	continue_lbl->interactable = false;
+	continue_lbl->invisible = true;
 
-	main_menu_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
+	save_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 - 40, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
+	buttons.PushBack(save_game_btn);
+	save_game_btn->interactable = false;
+	save_game_btn->invisible = true;
+	UILabel* save_game_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "SAVE", BLACK, save_game_btn);
+	save_game_btn->button_lbl = save_game_lbl;
+	save_game_lbl->interactable = false;
+	save_game_lbl->invisible = true;
+
+	load_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
+	buttons.PushBack(load_game_btn);
+	load_game_btn->interactable = false;
+	load_game_btn->invisible = true;
+	UILabel* load_game_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "LOAD", BLACK, load_game_btn);
+	load_game_btn->button_lbl = load_game_lbl;
+	load_game_lbl->interactable = false;
+	load_game_lbl->invisible = true;
+
+	main_menu_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 40, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(main_menu_btn);
 	main_menu_btn->interactable = false;
 	main_menu_btn->invisible = true;
@@ -80,6 +98,14 @@ bool j1Scene::Start()
 	main_menu_lbl->interactable = false;
 	main_menu_lbl->invisible = true;
 
+	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 80, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
+	buttons.PushBack(quit_btn);
+	quit_btn->interactable = false;
+	quit_btn->invisible = true;
+	UILabel* quit_lbl = (UILabel*)App->ui->AddUILabel(25, 7, "QUIT", BLACK, quit_btn);
+	quit_btn->button_lbl = quit_lbl;
+	quit_lbl->interactable = false;
+	quit_lbl->invisible = true;
 
 	return ret;
 }

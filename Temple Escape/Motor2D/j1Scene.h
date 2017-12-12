@@ -52,6 +52,9 @@ private:
 	p2DynArray<UIButton*> buttons;
 
 	UIImage* pause_menu = nullptr;
+	UIButton* continue_btn = nullptr;
+	UIButton* load_game_btn = nullptr;
+	UIButton* save_game_btn = nullptr;
 	UIButton* main_menu_btn = nullptr;
 	UIButton* quit_btn = nullptr;
 
