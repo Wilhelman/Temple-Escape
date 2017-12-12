@@ -216,9 +216,9 @@ bool j1MainMenu::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !move_camera)
 		move_camera = true;
 
-	if (move_camera && App->render->camera.x > -1950)
+	if (move_camera && App->render->camera.x > -2050)
 		App->render->camera.x -= 10;
-	else if (App->render->camera.x == -1950)
+	else if (App->render->camera.x == -2050)
 	{
 		for (int i = 0; i < buttons.Count(); i++)
 			buttons[i]->invisible = false;
