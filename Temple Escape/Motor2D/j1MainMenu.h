@@ -50,7 +50,7 @@ public:
 
 public:
 	bool move_camera = false;
-
+	bool capped_checkbox = false;
 
 private:
 

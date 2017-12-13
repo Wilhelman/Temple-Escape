@@ -103,6 +103,7 @@ public:
 	j1UI*				ui = nullptr;
 	j1FadeToBlack*		fadeToBlack = nullptr;
 
+	bool				cap_state = false;
 
 private:
 
@@ -130,7 +131,7 @@ private:
 	float				dt = 0.0f;
 	int					capped_ms = -1;
 	bool				all_modules_loaded = false;
-	bool				cap_state = false;
+	
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

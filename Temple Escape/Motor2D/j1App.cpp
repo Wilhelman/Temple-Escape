@@ -217,6 +217,7 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
+
 	frame_count++;
 
 	if (want_to_save == true)
@@ -245,7 +246,6 @@ void j1App::FinishUpdate()
 	uint32 current_ms_frame = perf_timer.ReadMs();
 	uint32 last_frame_ms = current_ms_frame;
 	uint32 frames_on_last_update = 0;
-
 
 
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)

@@ -51,6 +51,7 @@ bool j1MainMenu::Start()
 	move_camera = false;
 	settings_up = false;
 	settings_down = false;
+	capped_checkbox = true;
 
 	camera_limit = -2050;
 	camera_step_move = 20;
@@ -509,9 +510,17 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 		case STATE_LEFT_MOUSE_PRESSED:
 
 			if (tmpCb->check_box_state)
+			{
 				tmpCb->check_box_state = false;
+				capped_checkbox = false;
+				App->cap_state = false;
+			}
 			else
+			{
 				tmpCb->check_box_state = true;
+				capped_checkbox = true;
+				App->cap_state = true;
+			}
 
 			if (tmpCb->check_box_state)
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_pressed);
