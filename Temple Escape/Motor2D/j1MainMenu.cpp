@@ -214,7 +214,9 @@ bool j1MainMenu::Update(float dt)
 
 		fx_volume_slider->SetSliderValue(fx_volume_slider->GetSliderButton()->GetLocalPosition().x);
 		fx_volume_slider_lbl->SetTextFromNum(fx_volume_slider->GetSliderValue());
-		Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
+
+		if(App->audio->active)
+			Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !move_camera)
