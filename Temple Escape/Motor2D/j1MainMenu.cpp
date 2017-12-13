@@ -51,6 +51,13 @@ bool j1MainMenu::Start()
 	settings_up = false;
 	settings_down = false;
 
+	camera_limit = -2050;
+	camera_step_move = 20;
+	game_btn_original_pos = 103;
+	settings_menu_original_pos = 2;
+	game_btn_final_pos = 93;
+	settings_menu_final_pos = 262;
+
 	if (!App->scene->IsGamePaused()) {
 		LOG("%s", App->map->sceneName);
 
@@ -105,19 +112,19 @@ bool j1MainMenu::Start()
 	settings_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y + 250, { 135, 0, 293, 231 }, this);
 	settings_elements.PushBack(settings_menu);
 
-	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
+	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20 + 250, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
 	settings_elements.PushBack(close_settings_btn);
 
 	
 
 	// SLIDER SETTINGS
 
-	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 54, "0%%", GREY,10);
+	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 54 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(music_volume_slider_lbl);
-	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 104, "0%%", GREY,10);
+	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 104 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(fx_volume_slider_lbl);
 
-	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50, { 0, 239, 130, 18 }, this);
+	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50 + 250, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(music_volume_slider);
 
 	music_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
@@ -125,24 +132,24 @@ bool j1MainMenu::Start()
 	music_volume_slider->SetSliderButtons(music_slider_btn);
 	settings_elements.PushBack(music_slider_btn);
 
-	fx_volume_slider = (UISlider*)App->ui->AddUISlider(150, 100, { 0, 239, 130, 18 }, this);
+	fx_volume_slider = (UISlider*)App->ui->AddUISlider(150, 100 + 250, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(fx_volume_slider);
 
-	fx_slider_btn = (UIButton*)App->ui->AddUIButton(50, 50, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
+	fx_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, fx_volume_slider);
 	fx_slider_btn->draggable = true;
 	fx_volume_slider->SetSliderButtons(fx_slider_btn);
 	settings_elements.PushBack(fx_slider_btn);
 
-	music_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 49, "Music volume", BLACK,20);
+	music_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 49 + 250, "Music volume", BLACK,20);
 	settings_elements.PushBack(music_volume_lbl);
 
-	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 100, "FX volume", BLACK, 20);
+	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 100 + 250, "FX volume", BLACK, 20);
 	settings_elements.PushBack(fx_volume_lbl);
 
 	for (int i = 0; i < settings_elements.Count(); i++)
 	{
 		settings_elements[i]->interactable = false;
-		settings_elements[i]->invisible = true;
+		settings_elements[i]->invisible = false;
 	}
 	for (int i = 0; i < buttons.Count(); i++)
 	{
@@ -167,6 +174,7 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
+	// TAB control
 	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {
 		bool isAnyButtonFocused = false;
 		for (int i = 0; i < buttons.Count(); i++)
@@ -206,6 +214,7 @@ bool j1MainMenu::Update(float dt)
 		}
 	}
 
+	// Sliders % control
 	if (music_volume_slider != nullptr && (music_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER && fx_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER))
 	{
 		music_volume_slider->SetSliderValue(music_volume_slider->GetSliderButton()->GetLocalPosition().x);
@@ -219,12 +228,13 @@ bool j1MainMenu::Update(float dt)
 			Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);
 	}
 
+	// Settings animations
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !move_camera)
 		move_camera = true;
 
-	if (move_camera && App->render->camera.x > -2050)
-		App->render->camera.x -= 10;
-	else if (App->render->camera.x == -2050)
+	if (move_camera && App->render->camera.x > camera_limit)
+		App->render->camera.x -= camera_step_move;
+	else if (App->render->camera.x == camera_limit)
 	{
 		for (int i = 0; i < buttons.Count(); i++)
 			buttons[i]->invisible = false;
@@ -232,28 +242,37 @@ bool j1MainMenu::Update(float dt)
 		for (int i = 0; i < labels.Count(); i++)
 			labels[i]->invisible = false;
 
-		if (new_game_btn->GetLocalPosition().y > 103 && !new_game_btn->interactable)
-			new_game_btn->SetLocalPosition(new_game_btn->GetLocalPosition().x, new_game_btn->GetLocalPosition().y - 10);
-		if (settings_btn->GetLocalPosition().y > 215 && !settings_btn->interactable)
-			settings_btn->SetLocalPosition(settings_btn->GetLocalPosition().x, settings_btn->GetLocalPosition().y - 10);
-		if (quit_game_btn->GetLocalPosition().y > 215 && !quit_game_btn->interactable)
-			quit_game_btn->SetLocalPosition(quit_game_btn->GetLocalPosition().x, quit_game_btn->GetLocalPosition().y - 10);
-		if (settings_menu->GetLocalPosition().y > 12 && !settings_menu->interactable && settings_up)
-			settings_menu->SetLocalPosition(settings_menu->GetLocalPosition().x, settings_menu->GetLocalPosition().y - 10);
-		else if (settings_menu->GetLocalPosition().y < 262 && !settings_menu->interactable && settings_down)
-			settings_menu->SetLocalPosition(settings_menu->GetLocalPosition().x, settings_menu->GetLocalPosition().y + 10);
+		if (new_game_btn->GetLocalPosition().y > game_btn_original_pos && !new_game_btn->interactable)
+		{
+			for (int i = 0; i < buttons.Count(); i++)
+				buttons[i]->SetLocalPosition(buttons[i]->GetLocalPosition().x, buttons[i]->GetLocalPosition().y - camera_step_move);
+		}
 
+		if (settings_menu->GetLocalPosition().y > settings_menu_original_pos && settings_up)
+		{
+			for (int i = 0; i < settings_elements.Count(); i++)
+			{
+				if (settings_elements[i]->parent == nullptr)
+					settings_elements[i]->SetLocalPosition(settings_elements[i]->GetLocalPosition().x, settings_elements[i]->GetLocalPosition().y - camera_step_move);
+			}
+		}
+		else if (settings_menu->GetLocalPosition().y < settings_menu_final_pos && settings_down)
+		{
+			for (int i = 0; i < settings_elements.Count(); i++)
+			{
+				if (settings_elements[i]->parent == nullptr)
+					settings_elements[i]->SetLocalPosition(settings_elements[i]->GetLocalPosition().x, settings_elements[i]->GetLocalPosition().y + camera_step_move);
+			}
+		}
 	}
 
-	if (new_game_btn->GetLocalPosition().y == 103
-		&& settings_btn->GetLocalPosition().y == 215
-		&& quit_game_btn->GetLocalPosition().y == 215)
+	if (new_game_btn->GetLocalPosition().y == game_btn_final_pos)
 	{
 		for (int i = 0; i < buttons.Count(); i++)
 			buttons[i]->interactable = true;
 	}
 
-	if (settings_menu->GetLocalPosition().y == 12 && !settings_down)
+	if (settings_menu->GetLocalPosition().y == settings_menu_original_pos && !settings_down)
 	{
 		for (int i = 0; i < settings_elements.Count(); i++)
 		{
@@ -269,6 +288,7 @@ bool j1MainMenu::Update(float dt)
 			}
 		}	
 	}
+	//-------
 
 	App->map->Draw();
 
@@ -372,8 +392,8 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 					{
 						settings_elements[i]->interactable = false;
 
-						if (settings_elements[i]->type != IMAGE)
-							settings_elements[i]->invisible = true;
+						//if (settings_elements[i]->type != IMAGE)
+							//settings_elements[i]->invisible = true;
 						
 					}
 				}
