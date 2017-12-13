@@ -70,6 +70,9 @@ private:
 	UILabel* music_volume_lbl = nullptr;
 	UILabel* fx_volume_slider_lbl = nullptr;
 	UILabel* fx_volume_lbl = nullptr;
+	UILabel* cap_lbl = nullptr;
+
+	UICheckBox* cap_checkbox = nullptr;
 
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;

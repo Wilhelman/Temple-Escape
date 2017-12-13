@@ -116,15 +116,21 @@ bool j1MainMenu::Start()
 	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20 + 250, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
 	settings_elements.PushBack(close_settings_btn);
 
-	
 
+	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(127, 140, { 0, 273, 14, 15 }, { 14, 273, 14, 15 }, { 0, 187, 14, 15 }, { 14, 287, 14, 15 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
+	cap_checkbox->interactable = true;
+	cap_checkbox->invisible = false;
+
+	cap_lbl = (UILabel*)App->ui->AddUILabel(35, 150 + 250, "Cap to 30 fps", BLACK, 20);
+	settings_elements.PushBack(cap_lbl);
+	
 	// SLIDER SETTINGS
 
 	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 54 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(music_volume_slider_lbl);
 	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 104 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(fx_volume_slider_lbl);
-
+	
 	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50 + 250, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(music_volume_slider);
 
@@ -458,7 +464,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			tmpCb->SetLocalPosition(tmpCb->GetLocalPosition().x, tmpCb->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
 			if (tmpCb->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
 			{
-				if (tmpCb->GetCheckBoxState())
+				if (tmpCb->check_box_state)
 					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_normal);
 				else
 					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_normal);
@@ -471,14 +477,14 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			{
 				tmpCb->current_state = STATE_NORMAL;
 
-				if (tmpCb->GetCheckBoxState())
+				if (tmpCb->check_box_state)
 					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_focus);
 				else
 					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_focus);
 
 				break;
 			}
-			if (tmpCb->GetCheckBoxState())
+			if (tmpCb->check_box_state)
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_focus);
 			else
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_focus);
@@ -489,7 +495,7 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 		}
 		case STATE_MOUSE_LEAVE:
 
-			if (tmpCb->GetCheckBoxState())
+			if (tmpCb->check_box_state)
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_normal);
 			else
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_normal);
@@ -502,7 +508,12 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			break;
 		case STATE_LEFT_MOUSE_PRESSED:
 
-			if (tmpCb->GetCheckBoxState())
+			if (tmpCb->check_box_state)
+				tmpCb->check_box_state = false;
+			else
+				tmpCb->check_box_state = true;
+
+			if (tmpCb->check_box_state)
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_pressed);
 			else
 				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_pressed);
