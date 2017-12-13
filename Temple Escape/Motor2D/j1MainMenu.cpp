@@ -99,10 +99,10 @@ bool j1MainMenu::Start()
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 
-	settings_btn = (UIButton*)App->ui->AddUIButton(300, 215 + 250, { 0,153,28,32 }, { 62,169,40,42 }, { 28,153,28,29 }, this);
+	settings_btn = (UIButton*)App->ui->AddUIButton(300, 228 + 250, { 0,153,28,32 }, { 62,169,40,42 }, { 28,153,28,29 }, this);
 	buttons.PushBack(settings_btn);
 
-	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 215 + 250, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
+	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 228 + 250, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
 	buttons.PushBack(quit_game_btn);
 
 	// SETTINGS
@@ -118,7 +118,7 @@ bool j1MainMenu::Start()
 	settings_elements.PushBack(close_settings_btn);
 
 
-	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(127, 140, { 0, 273, 14, 15 }, { 14, 273, 14, 15 }, { 0, 187, 14, 15 }, { 14, 287, 14, 15 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
+	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(127, 140, { 0, 273, 14, 16 }, { 14, 273, 14, 16 }, { 0, 289, 14, 14 }, { 14, 289, 14, 14 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
 	cap_checkbox->interactable = true;
 	cap_checkbox->invisible = false;
 
