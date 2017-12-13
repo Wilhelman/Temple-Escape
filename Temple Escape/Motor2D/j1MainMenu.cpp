@@ -357,33 +357,33 @@ bool j1MainMenu::Save(pugi::xml_node& save) const
 	return ret;
 }
 
-void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) 
+void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 {
-	if (elementTriggered->type == BUTTON) 
+	if (elementTriggered->type == BUTTON)
 	{
 		UIButton* tmpBtn = (UIButton*)elementTriggered;
 
 		switch (ui_state)
 		{
 		case STATE_LEFT_MOUSE_RELEASED:
-		case STATE_NORMAL: 
+		case STATE_NORMAL:
 		{
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
 			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
 			{
 				if (tmpBtn == new_game_btn)
-					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene,1.0f);
+					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene, 1.0f);
 				else if (tmpBtn == quit_game_btn)
 					quit_btn_pressed = true;
 				else if (tmpBtn == settings_btn)
 				{
 					for (int i = 0; i < settings_elements.Count(); i++)
-							settings_elements[i]->interactable = false;
-						
+						settings_elements[i]->interactable = false;
+
 					settings_up = true;
 					settings_down = false;
 					settings_menu->invisible = false;
-				}			
+				}
 				else if (tmpBtn == close_settings_btn)
 				{
 					settings_down = true;
@@ -395,18 +395,18 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 
 						//if (settings_elements[i]->type != IMAGE)
 							//settings_elements[i]->invisible = true;
-						
+
 					}
 				}
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
-				break;
+			break;
 		}
-		case STATE_MOUSE_ENTER: 
+		case STATE_MOUSE_ENTER:
 		{
 			for (int i = 0; i < buttons.Count(); i++)
 			{
-				if (buttons[i]->current_state == STATE_FOCUSED) 
+				if (buttons[i]->current_state == STATE_FOCUSED)
 				{
 					buttons[i]->current_state = STATE_NORMAL;
 					tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
@@ -435,15 +435,87 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			break;
 		case STATE_LEFT_MOUSE_PRESSED:
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_pressed);
-			if (tmpBtn->button_lbl!=nullptr)
+			if (tmpBtn->button_lbl != nullptr)
 				tmpBtn->button_lbl->SetLocalPosition(tmpBtn->button_lbl->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpBtn->button_lbl->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
-			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);	
+			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpBtn->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
 			break;
 		case STATE_NO_DEF:
 			break;
 		default:
 			break;
 		}
+	}
+
+	if (elementTriggered->type == CHECK_BOX)
+	{
+		UICheckBox* tmpCb = (UICheckBox*)elementTriggered;
+
+		switch (ui_state)
+		{
+		case STATE_LEFT_MOUSE_RELEASED:
+		case STATE_NORMAL:
+		{
+			tmpCb->SetLocalPosition(tmpCb->GetLocalPosition().x, tmpCb->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
+			if (tmpCb->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
+			{
+				if (tmpCb->GetCheckBoxState())
+					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_normal);
+				else
+					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_normal);
+				break;
+			}
+		case STATE_MOUSE_ENTER:
+		{
+
+			if (tmpCb->current_state == STATE_FOCUSED)
+			{
+				tmpCb->current_state = STATE_NORMAL;
+
+				if (tmpCb->GetCheckBoxState())
+					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_focus);
+				else
+					tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_focus);
+
+				break;
+			}
+			if (tmpCb->GetCheckBoxState())
+				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_focus);
+			else
+				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_focus);
+
+			tmpCb->SetLocalPosition(tmpCb->GetLocalPosition().x - BUTTON_HOVER_OFFSET, tmpCb->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
+
+			break;
+		}
+		case STATE_MOUSE_LEAVE:
+
+			if (tmpCb->GetCheckBoxState())
+				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_normal);
+			else
+				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_normal);
+
+			if (tmpCb->last_state == STATE_LEFT_MOUSE_PRESSED)
+				tmpCb->SetLocalPosition(tmpCb->GetLocalPosition().x, tmpCb->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
+			else
+				tmpCb->SetLocalPosition(tmpCb->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpCb->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
+
+			break;
+		case STATE_LEFT_MOUSE_PRESSED:
+
+			if (tmpCb->GetCheckBoxState())
+				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_tick_pressed);
+			else
+				tmpCb->UpdateCheckBoxWithSelfRect(tmpCb->cb_no_tick_pressed);
+			
+			tmpCb->SetLocalPosition(tmpCb->GetLocalPosition().x + BUTTON_HOVER_OFFSET, tmpCb->GetLocalPosition().y + BUTTON_HOVER_OFFSET + BUTTON_PUSH_OFFSET);
+			break;
+		case STATE_NO_DEF:
+			break;
+		default:
+			break;
+		}
+		}
+
 	}
 }
 
