@@ -19,6 +19,7 @@
 #include "UIButton.h"
 #include "UILabel.h"
 #include "UISlider.h"
+#include "UICheckbox.h"
 
 #include "j1Entities.h"
 

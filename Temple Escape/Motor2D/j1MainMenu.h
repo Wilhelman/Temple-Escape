@@ -11,6 +11,7 @@ class UIButton;
 class UILabel;
 class UIImage;
 class UISlider;
+class UICheckBox;
 
 class j1MainMenu : public j1Module
 {

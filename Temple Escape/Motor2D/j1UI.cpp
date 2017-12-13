@@ -11,6 +11,7 @@
 #include "UIImage.h"
 #include "UIButton.h"
 #include "UISlider.h"
+#include "UICheckbox.h"
 
 #include "UIElement.h"
 
@@ -168,6 +169,17 @@ UIElement * j1UI::AddUISlider(int position_x, int position_y, SDL_Rect slider_re
 	return tmp_sldr;
 
 	LOG("Error: Cant add the UIButton");
+	return nullptr;
+}
+
+UIElement * j1UI::AddUICheckBox(int x, int y, SDL_Rect cb_tick_normal, SDL_Rect cb_no_tick_normal, SDL_Rect cb_tick_pressed, SDL_Rect cb_no_tick_pressed, SDL_Rect cb_tick_focus, SDL_Rect cb_no_tick_focus, j1Module * callback, UIElement * parent)
+{
+	UIElement* tmpCb = new UICheckBox(x, y, CHECK_BOX, cb_tick_normal, cb_no_tick_normal, cb_tick_pressed, cb_no_tick_pressed, cb_tick_focus, cb_no_tick_focus, callback, parent);
+	ui_elements.PushBack(tmpCb);
+	return tmpCb;
+
+	LOG("Error: Cant add the UICheckBox");
+
 	return nullptr;
 }
 
