@@ -142,6 +142,7 @@ void UIElement::Draw(SDL_Texture* sprites)
 		case IMAGE:
 		case BUTTON:
 		case SLIDER:
+		case CHECK_BOX:
 			App->render->Blit(sprites, screen_position.x, screen_position.y, &current_rect);
 			break;
 		case LABEL:

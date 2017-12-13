@@ -8,6 +8,10 @@ UICheckBox::UICheckBox(int x, int y, UI_Type type, SDL_Rect cb_tick_normal, SDL_
 {
 	this->callback = callback;
 
+	check_box_state = true;
+
+
+
 	//TODO : this looks ugly but it seems the only way :'c
 	pugi::xml_document	config_file;
 	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
@@ -19,11 +23,13 @@ UICheckBox::UICheckBox(int x, int y, UI_Type type, SDL_Rect cb_tick_normal, SDL_
 	released_fx = (App->audio->LoadFx(node->attribute("released").as_string()));
 	hover_fx = (App->audio->LoadFx(node->attribute("hover").as_string()));
 
-	/*this->cb_tick = cb_tick;
-	this->cb_no_tick = cb_no_tick;*/
+	this->cb_tick_normal = cb_tick_normal;
+	this->cb_no_tick_normal = cb_no_tick_normal;
+	this->cb_tick_pressed = cb_tick_pressed;
+	this->cb_no_tick_pressed = cb_no_tick_pressed;
 	this->cb_tick_focus = cb_tick_focus;
 	this->cb_no_tick_focus = cb_no_tick_focus;
-	//current_rect = cb_tick;
+	current_rect = cb_tick_normal;
 
 	LOG("UICheckBox created in x:%i, y:%i", x, y);
 }
@@ -51,9 +57,4 @@ void UICheckBox::UpdateCheckBoxWithSelfRect(SDL_Rect self_rect)
 	App->audio->PlayFx(hover_fx);
 
 	current_rect = self_rect;
-}
-
-bool UICheckBox::GetCheckBoxState() const
-{
-	return check_box_state;
 }
