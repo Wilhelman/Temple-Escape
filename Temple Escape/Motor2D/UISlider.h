@@ -9,11 +9,9 @@ class UISlider : public UIElement
 {
 public:
 	SDL_Rect slider_rect;
-	SDL_Rect inner_slider_rect;
 
 private:
 	uint slider_value = 0u;
-	uint max, min = 0u;
 	UIButton* slider_btn = nullptr;
 
 public:
@@ -21,6 +19,7 @@ public:
 
 	void SetSliderButtons(UIButton* slider_btn);
 	void SetSliderValue(uint slider_btn_pos);
+
 	uint GetSliderValue() const;
 	UIButton* GetSliderButton() const;
 };

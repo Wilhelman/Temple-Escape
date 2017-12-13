@@ -6,7 +6,6 @@
 #include "j1Fonts.h"
 
 
-
 class UILabel : public UIElement
 {
 private:

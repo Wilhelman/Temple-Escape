@@ -112,9 +112,9 @@ bool j1MainMenu::Start()
 
 	// SLIDER SETTINGS
 
-	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 54, "0%%", GREY,10);
+	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 54, "0%%", GREY,10);
 	settings_elements.PushBack(music_volume_slider_lbl);
-	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(290, 104, "0%%", GREY,10);
+	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 104, "0%%", GREY,10);
 	settings_elements.PushBack(fx_volume_slider_lbl);
 
 	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50, { 0, 239, 130, 18 }, this);

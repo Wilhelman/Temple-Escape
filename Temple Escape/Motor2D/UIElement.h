@@ -8,7 +8,8 @@
 struct SDL_Texture;
 struct SDL_Rect;
 
-enum UI_State {
+enum UI_State 
+{
 	STATE_NORMAL,
 	STATE_MOUSE_ENTER,
 	STATE_MOUSE_LEAVE,
