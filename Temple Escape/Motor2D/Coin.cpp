@@ -78,7 +78,9 @@ void Coin::OnCollision(Collider* collider)
 		}
 		have_to_destroy = true;
 		dead_timer = SDL_GetTicks();
-		//TODO GIVE SCORE ETC
+		App->entities->GetPlayer()->score++;
+		if (App->entities->GetPlayer()->score == 10 && App->entities->GetPlayer()->lives!=6)
+			App->entities->GetPlayer()->lives++;
 	}
 }
 

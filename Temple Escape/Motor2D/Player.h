@@ -8,6 +8,9 @@
 #define PLAYER_1_LIVE { 0, 334, 56, 14 }
 #define PLAYER_2_LIVE { 0, 348, 56, 14 }
 #define PLAYER_3_LIVE { 0, 362, 56, 14 }
+#define PLAYER_4_LIVE { 0, 376, 56, 14 }
+#define PLAYER_5_LIVE { 0, 390, 56, 14 }
+#define PLAYER_6_LIVE { 0, 204, 56, 14 }
 
 
 struct SDL_Texture;
@@ -63,6 +66,7 @@ public:
 	bool isDead = false;
 	bool god_mode = false;
 	uint lives = 3;
+	uint score = 0;
 
 private:
 	bool didDoubleJump = false;;

@@ -20,6 +20,8 @@
 
 #include "j1Entities.h"
 
+#define SCORE_UI {16,62,16,16}
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -59,6 +61,10 @@ bool j1Scene::Start()
 	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_3_LIVE, this);
 	player_lives->interactable = false;
 	player_lives->invisible = false;
+
+	UIImage* coin_ui = (UIImage*)App->ui->AddUIImage(40, 5, SCORE_UI, this);
+	coin_ui->interactable = false;
+	coin_ui->invisible = false;
 
 	pause_menu = (UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
 	pause_menu->interactable = false;
@@ -161,6 +167,15 @@ bool j1Scene::Update(float dt)
 
 	switch (App->entities->GetPlayer()->lives)
 	{
+	case 6:
+		player_lives->UpdateImageWithCoords(PLAYER_6_LIVE);
+		break;
+	case 5:
+		player_lives->UpdateImageWithCoords(PLAYER_5_LIVE);
+		break;
+	case 4:
+		player_lives->UpdateImageWithCoords(PLAYER_4_LIVE);
+		break;
 	case 3:
 		player_lives->UpdateImageWithCoords(PLAYER_3_LIVE);
 		break;
