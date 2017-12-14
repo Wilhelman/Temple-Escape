@@ -55,6 +55,7 @@ public:
 private:
 
 	UIButton* new_game_btn = nullptr;
+	UIButton* continue_btn = nullptr;
 	UIButton* settings_btn = nullptr;
 	UIButton* quit_game_btn = nullptr;
 	UIButton* close_settings_btn = nullptr;
