@@ -10,6 +10,7 @@
 struct SDL_Texture;
 class UIButton;
 class UIImage;
+class UILabel;
 
 class j1Scene : public j1Module
 {
@@ -54,6 +55,8 @@ private:
 
 	UIImage* pause_menu = nullptr;
 	UIImage* player_lives = nullptr;
+
+	UILabel* score_lbl = nullptr;
 
 	UIButton* continue_btn = nullptr;
 	UIButton* load_game_btn = nullptr;

@@ -66,6 +66,10 @@ bool j1Scene::Start()
 	coin_ui->interactable = false;
 	coin_ui->invisible = false;
 
+	UILabel* score_lbl = (UILabel*)App->ui->AddUILabel(30, 7, "0", BLACK, 20);
+	score_lbl->interactable = false;
+	score_lbl->invisible = false;
+
 	pause_menu = (UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
