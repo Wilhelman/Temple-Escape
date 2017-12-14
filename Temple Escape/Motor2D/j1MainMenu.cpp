@@ -202,6 +202,7 @@ bool j1MainMenu::PreUpdate()
 bool j1MainMenu::Update(float dt)
 {
 	// TAB control
+
 	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {
 		bool isAnyButtonFocused = false;
 		for (int i = 0; i < buttons.Count(); i++)
@@ -245,11 +246,11 @@ bool j1MainMenu::Update(float dt)
 	if (music_volume_slider != nullptr && (music_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER && fx_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER))
 	{
 		music_volume_slider->SetSliderValue(music_volume_slider->GetSliderButton()->GetLocalPosition().x);
-		music_volume_slider_lbl->SetTextFromNum(music_volume_slider->GetSliderValue());
+		music_volume_slider_lbl->SetTextFromNum(music_volume_slider->GetSliderValue(),true);
 		Mix_VolumeMusic(128*music_volume_slider->GetSliderValue()/100);
 
 		fx_volume_slider->SetSliderValue(fx_volume_slider->GetSliderButton()->GetLocalPosition().x);
-		fx_volume_slider_lbl->SetTextFromNum(fx_volume_slider->GetSliderValue());
+		fx_volume_slider_lbl->SetTextFromNum(fx_volume_slider->GetSliderValue(), true);
 
 		if(App->audio->active)
 			Mix_Volume(-1, 128 * fx_volume_slider->GetSliderValue() / 100);

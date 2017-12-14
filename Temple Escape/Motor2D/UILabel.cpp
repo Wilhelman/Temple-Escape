@@ -22,16 +22,16 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 	current_rect.h = height;
 }
 
-void UILabel::SetTextFromNum(int value)
+void UILabel::SetTextFromNum(int value, bool withPercentage)
 {
 
 	std::string s = std::to_string(value);
- 	std::string t("%%");
-
-	s += t;
+	if (withPercentage) {
+		std::string t("%%");
+		s += t;
+	}
 
 	text = s.c_str();
-	//text.create(s.c_str());
 
 	App->tex->UnLoad(texture);
 

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <assert.h>
 #include "p2Defs.h"
+#include "p2Log.h"
 
 #define TMP_STRING_SIZE	4096
 
