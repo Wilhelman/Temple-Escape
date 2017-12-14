@@ -117,13 +117,24 @@ bool j1MainMenu::Start()
 	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20 + 250, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
 	settings_elements.PushBack(close_settings_btn);
 
-
 	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(127, 140, { 0, 273, 14, 16 }, { 14, 273, 14, 16 }, { 0, 289, 14, 14 }, { 14, 289, 14, 14 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
 	cap_checkbox->interactable = true;
 	cap_checkbox->invisible = false;
 
 	cap_lbl = (UILabel*)App->ui->AddUILabel(35, 150 + 250, "Cap to 30 fps", BLACK, 20);
 	settings_elements.PushBack(cap_lbl);
+
+	language_left_btn = (UIButton*)App->ui->AddUIButton(151, 200 + 250, { 0,303,14,16 }, { 28,301,26,28 }, { 14,303,14,14 }, this);
+	settings_elements.PushBack(language_left_btn);
+
+	language_right_btn = (UIButton*)App->ui->AddUIButton(250, 200 + 250, { 14,319,14,16 }, { 54,301,26,28 }, { 0,319,14,14 }, this);
+	settings_elements.PushBack(language_right_btn);
+
+	language_lbl = (UILabel*)App->ui->AddUILabel(35, 200 + 250, "Language", BLACK, 20);
+	settings_elements.PushBack(language_lbl);
+
+	selected_language_lbl = (UILabel*)App->ui->AddUILabel(195, 200 + 250, "ENG", BLACK, 20);
+	settings_elements.PushBack(selected_language_lbl);
 	
 	// SLIDER SETTINGS
 

@@ -60,6 +60,8 @@ private:
 	UIButton* close_settings_btn = nullptr;
 	UIButton* music_slider_btn = nullptr;
 	UIButton* fx_slider_btn = nullptr;
+	UIButton* language_right_btn = nullptr;
+	UIButton* language_left_btn = nullptr;
 
 	UIImage* settings_menu = nullptr;
 
@@ -71,6 +73,8 @@ private:
 	UILabel* fx_volume_slider_lbl = nullptr;
 	UILabel* fx_volume_lbl = nullptr;
 	UILabel* cap_lbl = nullptr;
+	UILabel* language_lbl = nullptr;
+	UILabel* selected_language_lbl = nullptr;
 
 	UICheckBox* cap_checkbox = nullptr;
 
