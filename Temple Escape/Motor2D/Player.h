@@ -5,12 +5,12 @@
 #include "p2Point.h"
 #include "Entity.h"
 
-#define PLAYER_1_LIVE { 0, 334, 56, 14 }
-#define PLAYER_2_LIVE { 0, 348, 56, 14 }
-#define PLAYER_3_LIVE { 0, 362, 56, 14 }
-#define PLAYER_4_LIVE { 0, 376, 56, 14 }
-#define PLAYER_5_LIVE { 0, 390, 56, 14 }
-#define PLAYER_6_LIVE { 0, 204, 56, 14 }
+#define PLAYER_1_LIVE { 0, 335, 56, 14 }
+#define PLAYER_2_LIVE { 0, 349, 56, 14 }
+#define PLAYER_3_LIVE { 0, 363, 56, 14 }
+#define PLAYER_4_LIVE { 0, 377, 56, 14 }
+#define PLAYER_5_LIVE { 0, 391, 56, 14 }
+#define PLAYER_6_LIVE { 0, 405, 56, 14 }
 
 
 struct SDL_Texture;
@@ -67,7 +67,7 @@ public:
 	bool reachedEnd = false;
 	bool isDead = false;
 	bool god_mode = false;
-	uint lives = 3;
+	int p_lives = 3;
 	int score = 0;
 
 private:

@@ -58,7 +58,7 @@ bool j1Scene::Start()
 	win_height /= App->win->GetScale();
 
 
-	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_3_LIVE, this);
+	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_5_LIVE, this);
 	player_lives->interactable = false;
 	player_lives->invisible = false;
 
@@ -169,7 +169,7 @@ bool j1Scene::Update(float dt)
 		paused = !paused;
 	}
 
-	switch (App->entities->GetPlayer()->lives)
+	switch (App->entities->GetPlayer()->p_lives)
 	{
 	case 6:
 		player_lives->UpdateImageWithCoords(PLAYER_6_LIVE);

@@ -15,27 +15,39 @@
 		<currentLvl name="lvl1.tmx" />
 	</main_menu>
 	<entities>
+		<coin>
+			<position x="192" y="528" />
+		</coin>
+		<coin>
+			<position x="208" y="528" />
+		</coin>
+		<coin>
+			<position x="320" y="496" />
+		</coin>
+		<coin>
+			<position x="336" y="496" />
+		</coin>
 		<bat>
-			<position x="460.131561" y="464" />
+			<position x="480.734344" y="496.325226" />
 		</bat>
 		<slime>
-			<position x="591" y="496" />
+			<position x="412" y="496" />
 		</slime>
 		<bat>
-			<position x="572.131958" y="480" />
+			<position x="545.008606" y="480" />
 		</bat>
 		<slime>
-			<position x="864" y="464" />
+			<position x="856" y="464" />
 		</slime>
 		<bat>
-			<position x="940.131958" y="384" />
+			<position x="913.008606" y="384" />
 		</bat>
 		<bat>
-			<position x="988.131958" y="416" />
+			<position x="961.008606" y="416" />
 		</bat>
 		<player>
-			<position x="280" y="544" />
-			<info lives="2" score="3" />
+			<position x="1034" y="528" />
+			<info lives="2" score="14" />
 		</player>
 	</entities>
 	<particles />

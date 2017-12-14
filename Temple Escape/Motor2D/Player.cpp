@@ -196,7 +196,7 @@ void Player::Update(float dt)
 	}
 	else if (isDead)
 	{
-		lives--;
+		p_lives--;
 		isDead = false;
 		collider->type = COLLIDER_PLAYER;
 		iPoint spawnPos = App->map->spawn;
@@ -610,7 +610,7 @@ bool Player::Load(pugi::xml_node& load)
 
 void Player::ImplementLoad()
 {
-	lives = lives_implement_load;
+	p_lives = lives_implement_load;
 	score = score_implement_load;
 	position.x = position_implement_load.x;
 	position.y = position_implement_load.y;
@@ -635,12 +635,12 @@ bool Player::Save(pugi::xml_node& save) const
 	if (save.child("info").empty())
 	{
 		pugi::xml_node&  tmpsave = save.append_child("info");
-		tmpsave.append_attribute("lives").set_value(lives);
+		tmpsave.append_attribute("lives").set_value(p_lives);
 		tmpsave.append_attribute("score").set_value(score);
 	}
 	else
 	{
-		save.child("info").attribute("lives").set_value(lives);
+		save.child("info").attribute("lives").set_value(p_lives);
 		save.child("info").attribute("score").set_value(score);
 	}
 
