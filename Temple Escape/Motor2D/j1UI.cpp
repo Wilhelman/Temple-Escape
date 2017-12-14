@@ -15,6 +15,9 @@
 
 #include "UIElement.h"
 
+//TODO: delete this in release
+#include "Brofiler\Brofiler.h"
+
 j1UI::j1UI() : j1Module()
 {
 	name.create("ui");
@@ -47,6 +50,7 @@ bool j1UI::Start()
 // Update all guis
 bool j1UI::PreUpdate()
 {
+	BROFILER_CATEGORY("UI Update", Profiler::Color::Gray)
 	for (int i = 0; i < ui_elements.Count(); i++)
 		if (ui_elements.At(i) != nullptr) ui_elements[i]->Update();
 
@@ -54,6 +58,8 @@ bool j1UI::PreUpdate()
 }
 
 bool j1UI::Update(float dt) {
+
+	BROFILER_CATEGORY("UI Draw", Profiler::Color::BlanchedAlmond)
 
 	for (int i = 0; i < ui_elements.Count(); i++)
 		if (ui_elements.At(i) != nullptr) ui_elements[i]->Draw(atlas);
@@ -64,6 +70,7 @@ bool j1UI::Update(float dt) {
 // Called after all Updates
 bool j1UI::PostUpdate()
 {
+	BROFILER_CATEGORY("UI Delete if needed", Profiler::Color::Azure)
 
 	for (int i = ui_elements.Count() - 1; i >=0 ; i--) {
 		if (ui_elements[i]->to_destroy) {
