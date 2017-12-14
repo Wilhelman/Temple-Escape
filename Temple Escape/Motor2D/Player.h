@@ -5,6 +5,11 @@
 #include "p2Point.h"
 #include "Entity.h"
 
+#define PLAYER_1_LIVE { 0, 334, 56, 14 }
+#define PLAYER_2_LIVE { 0, 348, 56, 14 }
+#define PLAYER_3_LIVE { 0, 362, 56, 14 }
+
+
 struct SDL_Texture;
 struct Collider;
 

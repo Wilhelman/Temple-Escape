@@ -56,7 +56,7 @@ bool j1Scene::Start()
 	win_height /= App->win->GetScale();
 
 
-	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, { 0, 334, 56, 14 }, this);
+	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_3_LIVE, this);
 	player_lives->interactable = false;
 	player_lives->invisible = false;
 
@@ -159,8 +159,22 @@ bool j1Scene::Update(float dt)
 		paused = !paused;
 	}
 
-	if (App->entities->GetPlayer()->lives == 0) {
+	switch (App->entities->GetPlayer()->lives)
+	{
+	case 3:
+		player_lives->UpdateImageWithCoords(PLAYER_3_LIVE);
+		break;
+	case 2:
+		player_lives->UpdateImageWithCoords(PLAYER_2_LIVE);
+		break;
+	case 1:
+		player_lives->UpdateImageWithCoords(PLAYER_1_LIVE);
+		break;
+	case 0:
 		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
+		break;
+	default:
+		break;
 	}
 
 	App->map->Draw();
