@@ -54,10 +54,12 @@ bool j1Scene::Start()
 	App->win->GetWindowSize(win_width, win_height);
 	win_width /= App->win->GetScale();
 	win_height /= App->win->GetScale();
-	//int tmp_x = 0;
-	//int tmp_y = 0;
-	//tmp_x = iPoint((win_width - 293) / 2, (win_height - 231) / 2).x;
-	//tmp_y = iPoint((win_width - 293) / 2, (win_height - 231) / 2).y;
+
+
+	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, { 0, 334, 56, 14 }, this);
+	player_lives->interactable = false;
+	player_lives->invisible = false;
+
 	pause_menu = (UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
 	pause_menu->interactable = false;
 	pause_menu->invisible = true;
@@ -207,6 +209,7 @@ bool j1Scene::CleanUp()
 	App->ui->DeleteAllUIElements();
 
 	buttons.Clear();
+	hud_elements.Clear();
 
 	paused = false;
 

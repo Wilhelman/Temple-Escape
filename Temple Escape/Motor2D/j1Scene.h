@@ -50,8 +50,11 @@ private:
 	void putPlayerToSpawn();
 
 	p2DynArray<UIButton*> buttons;
+	p2DynArray<UIButton*> hud_elements;
 
 	UIImage* pause_menu = nullptr;
+	UIImage* player_lives = nullptr;
+
 	UIButton* continue_btn = nullptr;
 	UIButton* load_game_btn = nullptr;
 	UIButton* save_game_btn = nullptr;
