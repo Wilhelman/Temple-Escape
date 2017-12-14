@@ -26,11 +26,12 @@ void UILabel::SetTextFromNum(int value)
 {
 
 	std::string s = std::to_string(value);
-	std::string t("%%");
+ 	std::string t("%%");
 
 	s += t;
 
 	text = s.c_str();
+	//text.create(s.c_str());
 
 	App->tex->UnLoad(texture);
 

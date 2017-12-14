@@ -62,11 +62,11 @@ bool j1Scene::Start()
 	player_lives->interactable = false;
 	player_lives->invisible = false;
 
-	UIImage* coin_ui = (UIImage*)App->ui->AddUIImage(40, 5, SCORE_UI, this);
+	UIImage* coin_ui = (UIImage*)App->ui->AddUIImage(150, 5, SCORE_UI, this);
 	coin_ui->interactable = false;
 	coin_ui->invisible = false;
 
-	UILabel* score_lbl = (UILabel*)App->ui->AddUILabel(30, 7, "0", BLACK, 20);
+	UILabel* score_lbl = (UILabel*)App->ui->AddUILabel(120, 7, "0%%", BLACK, 20);
 	score_lbl->interactable = false;
 	score_lbl->invisible = false;
 
@@ -195,6 +195,9 @@ bool j1Scene::Update(float dt)
 	default:
 		break;
 	}
+
+	if(App->entities->GetPlayer()->score>0)
+		score_lbl->SetTextFromNum(444);
 
 	App->map->Draw();
 

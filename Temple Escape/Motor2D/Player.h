@@ -66,7 +66,7 @@ public:
 	bool isDead = false;
 	bool god_mode = false;
 	uint lives = 3;
-	uint score = 0;
+	uint score = 40;
 
 private:
 	bool didDoubleJump = false;;
