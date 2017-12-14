@@ -38,12 +38,11 @@ private:
 	Uint32 total_time = 0;
 	SDL_Rect screen = { 0, 0, 0, 0 };
 
-	p2SString lvlName;
-
 	j1Module* moduleOff = nullptr;
 	j1Module* moduleOn = nullptr;
 
 public:
+	p2SString lvlName;
 	bool F1 = false;
 };
 

@@ -90,7 +90,7 @@ bool j1FadeToBlack::Update(float dt)
 						if (lvlName == "")
 						{
 							if (lvlData.previous_sibling("data") == NULL)
-								firstData = lvlData;
+								firstData = lvlData.next_sibling("data");
 
 							if (loadTheNextOne)
 							{
