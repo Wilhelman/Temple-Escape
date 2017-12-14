@@ -226,7 +226,7 @@ bool j1Scene::Load(pugi::xml_node& load)
 
 		if (App->map->sceneName != lvlToLoad && App->fadeToBlack->FadeIsOver()) 
 		{
-			App->entities->GetPlayer()->reachedEnd = false;
+			//App->entities->GetPlayer()->reachedEnd = false;
 			App->fadeToBlack->FadeToKnowBlack(lvlToLoad);
 		}
 	}

@@ -399,6 +399,9 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 			{
 				if (tmpBtn == new_game_btn)
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene, 1.0f);
+				else if (tmpBtn == continue_btn) {
+					App->LoadGame();
+				}
 				else if (tmpBtn == quit_game_btn)
 					quit_btn_pressed = true;
 				else if (tmpBtn == settings_btn)
