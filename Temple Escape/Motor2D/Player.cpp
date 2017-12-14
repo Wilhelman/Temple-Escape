@@ -597,6 +597,11 @@ bool Player::Load(pugi::xml_node& load)
 		position_implement_load.y = load.child("position").attribute("y").as_float() - 2.0f;
 	}
 
+	if (!load.child("info").empty()) {
+		lives_implement_load = load.child("info").attribute("lives").as_int();
+		score_implement_load = load.child("info").attribute("score").as_int();
+	}
+
 	if (App->fadeToBlack->FadeIsOver())
 		ImplementLoad();
 
@@ -605,6 +610,8 @@ bool Player::Load(pugi::xml_node& load)
 
 void Player::ImplementLoad()
 {
+	lives = lives_implement_load;
+	score = score_implement_load;
 	position.x = position_implement_load.x;
 	position.y = position_implement_load.y;
 }
@@ -615,14 +622,26 @@ bool Player::Save(pugi::xml_node& save) const
 
 	if (save.child("position").empty())
 	{
-		save = save.append_child("position");
-		save.append_attribute("x").set_value(position.x);
-		save.append_attribute("y").set_value(position.y);
+		pugi::xml_node&  tmpsave = save.append_child("position");
+		tmpsave.append_attribute("x").set_value(position.x);
+		tmpsave.append_attribute("y").set_value(position.y);
 	}
 	else
 	{
 		save.child("position").attribute("x").set_value(position.x);
 		save.child("position").attribute("y").set_value(position.y);
+	}
+
+	if (save.child("info").empty())
+	{
+		pugi::xml_node&  tmpsave = save.append_child("info");
+		tmpsave.append_attribute("lives").set_value(lives);
+		tmpsave.append_attribute("score").set_value(score);
+	}
+	else
+	{
+		save.child("info").attribute("lives").set_value(lives);
+		save.child("info").attribute("score").set_value(score);
 	}
 
 	return ret;

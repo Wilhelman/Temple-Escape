@@ -16,25 +16,26 @@
 	</main_menu>
 	<entities>
 		<bat>
-			<position x="467.875214" y="464" />
+			<position x="460.131561" y="464" />
 		</bat>
 		<slime>
-			<position x="608" y="496" />
+			<position x="591" y="496" />
 		</slime>
 		<bat>
-			<position x="579.872742" y="480" />
+			<position x="572.131958" y="480" />
 		</bat>
 		<slime>
-			<position x="847" y="464" />
+			<position x="864" y="464" />
 		</slime>
 		<bat>
-			<position x="947.872742" y="384" />
+			<position x="940.131958" y="384" />
 		</bat>
 		<bat>
-			<position x="995.872742" y="416" />
+			<position x="988.131958" y="416" />
 		</bat>
 		<player>
-			<position x="394" y="512" />
+			<position x="280" y="544" />
+			<info lives="2" score="3" />
 		</player>
 	</entities>
 	<particles />

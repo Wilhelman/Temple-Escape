@@ -17,6 +17,8 @@ struct SDL_Texture;
 struct Collider;
 
 static fPoint position_implement_load = fPoint();
+static int lives_implement_load = 0;
+static int score_implement_load = 0;
 
 class Player : public Entity
 {
@@ -66,7 +68,7 @@ public:
 	bool isDead = false;
 	bool god_mode = false;
 	uint lives = 3;
-	uint score = 40;
+	uint score = 0;
 
 private:
 	bool didDoubleJump = false;;
