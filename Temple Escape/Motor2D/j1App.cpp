@@ -19,6 +19,7 @@
 #include "j1Pathfinding.h"
 #include "j1FadeToBlack.h"
 #include "j1App.h"
+#include "Player.h"
 
 #include "Brofiler\Brofiler.h"
 
@@ -262,9 +263,21 @@ void j1App::FinishUpdate()
 
 	dt = 1.0f / framerate;
 
+	p2SString godMode;
+
+	if (App->entities->GetPlayer() != nullptr) {
+		(App->entities->GetPlayer()->god_mode) ?
+			godMode.create("ON") :
+			godMode.create("OFF");
+	}
+	else
+		godMode.create("Player not reachable");
+
+	
+
 	static char title[256];
-	sprintf_s(title, 256, "%s - FPS: %.2f Av.FPS: %.2f Last Frame Ms: %u (Cap: %s  Vsync: %s) ",
-		game_title.GetString(), framerate, avg_fps, last_frame_ms, cap_to_show.GetString(), vsync_to_show.GetString());
+	sprintf_s(title, 256, "%s - FPS: %.2f Av.FPS: %.2f Last Frame Ms: %u (Cap: %s  Vsync: %s) | GOD MODE: %s",
+		game_title.GetString(), framerate, avg_fps, last_frame_ms, cap_to_show.GetString(), vsync_to_show.GetString(),godMode.GetString());
 
 	App->win->SetTitle(title);
 
