@@ -59,6 +59,11 @@ Player::Player(int x, int y) : Entity(x, y) {
 
 	}
 
+	if(lives_implement_load != 0)
+		p_lives = lives_implement_load;
+	if(score_implement_load != 0)
+		score = score_implement_load;
+
 	LOG("Creating player collider");
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, ColliderType::COLLIDER_PLAYER, (j1Module*)App->entities);
 
@@ -92,6 +97,9 @@ Player::~Player()
 	LOG("Unloading player sound fx");
 	App->audio->UnLoadFx(player_jump_fx);
 	App->audio->UnLoadFx(player_dead_fx);
+
+	lives_implement_load = p_lives;
+	score_implement_load = score;
 
 }
 
