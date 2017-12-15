@@ -95,7 +95,7 @@ bool j1MainMenu::Start()
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, App->languages->GetDictionary().new_game_btn , BLACK, 20, new_game_btn);
+	new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, App->languages->GetDictionary().new_game_btn , BLACK, 20, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
@@ -108,7 +108,7 @@ bool j1MainMenu::Start()
 
 	continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 50 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(continue_btn);
-	UILabel* continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, "CONTINUE", BLACK, 20, continue_btn);
+	UILabel* continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, "CONTINUE", BLACK, 20, continue_btn); // App->languages->GetDictionary().continue //4
 	continue_btn->button_lbl = continue_lbl;
 	labels.PushBack(continue_lbl);
 	continue_lbl->interactable = false;
@@ -432,12 +432,34 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 				else if (tmpBtn == language_left_btn) {
 					for (int i = 0; i < App->languages->posible_languages.Count(); i++)
 					{
-						//if(App->languages->posible_languages[i] == selected_language_lbl->text && i < App->languages->posible_languages.Count())
-							//selected_language_lbl->
+						if (App->languages->posible_languages[i] == selected_language_lbl->text && i != 0) {
+							selected_language_lbl->SetText(App->languages->posible_languages[i - 1]);
+							App->languages->ChangeCurrentLanguage(App->languages->posible_languages[i - 1]);
+							break;
+						}
+						else if (App->languages->posible_languages[i] == selected_language_lbl->text && i == 0) {
+							selected_language_lbl->SetText(App->languages->posible_languages[App->languages->posible_languages.Count() - 1]);
+							App->languages->ChangeCurrentLanguage(App->languages->posible_languages[App->languages->posible_languages.Count() - 1]);
+							break;
+						}
 					}
+					ResetTextToLabels();
 				}
 				else if (tmpBtn == language_right_btn) {
-
+					for (int i = 0; i < App->languages->posible_languages.Count(); i++)
+					{
+						if (App->languages->posible_languages[i] == selected_language_lbl->text && i != App->languages->posible_languages.Count() - 1) {
+							selected_language_lbl->SetText(App->languages->posible_languages[i + 1]);
+							App->languages->ChangeCurrentLanguage(App->languages->posible_languages[i + 1]);
+							break;
+						}
+						else if (App->languages->posible_languages[i] == selected_language_lbl->text && i == App->languages->posible_languages.Count() - 1) {
+							selected_language_lbl->SetText(App->languages->posible_languages[0]);
+							App->languages->ChangeCurrentLanguage(App->languages->posible_languages[0]);
+							break;
+						}
+					}
+					ResetTextToLabels();
 				}
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
@@ -577,4 +599,9 @@ iPoint j1MainMenu::GetPointToCenter(int w_to_center, int h_to_center, int w_ref,
 {
 
 	return iPoint((w_ref - w_to_center) / 2, (h_ref - h_to_center) / 2);
+}
+
+void j1MainMenu::ResetTextToLabels() {
+	new_game_lbl->SetText(App->languages->GetDictionary().new_game_btn);
+	//continue_lbl->SetText(App->languages->GetDictionary().continue_btn); //5
 }

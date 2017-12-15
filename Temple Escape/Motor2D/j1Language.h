@@ -8,6 +8,7 @@
 
 struct Dictionary {
 	p2SString new_game_btn;
+	//p2SString continue_btn	todo:2
 };
 
 class j1Language : public j1Module
@@ -31,10 +32,13 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	p2SString current_language;
-	p2DynArray<p2SString> posible_languages;
+	void ChangeCurrentLanguage(p2SString new_language);
 
 	Dictionary GetDictionary()const;
+
+public:
+	p2SString current_language;
+	p2DynArray<p2SString> posible_languages;
 
 private:
 

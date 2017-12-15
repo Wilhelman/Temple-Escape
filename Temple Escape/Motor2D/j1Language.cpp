@@ -45,7 +45,7 @@ bool j1Language::Awake(pugi::xml_node& config)
 	node = &node->child(current_language.GetString());
 
 	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
-
+	//dictionary.new_game_btn.create(node->child("continue_btn").attribute("string").as_string());	1
 
 	
 	return ret;
@@ -65,6 +65,28 @@ bool j1Language::CleanUp()
 	return true;
 }
 
+
+void j1Language::ChangeCurrentLanguage(p2SString new_language) {
+	current_language = new_language;
+
+	bool ret = true;
+
+	pugi::xml_document	language_file;
+	pugi::xml_node* node = &App->LoadLanguages(language_file);
+
+	for (pugi::xml_node languages = node->first_child(); languages && ret; languages = languages.next_sibling())
+	{
+		p2SString tmp_language;
+		tmp_language.create(languages.name());
+		posible_languages.PushBack(tmp_language);
+	}
+
+	node = &node->child(current_language.GetString());
+
+	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
+	//dictionary.new_game_btn.create(node->child("continue_btn").attribute("string").as_string());	3
+
+}
 
 Dictionary j1Language::GetDictionary()const {
 	return dictionary;

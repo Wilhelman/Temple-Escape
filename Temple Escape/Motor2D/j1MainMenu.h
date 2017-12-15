@@ -48,6 +48,8 @@ public:
 
 	iPoint GetPointToCenter(int w_to_center, int h_to_center, int w_ref, int h_ref);
 
+	void ResetTextToLabels();
+
 public:
 	bool move_camera = false;
 	bool capped_checkbox = false;
@@ -76,6 +78,8 @@ private:
 	UILabel* cap_lbl = nullptr;
 	UILabel* language_lbl = nullptr;
 	UILabel* selected_language_lbl = nullptr;
+
+	UILabel* new_game_lbl = nullptr;
 
 	UICheckBox* cap_checkbox = nullptr;
 
