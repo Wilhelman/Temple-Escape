@@ -3,14 +3,28 @@
 
 	<ENG>
 		<new_game_btn string="PLAY" />
+    <continue_btn string="CONTINUE" />
+    <music_volume string="Music volume" />
+    <fx_volume string="FX volume" />
+    <cap_to string="Cap to 30 fps" />
+    <language_option string="Language" />
 	</ENG>
 	
 	<CAT>
 		<new_game_btn string="JUGAR" />
+    <continue_btn string="CONTINUAR" />
+    <music_volume string="Volum musica" />
+    <fx_volume string="Volum FX" />
+    <cap_to string="Capar a 30 fps" />
+    <language_option string="Idioma" />
 	</CAT>
 	
 	<ESP>
 		<new_game_btn string="JUGAR" />
+    <continue_btn string="CONTINUAR" />
+    <music_volume string="Volumen musica" />
+    <fx_volume string="Volumen FX" />
+    <cap_to string="Capar a 30 fps" />
+    <language_option string="Idioma" />
 	</ESP>
-
 </languages>

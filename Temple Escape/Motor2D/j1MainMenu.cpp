@@ -108,7 +108,7 @@ bool j1MainMenu::Start()
 
 	continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 50 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(continue_btn);
-	UILabel* continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, "CONTINUE", BLACK, 20, continue_btn); // App->languages->GetDictionary().continue //4
+	continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
 	continue_btn->button_lbl = continue_lbl;
 	labels.PushBack(continue_lbl);
 	continue_lbl->interactable = false;
@@ -126,11 +126,11 @@ bool j1MainMenu::Start()
 	close_settings_btn = (UIButton*)App->ui->AddUIButton(295, 20 + 250, { 0,137,14,16 }, { 105,130,25,28 }, { 14,137,14,14 }, this);
 	settings_elements.PushBack(close_settings_btn);
 
-	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(127, 140, { 0, 273, 14, 16 }, { 14, 273, 14, 16 }, { 0, 289, 14, 14 }, { 14, 289, 14, 14 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
+	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(132, 140, { 0, 273, 14, 16 }, { 14, 273, 14, 16 }, { 0, 289, 14, 14 }, { 14, 289, 14, 14 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
 	cap_checkbox->interactable = true;
 	cap_checkbox->invisible = false;
 
-	cap_lbl = (UILabel*)App->ui->AddUILabel(35, 150 + 250, "Cap to 30 fps", BLACK, 20);
+	cap_lbl = (UILabel*)App->ui->AddUILabel(35, 150 + 250, App->languages->GetDictionary().cap_to, BLACK, 20);
 	settings_elements.PushBack(cap_lbl);
 
 	language_left_btn = (UIButton*)App->ui->AddUIButton(151, 200 + 250, { 0,303,14,16 }, { 28,301,26,28 }, { 14,303,14,14 }, this);
@@ -139,20 +139,20 @@ bool j1MainMenu::Start()
 	language_right_btn = (UIButton*)App->ui->AddUIButton(250, 200 + 250, { 14,319,14,16 }, { 54,301,26,28 }, { 0,319,14,14 }, this);
 	settings_elements.PushBack(language_right_btn);
 
-	language_lbl = (UILabel*)App->ui->AddUILabel(35, 200 + 250, "Language", BLACK, 20);
+	language_lbl = (UILabel*)App->ui->AddUILabel(35, 200 + 250, App->languages->GetDictionary().language_option, BLACK, 20);
 	settings_elements.PushBack(language_lbl);
 
-	selected_language_lbl = (UILabel*)App->ui->AddUILabel(195, 200 + 250, App->languages->current_language.GetString(), BLACK, 20);
+	selected_language_lbl = (UILabel*)App->ui->AddUILabel(195, 200 + 250, App->languages->current_language, BLACK, 20);
 	settings_elements.PushBack(selected_language_lbl);
 	
 	// SLIDER SETTINGS
 
-	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 54 + 250, "0%%", GREY,10);
+	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 37 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(music_volume_slider_lbl);
-	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 104 + 250, "0%%", GREY,10);
+	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 87 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(fx_volume_slider_lbl);
 	
-	music_volume_slider = (UISlider*)App->ui->AddUISlider(150, 50 + 250, { 0, 239, 130, 18 }, this);
+	music_volume_slider = (UISlider*)App->ui->AddUISlider(172, 50 + 250, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(music_volume_slider);
 
 	music_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
@@ -160,7 +160,7 @@ bool j1MainMenu::Start()
 	music_volume_slider->SetSliderButtons(music_slider_btn);
 	settings_elements.PushBack(music_slider_btn);
 
-	fx_volume_slider = (UISlider*)App->ui->AddUISlider(150, 100 + 250, { 0, 239, 130, 18 }, this);
+	fx_volume_slider = (UISlider*)App->ui->AddUISlider(172, 100 + 250, { 0, 239, 130, 18 }, this);
 	settings_elements.PushBack(fx_volume_slider);
 
 	fx_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, fx_volume_slider);
@@ -168,10 +168,10 @@ bool j1MainMenu::Start()
 	fx_volume_slider->SetSliderButtons(fx_slider_btn);
 	settings_elements.PushBack(fx_slider_btn);
 
-	music_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 49 + 250, "Music volume", BLACK,20);
+	music_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 49 + 250, App->languages->GetDictionary().music_volume, BLACK,20);
 	settings_elements.PushBack(music_volume_lbl);
 
-	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 100 + 250, "FX volume", BLACK, 20);
+	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 100 + 250, App->languages->GetDictionary().fx_volume, BLACK, 20);
 	settings_elements.PushBack(fx_volume_lbl);
 
 	for (int i = 0; i < settings_elements.Count(); i++)
@@ -601,7 +601,12 @@ iPoint j1MainMenu::GetPointToCenter(int w_to_center, int h_to_center, int w_ref,
 	return iPoint((w_ref - w_to_center) / 2, (h_ref - h_to_center) / 2);
 }
 
-void j1MainMenu::ResetTextToLabels() {
+void j1MainMenu::ResetTextToLabels() 
+{
 	new_game_lbl->SetText(App->languages->GetDictionary().new_game_btn);
-	//continue_lbl->SetText(App->languages->GetDictionary().continue_btn); //5
+	continue_lbl->SetText(App->languages->GetDictionary().continue_btn);
+	fx_volume_lbl->SetText(App->languages->GetDictionary().fx_volume);
+	music_volume_lbl->SetText(App->languages->GetDictionary().music_volume);
+	language_lbl->SetText(App->languages->GetDictionary().language_option);
+	cap_lbl->SetText(App->languages->GetDictionary().cap_to);
 }

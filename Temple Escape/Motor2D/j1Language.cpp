@@ -45,7 +45,11 @@ bool j1Language::Awake(pugi::xml_node& config)
 	node = &node->child(current_language.GetString());
 
 	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
-	//dictionary.new_game_btn.create(node->child("continue_btn").attribute("string").as_string());	1
+	dictionary.continue_btn.create(node->child("continue_btn").attribute("string").as_string());
+	dictionary.music_volume.create(node->child("music_volume").attribute("string").as_string());
+	dictionary.fx_volume.create(node->child("fx_volume").attribute("string").as_string());
+	dictionary.cap_to.create(node->child("cap_to").attribute("string").as_string());
+	dictionary.language_option.create(node->child("language_option").attribute("string").as_string());
 
 	
 	return ret;
@@ -84,7 +88,12 @@ void j1Language::ChangeCurrentLanguage(p2SString new_language) {
 	node = &node->child(current_language.GetString());
 
 	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
-	//dictionary.new_game_btn.create(node->child("continue_btn").attribute("string").as_string());	3
+	dictionary.continue_btn.create(node->child("continue_btn").attribute("string").as_string());
+	dictionary.music_volume.create(node->child("music_volume").attribute("string").as_string());
+	dictionary.fx_volume.create(node->child("fx_volume").attribute("string").as_string());
+	dictionary.cap_to.create(node->child("cap_to").attribute("string").as_string());
+	dictionary.language_option.create(node->child("language_option").attribute("string").as_string());
+
 
 }
 
