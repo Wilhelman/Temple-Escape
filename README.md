@@ -83,6 +83,7 @@ Sound FX:
 * This game uses these sounds from freesound:
       
 	- 249616__vincentm400__function-fail.wav by [OwlStorm / Natalie Kirk](https://freesound.org/people/OwlStorm/)
+	- 341695__projectsu012__coins-1.wav by  [ProjectsU012](https://freesound.org/people/ProjectsU012/)
 	
 Fonts:
 * Fonts can be found here: 
