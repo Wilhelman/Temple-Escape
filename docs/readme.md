@@ -13,8 +13,6 @@ Simple platformer with a temple-type theme featuring a yellow character. Equippe
 
 ![](team_photo.JPG)
 
-![](frozenSlothStudios_team.JPG)
-
 _García Subirana, Guillermo's responsability and Github account_
 
 * Code
