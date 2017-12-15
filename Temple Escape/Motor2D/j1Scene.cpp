@@ -140,6 +140,10 @@ bool j1Scene::Start()
 	quit_lbl->interactable = false;
 	quit_lbl->invisible = true;
 
+	timer_scene_lbl = (UILabel*)App->ui->AddUILabel(150, 7, "0", WHITE, 20);
+	timer_scene_lbl->interactable = false;
+	timer_scene_lbl->invisible = false;
+
 	return ret;
 }
 
@@ -220,7 +224,7 @@ bool j1Scene::Update(float dt)
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
 
-
+	timer_scene_lbl->SetTextFromNum(App->entities->GetPlayer()->timer);
 
 	App->map->Draw();
 

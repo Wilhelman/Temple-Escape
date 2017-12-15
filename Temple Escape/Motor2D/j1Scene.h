@@ -68,6 +68,7 @@ private:
 	UILabel* load_game_lbl = nullptr;
 	UILabel* main_menu_lbl = nullptr;
 	UILabel* quit_lbl = nullptr;
+	UILabel* timer_scene_lbl = nullptr;
 
 	UIButton* continue_btn = nullptr;
 	UIButton* load_game_btn = nullptr;
