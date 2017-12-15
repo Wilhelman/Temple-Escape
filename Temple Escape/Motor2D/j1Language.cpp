@@ -33,9 +33,20 @@ bool j1Language::Awake(pugi::xml_node& config)
 
 	pugi::xml_document	language_file;
 	pugi::xml_node* node = &App->LoadLanguages(language_file);
-	node = &node->child(config.attribute("current").as_string());
+	current_language.create(config.attribute("current").as_string());
+
+	for (pugi::xml_node languages = node->first_child() ; languages && ret; languages = languages.next_sibling())
+	{
+		p2SString tmp_language;
+		tmp_language.create(languages.name());
+		posible_languages.PushBack(tmp_language);
+	}
+
+	node = &node->child(current_language.GetString());
 
 	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
+
+
 	
 	return ret;
 }

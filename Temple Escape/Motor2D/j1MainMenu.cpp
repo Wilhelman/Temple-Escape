@@ -142,7 +142,7 @@ bool j1MainMenu::Start()
 	language_lbl = (UILabel*)App->ui->AddUILabel(35, 200 + 250, "Language", BLACK, 20);
 	settings_elements.PushBack(language_lbl);
 
-	selected_language_lbl = (UILabel*)App->ui->AddUILabel(195, 200 + 250, "ENG", BLACK, 20);
+	selected_language_lbl = (UILabel*)App->ui->AddUILabel(195, 200 + 250, App->languages->current_language.GetString(), BLACK, 20);
 	settings_elements.PushBack(selected_language_lbl);
 	
 	// SLIDER SETTINGS
@@ -428,6 +428,16 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 							//settings_elements[i]->invisible = true;
 
 					}
+				}
+				else if (tmpBtn == language_left_btn) {
+					for (int i = 0; i < App->languages->posible_languages.Count(); i++)
+					{
+						//if(App->languages->posible_languages[i] == selected_language_lbl->text && i < App->languages->posible_languages.Count())
+							//selected_language_lbl->
+					}
+				}
+				else if (tmpBtn == language_right_btn) {
+
 				}
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);

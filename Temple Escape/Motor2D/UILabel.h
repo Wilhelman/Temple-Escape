@@ -10,13 +10,13 @@ class UILabel : public UIElement
 {
 private:
 	j1Fonts normal_font;
-	p2SString text;
-	int size;
+	
+	int size = 0;
 	Color text_color = COLOR_NOT_DEF;
 public:
 	UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, UIElement* parent = nullptr);
 	void SetTextFromNum(int value, bool withPercetage = false); 
-
+	p2SString text;
 };
 
 #endif //__UILABEL_H__

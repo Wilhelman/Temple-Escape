@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "p2SString.h"
+#include "p2DynArray.h"
 
 
 struct Dictionary {
@@ -30,7 +31,8 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	p2SString new_game;
+	p2SString current_language;
+	p2DynArray<p2SString> posible_languages;
 
 	Dictionary GetDictionary()const;
 

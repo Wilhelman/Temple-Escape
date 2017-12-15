@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <languages>
 
-	<english>
+	<ENG>
 		<new_game_btn string="PLAY" />
-	</english>
+	</ENG>
 	
-	<catalan>
+	<CAT>
 		<new_game_btn string="JUGAR" />
-	</catalan>
+	</CAT>
 	
-	<spanish>
+	<ESP>
 		<new_game_btn string="JUGAR" />
-	</spanish>
+	</ESP>
 
 </languages>
