@@ -11,7 +11,7 @@ Simple platformer with a temple-type theme featuring a yellow character. Equippe
 
 ## **Our Team**
 
-![](frozenSlothStudios_team.JPG)
+![](team_photo.JPG)
 
 ![](frozenSlothStudios_team.JPG)
 
