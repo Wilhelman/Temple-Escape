@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<languages>
+
+	<english>
+		<new_game_btn string="PLAY" />
+	</english>
+	
+	<catalan>
+		<new_game_btn string="JUGAR" />
+	</catalan>
+	
+	<spanish>
+		<new_game_btn string="JUGAR" />
+	</spanish>
+
+</languages>

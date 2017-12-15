@@ -50,7 +50,7 @@ bool j1Scene::Start()
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
 	}
-
+	
 	// PAUSE WINDOW
 	uint win_width = 0u, win_height = 0u;
 	App->win->GetWindowSize(win_width, win_height);

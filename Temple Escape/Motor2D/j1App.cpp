@@ -15,6 +15,7 @@
 #include "j1Entities.h"
 #include "j1Particles.h"
 #include "j1Fonts.h"
+#include "j1Language.h"
 #include "j1UI.h"
 #include "j1Pathfinding.h"
 #include "j1FadeToBlack.h"
@@ -41,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	main_menu = new j1MainMenu();
 	collider = new j1Collider();
 	map = new j1Map();
+	languages = new j1Language();
 	entities = new j1Entities();
 	particles = new j1Particles();
 	font = new j1Fonts();
@@ -59,6 +61,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(scene);
+	AddModule(languages);
 	AddModule(main_menu);
 	AddModule(entities);
 	AddModule(particles);
@@ -70,7 +73,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
-	//disable
+	//disable lvl scene
 	scene->active = false;
 
 	PERF_PEEK(ptimer);
@@ -204,6 +207,20 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
 	else
 		ret = config_file.child("config");
+	return ret;
+}
+
+// ---------------------------------------------
+pugi::xml_node j1App::LoadLanguages(pugi::xml_document& language_file) const
+{
+	pugi::xml_node ret;
+
+	pugi::xml_parse_result result = language_file.load_file("languages");
+
+	if (result == NULL)
+		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
+	else
+		ret = language_file.child("languages");
 	return ret;
 }
 

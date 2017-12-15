@@ -16,6 +16,7 @@
 			<fx pressed="audio/fx/pressed_btn.wav" released="audio/fx/released_btn.wav" hover="audio/fx/hover_btn.wav" />
 		</button>
 	</ui>
+	<language current="catalan" />
 	<window>
 		<resolution width="1024" height="768" scale="3" />
 		<fullscreen value="false" />

@@ -20,6 +20,7 @@ class j1MainMenu;
 class j1Entities;
 class j1Particles;
 class j1Map;
+class j1Language;
 class j1PathFinding;
 class j1Fonts;
 class j1UI;
@@ -63,6 +64,9 @@ public:
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
 
+	// Load languages file
+	pugi::xml_node LoadLanguages(pugi::xml_document&) const;
+
 private:
 
 	// Call modules before each loop iteration
@@ -98,6 +102,7 @@ public:
 	j1Map*				map = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
 	j1Entities*			entities = nullptr;
+	j1Language*			languages = nullptr;
 	j1Particles*		particles = nullptr;
 	j1Fonts*			font = nullptr;
 	j1UI*				ui = nullptr;

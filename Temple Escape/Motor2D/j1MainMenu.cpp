@@ -14,6 +14,7 @@
 #include "j1Pathfinding.h"
 #include "Player.h"
 #include "j1UI.h"
+#include "j1Language.h"
 
 #include "UIImage.h"
 #include "UIButton.h"
@@ -94,7 +95,7 @@ bool j1MainMenu::Start()
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, "NEW GAME", BLACK, 20, new_game_btn);
+	UILabel* new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, App->languages->GetDictionary().new_game_btn , BLACK, 20, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
