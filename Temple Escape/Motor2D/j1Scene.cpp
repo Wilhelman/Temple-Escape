@@ -33,24 +33,11 @@ j1Scene::~j1Scene()
 
 // Called before render is available
 
-bool j1Scene::Awake(pugi::xml_node& config)
+bool j1Scene::Awake()
 {
 
 	LOG("Loading Scene");
 	bool ret = true;
-
-
-	/*
-	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
-
-	//set all the animations
-	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
-	{
-		p2SString tmp(animations.attribute("name").as_string());
-
-		if (tmp == "heart_reward_anim")
-			LoadSceneAnimation(animations, &heart_reward_anim);
-	}*/
 	
 	return ret;
 }
@@ -60,26 +47,26 @@ bool j1Scene::Start()
 {
 	bool ret = true;
 
+	pugi::xml_document	config_file;
+	pugi::xml_node* node = &App->LoadConfig(config_file); 
+	node = &node->child("map").child("scene");
+
+	//read animation from node
+	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+
+		if (tmp == "heart_reward_anim")
+			LoadSceneAnimation(animations, &heart_reward_anim);
+	}
+
 	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) 
 	{
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
 	}
 	
-
-
-	//Animations - TODO: xml pls :)
-
 	atlas_tex = App->ui->GetAtlas();
-
-	heart_reward_anim.PushBack({ 81, 419, 5, 13 });
-	heart_reward_anim.PushBack({ 86, 419, 5, 13 });
-	heart_reward_anim.PushBack({ 91, 419, 5, 13 });
-	heart_reward_anim.PushBack({ 96, 419, 5, 13 });
-	heart_reward_anim.PushBack({ 101, 419, 5, 13 });
-	heart_reward_anim.loop = false;
-	heart_reward_anim.speed = 0.12f;
-
 
 	// PAUSE WINDOW
 	uint win_width = 0u, win_height = 0u;

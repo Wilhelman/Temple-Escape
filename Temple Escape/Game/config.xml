@@ -189,9 +189,18 @@
 		</spritesheetSource>
 		<main_menu />
 		<scene>
-			<data name="main_menu.tmx" start="true" currentLvl="true" />
-			<data name="lvl1.tmx" start="false" currentLvl="false" />
+			<data name="main_menu.tmx" start="true" currentLvl="false" />
+			<data name="lvl1.tmx" start="false" currentLvl="true" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
+			<animations>
+				<animation name="heart_reward_anim" speed="0.12" loop="true">
+					<frame x="81" y="419" width="5" height="13" />
+					<frame x="86" y="419" width="5" height="13" />
+					<frame x="91" y="419" width="5" height="13" />
+					<frame x="96" y="419" width="5" height="13" />
+					<frame x="101" y="419" width="5" height="13" />
+				</animation>
+			</animations>
 		</scene>
 	</map>
 </config>
