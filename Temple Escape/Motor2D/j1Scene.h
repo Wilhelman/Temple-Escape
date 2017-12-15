@@ -1,8 +1,10 @@
 #ifndef __j1SCENE_H__
 #define __j1SCENE_H__
 
+#include "PugiXml/src/pugixml.hpp"
 #include "j1Module.h"
 #include "p2DynArray.h"
+#include "p2Animation.h"
 
 #define BUTTON_HOVER_OFFSET 6
 #define BUTTON_PUSH_OFFSET 3
@@ -11,6 +13,7 @@ struct SDL_Texture;
 class UIButton;
 class UIImage;
 class UILabel;
+class p2Animation;
 
 class j1Scene : public j1Module
 {
@@ -22,7 +25,7 @@ public:
 	virtual ~j1Scene();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node& config);
 
 	// Called before the first frame
 	bool Start();
@@ -47,6 +50,8 @@ public:
 
 	bool IsGamePaused();
 
+	void LoadSceneAnimation(pugi::xml_node animation_node, p2Animation * animation);
+
 private:
 	void putPlayerToSpawn();
 
@@ -63,6 +68,12 @@ private:
 	UIButton* save_game_btn = nullptr;
 	UIButton* main_menu_btn = nullptr;
 	UIButton* quit_btn = nullptr;
+
+	p2Animation heart_reward_anim;
+
+	p2SString spritesheetName;
+
+	const SDL_Texture* atlas_tex = nullptr;
 
 	bool paused = false;
 	bool quit_btn_pressed = false;

@@ -33,10 +33,24 @@ j1Scene::~j1Scene()
 
 // Called before render is available
 
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node& config)
 {
+
 	LOG("Loading Scene");
 	bool ret = true;
+
+
+	/*
+	spritesheetName.create(config.child("spritesheetSource").attribute("name").as_string());
+
+	//set all the animations
+	for (pugi::xml_node animations = config.child("spritesheetSource").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+
+		if (tmp == "heart_reward_anim")
+			LoadSceneAnimation(animations, &heart_reward_anim);
+	}*/
 	
 	return ret;
 }
@@ -46,17 +60,32 @@ bool j1Scene::Start()
 {
 	bool ret = true;
 
-	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) {
+	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) 
+	{
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
 	}
 	
+
+
+	//Animations - TODO: xml pls :)
+
+	atlas_tex = App->ui->GetAtlas();
+
+	heart_reward_anim.PushBack({ 81, 419, 5, 13 });
+	heart_reward_anim.PushBack({ 86, 419, 5, 13 });
+	heart_reward_anim.PushBack({ 91, 419, 5, 13 });
+	heart_reward_anim.PushBack({ 96, 419, 5, 13 });
+	heart_reward_anim.PushBack({ 101, 419, 5, 13 });
+	heart_reward_anim.loop = false;
+	heart_reward_anim.speed = 0.12f;
+
+
 	// PAUSE WINDOW
 	uint win_width = 0u, win_height = 0u;
 	App->win->GetWindowSize(win_width, win_height);
 	win_width /= App->win->GetScale();
 	win_height /= App->win->GetScale();
-
 
 	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_5_LIVE, this);
 	player_lives->interactable = false;
@@ -196,10 +225,15 @@ bool j1Scene::Update(float dt)
 		break;
 	}
 
-	if(App->entities->GetPlayer()->score>0)
+	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
 
+
+
 	App->map->Draw();
+
+	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && !heart_reward_anim.Finished())
+		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w/2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
 
 	int m_x; int m_y;
 	App->input->GetMousePosition(m_x, m_y);
@@ -378,6 +412,18 @@ void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 	}
 }
 
-bool j1Scene::IsGamePaused() {
+bool j1Scene::IsGamePaused() 
+{
 	return paused;
+}
+
+void j1Scene::LoadSceneAnimation(pugi::xml_node animation_node, p2Animation * animation)
+{
+	bool ret = true;
+
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
+
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
 }
