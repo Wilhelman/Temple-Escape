@@ -20,7 +20,7 @@
 
 #include "j1Entities.h"
 
-#define SCORE_UI {16,62,16,16}
+#define SCORE_UI {0,419,10,14}
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -58,6 +58,8 @@ bool j1Scene::Start()
 
 		if (tmp == "heart_reward_anim")
 			LoadSceneAnimation(animations, &heart_reward_anim);
+		if (tmp == "coin_reward_anim")
+			LoadSceneAnimation(animations, &coin_reward_anim);
 	}
 
 	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) 
@@ -78,7 +80,7 @@ bool j1Scene::Start()
 	player_lives->interactable = false;
 	player_lives->invisible = false;
 
-	UIImage* coin_ui = (UIImage*)App->ui->AddUIImage(150, 5, SCORE_UI, this);
+	coin_ui = (UIImage*)App->ui->AddUIImage(318, 8, SCORE_UI, this);
 	coin_ui->interactable = false;
 	coin_ui->invisible = false;
 
@@ -219,8 +221,16 @@ bool j1Scene::Update(float dt)
 
 	App->map->Draw();
 
-	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && !heart_reward_anim.Finished())
-		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w/2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
+	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 /*&& (!heart_reward_anim.Finished() && !coin_reward_anim.Finished())*/)
+	{
+		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w / 2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
+		LOG("%f %f", App->entities->GetPlayer()->position.x, App->entities->GetPlayer()->position.y);
+		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + 100, App->entities->GetPlayer()->position.y - 130, &coin_reward_anim.GetCurrentFrame());
+		coin_ui->invisible = true;
+	}
+	else
+		coin_ui->invisible = false;
+		
 
 	int m_x; int m_y;
 	App->input->GetMousePosition(m_x, m_y);

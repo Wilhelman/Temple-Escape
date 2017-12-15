@@ -60,6 +60,7 @@ private:
 
 	UIImage* pause_menu = nullptr;
 	UIImage* player_lives = nullptr;
+	UIImage* coin_ui = nullptr;
 
 	UILabel* score_lbl = nullptr;
 
@@ -70,6 +71,7 @@ private:
 	UIButton* quit_btn = nullptr;
 
 	p2Animation heart_reward_anim;
+	p2Animation coin_reward_anim;
 
 	p2SString spritesheetName;
 
