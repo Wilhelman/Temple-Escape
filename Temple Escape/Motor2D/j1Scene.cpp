@@ -46,6 +46,8 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	bool ret = true;
+	rewarded = false;
+	last_score = 0;
 
 	pugi::xml_document	config_file;
 	pugi::xml_node* node = &App->LoadConfig(config_file); 
@@ -221,15 +223,32 @@ bool j1Scene::Update(float dt)
 
 	App->map->Draw();
 
-	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 /*&& (!heart_reward_anim.Finished() && !coin_reward_anim.Finished())*/)
+	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && last_score > 0 && last_score != App->entities->GetPlayer()->score)
+		rewarded = true;
+
+	last_score = App->entities->GetPlayer()->score;
+
+	if (rewarded)
 	{
-		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w / 2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
-		LOG("%f %f", App->entities->GetPlayer()->position.x, App->entities->GetPlayer()->position.y);
-		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + 100, App->entities->GetPlayer()->position.y - 130, &coin_reward_anim.GetCurrentFrame());
-		coin_ui->invisible = true;
+		if (!heart_reward_anim.Finished())
+			App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w / 2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
+		if (!coin_reward_anim.Finished())
+		{
+			coin_ui->invisible = true;
+			App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + 155, App->entities->GetPlayer()->position.y - 161, &coin_reward_anim.GetCurrentFrame());
+		}
 	}
-	else
+
+	if (coin_reward_anim.Finished())
 		coin_ui->invisible = false;
+		
+	if (coin_reward_anim.Finished() && heart_reward_anim.Finished())
+	{
+		coin_reward_anim.Reset();
+		heart_reward_anim.Reset();
+		rewarded = false;
+	}
+		
 		
 
 	int m_x; int m_y;

@@ -77,8 +77,11 @@ private:
 
 	const SDL_Texture* atlas_tex = nullptr;
 
+	int last_score = 0;
+
 	bool paused = false;
 	bool quit_btn_pressed = false;
+	bool rewarded = false;
 };
 
 #endif // __j1SCENE_H__
