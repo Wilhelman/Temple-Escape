@@ -110,10 +110,6 @@ public:
 
 	bool				cap_state = false;
 
-
-	mutable bool		want_to_save = false;
-	bool				want_to_load = false;
-
 private:
 
 	p2List<j1Module*>	modules;
@@ -125,6 +121,8 @@ private:
 	p2SString			vsync_to_show;
 	p2SString			cap_to_show;
 
+	mutable bool		want_to_save = false;
+	bool				want_to_load = false;
 	
 	mutable p2SString	save_game;
 	p2SString			load_game;

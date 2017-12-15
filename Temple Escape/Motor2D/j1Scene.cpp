@@ -332,8 +332,11 @@ void j1Scene::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
 			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
 			{
-				if (tmpBtn == main_menu_btn)
+				if (tmpBtn == main_menu_btn) {
+					App->entities->GetPlayer()->p_lives = 3;
+					App->entities->GetPlayer()->score = 0;
 					App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
+				}
 				else if (tmpBtn == quit_btn)
 					quit_btn_pressed = true;
 				else if (tmpBtn == continue_btn)

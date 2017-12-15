@@ -9,43 +9,34 @@
 	<map />
 	<pathfinding />
 	<scene>
-		<currentLvl name="lvl1.tmx" />
+		<currentLvl name="lvl2.tmx" />
 	</scene>
 	<language />
 	<main_menu>
-		<currentLvl name="lvl1.tmx" />
+		<currentLvl name="lvl2.tmx" />
 	</main_menu>
 	<entities>
 		<player>
-			<position x="342" y="544" />
-			<info lives="4" score="28" />
+			<position x="292" y="544" />
+			<info lives="4" score="29" />
 		</player>
 		<bat>
-			<position x="439.86557" y="464" />
+			<position x="467.733978" y="448" />
 		</bat>
 		<bat>
-			<position x="551.865356" y="480" />
+			<position x="563.733765" y="448" />
 		</bat>
 		<bat>
-			<position x="919.865356" y="384" />
+			<position x="851.733765" y="384" />
 		</bat>
 		<bat>
-			<position x="967.865356" y="416" />
+			<position x="931.733765" y="368" />
 		</bat>
 		<slime>
-			<position x="532" y="496" />
-		</slime>
-		<slime>
-			<position x="849" y="464" />
+			<position x="704" y="464" />
 		</slime>
 		<coin>
-			<position x="192" y="528" />
-		</coin>
-		<coin>
-			<position x="208" y="528" />
-		</coin>
-		<coin>
-			<position x="272" y="496" />
+			<position x="320" y="528" />
 		</coin>
 	</entities>
 	<particles />
