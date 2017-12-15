@@ -78,8 +78,8 @@ private:
 	UILabel* cap_lbl = nullptr;
 	UILabel* language_lbl = nullptr;
 	UILabel* selected_language_lbl = nullptr;
-
 	UILabel* new_game_lbl = nullptr;
+	UILabel* continue_lbl = nullptr;
 
 	UICheckBox* cap_checkbox = nullptr;
 
