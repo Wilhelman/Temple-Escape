@@ -50,7 +50,10 @@ bool j1Language::Awake(pugi::xml_node& config)
 	dictionary.fx_volume.create(node->child("fx_volume").attribute("string").as_string());
 	dictionary.cap_to.create(node->child("cap_to").attribute("string").as_string());
 	dictionary.language_option.create(node->child("language_option").attribute("string").as_string());
-
+	dictionary.quit_lan.create(node->child("quit_lan").attribute("string").as_string());
+	dictionary.save_lan.create(node->child("save_lan").attribute("string").as_string());
+	dictionary.load_lan.create(node->child("load_lan").attribute("string").as_string());
+	dictionary.main_menu_lan.create(node->child("main_menu_lan").attribute("string").as_string());
 	
 	return ret;
 }
@@ -93,10 +96,15 @@ void j1Language::ChangeCurrentLanguage(p2SString new_language) {
 	dictionary.fx_volume.create(node->child("fx_volume").attribute("string").as_string());
 	dictionary.cap_to.create(node->child("cap_to").attribute("string").as_string());
 	dictionary.language_option.create(node->child("language_option").attribute("string").as_string());
+	dictionary.quit_lan.create(node->child("quit_lan").attribute("string").as_string());
+	dictionary.save_lan.create(node->child("save_lan").attribute("string").as_string());
+	dictionary.load_lan.create(node->child("load_lan").attribute("string").as_string());
+	dictionary.main_menu_lan.create(node->child("main_menu_lan").attribute("string").as_string());
 
 
 }
 
-Dictionary j1Language::GetDictionary()const {
+Dictionary j1Language::GetDictionary() const 
+{
 	return dictionary;
 }

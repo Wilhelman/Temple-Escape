@@ -14,6 +14,11 @@ struct Dictionary
 	p2SString fx_volume;
 	p2SString cap_to;
 	p2SString language_option;
+
+	p2SString quit_lan;
+	p2SString save_lan;
+	p2SString load_lan;
+	p2SString main_menu_lan;
 };
 
 class j1Language : public j1Module

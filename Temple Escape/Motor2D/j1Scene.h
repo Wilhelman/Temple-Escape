@@ -63,6 +63,11 @@ private:
 	UIImage* coin_ui = nullptr;
 
 	UILabel* score_lbl = nullptr;
+	UILabel* continue_lbl = nullptr;
+	UILabel* save_game_lbl = nullptr;
+	UILabel* load_game_lbl = nullptr;
+	UILabel* main_menu_lbl = nullptr;
+	UILabel* quit_lbl = nullptr;
 
 	UIButton* continue_btn = nullptr;
 	UIButton* load_game_btn = nullptr;
@@ -82,6 +87,7 @@ private:
 	bool paused = false;
 	bool quit_btn_pressed = false;
 	bool rewarded = false;
+	
 };
 
 #endif // __j1SCENE_H__
