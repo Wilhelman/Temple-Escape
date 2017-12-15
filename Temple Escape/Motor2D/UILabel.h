@@ -17,6 +17,8 @@ public:
 	UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, UIElement* parent = nullptr);
 	void SetText(p2SString text);
 	void SetTextFromNum(int value, bool withPercetage = false); 
+
+public:
 	p2SString text;
 };
 

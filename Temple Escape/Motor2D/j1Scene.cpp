@@ -80,16 +80,13 @@ bool j1Scene::Start()
 	win_height /= App->win->GetScale();
 
 	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_5_LIVE, this);
-	player_lives->interactable = false;
-	player_lives->invisible = false;
+	hud_elements.PushBack(player_lives);
 
 	coin_ui = (UIImage*)App->ui->AddUIImage(318, 8, SCORE_UI, this);
-	coin_ui->interactable = false;
-	coin_ui->invisible = false;
+	hud_elements.PushBack(coin_ui);
 
 	score_lbl = (UILabel*)App->ui->AddUILabel(300, 7, "0", WHITE, 20);
-	score_lbl->interactable = false;
-	score_lbl->invisible = false;
+	hud_elements.PushBack(score_lbl);
 
 	pause_menu = (UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
 	pause_menu->interactable = false;
@@ -97,52 +94,52 @@ bool j1Scene::Start()
 
 	continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 - 80, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(continue_btn);
-	continue_btn->interactable = false;
-	continue_btn->invisible = true;
+
 	continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
 	continue_btn->button_lbl = continue_lbl;
-	continue_lbl->interactable = false;
-	continue_lbl->invisible = true;
-
+	
 	save_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 - 40, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(save_game_btn);
-	save_game_btn->interactable = false;
-	save_game_btn->invisible = true;
+
 	save_game_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().save_lan, BLACK, 20, save_game_btn);
 	save_game_btn->button_lbl = save_game_lbl;
-	save_game_lbl->interactable = false;
-	save_game_lbl->invisible = true;
 
 	load_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(load_game_btn);
-	load_game_btn->interactable = false;
-	load_game_btn->invisible = true;
+
 	load_game_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().load_lan, BLACK, 20, load_game_btn);
 	load_game_btn->button_lbl = load_game_lbl;
-	load_game_lbl->interactable = false;
-	load_game_lbl->invisible = true;
-
+	
 	main_menu_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 40, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(main_menu_btn);
-	main_menu_btn->interactable = false;
-	main_menu_btn->invisible = true;
+
 	main_menu_lbl = (UILabel*)App->ui->AddUILabel(20, 7, App->languages->GetDictionary().main_menu_lan, BLACK, 20, main_menu_btn);
 	main_menu_btn->button_lbl = main_menu_lbl;
-	main_menu_lbl->interactable = false;
-	main_menu_lbl->invisible = true;
 
 	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 80, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
 	buttons.PushBack(quit_btn);
-	quit_btn->interactable = false;
-	quit_btn->invisible = true;
+
 	quit_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().quit_lan, BLACK, 20, quit_btn);
 	quit_btn->button_lbl = quit_lbl;
-	quit_lbl->interactable = false;
-	quit_lbl->invisible = true;
 
 	timer_scene_lbl = (UILabel*)App->ui->AddUILabel(150, 7, "0", WHITE, 20);
-	timer_scene_lbl->interactable = false;
-	timer_scene_lbl->invisible = false;
+	hud_elements.PushBack(timer_scene_lbl);
+
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		buttons[i]->interactable = false;
+		buttons[i]->invisible = true;
+		buttons[i]->button_lbl->interactable = false;
+		buttons[i]->button_lbl->invisible = true;
+		if (buttons[i]->button_lbl != nullptr)
+			buttons[i]->CenterTextInButton();
+	}
+
+	for (int i = 0; i < hud_elements.Count(); i++)
+	{
+		hud_elements[i]->interactable = false;
+		hud_elements[i]->invisible = false;
+	}
 
 	return ret;
 }

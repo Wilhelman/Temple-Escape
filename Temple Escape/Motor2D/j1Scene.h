@@ -56,7 +56,7 @@ private:
 	void putPlayerToSpawn();
 
 	p2DynArray<UIButton*> buttons;
-	p2DynArray<UIButton*> hud_elements;
+	p2DynArray<UIElement*> hud_elements;
 
 	UIImage* pause_menu = nullptr;
 	UIImage* player_lives = nullptr;

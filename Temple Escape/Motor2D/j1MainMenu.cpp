@@ -183,6 +183,8 @@ bool j1MainMenu::Start()
 	{
 		buttons[i]->interactable = false;
 		buttons[i]->invisible = true;
+		if (buttons[i]->button_lbl != nullptr)
+			buttons[i]->CenterTextInButton();
 	}
 	for (int i = 0; i < labels.Count(); i++)
 	{
@@ -202,6 +204,12 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		if (buttons[i]->button_lbl != nullptr)
+			buttons[i]->CenterTextInButton();
+	}
+
 	// TAB control
 
 	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {

@@ -49,3 +49,8 @@ void UIButton::UpdateButtonWithSelfRect(SDL_Rect self_rect)
 	current_rect = self_rect;
 }
 
+void UIButton::CenterTextInButton()
+{
+	int left_space = (this->current_rect.w - button_lbl->GetRect().w) / 2;
+	button_lbl->SetLocalPosition(left_space, button_lbl->GetLocalPosition().y);
+}
