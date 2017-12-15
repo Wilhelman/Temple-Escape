@@ -19,6 +19,7 @@ enum Color
 	YELLOW,
 	GREY,
 	BLACK,
+	WHITE,
 	
 	COLOR_NOT_DEF
 };

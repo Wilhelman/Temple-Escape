@@ -15,6 +15,8 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 		texture = App->font->Print(text.GetString(), { 134, 136, 138, 255 }, App->font->default,size);
 	else if (color == BLACK)
 		texture = App->font->Print(text.GetString(), { 0, 0, 0, 255 }, App->font->default,size);
+	else if (color == WHITE)
+		texture = App->font->Print(text.GetString(), { 255, 255, 255, 255 }, App->font->default, size);
 
 	int width = 0, height = 0;
 	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
@@ -33,6 +35,8 @@ void UILabel::SetText(p2SString text) {
 		texture = App->font->Print(text.GetString(), { 134, 136, 138,255 }, App->font->default, size);
 	else if (text_color == BLACK)
 		texture = App->font->Print(text.GetString(), { 0, 0, 0, 255 }, App->font->default, size);
+	else if (text_color == WHITE)
+		texture = App->font->Print(text.GetString(), { 255, 255, 255, 255 }, App->font->default, size);
 
 	int width = 0, height = 0;
 	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
@@ -60,6 +64,8 @@ void UILabel::SetTextFromNum(int value, bool withPercentage)
 		texture = App->font->Print(text.GetString(), { 134, 136, 138,255 }, App->font->default,size);
 	else if (text_color == BLACK)
 		texture = App->font->Print(text.GetString(), { 0, 0, 0, 255 }, App->font->default,size);
+	else if (text_color == WHITE)
+		texture = App->font->Print(text.GetString(), { 255, 255, 255, 255 }, App->font->default, size);
 
 	int width = 0, height = 0;
 	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
