@@ -11,7 +11,7 @@ Simple platformer with a temple-type theme featuring a yellow character. Equippe
 
 ## **Our Team**
 
-![](team_photo.JPG)
+![](team_photo.jpeg)
 
 _García Subirana, Guillermo's responsability and Github account_
 
