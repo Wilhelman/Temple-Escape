@@ -10,6 +10,7 @@
 #include "j1Audio.h"
 #include "j1Particles.h"
 #include "j1Entities.h"
+#include "j1Timer.h"
 
 #include "Player.h"
 
@@ -63,6 +64,8 @@ Player::Player(int x, int y) : Entity(x, y) {
 		p_lives = lives_implement_load;
 	if(score_implement_load != 0)
 		score = score_implement_load;
+	if (time_implement_load != 0)
+		timer = time_implement_load;
 
 	LOG("Creating player collider");
 	collider = App->collider->AddCollider({ 0, 0, 16, 12 }, ColliderType::COLLIDER_PLAYER, (j1Module*)App->entities);
@@ -77,6 +80,8 @@ Player::Player(int x, int y) : Entity(x, y) {
 
 	animation = &right_idle;
 
+	real_timer.Start();
+	real_timer.SetStartTime(timer);
 }
 
 void Player::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) 
@@ -100,12 +105,14 @@ Player::~Player()
 
 	lives_implement_load = p_lives;
 	score_implement_load = score;
-
+	time_implement_load = timer;
 }
 
 // Called each loop iteration
 void Player::Update(float dt)
 {
+	timer = real_timer.Read();
+	//LOG("timer: %i", timer);
 	current_frame = animation->GetCurrentFrame();
 	current_dt = dt;
 	current_state = PlayerState::ST_UNKNOWN;
@@ -608,6 +615,7 @@ bool Player::Load(pugi::xml_node& load)
 	if (!load.child("info").empty()) {
 		lives_implement_load = load.child("info").attribute("lives").as_int();
 		score_implement_load = load.child("info").attribute("score").as_int();
+		time_implement_load = load.child("info").attribute("time").as_int();
 	}
 
 	if (App->fadeToBlack->FadeIsOver())
@@ -615,8 +623,10 @@ bool Player::Load(pugi::xml_node& load)
 	else {
 		p_lives = lives_implement_load;
 		score = score_implement_load;
+		timer = time_implement_load;
 		position.x = position_implement_load.x;
 		position.y = position_implement_load.y;
+		real_timer.SetStartTime(timer);
 	}
 
 	return ret;
@@ -626,6 +636,7 @@ void Player::ImplementLoad()
 {
 	p_lives = lives_implement_load;
 	score = score_implement_load;
+	timer = time_implement_load;
 	position.x = position_implement_load.x;
 	position.y = position_implement_load.y;
 }
@@ -651,11 +662,13 @@ bool Player::Save(pugi::xml_node& save) const
 		pugi::xml_node&  tmpsave = save.append_child("info");
 		tmpsave.append_attribute("lives").set_value(p_lives);
 		tmpsave.append_attribute("score").set_value(score);
+		tmpsave.append_attribute("time").set_value(timer);
 	}
 	else
 	{
 		save.child("info").attribute("lives").set_value(p_lives);
 		save.child("info").attribute("score").set_value(score);
+		save.child("info").attribute("time").set_value(timer);
 	}
 
 	return ret;

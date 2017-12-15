@@ -12,13 +12,14 @@
 #define PLAYER_5_LIVE { 0, 391, 56, 14 }
 #define PLAYER_6_LIVE { 0, 405, 56, 14 }
 
-
+class j1Timer;
 struct SDL_Texture;
 struct Collider;
 
 static fPoint position_implement_load = fPoint();
 static int lives_implement_load = 0;
 static int score_implement_load = 0;
+static int time_implement_load = 0;
 
 class Player : public Entity
 {
@@ -69,8 +70,11 @@ public:
 	bool god_mode = false;
 	int p_lives = 3;
 	int score = 0;
+	int timer = 0;
 
 private:
+	j1Timer real_timer;
+
 	bool didDoubleJump = false;;
 	bool isJumping = false;
 
