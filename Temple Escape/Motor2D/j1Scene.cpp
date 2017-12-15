@@ -283,10 +283,7 @@ bool j1Scene::Load(pugi::xml_node& load)
 
 		if (App->map->sceneName != lvlToLoad && App->fadeToBlack->FadeIsOver()) 
 		{
-			//todo: to check
-			//App->fadeToBlack->lvlName = lvlToLoad;
-			//App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene, 1.0f);
-			
+			App->fadeToBlack->lvlName = lvlToLoad;
 		}
 	}
 
