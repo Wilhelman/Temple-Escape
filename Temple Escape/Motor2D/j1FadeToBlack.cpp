@@ -193,6 +193,9 @@ bool j1FadeToBlack::Update(float dt)
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = FadeStep::FADE_FROM_BLACK;
+
+			if (have_to_load)
+				App->LoadGame();
 		}
 	} break;
 
@@ -243,10 +246,11 @@ bool j1FadeToBlack::FadeToKnowBlack(p2SString lvlToFade, float time)
 	return ret;
 }
 
-bool j1FadeToBlack::FadeToBlackBetweenModules(j1Module* module_off, j1Module* module_on, float time)
+bool j1FadeToBlack::FadeToBlackBetweenModules(j1Module* module_off, j1Module* module_on, float time, bool andLoad)
 {
 	bool ret = false;
 
+	have_to_load = andLoad;
 	moduleOff = module_off;
 	moduleOn = module_on;
 

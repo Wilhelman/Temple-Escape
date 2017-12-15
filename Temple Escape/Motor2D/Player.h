@@ -108,6 +108,7 @@ private:
 		left_jump_vel = 0u, right_death_blink_vel = 0u, left_death_blink_vel = 0u, right_shoot_vel = 0u, left_shoot_vel = 0u;
 
 private:
+
 	float gravityHaveToWork();
 	float canGoRight();
 	float canGoLeft();

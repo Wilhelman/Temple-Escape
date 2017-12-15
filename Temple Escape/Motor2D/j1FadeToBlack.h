@@ -21,7 +21,7 @@ public:
 	bool Update(float dt);
 
 	bool FadeToBlack(float time = 2.0f);
-	bool FadeToBlackBetweenModules(j1Module* module_off, j1Module* module_on, float time = 2.0f);
+	bool FadeToBlackBetweenModules(j1Module* module_off, j1Module* module_on, float time = 2.0f, bool andLoad = false);
 	bool FadeToKnowBlack(p2SString lvlToFade, float time = 2.0f);
 	bool FadeIsOver();
 
@@ -40,6 +40,7 @@ private:
 
 	j1Module* moduleOff = nullptr;
 	j1Module* moduleOn = nullptr;
+	bool have_to_load = false;
 
 public:
 	p2SString lvlName;
