@@ -358,8 +358,7 @@ bool j1MainMenu::Load(pugi::xml_node& load)
 
 		if (App->map->sceneName != lvlToLoad && App->fadeToBlack->FadeIsOver())
 		{
-			App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene, 1.0f);
-			App->LoadGame();
+			App->fadeToBlack->FadeToBlackBetweenModules(this, App->scene, 1.0f, true);
 		}
 	}
 

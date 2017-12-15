@@ -612,6 +612,12 @@ bool Player::Load(pugi::xml_node& load)
 
 	if (App->fadeToBlack->FadeIsOver())
 		ImplementLoad();
+	else {
+		p_lives = lives_implement_load;
+		score = score_implement_load;
+		position.x = position_implement_load.x;
+		position.y = position_implement_load.y;
+	}
 
 	return ret;
 }

@@ -179,9 +179,13 @@ bool j1FadeToBlack::Update(float dt)
 			
 			App->entities->Start();
 			App->entities->active = true;
+			if (have_to_load)
+				App->LoadGame();
 			App->particles->Start();
 
-			if (lvlName != "" && !F1 && (moduleOn == nullptr && moduleOff == nullptr))
+			
+
+			if ((lvlName != "" && !F1 && (moduleOn == nullptr && moduleOff == nullptr)) || have_to_load)
 				App->entities->GetPlayer()->ImplementLoad();
 
 			F1 = false;
@@ -189,13 +193,12 @@ bool j1FadeToBlack::Update(float dt)
 			moduleOn = nullptr;
 			moduleOff = nullptr;
 			lvlName = "";
+			have_to_load = false;
 
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = FadeStep::FADE_FROM_BLACK;
 
-			if (have_to_load)
-				App->LoadGame();
 		}
 	} break;
 
