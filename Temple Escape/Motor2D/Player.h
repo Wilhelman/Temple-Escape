@@ -70,6 +70,7 @@ public:
 	bool reachedEnd = false;
 	bool isDead = false;
 	bool god_mode = false;
+	bool god_mode_fly = false;
 	int p_lives = 3;
 	int score = 0;
 	int timer = 0;

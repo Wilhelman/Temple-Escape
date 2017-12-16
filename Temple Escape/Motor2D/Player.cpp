@@ -130,8 +130,20 @@ void Player::Update(float dt)
 	if (!isDead)
 	{ //MOVEMENT / GRAVITY FUNCTIONALITY
 
-		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 			god_mode = !god_mode;
+		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		{
+			god_mode_fly = !god_mode_fly;
+
+			if (!god_mode_fly)
+				god_mode = false;
+		}
+			
+
+		if (god_mode_fly && !god_mode)
+			god_mode = true;
+
 
 		if (score % 10 == 0 && score != last_score && App->entities->GetPlayer()->p_lives != 6)
 		{
@@ -140,6 +152,9 @@ void Player::Update(float dt)
 		}
 
 		last_score = score;
+
+		if (!god_mode_fly)
+		{
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump)
 		{
@@ -157,7 +172,8 @@ void Player::Update(float dt)
 			}
 			jumpTimer = SDL_GetTicks();
 		}
-
+		
+		
 		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) && PlayerCanShootRight())
 		{
 			if (currentTime > shoot_timer + 700) 
@@ -192,21 +208,44 @@ void Player::Update(float dt)
 
 		bool isGettingHigh = false;
 
-		if (currentTime <= jumpTimer + 500 && isJumping)
-			isGettingHigh = true;
+	
+			if (currentTime <= jumpTimer + 500 && isJumping)
+				isGettingHigh = true;
 
-		if (!isGettingHigh)
-		{
-			if (float gravity = gravityHaveToWork()) 
+			if (!isGettingHigh)
 			{
-				this->position.y += gravity;
-				isJumping = true;
+				if (float gravity = gravityHaveToWork())
+				{
+					this->position.y += gravity;
+					isJumping = true;
+				}
 			}
+
+			if (isJumping && isGettingHigh)
+				this->position.y -= canGoUp();
+		}
+		else
+		{
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			{
+				SetPlayerStates(ST_IDLE_RIGHT, LAST_ST_IDLE_RIGHT);
+				this->position.x += ceil(PLAYER_SPEED * current_dt);
+			}
+				
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			{
+				SetPlayerStates(ST_IDLE_LEFT, LAST_ST_IDLE_LEFT);
+				this->position.x -= ceil(PLAYER_SPEED * current_dt);
+			}
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+				this->position.y -= ceil(PLAYER_SPEED * current_dt);
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+				this->position.y += ceil(PLAYER_SPEED * current_dt);
+			
 		}
 
-		if (isJumping && isGettingHigh)
-			this->position.y -= canGoUp();
 	}
+
 
 	//SEARCH THE STATE AND SET THE ANIMATION
 	SetPlayerAnimation(current_state, last_state);
