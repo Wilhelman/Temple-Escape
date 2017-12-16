@@ -1,7 +1,7 @@
 
 ## **Our project** 
 
-Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration. We also have added an intro menu and HUD implemented through a strucured ui system described in a UML file. We also have added an intro menu and HUD implemented through a strucured ui system described in a UML file.
+Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration. We also have added an intro menu and HUD implemented through a strucured ui system described in a UML file. 
 
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).
 
@@ -15,12 +15,12 @@ Simple platformer with a temple-type theme featuring a yellow character. Equippe
 
 _García Subirana, Guillermo's responsability and Github account_
 
-* Code
+* In charge of all code related to save and load, fade between modules, and other parts of code.
 * [Github account](https://github.com/Wilhelman)
 
 _Masó Garcia, Víctor's responsability and Github account_
 
-* Management
+* Management of all tasks / team organization. In charge of sprites and audio and some modules of code. 
 * [Github account](https://github.com/nintervik)
 
 ## **Main core system of the game**
@@ -28,8 +28,8 @@ _Masó Garcia, Víctor's responsability and Github account_
 ### Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
-* Pause menu implmented.
-* You can change game language in settings: english, spanish, catalan and even klington if you don't belong to ur planet!
+* Pause menu impelmented.
+* You can change game language (dictionary read froma an xml file) in settings: available in english, spanish, catalan... and even klingon if you don't belong to our planet!
 
 ## **Tools used**
 * IDE: Microsoft Visual Studio 2017
@@ -56,7 +56,7 @@ ___
 
 ## **How to play**
 
-score system, timer...
+The game is quite simple. You must reach the end of each level (there are two) collecting all the coins you can while killing enemies and avoiding obstacles. You start with three lives but every time you collect 10 coins you earn an extra life (up to 6). you can can consult game controls down below. Have fun!
 
 ### Controls
 ~~~~~~~~~~~~~~~
@@ -68,7 +68,7 @@ Player controls:
 - SHOOT: SPACE key (hold for continuous shooting)
 
 General/developer controls:
-- PUASE GAME: ESC key
+- PAUSE GAME: ESC key
 - START FROM THE VERY FIRST LEVEL: F1 key
 - START FROM THE BEGGINING OF THE CURRENT LEVEL: F2 key
 - SHOW COLLIDERS: F3
@@ -77,7 +77,6 @@ General/developer controls:
 - UI DEBUG MODE: F8
 - GOD MODE: F10
 - CAP FRAMERATE: F11
-- MUSIC VOLUME: +/- keys
 
 ~~~~~~~~~~~~~~~
 
@@ -109,7 +108,7 @@ General/developer controls:
 	- 345299__scrampunk__okay [Scrampunk](https://freesound.org/people/Scrampunk/)
 	
 ### *Fonts*:
-* Fonts can be found here: 
+* Font used can be found [here](http://tenbytwenty.com/?xxxx_posts=munro) 
 
 ___
 
