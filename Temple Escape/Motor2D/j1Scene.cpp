@@ -81,13 +81,16 @@ bool j1Scene::Start()
 	win_width /= App->win->GetScale();
 	win_height /= App->win->GetScale();
 
-	player_lives = (UIImage*)App->ui->AddUIImage(5, 5, PLAYER_5_LIVE, this);
+	player_lives = (UIImage*)App->ui->AddUIImage(20, 7, PLAYER_5_LIVE, this);
 	hud_elements.PushBack(player_lives);
+
+	player_heart = (UIImage*)App->ui->AddUIImage(5, 9, PLAYER_HEART, this);
+	hud_elements.PushBack(player_heart);
 
 	coin_ui = (UIImage*)App->ui->AddUIImage(318, 8, SCORE_UI, this);
 	hud_elements.PushBack(coin_ui);
 
-	score_lbl = (UILabel*)App->ui->AddUILabel(300, 7, "0", WHITE, 20);
+	score_lbl = (UILabel*)App->ui->AddUILabel(296, 7, "0", WHITE, 20);
 	hud_elements.PushBack(score_lbl);
 
 	pause_menu = (UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
@@ -155,6 +158,8 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	current_timer_scene = SDL_GetTicks();
+
 	//DEBUG
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fadeToBlack->FadeIsOver()) 
 	{
@@ -222,7 +227,16 @@ bool j1Scene::Update(float dt)
 		break;
 	}
 
-	
+	App->map->Draw();
+
+	if (App->entities->GetPlayer()->p_lives == 1)
+	{
+		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x - 160, App->entities->GetPlayer()->position.y - 161, &one_life_anim.GetCurrentFrame());
+		player_heart->invisible = true;
+	}
+	else
+		player_heart->invisible = false;
+
 
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
@@ -231,38 +245,32 @@ bool j1Scene::Update(float dt)
 
 
 	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && last_score > 0 && last_score != App->entities->GetPlayer()->score)
+	{
 		rewarded = true;
+		anim_timer_scene = SDL_GetTicks();
+	}
 
 	last_score = App->entities->GetPlayer()->score;
 
 	if (rewarded)
 	{
-		if (!heart_reward_anim.Finished())
-			App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w / 2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
-		if (!coin_reward_anim.Finished())
+		if (anim_timer_scene + 800 > current_timer_scene)
 		{
+			App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w / 2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
+
 			coin_ui->invisible = true;
 			App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + 155, App->entities->GetPlayer()->position.y - 161, &coin_reward_anim.GetCurrentFrame());
 		}
+		else
+		{
+			coin_ui->invisible = false;
+			rewarded = false;
+		}
 	}
-
-	if (coin_reward_anim.Finished())
-		coin_ui->invisible = false;
-		
-	if (coin_reward_anim.Finished() && heart_reward_anim.Finished())
-	{
-		coin_reward_anim.Reset();
-		heart_reward_anim.Reset();
-		rewarded = false;
-	}
-		
-	
 	
 
-
-	App->map->Draw();
-
-	App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x - 154, App->entities->GetPlayer()->position.y - 160, &one_life_anim.GetCurrentFrame());
+	if (App->entities->GetPlayer()->score == 1)
+		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x - 155, App->entities->GetPlayer()->position.y - 161, &one_life_anim.GetCurrentFrame());
 
 	int m_x; int m_y;
 	App->input->GetMousePosition(m_x, m_y);

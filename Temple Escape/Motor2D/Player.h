@@ -5,12 +5,14 @@
 #include "p2Point.h"
 #include "Entity.h"
 
-#define PLAYER_1_LIVE { 0, 335, 56, 14 }
-#define PLAYER_2_LIVE { 0, 349, 56, 14 }
-#define PLAYER_3_LIVE { 0, 363, 56, 14 }
-#define PLAYER_4_LIVE { 0, 377, 56, 14 }
-#define PLAYER_5_LIVE { 0, 391, 56, 14 }
-#define PLAYER_6_LIVE { 0, 405, 56, 14 }
+#define PLAYER_1_LIVE { 14, 335, 42, 14 }
+#define PLAYER_2_LIVE { 14, 349, 42, 14 }
+#define PLAYER_3_LIVE { 14, 363, 42, 14 }
+#define PLAYER_4_LIVE { 14, 377, 42, 14 }
+#define PLAYER_5_LIVE { 14, 391, 42, 14 }
+#define PLAYER_6_LIVE { 14, 405, 42, 14 }
+#define PLAYER_HEART { 4, 337, 10, 10 }
+
 
 class j1Timer;
 struct SDL_Texture;

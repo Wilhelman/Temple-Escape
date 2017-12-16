@@ -61,6 +61,7 @@ private:
 	UIImage* pause_menu = nullptr;
 	UIImage* player_lives = nullptr;
 	UIImage* coin_ui = nullptr;
+	UIImage* player_heart = nullptr;
 
 	UILabel* score_lbl = nullptr;
 	UILabel* continue_lbl = nullptr;
@@ -85,6 +86,8 @@ private:
 	const SDL_Texture* atlas_tex = nullptr;
 
 	int last_score = 0;
+	uint current_timer_scene = 0u;
+	uint anim_timer_scene = 0u;
 
 	bool paused = false;
 	bool quit_btn_pressed = false;

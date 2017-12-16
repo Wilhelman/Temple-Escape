@@ -204,11 +204,7 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
-	for (int i = 0; i < buttons.Count(); i++)
-	{
-		if (buttons[i]->button_lbl != nullptr)
-			buttons[i]->CenterTextInButton();
-	}
+	
 
 	// TAB control
 
@@ -617,4 +613,10 @@ void j1MainMenu::ResetTextToLabels()
 	music_volume_lbl->SetText(App->languages->GetDictionary().music_volume);
 	language_lbl->SetText(App->languages->GetDictionary().language_option);
 	cap_lbl->SetText(App->languages->GetDictionary().cap_to);
+
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		if (buttons[i]->button_lbl != nullptr)
+			buttons[i]->CenterTextInButton();
+	}
 }
