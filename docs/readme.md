@@ -25,7 +25,7 @@ _Masó Garcia, Víctor's responsability and Github account_
 
 ## **Main core subsystems of the game**
 
-Our game code is structured in modules. The main module (called j1App.cpp) manage all the other modules calling in a loop its respective awake, preupdate, update, postupdte, cleanup that they share thorugh a base class j1Module. Down below a basic scheme of this (some modules are missing) shows what has been explained:
+Our game code is structured in modules. The main module (called j1App.cpp) manages all the other modules calling in a loop its respective awake, preupdate, update, postupdte, cleanup that they share thorugh a base class j1Module. Down below a basic scheme of this (some modules are missing) shows what has been explained:
 
 ![](code_scheme.JPG)
 
