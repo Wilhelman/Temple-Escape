@@ -127,8 +127,8 @@ bool j1Scene::Start()
 	quit_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().quit_lan, BLACK, 20, quit_btn);
 	quit_btn->button_lbl = quit_lbl;
 
-	timer_scene_lbl = (UILabel*)App->ui->AddUILabel(150, 7, "0", WHITE, 20);
-	hud_elements.PushBack(timer_scene_lbl);
+timer_scene_lbl = (UILabel*)App->ui->AddUILabel(150, 7, "00 : 00 : 00", WHITE, 20);
+hud_elements.PushBack(timer_scene_lbl);
 
 	for (int i = 0; i < buttons.Count(); i++)
 	{
@@ -245,8 +245,7 @@ bool j1Scene::Update(float dt)
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
 
-	timer_scene_lbl->SetTextFromNum(App->entities->GetPlayer()->timer);
-
+	timer_scene_lbl->SetHourFromMs(App->entities->GetPlayer()->timer);
 
 	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && last_score > 0 && last_score != App->entities->GetPlayer()->score)
 	{

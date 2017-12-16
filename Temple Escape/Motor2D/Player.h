@@ -80,6 +80,7 @@ private:
 
 	bool didDoubleJump = false;;
 	bool isJumping = false;
+	bool player_appeared = false;
 
 	//timers
 	uint currentTime = 0u;

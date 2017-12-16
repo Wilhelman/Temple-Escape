@@ -22,6 +22,7 @@
 Player::Player(int x, int y) : Entity(x, y) {
 
 	bool ret = true;
+	player_appeared = false;
 
 	//TODO : this looks ugly but it seems the only way :'c
 	pugi::xml_document	config_file;
@@ -80,8 +81,6 @@ Player::Player(int x, int y) : Entity(x, y) {
 	this->position.y = spawnPos.y;
 
 	animation = &right_idle;
-
-	real_timer.Start();
 	real_timer.SetStartTime(timer);
 }
 
@@ -113,6 +112,12 @@ Player::~Player()
 // Called each loop iteration
 void Player::Update(float dt)
 {
+	if (player_appeared == false)
+	{
+		real_timer.Start();
+		player_appeared = true;
+	}
+
 	timer = real_timer.Read();
 	//LOG("timer: %i", timer);
 	current_frame = animation->GetCurrentFrame();
