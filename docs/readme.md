@@ -31,7 +31,7 @@ Our game code is structured in modules. The main module (called j1App.cpp) is th
 
 For a better organization and performance a entity factory system has been implemented along with an UI module that manages all the events that happen in UI and it's independent to everything else.
 
-Animations, file paths, and levels are read and loaded through parsing xml files to avoid 'magic numbers' and improve readability and boost changes when testing. 
+Animations, file paths, and levels are read and loaded through parsing xml files to avoid 'magic numbers', improve readability and boost changes when testing. 
 
 ### Innovations
 * Player and enemy animations are read from an xml file.
