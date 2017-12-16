@@ -23,13 +23,19 @@ _Masó Garcia, Víctor's responsability and Github account_
 * Management of all tasks / team organization. In charge of sprites and audio and some modules of code. 
 * [Github account](https://github.com/nintervik)
 
-## **Main core system of the game**
+## **Main core subsystems of the game**
+
+Our game code is structured in modules. The main module (called j1App.cpp) is the manage all the other modules calling in a loop its respective awake, preupdate, update, postupdte, cleanup that they share thorugh a base class j1Module. Down below a basic scheme of this (some modules are missing) shows what has been explained:
+
+![](code_scheme.JPG)
+
+For a better organization and performance a entity factory system has been implemented along with an UI module that manages all the events that happen in UI and it's independent to everything else.
 
 ### Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
 * Pause menu impelmented.
-* You can change game language (dictionary read froma an xml file) in settings: available in english, spanish, catalan... and even klingon if you don't belong to our planet!
+* You can change game language (dictionary read from an xml file) in settings: available in english, spanish, catalan... and even klingon if you don't belong to our planet!
 
 ## **Tools used**
 * IDE: Microsoft Visual Studio 2017
