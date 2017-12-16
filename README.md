@@ -1,10 +1,11 @@
 ﻿# TEMPLE ESCAPE
 
-Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration.
+Project for Videogame Development subject. The main goal here is to create a simple plattaformer with two levels done in Tiled, having a main character moving around while being able to save and load game’s state. On top of this enemies pathfinding is implemented along other stuff such as stable frame rate (30fps), normalized movement, structured entity system described in an UML file and code with Brofiler integration. We also have added an intro menu and HUD implemented through a strucured ui system described in a UML file.
 
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).  
 
 * [Github repository](https://github.com/nintervik/Temple-Escape)  
+* [Website](https://nintervik.github.io/Temple-Escape/)
 
 ## About the game
 Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
@@ -26,30 +27,32 @@ Player controls:
 - SHOOT: SPACE key (hold for continuous shooting)
 
 General/developer controls:
-- EXIT GAME: ESC key
+- PAUSE GAME: ESC key
 - START FROM THE VERY FIRST LEVEL: F1 key
 - START FROM THE BEGGINING OF THE CURRENT LEVEL: F2 key
 - SHOW COLLIDERS: F3
 - SAVE GAME (player position and current level):  F5 key
 - LOAD GAME (player position and level saved): F6 key
+- UI DEBUG MODE: F8
 - GOD MODE: F10
 - CAP FRAMERATE: F11
-- MUSIC VOLUME: +/- keys
 
 ## Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
 * Pause menu impelmented.
-* You can change game language in settings: english, spanish, catalan... and even klingon if you don't belong to our planet!
+* You can change game language (dictionary read froma an xml file) in settings: english, spanish, catalan... and even klingon if you don't belong to our planet!
 
 ## Team members
 
-_García Subirana, Guillermo's Github account:_
+_García Subirana, Guillermo's responsability and Github account_
 
-* [Github account](https://github.com/Wilhelman) 
+* In charge of all code related to save and load, fade between modules, and other parts of code.
+* [Github account](https://github.com/Wilhelman)
 
-_Masó Garcia, Víctor's Github account:_
+_Masó Garcia, Víctor's responsability and Github account_
 
+* Management of all tasks / team organization. In charge of sprites and audio and some modules of code. 
 * [Github account](https://github.com/nintervik)
 
 
