@@ -94,6 +94,9 @@ private:
 	//playerSoundEffects
 	uint player_jump_fx = 0u;
 	uint player_dead_fx = 0u;
+	uint player_life_reward_fx = 0u;
+
+	int last_score = 0;
 
 	//anims
 	p2Animation right_idle = p2Animation();

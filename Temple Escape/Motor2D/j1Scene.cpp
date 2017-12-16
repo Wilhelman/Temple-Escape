@@ -61,8 +61,10 @@ bool j1Scene::Start()
 
 		if (tmp == "heart_reward_anim")
 			LoadSceneAnimation(animations, &heart_reward_anim);
-		if (tmp == "coin_reward_anim")
+		else if (tmp == "coin_reward_anim")
 			LoadSceneAnimation(animations, &coin_reward_anim);
+		else if (tmp == "one_life_anim")
+			LoadSceneAnimation(animations, &one_life_anim);
 	}
 
 	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg")) 
@@ -191,6 +193,8 @@ bool j1Scene::Update(float dt)
 		paused = !paused;
 	}
 
+	
+
 	switch (App->entities->GetPlayer()->p_lives)
 	{
 	case 6:
@@ -218,12 +222,13 @@ bool j1Scene::Update(float dt)
 		break;
 	}
 
+	
+
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
 
 	timer_scene_lbl->SetTextFromNum(App->entities->GetPlayer()->timer);
 
-	App->map->Draw();
 
 	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && last_score > 0 && last_score != App->entities->GetPlayer()->score)
 		rewarded = true;
@@ -251,7 +256,13 @@ bool j1Scene::Update(float dt)
 		rewarded = false;
 	}
 		
-		
+	
+	
+
+
+	App->map->Draw();
+
+	App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x - 154, App->entities->GetPlayer()->position.y - 160, &one_life_anim.GetCurrentFrame());
 
 	int m_x; int m_y;
 	App->input->GetMousePosition(m_x, m_y);

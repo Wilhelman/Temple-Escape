@@ -31,6 +31,7 @@ Player::Player(int x, int y) : Entity(x, y) {
 	//read fxs from node
 	player_jump_fx = App->audio->LoadFx(node->child("fxPlayerJump").attribute("name").as_string());
 	player_dead_fx = App->audio->LoadFx(node->child("fxPlayerDead").attribute("name").as_string());
+	player_life_reward_fx = App->audio->LoadFx(node->child("fxPlayerLifeReward").attribute("name").as_string());
 
 	//read animation from node
 	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
@@ -102,6 +103,7 @@ Player::~Player()
 	LOG("Unloading player sound fx");
 	App->audio->UnLoadFx(player_jump_fx);
 	App->audio->UnLoadFx(player_dead_fx);
+	App->audio->UnLoadFx(player_life_reward_fx);
 
 	lives_implement_load = p_lives;
 	score_implement_load = score;
@@ -130,6 +132,11 @@ void Player::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 			god_mode = !god_mode;
+
+		if (score % 10 == 0 && score!= last_score)
+			App->audio->PlayFx(player_life_reward_fx);
+
+		last_score = score;
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump)
 		{

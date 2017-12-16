@@ -78,6 +78,7 @@ private:
 
 	p2Animation heart_reward_anim;
 	p2Animation coin_reward_anim;
+	p2Animation one_life_anim;
 
 	p2SString spritesheetName;
 
