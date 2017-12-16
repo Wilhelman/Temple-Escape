@@ -133,8 +133,11 @@ void Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 			god_mode = !god_mode;
 
-		if (score % 10 == 0 && score!= last_score)
+		if (score % 10 == 0 && score != last_score && App->entities->GetPlayer()->p_lives != 6)
+		{
+			App->entities->GetPlayer()->p_lives++;
 			App->audio->PlayFx(player_life_reward_fx);
+		}
 
 		last_score = score;
 

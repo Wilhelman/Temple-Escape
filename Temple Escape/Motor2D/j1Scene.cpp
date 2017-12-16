@@ -240,6 +240,8 @@ bool j1Scene::Update(float dt)
 	if (App->entities->GetPlayer()->p_lives == 0)
 		player_heart->invisible = true;
 
+	LOG("PLAYER LIVES: %i\n", App->entities->GetPlayer()->p_lives);
+
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
 
