@@ -10,6 +10,7 @@ struct Dictionary
 {
 	p2SString new_game_btn;
 	p2SString continue_btn;
+	p2SString credits_btn;
 	p2SString music_volume;
 	p2SString fx_volume;
 	p2SString cap_to;

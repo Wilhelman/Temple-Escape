@@ -65,6 +65,7 @@ private:
 	UIButton* fx_slider_btn = nullptr;
 	UIButton* language_right_btn = nullptr;
 	UIButton* language_left_btn = nullptr;
+	UIButton* credits_btn = nullptr;
 
 	UIImage* settings_menu = nullptr;
 
@@ -80,6 +81,7 @@ private:
 	UILabel* selected_language_lbl = nullptr;
 	UILabel* new_game_lbl = nullptr;
 	UILabel* continue_lbl = nullptr;
+	UILabel* credits_btn_lbl = nullptr;
 
 	UICheckBox* cap_checkbox = nullptr;
 

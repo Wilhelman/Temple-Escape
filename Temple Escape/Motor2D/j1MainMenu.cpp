@@ -99,6 +99,13 @@ bool j1MainMenu::Start()
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 
+	credits_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250 + 100, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
+	buttons.PushBack(credits_btn);
+	credits_btn_lbl = (UILabel*)App->ui->AddUILabel(25, 7, App->languages->GetDictionary().credits_btn, BLACK, 20, credits_btn);
+	credits_btn->button_lbl = credits_btn_lbl;
+	labels.PushBack(credits_btn_lbl);
+	credits_btn_lbl->interactable = false;
+
 	settings_btn = (UIButton*)App->ui->AddUIButton(300, 228 + 250, { 0,153,28,32 }, { 62,169,40,42 }, { 28,153,28,29 }, this);
 	buttons.PushBack(settings_btn);
 
@@ -106,7 +113,9 @@ bool j1MainMenu::Start()
 	buttons.PushBack(quit_game_btn);
 
 	pugi::xml_document	save_file;
-	if (App->LoadSave(save_file)) {
+
+	if (App->LoadSave(save_file)) 
+	{
 		continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 50 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 		buttons.PushBack(continue_btn);
 		continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
@@ -623,6 +632,7 @@ void j1MainMenu::ResetTextToLabels()
 {
 	new_game_lbl->SetText(App->languages->GetDictionary().new_game_btn);
 	continue_lbl->SetText(App->languages->GetDictionary().continue_btn);
+	credits_btn_lbl->SetText(App->languages->GetDictionary().credits_btn);
 	fx_volume_lbl->SetText(App->languages->GetDictionary().fx_volume);
 	music_volume_lbl->SetText(App->languages->GetDictionary().music_volume);
 	language_lbl->SetText(App->languages->GetDictionary().language_option);

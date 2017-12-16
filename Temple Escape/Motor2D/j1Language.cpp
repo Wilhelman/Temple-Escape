@@ -54,6 +54,7 @@ bool j1Language::Awake(pugi::xml_node& config)
 	dictionary.save_lan.create(node->child("save_lan").attribute("string").as_string());
 	dictionary.load_lan.create(node->child("load_lan").attribute("string").as_string());
 	dictionary.main_menu_lan.create(node->child("main_menu_lan").attribute("string").as_string());
+	dictionary.credits_btn.create(node->child("credits_btn").attribute("string").as_string());
 	
 	return ret;
 }
@@ -100,6 +101,8 @@ void j1Language::ChangeCurrentLanguage(p2SString new_language) {
 	dictionary.save_lan.create(node->child("save_lan").attribute("string").as_string());
 	dictionary.load_lan.create(node->child("load_lan").attribute("string").as_string());
 	dictionary.main_menu_lan.create(node->child("main_menu_lan").attribute("string").as_string());
+	dictionary.credits_btn.create(node->child("credits_btn").attribute("string").as_string());
+
 }
 
 Dictionary j1Language::GetDictionary() const 

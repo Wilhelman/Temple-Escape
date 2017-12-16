@@ -12,6 +12,7 @@
     <save_lan string="SAVE" />
     <load_lan string="LOAD" />
     <main_menu_lan string="MAIN MENU" />
+    <credits_btn string="CREDITS" />
 	</ENG>
 	
 	<CAT>
@@ -25,6 +26,7 @@
     <save_lan string="GUARDAR" />
     <load_lan string="CARREGAR" />
     <main_menu_lan string="MENU PRINCIPAL" />
+    <credits_btn string="CREDITS" />
 	</CAT>
 	
 	<ESP>
@@ -38,6 +40,7 @@
     <save_lan string="GUARDAR" />
     <load_lan string="CARGAR" />
     <main_menu_lan string="MENU PRINCIPAL" />
+    <credits_btn string="CREDITOS" />
 	</ESP>
 
   <KGN>
@@ -51,5 +54,6 @@
     <save_lan string="choq" />
     <load_lan string="load" />
     <main_menu_lan string="'elbogh HIDjolev" />
+    <credits_btn string="DEQ" />
   </KGN>
 </languages>
