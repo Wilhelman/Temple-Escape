@@ -39,6 +39,8 @@ General/developer controls:
 ## Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
+* Pause menu implmented.
+* You can change game language in settings: english, spanish, catalan and even klington if you don't belong to ur planet!
 
 ## Team members
 
