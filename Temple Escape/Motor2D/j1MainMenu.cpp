@@ -432,6 +432,15 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 							//settings_elements[i]->invisible = true;
 
 					}
+
+					/*eppp*/
+					pugi::xml_document	config_file;
+					pugi::xml_node* node = &App->LoadConfig(config_file); 
+					node->child("language").attribute("current").set_value(App->languages->current_language.GetString());
+					node->child("music").attribute("fx").set_value(fx_volume_slider->GetSliderValue());
+					node->child("music").attribute("music").set_value(music_volume_slider->GetSliderValue());
+
+					config_file.save_file("config.xml");
 				}
 				else if (tmpBtn == language_left_btn) {
 					for (int i = 0; i < App->languages->posible_languages.Count(); i++)

@@ -16,7 +16,7 @@
 			<fx pressed="audio/fx/pressed_btn.wav" released="audio/fx/released_btn.wav" hover="audio/fx/hover_btn.wav" />
 		</button>
 	</ui>
-	<language current="ENG" />
+	<language current="CAT" />
 	<window>
 		<resolution width="1024" height="768" scale="3" />
 		<fullscreen value="false" />
@@ -24,7 +24,7 @@
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 	</window>
-	<music>
+	<music fx="43" music="7">
 		<lvlMusic name="textures/source_spritesheet.png" />
 	</music>
 	<entities>
@@ -190,8 +190,8 @@
 		</spritesheetSource>
 		<main_menu />
 		<scene>
-			<data name="main_menu.tmx" start="true" currentLvl="false" />
-			<data name="lvl1.tmx" start="false" currentLvl="true" />
+			<data name="main_menu.tmx" start="true" currentLvl="true" />
+			<data name="lvl1.tmx" start="false" currentLvl="false" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
 			<animations>
 				<animation name="heart_reward_anim" speed="0.12" loop="true">
