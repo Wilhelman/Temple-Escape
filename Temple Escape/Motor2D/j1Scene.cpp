@@ -234,9 +234,11 @@ bool j1Scene::Update(float dt)
 		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x - 160, App->entities->GetPlayer()->position.y - 161, &one_life_anim.GetCurrentFrame());
 		player_heart->invisible = true;
 	}
-	else
+	else if(App->entities->GetPlayer()->p_lives > 1)
 		player_heart->invisible = false;
 
+	if (App->entities->GetPlayer()->p_lives == 0)
+		player_heart->invisible = true;
 
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
@@ -267,10 +269,6 @@ bool j1Scene::Update(float dt)
 			rewarded = false;
 		}
 	}
-	
-
-	if (App->entities->GetPlayer()->score == 1)
-		App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x - 155, App->entities->GetPlayer()->position.y - 161, &one_life_anim.GetCurrentFrame());
 
 	int m_x; int m_y;
 	App->input->GetMousePosition(m_x, m_y);
