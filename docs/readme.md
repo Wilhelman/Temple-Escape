@@ -80,10 +80,11 @@ General/developer controls:
 - START FROM THE VERY FIRST LEVEL: F1 key
 - START FROM THE BEGGINING OF THE CURRENT LEVEL: F2 key
 - SHOW COLLIDERS: F3
+- GOD_MODE (NO FLYING) = F4
 - SAVE GAME (player position and current level):  F5 key
 - LOAD GAME (player position and level saved): F6 key
 - UI DEBUG MODE: F8
-- GOD MODE: F10
+- GOD MODE (FLYING): F10
 - CAP FRAMERATE: F11
 
 ~~~~~~~~~~~~~~~
