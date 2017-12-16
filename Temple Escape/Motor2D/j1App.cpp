@@ -225,6 +225,19 @@ pugi::xml_node j1App::LoadLanguages(pugi::xml_document& language_file) const
 }
 
 // ---------------------------------------------
+bool j1App::LoadSave(pugi::xml_document& save_file) const
+{
+	bool ret = false;
+	pugi::xml_parse_result result = save_file.load_file("save_game");
+
+	if (result == NULL)
+		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
+	else
+		ret = true;
+	return ret;
+}
+
+// ---------------------------------------------
 void j1App::PrepareUpdate()
 {
 

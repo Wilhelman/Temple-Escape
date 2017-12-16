@@ -91,7 +91,6 @@ bool j1MainMenu::Start()
 	win_height /= App->win->GetScale();
 
 	// MAIN MENU BUTTONS
-	
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
@@ -106,13 +105,15 @@ bool j1MainMenu::Start()
 	quit_game_btn = (UIButton*)App->ui->AddUIButton(10, 228 + 250, { 0,105,28,32 }, { 61,122,40,42 }, { 28,105,28,29 }, this);
 	buttons.PushBack(quit_game_btn);
 
-	continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 50 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
-	buttons.PushBack(continue_btn);
-	continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
-	continue_btn->button_lbl = continue_lbl;
-	labels.PushBack(continue_lbl);
-	continue_lbl->interactable = false;
-
+	pugi::xml_document	save_file;
+	if (App->LoadSave(save_file)) {
+		continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 50 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
+		buttons.PushBack(continue_btn);
+		continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
+		continue_btn->button_lbl = continue_lbl;
+		labels.PushBack(continue_lbl);
+		continue_lbl->interactable = false;
+	}
 
 	// SETTINGS
 	int tmp_x = 0;
