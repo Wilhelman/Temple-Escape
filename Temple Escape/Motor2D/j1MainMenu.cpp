@@ -147,6 +147,9 @@ bool j1MainMenu::Start()
 	
 	// SLIDER SETTINGS
 
+	pugi::xml_document	config_file;
+	pugi::xml_node* node = &App->LoadConfig(config_file);
+
 	music_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 37 + 250, "0%%", GREY,10);
 	settings_elements.PushBack(music_volume_slider_lbl);
 	fx_volume_slider_lbl = (UILabel*)App->ui->AddUILabel(287, 87 + 250, "0%%", GREY,10);
@@ -158,6 +161,7 @@ bool j1MainMenu::Start()
 	music_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, music_volume_slider);
 	music_slider_btn->draggable = true;
 	music_volume_slider->SetSliderButtons(music_slider_btn);
+	music_volume_slider->SetSliderValueStart(node->child("music").attribute("music").as_int());
 	settings_elements.PushBack(music_slider_btn);
 
 	fx_volume_slider = (UISlider*)App->ui->AddUISlider(172, 100 + 250, { 0, 239, 130, 18 }, this);
@@ -166,6 +170,7 @@ bool j1MainMenu::Start()
 	fx_slider_btn = (UIButton*)App->ui->AddUIButton(50, 0, { 16,185,16,16 }, { 0,201,28,28 }, { 0,185,16,14 }, this, fx_volume_slider);
 	fx_slider_btn->draggable = true;
 	fx_volume_slider->SetSliderButtons(fx_slider_btn);
+	fx_volume_slider->SetSliderValueStart(node->child("music").attribute("fx").as_int());
 	settings_elements.PushBack(fx_slider_btn);
 
 	music_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 49 + 250, App->languages->GetDictionary().music_volume, BLACK,20);
@@ -433,7 +438,6 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 
 					}
 
-					/*eppp*/
 					pugi::xml_document	config_file;
 					pugi::xml_node* node = &App->LoadConfig(config_file); 
 					node->child("language").attribute("current").set_value(App->languages->current_language.GetString());

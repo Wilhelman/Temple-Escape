@@ -24,7 +24,11 @@ void UISlider::SetSliderButtons(UIButton * slider_btn)
 void UISlider::SetSliderValue(uint slider_btn_pos)
 {
 	slider_value = slider_btn_pos * 100 / (current_rect.w - slider_btn->GetRect().w);
+}
 
+void UISlider::SetSliderValueStart(int slider_value) {
+	slider_value = slider_value * 100 / (current_rect.w - slider_btn->GetRect().w);
+	this->slider_btn->SetLocalPosition((this->current_rect.w  + 2) * slider_value / 100, 0);
 }
 
 uint UISlider::GetSliderValue() const

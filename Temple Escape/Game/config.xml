@@ -24,7 +24,7 @@
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 	</window>
-	<music fx="43" music="7">
+	<music fx="99" music="48">
 		<lvlMusic name="textures/source_spritesheet.png" />
 	</music>
 	<entities>

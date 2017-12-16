@@ -19,6 +19,7 @@ public:
 
 	void SetSliderButtons(UIButton* slider_btn);
 	void SetSliderValue(uint slider_btn_pos);
+	void SetSliderValueStart(int slider_value);
 
 	uint GetSliderValue() const;
 	UIButton* GetSliderButton() const;
