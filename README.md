@@ -41,7 +41,7 @@ General/developer controls:
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
 * Pause menu impelmented.
-* You can change game language (dictionary read froma an xml file) in settings: english, spanish, catalan... and even klingon if you don't belong to our planet!
+* You can change game language (dictionary read from an xml file) in settings: english, spanish, catalan... and even klingon if you don't belong to our planet!
 
 ## Team members
 
@@ -92,4 +92,4 @@ Sound FX:
 	- 345299__scrampunk__okay by [Scrampunk](https://freesound.org/people/Scrampunk/)
 	
 Fonts:
-* Fonts can be found here: 
+* Font used can be found [here](http://tenbytwenty.com/?xxxx_posts=munro) 
