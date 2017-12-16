@@ -87,7 +87,7 @@ private:
 
 	int last_score = 0;
 	uint current_timer_scene = 0u;
-	uint anim_timer_scene = 0u;
+	uint coin_life_timer = 0u;
 
 	bool paused = false;
 	bool quit_btn_pressed = false;

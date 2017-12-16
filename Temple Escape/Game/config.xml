@@ -84,6 +84,12 @@
 				<animation name="left_shoot" speed="2.0" loop="true">
 					<frame x="64" y="147" width="14" height="14" />
 				</animation>
+				<animation name="dust_double_jump" speed="1.0" loop="false">
+					<frame x="1" y="129" width="28" height="11" />
+					<frame x="32" y="129" width="28" height="11" />
+					<frame x="63" y="129" width="28" height="11" />
+					<frame x="94" y="129" width="28" height="11" />
+				</animation>
 			</animations>
 		</player>
 		<bat>

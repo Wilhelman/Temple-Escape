@@ -251,14 +251,14 @@ bool j1Scene::Update(float dt)
 	if (App->entities->GetPlayer()->score > 0 && App->entities->GetPlayer()->score % 10 == 0 && last_score > 0 && last_score != App->entities->GetPlayer()->score)
 	{
 		rewarded = true;
-		anim_timer_scene = SDL_GetTicks();
+		coin_life_timer = SDL_GetTicks();
 	}
 
 	last_score = App->entities->GetPlayer()->score;
 
 	if (rewarded)
 	{
-		if (anim_timer_scene + 800 > current_timer_scene)
+		if (coin_life_timer + 800 > current_timer_scene)
 		{
 			App->render->Blit((SDL_Texture*)atlas_tex, App->entities->GetPlayer()->position.x + App->entities->GetPlayer()->current_frame.w / 2 - heart_reward_anim.GetCurrentFrame().w / 2, App->entities->GetPlayer()->position.y - App->entities->GetPlayer()->current_frame.h - heart_reward_anim.GetCurrentFrame().h, &heart_reward_anim.GetCurrentFrame());
 
