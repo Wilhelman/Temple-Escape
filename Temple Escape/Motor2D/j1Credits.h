@@ -49,7 +49,7 @@ public:
 public:
 
 private:
-	int scroll_speed = 5;
+	int scroll_speed = 2;
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;
 	p2DynArray<UIElement*> settings_elements;
