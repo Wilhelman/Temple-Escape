@@ -71,7 +71,8 @@ bool j1Credits::Start()
 	hold_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - hold_lbl->GetRect().w / 2, hold_lbl->GetLocalPosition().y);
 	hold_lbl->interactable = false;
 
-	UIImage* team_photo = (UIImage*)App->ui->AddUIImage(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, { 0,487,336,252 });
+	team_photo = (UIImage*)App->ui->AddUIImage(0, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, { 0,487,336,252 });
+	team_photo->interactable = false;
 
 	return ret;
 }
@@ -97,7 +98,7 @@ bool j1Credits::Update(float dt)
 		labels[i]->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed * holding_space);
 	}
 
-	team_photo->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed * holding_space);
+	team_photo->SetLocalPosition(team_photo->GetLocalPosition().x, team_photo->GetLocalPosition().y - scroll_speed * holding_space);
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 	{

@@ -56,7 +56,7 @@ private:
 
 	UILabel* hold_lbl = nullptr;
 	UILabel* licence_lbl = nullptr;
-
+	UIImage* team_photo = nullptr;
 };
 
 
