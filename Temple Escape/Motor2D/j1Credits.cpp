@@ -71,10 +71,10 @@ bool j1Credits::Start()
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
-	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 - 5, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
 	p2SString vmg;
-	vmg.create("Maso Garcia, Víctor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
+	vmg.create("Maso Garcia, Victor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
 
 	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 10 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
 	vmg_lbl->interactable = false;
