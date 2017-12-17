@@ -41,7 +41,7 @@ bool j1Credits::Start()
 {
 	bool ret = true;
 
-	if (!App->audio->PlayMusic("audio/music/arcade_funk.ogg"))
+	if (!App->audio->PlayMusic("audio/music/Visager_End_Credits.ogg"))
 	{
 		//ret = false;
 		LOG("Error playing music in j1Scene Start");
