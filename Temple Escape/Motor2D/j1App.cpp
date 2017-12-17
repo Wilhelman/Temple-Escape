@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "j1MainMenu.h"
 #include "j1Collider.h"
+#include "j1Credits.h"
 #include "j1Map.h"
 #include "j1Entities.h"
 #include "j1Particles.h"
@@ -40,6 +41,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	scene = new j1Scene();
 	main_menu = new j1MainMenu();
+	credits = new j1Credits();
 	collider = new j1Collider();
 	map = new j1Map();
 	languages = new j1Language();
@@ -63,6 +65,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(languages);
 	AddModule(main_menu);
+	AddModule(credits);
 	AddModule(entities);
 	AddModule(particles);
 	AddModule(font);
@@ -75,6 +78,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	//disable lvl scene
 	scene->active = false;
+	credits->active = false;
 
 	PERF_PEEK(ptimer);
 }
