@@ -132,7 +132,7 @@ bool j1MainMenu::Start()
 	int tmp_y = 0;
 	tmp_x = GetPointToCenter(293, 231, win_width, win_height).x;
 	tmp_y = GetPointToCenter(293, 231, win_width, win_height).y;
-	LOG("%i", tmp_y);
+
 	settings_menu = (UIImage*)App->ui->AddUIImage(tmp_x, tmp_y + 250, { 135, 0, 293, 231 }, this);
 	settings_elements.PushBack(settings_menu);
 
@@ -185,6 +185,8 @@ bool j1MainMenu::Start()
 	fx_volume_slider->SetSliderButtons(fx_slider_btn);
 	fx_volume_slider->SetSliderValueStart(node->child("music").attribute("fx").as_int());
 	settings_elements.PushBack(fx_slider_btn);
+
+	node = nullptr;
 
 	music_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 49 + 250, App->languages->GetDictionary().music_volume, BLACK,20);
 	settings_elements.PushBack(music_volume_lbl);
@@ -362,6 +364,35 @@ bool j1MainMenu::CleanUp()
 {
 	LOG("Freeing main_menu");
 	App->ui->DeleteAllUIElements();
+
+	new_game_btn = nullptr;
+	continue_btn = nullptr;
+	settings_btn = nullptr;
+	quit_game_btn = nullptr;
+	close_settings_btn = nullptr;
+	music_slider_btn = nullptr;
+	fx_slider_btn = nullptr;
+	language_right_btn = nullptr;
+	language_left_btn = nullptr;
+	credits_btn = nullptr;
+
+	settings_menu = nullptr;
+
+	music_volume_slider = nullptr;
+	fx_volume_slider = nullptr;
+
+	music_volume_slider_lbl = nullptr;
+	music_volume_lbl = nullptr;
+	fx_volume_slider_lbl = nullptr;
+	fx_volume_lbl = nullptr;
+	cap_lbl = nullptr;
+	language_lbl = nullptr;
+	selected_language_lbl = nullptr;
+	new_game_lbl = nullptr;
+	continue_lbl = nullptr;
+	credits_btn_lbl = nullptr;
+
+	cap_checkbox = nullptr;
 
 	for (int i = 0; i < buttons.Count(); i++)
 	{
