@@ -7,6 +7,7 @@
 #include "j1Render.h"
 #include "j1Window.h"
 #include "j1FadeToBlack.h"
+#include "j1MainMenu.h"
 #include "j1Credits.h"
 #include "j1UI.h"
 #include "j1Language.h"
@@ -64,7 +65,7 @@ bool j1Credits::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 	{
-		
+		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
 	}
 
 	return true;
