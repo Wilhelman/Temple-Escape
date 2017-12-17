@@ -162,7 +162,25 @@ bool j1Credits::CleanUp()
 {
 	LOG("Freeing j1Credits");
 	App->ui->DeleteAllUIElements();
+
+	hold_lbl = nullptr;
+	licence_lbl = nullptr;
+	team_lbl = nullptr;
+
+	git_ggs_btn = nullptr;
+	git_vmg_btn = nullptr;
+
+	for (int i = 0; i < labels.Count(); i++)
+	{
+		labels[i] = nullptr;
+	}
 	labels.Clear();
+
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		buttons[i] = nullptr;
+	}
+	buttons.Clear();
 
 	return true;
 }

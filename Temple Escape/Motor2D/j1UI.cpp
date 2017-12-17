@@ -74,12 +74,14 @@ bool j1UI::PostUpdate()
 
 	for (int i = ui_elements.Count() - 1; i >=0 ; i--) {
 		if (ui_elements[i]->to_destroy) {
-			delete(ui_elements[i]);
-			ui_elements[i] = nullptr;
+			
+			
 			if (!ui_elements.RemoveAt(i)) {
 				LOG("Error removing ui_element");
 				return false;
 			}
+			delete(ui_elements[i]);
+			ui_elements[i] = nullptr;
 		}
 	}
 
