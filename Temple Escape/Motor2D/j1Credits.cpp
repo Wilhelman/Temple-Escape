@@ -115,7 +115,7 @@ bool j1Credits::Update(float dt)
 	}
 
 	if (licence_lbl->GetLocalPosition().y - 50 < 0) {
-		hold_lbl->invisible = true;
+		hold_lbl->SetLocalPosition(hold_lbl->GetLocalPosition().x, hold_lbl->GetLocalPosition().y - scroll_speed * holding_space);
 	}
 
 	if (team_lbl->GetLocalPosition().y - 5 < 0) {
