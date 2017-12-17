@@ -24,17 +24,13 @@ UIButton::UIButton(int x, int y, UI_Type type, SDL_Rect normal_rect, SDL_Rect fo
 	btn_pressed = pressed_rect;
 	current_rect = normal_rect;
 
-	LOG("UIButton created in x:%i, y:%i", x, y);
+	//LOG("UIButton created in x:%i, y:%i", x, y);
 }
 
 UIButton::~UIButton()
 {
-	LOG("Freeing the button");
-
-	LOG("Unloading button sound fx");
 	App->audio->UnLoadFx(pressed_fx);
 	App->audio->UnLoadFx(released_fx);
-
 }
 
 void UIButton::UpdateButtonWithSelfRect(SDL_Rect self_rect)

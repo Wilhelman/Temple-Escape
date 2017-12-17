@@ -224,8 +224,6 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
-	
-
 	// TAB control
 
 	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {

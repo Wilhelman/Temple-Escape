@@ -80,8 +80,6 @@ bool j1UI::PostUpdate()
 				LOG("Error removing ui_element");
 				return false;
 			}
-			
-			
 		}
 	}
 	LOG("NUM ELEM: %i", ui_elements.Count());
