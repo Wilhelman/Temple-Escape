@@ -5,7 +5,7 @@ Project for Videogame Development subject. The main goal here is to create a sim
 This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).  
 
 * [Github repository](https://github.com/Wilhelman/Temple-Escape)  
-* [Website](https://nintervik.github.io/Temple-Escape/)
+* [Website](https://Wilhelman.github.io/Temple-Escape/)
 
 ## About the game
 Simple platformer with a temple-type theme featuring a yellow character. Equipped with a gun, he will have to reach the end of the level avoiding obstacles and killing enemies.
