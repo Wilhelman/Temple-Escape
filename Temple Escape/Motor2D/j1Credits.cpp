@@ -57,6 +57,12 @@ bool j1Credits::Start()
 	tmp_lbl->interactable = false;
 	labels.PushBack(tmp_lbl);
 
+	p2SString hold;
+	hold.create("Hold space to skip");
+
+	UILabel* hold_lbl = (UILabel*)App->ui->AddUILabel(0,0, hold, WHITE, 10);
+	hold_lbl->interactable = false;
+
 	return ret;
 }
 
@@ -70,9 +76,15 @@ bool j1Credits::PreUpdate()
 bool j1Credits::Update(float dt)
 {
 
+	int holding_space = 1;
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
+		holding_space = 2;
+	}
+
 	for (int i = 0; i < labels.Count(); i++)
 	{
-		labels[i]->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed);
+		labels[i]->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed * holding_space);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
