@@ -93,6 +93,8 @@ bool j1MainMenu::Start()
 
 	// MAIN MENU BUTTONS
 
+	//UILabel* press_space = (UILabel*)App->ui->AddUILabel(100, 100, App->languages->GetDictionary().new_game_btn, YELLOW, 20, 0);
+
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
 	new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, App->languages->GetDictionary().new_game_btn , BLACK, 20,0, new_game_btn);
@@ -361,8 +363,25 @@ bool j1MainMenu::CleanUp()
 	LOG("Freeing main_menu");
 	App->ui->DeleteAllUIElements();
 
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		buttons[i] = nullptr;
+	}
+
 	buttons.Clear();
+
+	for (int i = 0; i < labels.Count(); i++)
+	{
+		labels[i] = nullptr;
+	}
+
 	labels.Clear();
+
+	for (int i = 0; i < settings_elements.Count(); i++)
+	{
+		settings_elements[i] = nullptr;
+	}
+
 	settings_elements.Clear();
 
 	return true;
