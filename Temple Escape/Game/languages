@@ -2,6 +2,7 @@
 <languages>
 
 	<ENG>
+		<press_space string="Press SPACE to continue" />
 		<new_game_btn string="PLAY" />
 		<continue_btn string="CONTINUE" />
 		<music_volume string="Music volume" />
@@ -16,6 +17,7 @@
 	</ENG>
 	
 	<CAT>
+		<press_space string="Prem ESPAI per continuar" />
 		<new_game_btn string="JUGAR" />
 		<continue_btn string="CONTINUAR" />
 		<music_volume string="Volum musica" />
@@ -30,6 +32,7 @@
 	</CAT>
 	
 	<ESP>
+		<press_space string="Presiona ESPACIO para continuar" />
 		<new_game_btn string="JUGAR" />
 		<continue_btn string="CONTINUAR" />
 		<music_volume string="Volumen musica" />
@@ -44,6 +47,7 @@
 	</ESP>
 
 	  <KGN>
+		<press_space string="logh taH press" />
 		<new_game_btn string="chu'" />
 		<continue_btn string="taH" />
 		<music_volume string="muq QoQ" />

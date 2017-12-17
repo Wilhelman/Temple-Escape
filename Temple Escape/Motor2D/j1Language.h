@@ -8,6 +8,7 @@
 
 struct Dictionary 
 {
+	p2SString press_space_btn;
 	p2SString new_game_btn;
 	p2SString continue_btn;
 	p2SString credits_btn;

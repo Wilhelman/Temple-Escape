@@ -93,7 +93,7 @@ bool j1MainMenu::Start()
 
 	// MAIN MENU BUTTONS
 
-	press_space_lbl = (UILabel*)App->ui->AddUILabel(122, 216, "Press SPACE to continue" , YELLOW, 10, 0);
+	press_space_lbl = (UILabel*)App->ui->AddUILabel(122, 216, App->languages->GetDictionary().press_space_btn , YELLOW, 10, 0);
 	press_space_lbl->interactable = false;
 	press_space_lbl->invisible = false;
 
@@ -644,8 +644,10 @@ iPoint j1MainMenu::GetPointToCenter(int w_to_center, int h_to_center, int w_ref,
 
 void j1MainMenu::ResetTextToLabels() 
 {
+	press_space_lbl->SetText(App->languages->GetDictionary().press_space_btn);
 	new_game_lbl->SetText(App->languages->GetDictionary().new_game_btn);
-	continue_lbl->SetText(App->languages->GetDictionary().continue_btn);
+	if(continue_lbl != nullptr)
+		continue_lbl->SetText(App->languages->GetDictionary().continue_btn);
 	credits_btn_lbl->SetText(App->languages->GetDictionary().credits_btn);
 	fx_volume_lbl->SetText(App->languages->GetDictionary().fx_volume);
 	music_volume_lbl->SetText(App->languages->GetDictionary().music_volume);

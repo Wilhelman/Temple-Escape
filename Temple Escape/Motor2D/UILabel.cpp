@@ -51,6 +51,7 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 
 void UILabel::SetText(p2SString text) 
 {
+	
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 	this->text= text;

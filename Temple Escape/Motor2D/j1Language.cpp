@@ -44,6 +44,7 @@ bool j1Language::Awake(pugi::xml_node& config)
 
 	node = &node->child(current_language.GetString());
 
+	dictionary.press_space_btn.create(node->child("press_space").attribute("string").as_string());
 	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
 	dictionary.continue_btn.create(node->child("continue_btn").attribute("string").as_string());
 	dictionary.music_volume.create(node->child("music_volume").attribute("string").as_string());
@@ -91,6 +92,7 @@ void j1Language::ChangeCurrentLanguage(p2SString new_language) {
 
 	node = &node->child(current_language.GetString());
 
+	dictionary.press_space_btn.create(node->child("press_space").attribute("string").as_string());
 	dictionary.new_game_btn.create(node->child("new_game_btn").attribute("string").as_string());
 	dictionary.continue_btn.create(node->child("continue_btn").attribute("string").as_string());
 	dictionary.music_volume.create(node->child("music_volume").attribute("string").as_string());
