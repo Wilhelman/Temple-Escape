@@ -65,9 +65,9 @@ bool j1Credits::Start()
 	labels.PushBack(team_lbl);
 
 	p2SString ggs;
-	ggs.create("García Subirana, Guillermo’s responsability and Github account                             In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code");
+	ggs.create("Garcia Subirana, Guillermo's responsability and Github account                             In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code");
 
-	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, ggs, WHITE, 10, 200);
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, ggs, WHITE, 10, 100);
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 

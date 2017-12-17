@@ -43,7 +43,10 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 	uint width = 0, height = 0;
 	App->win->GetWindowSize(width, height);
 	current_rect.w = width / App->win->GetScale() - 100;
-	current_rect.h = 300;
+	if(boxWidth == 101)
+		current_rect.h = 150;
+	else
+		current_rect.h = 300;
 }
 
 void UILabel::SetText(p2SString text) 
