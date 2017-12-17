@@ -80,6 +80,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="j1Collider.cpp" />
+    <ClCompile Include="j1Credits.cpp" />
     <ClCompile Include="j1Entities.cpp" />
     <ClCompile Include="j1FadeToBlack.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="j1Collider.h" />
+    <ClInclude Include="j1Credits.h" />
     <ClInclude Include="j1Entities.h" />
     <ClInclude Include="j1FadeToBlack.h" />
     <ClInclude Include="j1Fonts.h" />
