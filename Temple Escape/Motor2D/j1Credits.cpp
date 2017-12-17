@@ -49,10 +49,10 @@ bool j1Credits::Start()
 	}
 	p2SString licence;
 	licence.create("MIT License                                      Copyright(c) 2017                                         Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files(the ''Software''), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions :                                                  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.                                                          THE SOFTWARE IS PROVIDED ''AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
-	
+
 	uint w, h;
 	App->win->GetWindowSize(w, h);
-	
+
 	licence_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale(), licence, WHITE, 10, 200);
 	licence_lbl->interactable = false;
 	labels.PushBack(licence_lbl);
@@ -67,28 +67,39 @@ bool j1Credits::Start()
 	p2SString ggs;
 	ggs.create("Garcia Subirana, Guillermo's responsability and Github account:                                                    In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code.");
 
-	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 30, ggs, WHITE, 10, 198);
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 40, ggs, WHITE, 10, 198);
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
-	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 - 5, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	<<<<<<< HEAD
+		git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 17, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	====== =
+		git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	>>>>>>> a427c914c980b5131e09bda2427d0e1f076d87a2
 
-	p2SString vmg;
-	vmg.create("Maso Garcia, Víctor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
+		p2SString vmg;
+	vmg.create("Maso Garcia, Victor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
 
-	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 10 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
+	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 30 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
 	vmg_lbl->interactable = false;
 	labels.PushBack(vmg_lbl);
 
-	git_vmg_btn = (UIButton*)App->ui->AddUIButton(10, vmg_lbl->GetLocalPosition().y + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	git_vmg_btn = (UIButton*)App->ui->AddUIButton(10, vmg_lbl->GetLocalPosition().y + 8, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
 
 	p2SString hold;
 	hold.create("Hold space to skip");
 
-	hold_lbl = (UILabel*)App->ui->AddUILabel(0,5, hold, WHITE, 10);
+	hold_lbl = (UILabel*)App->ui->AddUILabel(0, 5, hold, WHITE, 10);
 	hold_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - hold_lbl->GetRect().w / 2, hold_lbl->GetLocalPosition().y);
 	hold_lbl->interactable = false;
+
+	p2SString esc;
+	esc.create("ESC to return");
+
+	UILabel * esc_lbl = (UILabel*)App->ui->AddUILabel(0, 5, hold, WHITE, 10);
+	esc_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - esc_lbl->GetRect().w / 2, esc_lbl->GetLocalPosition().y);
+	esc_lbl->interactable = false;
 
 	return ret;
 }
@@ -111,7 +122,7 @@ bool j1Credits::Update(float dt)
 
 	if (credits_over)
 		holding_space = 0;
-	
+
 	for (int i = 0; i < labels.Count(); i++)
 	{
 		labels[i]->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed * holding_space);
@@ -125,11 +136,11 @@ bool j1Credits::Update(float dt)
 		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
 	}
 
-	if (licence_lbl->GetLocalPosition().y - 50 < 0) {
+	if (licence_lbl->GetLocalPosition().y - 20 < 0) {
 		hold_lbl->SetLocalPosition(hold_lbl->GetLocalPosition().x, hold_lbl->GetLocalPosition().y - scroll_speed * holding_space);
 	}
 
-	if (team_lbl->GetLocalPosition().y - 5 < 0) {
+	if (team_lbl->GetLocalPosition().y - 15 < 0) {
 		credits_over = true;
 	}
 
@@ -158,7 +169,7 @@ bool j1Credits::Load(pugi::xml_node& load)
 {
 	bool ret = true;
 
-	
+
 	return ret;
 }
 
@@ -182,7 +193,7 @@ void j1Credits::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 			tmpBtn->SetLocalPosition(tmpBtn->GetLocalPosition().x, tmpBtn->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
 			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
 			{
-				
+
 				if (tmpBtn == git_ggs_btn) {
 					ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/", NULL, NULL, SW_SHOWNORMAL);
 				}
