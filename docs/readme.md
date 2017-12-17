@@ -124,7 +124,7 @@ General/developer controls:
 
 ___
 
-> ### *Download the last version of the game [HERE]()*
+> ### *Download the last version of the game [HERE](https://github.com/nintervik/Temple-Escape/releases/tag/v1.0)*
 > ### *Check our Github repository [HERE](https://github.com/nintervik/Temple-Escape)*
 
 ***
