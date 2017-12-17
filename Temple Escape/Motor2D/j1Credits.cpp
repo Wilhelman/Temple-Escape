@@ -71,13 +71,9 @@ bool j1Credits::Start()
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
-	<<<<<<< HEAD
-		git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 17, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
-	====== =
-		git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
-	>>>>>>> a427c914c980b5131e09bda2427d0e1f076d87a2
+	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 17, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
-		p2SString vmg;
+	p2SString vmg;
 	vmg.create("Maso Garcia, Victor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
 
 	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 30 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
@@ -94,12 +90,12 @@ bool j1Credits::Start()
 	hold_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - hold_lbl->GetRect().w / 2, hold_lbl->GetLocalPosition().y);
 	hold_lbl->interactable = false;
 
-	p2SString esc;
+	/*p2SString esc;
 	esc.create("ESC to return");
 
 	UILabel * esc_lbl = (UILabel*)App->ui->AddUILabel(0, 5, hold, WHITE, 10);
 	esc_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - esc_lbl->GetRect().w / 2, esc_lbl->GetLocalPosition().y);
-	esc_lbl->interactable = false;
+	esc_lbl->interactable = false;*/
 
 	return ret;
 }
