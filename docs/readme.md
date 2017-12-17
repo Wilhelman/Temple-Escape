@@ -52,7 +52,7 @@ Animations, file paths, and levels are read and loaded through parsing xml files
 
 ## **Gameplay**
 ___
-<iframe width="740" height="590" src="https://youtu.be/isoApESpyFE" frameborder="0" allowfullscreen></iframe>
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/isoApESpyFE" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 
 ___
 ## **Installation instructions**
