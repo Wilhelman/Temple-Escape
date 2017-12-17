@@ -329,8 +329,6 @@ bool j1Scene::CleanUp()
 
 	paused = false;
 
-	App->tex->UnLoad((SDL_Texture*)atlas_tex);
-
 	return true;
 }
 

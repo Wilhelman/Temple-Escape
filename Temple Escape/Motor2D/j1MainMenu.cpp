@@ -224,47 +224,6 @@ bool j1MainMenu::PreUpdate()
 // Called each loop iteration
 bool j1MainMenu::Update(float dt)
 {
-	// TAB control
-
-	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {
-		bool isAnyButtonFocused = false;
-		for (int i = 0; i < buttons.Count(); i++)
-		{
-			if (buttons[i]->current_state == STATE_FOCUSED) {
-				isAnyButtonFocused = true;
-				buttons[i]->current_state = STATE_NORMAL;
-				buttons[i]->UpdateButtonWithSelfRect(buttons[i]->btn_normal);
-				buttons[i]->SetLocalPosition(buttons[i]->GetLocalPosition().x, buttons[i]->GetLocalPosition().y - BUTTON_PUSH_OFFSET);
-
-				if (i + 1 != buttons.Count()) { //is not the final button
-					buttons[i + 1]->current_state = STATE_FOCUSED;
-					buttons[i + 1]->UpdateButtonWithSelfRect(buttons[i]->btn_focused);
-					if (buttons[i + 1]->button_lbl != nullptr)
-						buttons[i + 1]->button_lbl->SetLocalPosition(buttons[i + 1]->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, buttons[i + 1]->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
-					buttons[i + 1]->SetLocalPosition(buttons[i + 1]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[i + 1]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
-				}
-				else {
-					buttons[0]->current_state = STATE_FOCUSED;
-					buttons[0]->UpdateButtonWithSelfRect(buttons[i]->btn_focused);
-					if (buttons[0]->button_lbl != nullptr)
-						buttons[0]->button_lbl->SetLocalPosition(buttons[0]->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, buttons[0]->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
-					buttons[0]->SetLocalPosition(buttons[0]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[0]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
-				}
-				break;
-			}
-
-		}
-
-		if (!isAnyButtonFocused && buttons.Count() > 0) 
-		{
-			buttons[0]->current_state = STATE_FOCUSED;
-			buttons[0]->UpdateButtonWithSelfRect(buttons[0]->btn_focused);
-			if (buttons[0]->button_lbl != nullptr)
-				buttons[0]->button_lbl->SetLocalPosition(buttons[0]->button_lbl->GetLocalPosition().x + BUTTON_HOVER_OFFSET, buttons[0]->button_lbl->GetLocalPosition().y + BUTTON_HOVER_OFFSET);
-			buttons[0]->SetLocalPosition(buttons[0]->GetLocalPosition().x - BUTTON_HOVER_OFFSET, buttons[0]->GetLocalPosition().y - BUTTON_HOVER_OFFSET);
-		}
-	}
-
 	// Sliders % control
 	if (music_volume_slider != nullptr && (music_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER && fx_volume_slider->GetSliderButton()->current_state != STATE_MOUSE_ENTER))
 	{
