@@ -42,6 +42,8 @@ bool j1Credits::Start()
 {
 	bool ret = true;
 
+	credits_over = false;
+
 	if (!App->audio->PlayMusic("audio/music/Visager_End_Credits.ogg"))
 	{
 		//ret = false;
@@ -72,6 +74,8 @@ bool j1Credits::Start()
 	labels.PushBack(ggs_lbl);
 
 	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 17, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	buttons.PushBack(git_ggs_btn);
+
 
 	p2SString vmg;
 	vmg.create("Maso Garcia, Victor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
@@ -81,7 +85,7 @@ bool j1Credits::Start()
 	labels.PushBack(vmg_lbl);
 
 	git_vmg_btn = (UIButton*)App->ui->AddUIButton(10, vmg_lbl->GetLocalPosition().y + 8, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
-
+	buttons.PushBack(git_vmg_btn);
 
 	p2SString hold;
 	hold.create("Hold space to skip");
@@ -158,6 +162,7 @@ bool j1Credits::CleanUp()
 {
 	LOG("Freeing j1Credits");
 	App->ui->DeleteAllUIElements();
+	labels.Clear();
 
 	return true;
 }

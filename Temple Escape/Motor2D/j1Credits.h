@@ -52,7 +52,6 @@ private:
 	int scroll_speed = 1;
 	p2DynArray<UIButton*> buttons;
 	p2DynArray<UILabel*> labels;
-	p2DynArray<UIElement*> settings_elements;
 
 	UILabel* hold_lbl = nullptr;
 	UILabel* licence_lbl = nullptr;
