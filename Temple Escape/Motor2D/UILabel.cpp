@@ -138,12 +138,3 @@ void UILabel::SetHourFromMs(uint time_in_ms)
 	current_rect.w = width;
 	current_rect.h = height;
 }
-
-p2SString UILabel::GetTextFromNum(int num) const
-{
-	std::string s = std::to_string(num);
-	p2SString to_ret;
-	to_ret.create(s.c_str());
-
-	return to_ret;
-}

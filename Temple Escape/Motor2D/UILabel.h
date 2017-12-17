@@ -20,7 +20,6 @@ public:
 	void SetText(p2SString text);
 	void SetTextFromNum(int value, bool withPercetage = false); 
 	void SetHourFromMs(uint time_in_ms);
-	p2SString GetTextFromNum(int num) const;
 
 public:
 	p2SString text;
