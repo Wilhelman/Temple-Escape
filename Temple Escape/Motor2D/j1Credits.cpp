@@ -67,9 +67,11 @@ bool j1Credits::Start()
 	p2SString ggs;
 	ggs.create("Garcia Subirana, Guillermo's responsability and Github account:                                                    In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code");
 
-	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 20, ggs, WHITE, 10, 198);
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 10, ggs, WHITE, 10, 198);
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
+
+	git_ggs_btn = (UIButton*)App->ui->AddUIButton(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
 	p2SString hold;
 	hold.create("Hold space to skip");
@@ -105,6 +107,8 @@ bool j1Credits::Update(float dt)
 		labels[i]->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed * holding_space);
 	}
 
+	git_ggs_btn->SetLocalPosition(git_ggs_btn->GetLocalPosition().x, git_ggs_btn->GetLocalPosition().y - scroll_speed * holding_space);
+
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 	{
 		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
@@ -114,7 +118,7 @@ bool j1Credits::Update(float dt)
 		hold_lbl->invisible = true;
 	}
 
-	if (team_lbl->GetLocalPosition().y - 50 < 0) {
+	if (team_lbl->GetLocalPosition().y - 5 < 0) {
 		credits_over = true;
 	}
 
@@ -168,6 +172,9 @@ void j1Credits::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 			if (tmpBtn->last_state == STATE_LEFT_MOUSE_PRESSED &&  App->fadeToBlack->FadeIsOver())
 			{
 				
+				if (tmpBtn == git_ggs_btn) {
+					ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/", NULL, NULL, SW_SHOWNORMAL);
+				}
 
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);

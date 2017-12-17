@@ -58,6 +58,8 @@ private:
 	UILabel* licence_lbl = nullptr;
 	UILabel* team_lbl = nullptr;
 
+	UIButton *git_ggs_btn = nullptr;
+
 	bool credits_over = false;
 };
 
