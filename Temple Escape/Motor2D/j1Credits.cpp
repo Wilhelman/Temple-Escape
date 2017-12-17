@@ -90,12 +90,13 @@ bool j1Credits::Start()
 	hold_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - hold_lbl->GetRect().w / 2, hold_lbl->GetLocalPosition().y);
 	hold_lbl->interactable = false;
 
-	/*p2SString esc;
+	p2SString esc;
 	esc.create("ESC to return");
 
-	UILabel * esc_lbl = (UILabel*)App->ui->AddUILabel(0, 5, hold, WHITE, 10);
-	esc_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - esc_lbl->GetRect().w / 2, esc_lbl->GetLocalPosition().y);
-	esc_lbl->interactable = false;*/
+	UILabel * esc_lbl = (UILabel*)App->ui->AddUILabel(0, 5, esc, WHITE, 10);
+	esc_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - esc_lbl->GetRect().w / 2, vmg_lbl->GetLocalPosition().y + vmg_lbl->GetRect().h + 20);
+	esc_lbl->interactable = false;
+	labels.PushBack(esc_lbl);
 
 	return ret;
 }
