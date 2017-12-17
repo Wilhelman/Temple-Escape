@@ -153,7 +153,7 @@
 	<particles>
 		<fxPlayerBasicShot name="audio/fx/player_basic_shot_fx.wav" />
 		<spritesheetSource name="textures/source_spritesheet.png">
-			<particle name="player_basic_shot" speed="10.0" life_time="3000">
+			<particle name="player_basic_shot" speed="3" life_time="3000">
 				<animation name="player_basic_shot_right" speed_x="60" speed_y="0.0" loop="true">
 					<frame x="4" y="83" width="9" height="5" />
 					<frame x="18" y="83" width="9" height="5" />
@@ -163,6 +163,12 @@
 					<frame x="34" y="115" width="9" height="5" />
 					<frame x="20" y="115" width="9" height="5" />
 					<frame x="4" y="115" width="9" height="5" />
+				</animation>
+				<animation name="player_jump_animation" speed_x="0.0" speed_y="0.0" loop="true">
+					<frame x="1" y="129" width="28" height="11" />
+					<frame x="32" y="129" width="28" height="11" />
+					<frame x="63" y="129" width="28" height="11" />
+					<frame x="94" y="129" width="28" height="11" />
 				</animation>
 			</particle>
 		</spritesheetSource>
@@ -196,10 +202,9 @@
 		</spritesheetSource>
 		<main_menu />
 		<scene>
-			<data name="main_menu.tmx" start="true" currentLvl="true" />
-			<data name="lvl1.tmx" start="false" currentLvl="false" />
+			<data name="main_menu.tmx" start="true" currentLvl="false" />
+			<data name="lvl1.tmx" start="false" currentLvl="true" />
 			<data name="lvl2.tmx" start="false" currentLvl="false" />
-			<data name="lvl3.tmx" start="false" currentLvl="false" />
 			<animations>
 				<animation name="heart_reward_anim" speed="0.12" loop="true">
 					<frame x="81" y="419" width="5" height="13" />
