@@ -57,6 +57,20 @@ bool j1Credits::Start()
 	licence_lbl->interactable = false;
 	labels.PushBack(licence_lbl);
 
+	p2SString the_team;
+	the_team.create("THE TEAM");
+
+	UILabel* team_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h, the_team, WHITE, 20);
+	team_lbl->interactable = false;
+	labels.PushBack(team_lbl);
+
+	p2SString ggs;
+	ggs.create("García Subirana, Guillermo’s responsability and Github account                             In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code");
+
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, ggs, WHITE, 10, 200);
+	ggs_lbl->interactable = false;
+	labels.PushBack(ggs_lbl);
+
 	p2SString hold;
 	hold.create("Hold space to skip");
 
