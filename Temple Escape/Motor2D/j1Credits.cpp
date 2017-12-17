@@ -44,10 +44,11 @@ bool j1Credits::Start()
 	if (!App->audio->PlayMusic("audio/music/Visager_End_Credits.ogg"))
 	{
 		//ret = false;
-		LOG("Error playing music in j1Scene Start");
+		LOG("Error playing music in j1Credits Start");
 	}
 
-	
+	(UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
+
 	return ret;
 }
 

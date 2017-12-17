@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "j1UI.h"
 #include "j1Language.h"
+#include "j1Credits.h"
 
 #include "UIImage.h"
 #include "UIButton.h"
@@ -487,6 +488,9 @@ void j1MainMenu::OnUITrigger(UIElement* elementTriggered, UI_State ui_state)
 						}
 					}
 					ResetTextToLabels();
+				}
+				else if (tmpBtn == credits_btn) {
+					App->fadeToBlack->FadeToBlackBetweenModules(this, App->credits, 1.0f);
 				}
 			}
 			tmpBtn->UpdateButtonWithSelfRect(tmpBtn->btn_normal);
