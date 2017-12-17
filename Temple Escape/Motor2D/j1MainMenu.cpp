@@ -95,14 +95,14 @@ bool j1MainMenu::Start()
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
-	new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, App->languages->GetDictionary().new_game_btn , BLACK, 20, new_game_btn);
+	new_game_lbl = (UILabel*)App->ui->AddUILabel(25,7, App->languages->GetDictionary().new_game_btn , BLACK, 20,0, new_game_btn);
 	new_game_btn->button_lbl = new_game_lbl;
 	labels.PushBack(new_game_lbl);
 	new_game_lbl->interactable = false;
 
 	credits_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250 + 100, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(credits_btn);
-	credits_btn_lbl = (UILabel*)App->ui->AddUILabel(25, 7, App->languages->GetDictionary().credits_btn, BLACK, 20, credits_btn);
+	credits_btn_lbl = (UILabel*)App->ui->AddUILabel(25, 7, App->languages->GetDictionary().credits_btn, BLACK, 20,0, credits_btn);
 	credits_btn->button_lbl = credits_btn_lbl;
 	labels.PushBack(credits_btn_lbl);
 	credits_btn_lbl->interactable = false;
@@ -119,7 +119,7 @@ bool j1MainMenu::Start()
 	{
 		continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 50 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 		buttons.PushBack(continue_btn);
-		continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
+		continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20,0, continue_btn);
 		continue_btn->button_lbl = continue_lbl;
 		labels.PushBack(continue_lbl);
 		continue_lbl->interactable = false;

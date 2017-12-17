@@ -100,31 +100,31 @@ bool j1Scene::Start()
 	continue_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 - 80, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(continue_btn);
 
-	continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20, continue_btn);
+	continue_lbl = (UILabel*)App->ui->AddUILabel(28, 7, App->languages->GetDictionary().continue_btn, BLACK, 20,0, continue_btn);
 	continue_btn->button_lbl = continue_lbl;
 	
 	save_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 - 40, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(save_game_btn);
 
-	save_game_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().save_lan, BLACK, 20, save_game_btn);
+	save_game_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().save_lan, BLACK, 20,0, save_game_btn);
 	save_game_btn->button_lbl = save_game_lbl;
 
 	load_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(load_game_btn);
 
-	load_game_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().load_lan, BLACK, 20, load_game_btn);
+	load_game_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().load_lan, BLACK, 20,0, load_game_btn);
 	load_game_btn->button_lbl = load_game_lbl;
 	
 	main_menu_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 40, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this, pause_menu);
 	buttons.PushBack(main_menu_btn);
 
-	main_menu_lbl = (UILabel*)App->ui->AddUILabel(20, 7, App->languages->GetDictionary().main_menu_lan, BLACK, 20, main_menu_btn);
+	main_menu_lbl = (UILabel*)App->ui->AddUILabel(20, 7, App->languages->GetDictionary().main_menu_lan, BLACK, 20,0, main_menu_btn);
 	main_menu_btn->button_lbl = main_menu_lbl;
 
 	quit_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 16 + 80, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this,pause_menu);
 	buttons.PushBack(quit_btn);
 
-	quit_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().quit_lan, BLACK, 20, quit_btn);
+	quit_lbl = (UILabel*)App->ui->AddUILabel(43, 7, App->languages->GetDictionary().quit_lan, BLACK, 20,0, quit_btn);
 	quit_btn->button_lbl = quit_lbl;
 
 timer_scene_lbl = (UILabel*)App->ui->AddUILabel(150, 7, "00 : 00 : 00", WHITE, 20);

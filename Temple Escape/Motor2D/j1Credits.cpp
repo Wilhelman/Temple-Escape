@@ -47,8 +47,10 @@ bool j1Credits::Start()
 		//ret = false;
 		LOG("Error playing music in j1Credits Start");
 	}
-
-	(UILabel*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
+	p2SString licence;
+	licence.create("aaaaaaadSDASD ASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSA ASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSAASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSAASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSAASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSA");
+	UILabel* tmp_lbl = (UILabel*)App->ui->AddUILabel(43, 7, licence, YELLOW, 300, 10);
+	tmp_lbl->interactable = false;
 
 	return ret;
 }
