@@ -16,6 +16,7 @@ private:
 	int time_counter = 0;
 public:
 	UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, UIElement* parent = nullptr);
+	UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, uint32 boxWidth, UIElement* parent = nullptr);
 	void SetText(p2SString text);
 	void SetTextFromNum(int value, bool withPercetage = false); 
 	void SetHourFromMs(uint time_in_ms);

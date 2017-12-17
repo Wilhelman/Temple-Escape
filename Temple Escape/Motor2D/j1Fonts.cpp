@@ -102,6 +102,28 @@ SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font, i
 	return ret;
 }
 
+// Print textBox using font
+SDL_Texture* j1Fonts::PrintTextBox(const char* text, SDL_Color color, _TTF_Font* font, Uint32 box_width, int size)
+{
+	SDL_Texture* ret = NULL;
+	default = Load(path, size);
+
+	SDL_Surface* surface = TTF_RenderText_Blended_Wrapped((font) ? font : default, text, color, box_width);
+	SDL_SetSurfaceAlphaMod(surface, color.a);
+
+	if (surface == NULL)
+	{
+		LOG("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else
+	{
+		ret = App->tex->LoadSurface(surface);
+		SDL_FreeSurface(surface);
+	}
+
+	return ret;
+}
+
 // calculate size of a text
 bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* font) const
 {

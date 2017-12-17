@@ -24,6 +24,27 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 	current_rect.h = height;
 }
 
+UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, uint32 boxWidth, UIElement* parent) : UIElement(x, y, type, parent)
+{
+	this->text = text;
+	this->text_color = color;
+	this->size = size;
+
+	if (color == YELLOW)
+		texture = App->font->PrintTextBox(text.GetString(), { 254, 203, 0, 255 }, App->font->default, boxWidth, size);
+	else if (color == GREY)
+		texture = App->font->PrintTextBox(text.GetString(), { 134, 136, 138, 255 }, App->font->default, boxWidth, size);
+	else if (color == BLACK)
+		texture = App->font->PrintTextBox(text.GetString(), { 0, 0, 0, 255 }, App->font->default, boxWidth, size);
+	else if (color == WHITE)
+		texture = App->font->PrintTextBox(text.GetString(), { 255, 255, 255, 255 }, App->font->default, boxWidth, size);
+
+	int width = 0, height = 0;
+	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
+	current_rect.w = width;
+	current_rect.h = height;
+}
+
 void UILabel::SetText(p2SString text) 
 {
 	App->tex->UnLoad(texture);
