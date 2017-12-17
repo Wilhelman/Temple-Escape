@@ -54,6 +54,9 @@ private:
 	p2DynArray<UILabel*> labels;
 	p2DynArray<UIElement*> settings_elements;
 
+	UILabel* hold_lbl = nullptr;
+	UILabel* licence_lbl = nullptr;
+
 };
 
 

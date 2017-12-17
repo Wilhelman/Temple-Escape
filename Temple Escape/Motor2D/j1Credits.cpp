@@ -53,14 +53,15 @@ bool j1Credits::Start()
 	uint w, h;
 	App->win->GetWindowSize(w, h);
 	
-	UILabel* tmp_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale(), licence, WHITE, 10, 200);
-	tmp_lbl->interactable = false;
-	labels.PushBack(tmp_lbl);
+	licence_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale(), licence, WHITE, 10, 200);
+	licence_lbl->interactable = false;
+	labels.PushBack(licence_lbl);
 
 	p2SString hold;
 	hold.create("Hold space to skip");
 
-	UILabel* hold_lbl = (UILabel*)App->ui->AddUILabel(0,0, hold, WHITE, 10);
+	hold_lbl = (UILabel*)App->ui->AddUILabel(0,5, hold, WHITE, 10);
+	hold_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - hold_lbl->GetRect().w / 2, hold_lbl->GetLocalPosition().y);
 	hold_lbl->interactable = false;
 
 	return ret;
@@ -79,7 +80,7 @@ bool j1Credits::Update(float dt)
 	int holding_space = 1;
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
-		holding_space = 2;
+		holding_space = 4;
 	}
 
 	for (int i = 0; i < labels.Count(); i++)
@@ -90,6 +91,10 @@ bool j1Credits::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 	{
 		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
+	}
+
+	if (licence_lbl->GetLocalPosition().y - 50 < 0) {
+		hold_lbl->invisible = true;
 	}
 
 	return true;
