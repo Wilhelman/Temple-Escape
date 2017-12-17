@@ -20,7 +20,7 @@ void j1Timer::Start()
 // ---------------------------------------------
 
 void j1Timer::SetStartTime(int time) {
-	started_at = time;
+	started_at = started_at + time;
 }
 
 // ---------------------------------------------

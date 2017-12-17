@@ -151,6 +151,8 @@ public:
 
 	bool Save(pugi::xml_node&) const;
 
+	void ResetData();
+
 };
 
 #endif

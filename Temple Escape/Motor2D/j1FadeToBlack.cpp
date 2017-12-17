@@ -58,6 +58,9 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
+			if (moduleOn != nullptr) {
+				App->entities->GetPlayer()->ResetData();
+			}
 			if (moduleOn == (j1Module*)App->credits) {
 				if (moduleOn != nullptr && moduleOff != nullptr) {
 					this->moduleOff->CleanUp();

@@ -112,7 +112,7 @@ Player::~Player()
 // Called each loop iteration
 void Player::Update(float dt)
 {
-	if (player_appeared == false)
+	if (player_appeared == false && time_implement_load != 0)
 	{
 		real_timer.Start();
 		player_appeared = true;
@@ -694,6 +694,7 @@ void Player::ImplementLoad()
 	timer = time_implement_load;
 	position.x = position_implement_load.x;
 	position.y = position_implement_load.y;
+	real_timer.Start();
 	real_timer.SetStartTime(timer);
 }
 
@@ -728,6 +729,13 @@ bool Player::Save(pugi::xml_node& save) const
 	}
 
 	return ret;
+}
+
+void Player::ResetData()
+{
+	lives_implement_load = 0;
+	score_implement_load = 0;
+	time_implement_load = 0;
 }
 
 void Player::SetEntitiesSpeed(float dt) 
