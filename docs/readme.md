@@ -15,7 +15,7 @@ Simple platformer with a temple-type theme featuring a yellow character. Equippe
 
 _García Subirana, Guillermo's responsability and Github account_
 
-* In charge of all code related to save and load, fade between modules, and other parts of code.
+* In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code.
 * [Github account](https://github.com/Wilhelman)
 
 _Masó Garcia, Víctor's responsability and Github account_
