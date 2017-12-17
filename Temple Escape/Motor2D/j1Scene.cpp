@@ -240,7 +240,7 @@ bool j1Scene::Update(float dt)
 	if (App->entities->GetPlayer()->p_lives == 0)
 		player_heart->invisible = true;
 
-	LOG("PLAYER LIVES: %i\n", App->entities->GetPlayer()->p_lives);
+	//LOG("PLAYER LIVES: %i\n", App->entities->GetPlayer()->p_lives);
 
 	if (App->entities->GetPlayer()->score > 0)
 		score_lbl->SetTextFromNum(App->entities->GetPlayer()->score);
@@ -314,7 +314,15 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 	App->ui->DeleteAllUIElements();
 
+	for (int i = 0; i < buttons.Count(); i++)
+	{
+		buttons[i] = nullptr;
+	}
 	buttons.Clear();
+	for (int i = 0; i < hud_elements.Count(); i++)
+	{
+		hud_elements[i] = nullptr;
+	}
 	hud_elements.Clear();
 
 	paused = false;

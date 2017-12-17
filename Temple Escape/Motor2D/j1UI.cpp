@@ -82,7 +82,7 @@ bool j1UI::PostUpdate()
 			}
 		}
 	}
-	LOG("NUM ELEM: %i", ui_elements.Count());
+	//LOG("NUM ELEM: %i", ui_elements.Count());
 	return true;
 }
 

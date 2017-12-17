@@ -116,6 +116,7 @@ void Player::Update(float dt)
 	{
 		real_timer.Start();
 		player_appeared = true;
+		real_timer.SetStartTime(timer);
 	}
 
 	timer = real_timer.Read();
