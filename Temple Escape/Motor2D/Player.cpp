@@ -81,7 +81,7 @@ Player::Player(int x, int y) : Entity(x, y) {
 	this->position.y = spawnPos.y;
 
 	animation = &right_idle;
-	real_timer.SetStartTime(timer);
+	LOG("TIMER: %i",timer);
 }
 
 void Player::LoadAnimation(pugi::xml_node animation_node, p2Animation* animation) 
@@ -112,11 +112,13 @@ Player::~Player()
 // Called each loop iteration
 void Player::Update(float dt)
 {
-	if (player_appeared == false && time_implement_load != 0)
+	if (player_appeared == false)
 	{
 		real_timer.Start();
 		player_appeared = true;
-		real_timer.SetStartTime(time_implement_load);
+		real_timer.SetStartTime(-time_implement_load);
+		timer = real_timer.Read();
+		LOG("TIMER: %i", timer);
 	}
 
 	timer = real_timer.Read();
@@ -678,10 +680,14 @@ bool Player::Load(pugi::xml_node& load)
 	else {
 		p_lives = lives_implement_load;
 		score = score_implement_load;
-		timer = time_implement_load;
 		position.x = position_implement_load.x;
 		position.y = position_implement_load.y;
-		real_timer.SetStartTime(timer);
+
+		real_timer.Start();
+		player_appeared = true;
+		real_timer.SetStartTime(-time_implement_load);
+		timer = real_timer.Read();
+		LOG("TIMER: %i", timer);
 	}
 
 	return ret;
@@ -691,11 +697,14 @@ void Player::ImplementLoad()
 {
 	p_lives = lives_implement_load;
 	score = score_implement_load;
-	timer = time_implement_load;
 	position.x = position_implement_load.x;
 	position.y = position_implement_load.y;
+	
 	real_timer.Start();
-	real_timer.SetStartTime(timer);
+	player_appeared = true;
+	real_timer.SetStartTime(-time_implement_load);
+	timer = real_timer.Read();
+	LOG("TIMER: %i", timer);
 }
 
 bool Player::Save(pugi::xml_node& save) const
