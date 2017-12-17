@@ -12,7 +12,7 @@ UISlider::UISlider(int x, int y, UI_Type type, SDL_Rect slider_rect, j1Module* c
 	this->slider_rect = slider_rect;
 	current_rect = slider_rect;
 
-	LOG("UIButton created in x:%i, y:%i", x, y);
+	//LOG("UIButton created in x:%i, y:%i", x, y);
 }
 
 

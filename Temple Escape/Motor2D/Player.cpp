@@ -116,7 +116,7 @@ void Player::Update(float dt)
 	{
 		real_timer.Start();
 		player_appeared = true;
-		real_timer.SetStartTime(timer);
+		real_timer.SetStartTime(time_implement_load);
 	}
 
 	timer = real_timer.Read();
@@ -694,6 +694,7 @@ void Player::ImplementLoad()
 	timer = time_implement_load;
 	position.x = position_implement_load.x;
 	position.y = position_implement_load.y;
+	real_timer.SetStartTime(timer);
 }
 
 bool Player::Save(pugi::xml_node& save) const

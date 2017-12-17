@@ -17,17 +17,26 @@
 	</main_menu>
 	<credits />
 	<entities>
+		<coin>
+			<position x="272" y="528" />
+		</coin>
+		<coin>
+			<position x="288" y="528" />
+		</coin>
+		<coin>
+			<position x="304" y="528" />
+		</coin>
 		<bat>
-			<position x="443.760437" y="464" />
+			<position x="475.753906" y="464" />
 		</bat>
 		<coin>
 			<position x="448" y="496" />
 		</coin>
 		<slime>
-			<position x="567" y="496" />
+			<position x="592" y="496" />
 		</slime>
 		<bat>
-			<position x="555.757629" y="480" />
+			<position x="587.75531" y="480" />
 		</bat>
 		<coin>
 			<position x="704" y="528" />
@@ -36,16 +45,16 @@
 			<position x="720" y="528" />
 		</coin>
 		<slime>
-			<position x="847" y="464" />
+			<position x="863" y="464" />
 		</slime>
 		<coin>
 			<position x="912" y="400" />
 		</coin>
 		<bat>
-			<position x="923.757629" y="384" />
+			<position x="955.75531" y="384" />
 		</bat>
 		<bat>
-			<position x="971.757629" y="416" />
+			<position x="1003.75531" y="416" />
 		</bat>
 		<coin>
 			<position x="992" y="464" />
@@ -57,8 +66,8 @@
 			<position x="1056" y="512" />
 		</coin>
 		<player>
-			<position x="312" y="544" />
-			<info lives="3" score="3" time="14544" />
+			<position x="236" y="544" />
+			<info lives="3" score="0" time="23597" />
 		</player>
 	</entities>
 	<particles />
