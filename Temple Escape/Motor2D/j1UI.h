@@ -74,7 +74,7 @@ public:
 
 	UIElement* AddUIImage(int position_x, int position_y, SDL_Rect rect, j1Module* callback = nullptr, UIElement* parent = nullptr);
 	UIElement* AddUIButton(int position_x, int position_y, SDL_Rect normal_rect,SDL_Rect focused_rect,SDL_Rect pressed_rect ,j1Module* callback = nullptr, UIElement* parent = nullptr);
-	UIElement* AddUILabel(int position_x, int position_y, p2SString text, Color color = COLOR_NOT_DEF, int size = 20, UIElement* parent = nullptr);
+	UIElement* AddUILabel(int position_x, int position_y, p2SString text, Color color = COLOR_NOT_DEF, int size = 20,uint32 box_width = 0, UIElement* parent = nullptr);
 	UIElement* AddUISlider(int position_x, int position_y, SDL_Rect slider_rect, j1Module* callback = nullptr, UIElement* parent = nullptr);
 	UIElement* AddUICheckBox(int x, int y, SDL_Rect cb_tick_normal, SDL_Rect cb_no_tick_normal, SDL_Rect cb_tick_pressed, SDL_Rect cb_no_tick_pressed, SDL_Rect cb_tick_focus, SDL_Rect cb_no_tick_focus, j1Module* callback, UIElement* parent = nullptr);
 	UIElement* GetElementUnderMouse(int x, int y);

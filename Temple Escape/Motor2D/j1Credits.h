@@ -46,13 +46,7 @@ public:
 
 	void OnUITrigger(UIElement* elementTriggered, UI_State ui_state);
 
-	iPoint GetPointToCenter(int w_to_center, int h_to_center, int w_ref, int h_ref);
-
-	void ResetTextToLabels();
-
 public:
-	bool move_camera = false;
-	bool capped_checkbox = false;
 
 private:
 

@@ -144,9 +144,6 @@ UIElement* j1UI::AddUIImage(int position_x, int position_y, SDL_Rect rect, j1Mod
 	UIElement* tmp_img = new UIImage(position_x, position_y, IMAGE, rect, callback, parent);
 	ui_elements.PushBack(tmp_img);
 	return tmp_img;
-
-	LOG("Error: Cant add the UIImage");
-	return nullptr;
 }
 
 UIElement* j1UI::AddUIButton(int position_x, int position_y, SDL_Rect normal_rect, SDL_Rect focused_rect, SDL_Rect pressed_rect, j1Module* callback, UIElement* parent) {
@@ -154,19 +151,15 @@ UIElement* j1UI::AddUIButton(int position_x, int position_y, SDL_Rect normal_rec
 	UIElement* tmpBtn = new UIButton(position_x, position_y, BUTTON, normal_rect,focused_rect,pressed_rect, callback, parent);
 	ui_elements.PushBack(tmpBtn);
 	return tmpBtn;
-
-	LOG("Error: Cant add the UIButton");
-	return nullptr;
 }
 
-UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, int size, UIElement* parent) {
-
-	UIElement* tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, size, parent);
+UIElement* j1UI::AddUILabel(int position_x, int position_y, p2SString text, Color color, int size, uint32 box_width, UIElement* parent) {
+	UIElement* tmp_lbl = nullptr;
+	(box_width == 0) ?
+		tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, size, parent) :
+		tmp_lbl = new UILabel(position_x, position_y, LABEL, text, color, size,box_width, parent);
 	ui_elements.PushBack(tmp_lbl);
 	return tmp_lbl;
-	
-	LOG("Error: Cant add the UILabel");
-	return nullptr;
 }
 
 UIElement * j1UI::AddUISlider(int position_x, int position_y, SDL_Rect slider_rect, j1Module * callback, UIElement * parent)
@@ -174,9 +167,6 @@ UIElement * j1UI::AddUISlider(int position_x, int position_y, SDL_Rect slider_re
 	UIElement* tmp_sldr = new UISlider(position_x, position_y, SLIDER, slider_rect, callback, parent);
 	ui_elements.PushBack(tmp_sldr);
 	return tmp_sldr;
-
-	LOG("Error: Cant add the UIButton");
-	return nullptr;
 }
 
 UIElement * j1UI::AddUICheckBox(int x, int y, SDL_Rect cb_tick_normal, SDL_Rect cb_no_tick_normal, SDL_Rect cb_tick_pressed, SDL_Rect cb_no_tick_pressed, SDL_Rect cb_tick_focus, SDL_Rect cb_no_tick_focus, j1Module * callback, UIElement * parent)
@@ -184,10 +174,6 @@ UIElement * j1UI::AddUICheckBox(int x, int y, SDL_Rect cb_tick_normal, SDL_Rect 
 	UIElement* tmpCb = new UICheckBox(x, y, CHECK_BOX, cb_tick_normal, cb_no_tick_normal, cb_tick_pressed, cb_no_tick_pressed, cb_tick_focus, cb_no_tick_focus, callback, parent);
 	ui_elements.PushBack(tmpCb);
 	return tmpCb;
-
-	LOG("Error: Cant add the UICheckBox");
-
-	return nullptr;
 }
 
 UIElement* j1UI::GetElementUnderMouse(int x, int y)

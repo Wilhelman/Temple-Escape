@@ -48,7 +48,7 @@ bool j1Credits::Start()
 		LOG("Error playing music in j1Credits Start");
 	}
 
-	(UIImage*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
+	(UILabel*)App->ui->AddUIImage(0, 0, { 135, 231, 342, 256 }, this);
 
 	return ret;
 }
