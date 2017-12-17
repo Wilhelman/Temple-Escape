@@ -62,6 +62,7 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 	for (item = fonts.start; item != NULL; item = item->next)
 	{
 		TTF_CloseFont(item->data);
+		item->data = nullptr;
 	}
 
 	fonts.clear();
