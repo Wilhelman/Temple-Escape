@@ -67,20 +67,20 @@ bool j1Credits::Start()
 	p2SString ggs;
 	ggs.create("Garcia Subirana, Guillermo's responsability and Github account:                                                    In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code.");
 
-	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 30, ggs, WHITE, 10, 198);
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 40, ggs, WHITE, 10, 198);
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
-	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 - 5, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 17, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
 	p2SString vmg;
-	vmg.create("Maso Garcia, Víctor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
+	vmg.create("Maso Garcia, Victor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
 
-	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 10 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
+	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 30 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
 	vmg_lbl->interactable = false;
 	labels.PushBack(vmg_lbl);
 
-	git_vmg_btn = (UIButton*)App->ui->AddUIButton(10, vmg_lbl->GetLocalPosition().y + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	git_vmg_btn = (UIButton*)App->ui->AddUIButton(10, vmg_lbl->GetLocalPosition().y + 8, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
 
 	p2SString hold;
@@ -125,11 +125,11 @@ bool j1Credits::Update(float dt)
 		App->fadeToBlack->FadeToBlackBetweenModules(this, App->main_menu, 1.0f);
 	}
 
-	if (licence_lbl->GetLocalPosition().y - 50 < 0) {
+	if (licence_lbl->GetLocalPosition().y - 20 < 0) {
 		hold_lbl->SetLocalPosition(hold_lbl->GetLocalPosition().x, hold_lbl->GetLocalPosition().y - scroll_speed * holding_space);
 	}
 
-	if (team_lbl->GetLocalPosition().y - 5 < 0) {
+	if (team_lbl->GetLocalPosition().y - 15 < 0) {
 		credits_over = true;
 	}
 
