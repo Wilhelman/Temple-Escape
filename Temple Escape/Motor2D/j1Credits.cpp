@@ -60,18 +60,28 @@ bool j1Credits::Start()
 	p2SString the_team;
 	the_team.create("THE TEAM");
 
-	team_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h, the_team, WHITE, 20);
+	team_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + 20, the_team, WHITE, 20);
 	team_lbl->interactable = false;
 	labels.PushBack(team_lbl);
 
 	p2SString ggs;
-	ggs.create("Garcia Subirana, Guillermo's responsability and Github account:                                                    In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code");
+	ggs.create("Garcia Subirana, Guillermo's responsability and Github account:                                                    In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code.");
 
-	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 10, ggs, WHITE, 10, 198);
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 30, ggs, WHITE, 10, 198);
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
-	git_ggs_btn = (UIButton*)App->ui->AddUIButton(2, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	git_ggs_btn = (UIButton*)App->ui->AddUIButton(10, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 - 5, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+
+	p2SString vmg;
+	vmg.create("Maso Garcia, Víctor's responsability and Github account:                                                         Management of all tasks / team organization. In charge of sprites and audio and some modules of code.");
+
+	UILabel* vmg_lbl = (UILabel*)App->ui->AddUILabel(50, ggs_lbl->GetLocalPosition().y + 10 + ggs_lbl->GetRect().h + 10, vmg, WHITE, 10, 198);
+	vmg_lbl->interactable = false;
+	labels.PushBack(vmg_lbl);
+
+	git_vmg_btn = (UIButton*)App->ui->AddUIButton(10, vmg_lbl->GetLocalPosition().y + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+
 
 	p2SString hold;
 	hold.create("Hold space to skip");
@@ -108,6 +118,7 @@ bool j1Credits::Update(float dt)
 	}
 
 	git_ggs_btn->SetLocalPosition(git_ggs_btn->GetLocalPosition().x, git_ggs_btn->GetLocalPosition().y - scroll_speed * holding_space);
+	git_vmg_btn->SetLocalPosition(git_vmg_btn->GetLocalPosition().x, git_vmg_btn->GetLocalPosition().y - scroll_speed * holding_space);
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 	{
@@ -174,6 +185,9 @@ void j1Credits::OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {
 				
 				if (tmpBtn == git_ggs_btn) {
 					ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/", NULL, NULL, SW_SHOWNORMAL);
+				}
+				else if (tmpBtn == git_vmg_btn) {
+					ShellExecute(GetActiveWindow(), "open", "https://github.com/nintervik", NULL, NULL, SW_SHOWNORMAL);
 				}
 
 			}
