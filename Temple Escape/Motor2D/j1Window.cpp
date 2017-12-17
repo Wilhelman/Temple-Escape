@@ -31,6 +31,8 @@ bool j1Window::Awake(pugi::xml_node& config)
 	}
 	else
 	{
+		iconExe = SDL_LoadBMP("textures/icon.bmp");
+
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
 		bool fullscreen = config.child("fullscreen").attribute("value").as_bool(false);
@@ -64,7 +66,9 @@ bool j1Window::Awake(pugi::xml_node& config)
 
 		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-		if(window == NULL)
+		SDL_SetWindowIcon(window, iconExe);
+		
+		if (window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -86,9 +90,10 @@ bool j1Window::CleanUp()
 
 	//Destroy window
 	if(window != NULL)
-	{
 		SDL_DestroyWindow(window);
-	}
+	
+	if (iconExe != NULL)
+		SDL_FreeSurface(iconExe);
 
 	//Quit SDL subsystems
 	SDL_Quit();

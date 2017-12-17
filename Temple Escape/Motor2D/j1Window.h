@@ -37,6 +37,8 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface = nullptr;
 
+	SDL_Surface* iconExe = nullptr;
+
 private:
 	p2SString	title;
 	uint		width = 0u;
