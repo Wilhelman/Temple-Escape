@@ -71,7 +71,7 @@ bool j1Credits::Start()
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
-	git_ggs_btn = (UIButton*)App->ui->AddUIButton(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
+	git_ggs_btn = (UIButton*)App->ui->AddUIButton(2, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + ggs_lbl->GetRect().h / 2 + 2, { 0, 455, 28, 32 }, { 87, 304, 40, 44 }, { 28, 455, 28, 29 }, this);
 
 	p2SString hold;
 	hold.create("Hold space to skip");

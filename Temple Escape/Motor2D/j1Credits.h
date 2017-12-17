@@ -59,6 +59,7 @@ private:
 	UILabel* team_lbl = nullptr;
 
 	UIButton *git_ggs_btn = nullptr;
+	UIButton *git_vmg_btn = nullptr;
 
 	bool credits_over = false;
 };
