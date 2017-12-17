@@ -36,7 +36,7 @@ Animations, file paths, and levels are read and loaded through parsing xml files
 ### Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
-* Pause menu impelmented.
+* Pause menu implemented.
 * You can change game language (dictionary read from an xml file) in settings: available in english, spanish, catalan... and even klingon if you don't belong to our planet!
 
 ## **Tools used**

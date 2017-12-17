@@ -44,14 +44,14 @@ General/developer controls:
 ## Innovations
 * Player and enemy animations are read from an xml file.
 * Spawn enemy points are created with Tiled and read from the tmx file of the map.
-* Pause menu impelmented.
+* Pause menu implemented.
 * You can change game language (dictionary read from an xml file) in settings: english, spanish, catalan... and even klingon if you don't belong to our planet!
 
 ## Team members
 
 _García Subirana, Guillermo's responsability and Github account_
 
-* In charge of all code related to save and load, fade between modules, and other parts of code.
+* In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code.
 * [Github account](https://github.com/Wilhelman)
 
 _Masó Garcia, Víctor's responsability and Github account_
