@@ -2,6 +2,7 @@
 #include "UIButton.h"
 #include "p2Log.h"
 #include "j1Audio.h"
+#include "j1Textures.h"
 
 
 UIButton::UIButton(int x, int y, UI_Type type, SDL_Rect normal_rect, SDL_Rect focused_rect, SDL_Rect pressed_rect, j1Module* callback, UIElement* parent) : UIElement(x, y, type, parent)
@@ -31,6 +32,8 @@ UIButton::~UIButton()
 {
 	App->audio->UnLoadFx(pressed_fx);
 	App->audio->UnLoadFx(released_fx);
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 }
 
 void UIButton::UpdateButtonWithSelfRect(SDL_Rect self_rect)

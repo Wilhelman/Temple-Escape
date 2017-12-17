@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "j1UI.h"
 #include "j1Input.h"
+#include "j1Textures.h"
 
 
 UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : local_position(x, y), type(type), parent(parent)
@@ -24,6 +25,10 @@ UIElement::UIElement(int x, int y, UI_Type type, UIElement* parent) : local_posi
 
 UIElement::~UIElement()
 {
+	App->tex->UnLoad(texture);
+	texture = nullptr;
+	callback = nullptr;
+	parent = nullptr;
 }
 
 void UIElement::Update()
