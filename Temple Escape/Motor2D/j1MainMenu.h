@@ -82,6 +82,7 @@ private:
 	UILabel* new_game_lbl = nullptr;
 	UILabel* continue_lbl = nullptr;
 	UILabel* credits_btn_lbl = nullptr;
+	UILabel* press_space_lbl = nullptr;
 
 	UICheckBox* cap_checkbox = nullptr;
 

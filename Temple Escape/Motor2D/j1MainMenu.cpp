@@ -93,7 +93,10 @@ bool j1MainMenu::Start()
 
 	// MAIN MENU BUTTONS
 
-	//UILabel* press_space = (UILabel*)App->ui->AddUILabel(100, 100, App->languages->GetDictionary().new_game_btn, YELLOW, 20, 0);
+	press_space_lbl = (UILabel*)App->ui->AddUILabel(122, 216, "Press SPACE to continue" , YELLOW, 10, 0);
+	press_space_lbl->interactable = false;
+	press_space_lbl->invisible = false;
+
 
 	new_game_btn = (UIButton*)App->ui->AddUIButton(win_width / 2 - 62, win_height / 2 - 25 + 250, { 0,0,123,32 }, { 0,61,135,44 }, { 0,32,124,29 }, this);
 	buttons.PushBack(new_game_btn);
@@ -140,8 +143,7 @@ bool j1MainMenu::Start()
 	settings_elements.PushBack(close_settings_btn);
 
 	cap_checkbox = (UICheckBox*)App->ui->AddUICheckBox(132, 140, { 0, 273, 14, 16 }, { 14, 273, 14, 16 }, { 0, 289, 14, 14 }, { 14, 289, 14, 14 }, { 28, 273, 26, 28 }, { 54, 273, 26, 28 }, this, settings_menu);
-	cap_checkbox->interactable = true;
-	cap_checkbox->invisible = false;
+	settings_elements.PushBack(cap_checkbox);
 
 	cap_lbl = (UILabel*)App->ui->AddUILabel(35, 150 + 250, App->languages->GetDictionary().cap_to, BLACK, 20);
 	settings_elements.PushBack(cap_lbl);
@@ -157,6 +159,7 @@ bool j1MainMenu::Start()
 
 	selected_language_lbl = (UILabel*)App->ui->AddUILabel(195, 200 + 250, App->languages->current_language, BLACK, 20);
 	settings_elements.PushBack(selected_language_lbl);
+
 	
 	// SLIDER SETTINGS
 
@@ -193,6 +196,8 @@ bool j1MainMenu::Start()
 
 	fx_volume_lbl = (UILabel*)App->ui->AddUILabel(35, 100 + 250, App->languages->GetDictionary().fx_volume, BLACK, 20);
 	settings_elements.PushBack(fx_volume_lbl);
+
+	
 
 	for (int i = 0; i < settings_elements.Count(); i++)
 	{
@@ -240,8 +245,11 @@ bool j1MainMenu::Update(float dt)
 
 	// Settings animations
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !move_camera)
+	{
+		press_space_lbl->invisible = true;
 		move_camera = true;
-
+	}
+		
 	if (move_camera && App->render->camera.x > camera_limit)
 		App->render->camera.x -= camera_step_move;
 	else if (App->render->camera.x == camera_limit)
@@ -334,7 +342,6 @@ bool j1MainMenu::CleanUp()
 	credits_btn = nullptr;
 
 	settings_menu = nullptr;
-
 	music_volume_slider = nullptr;
 	fx_volume_slider = nullptr;
 
@@ -351,25 +358,21 @@ bool j1MainMenu::CleanUp()
 
 	cap_checkbox = nullptr;
 
-	for (int i = 0; i < buttons.Count(); i++)
-	{
-		buttons[i] = nullptr;
-	}
+	press_space_lbl = nullptr;
 
+	for (int i = 0; i < buttons.Count(); i++)
+		buttons[i] = nullptr;
+	
 	buttons.Clear();
 
 	for (int i = 0; i < labels.Count(); i++)
-	{
 		labels[i] = nullptr;
-	}
-
+	
 	labels.Clear();
 
 	for (int i = 0; i < settings_elements.Count(); i++)
-	{
 		settings_elements[i] = nullptr;
-	}
-
+	
 	settings_elements.Clear();
 
 	return true;
