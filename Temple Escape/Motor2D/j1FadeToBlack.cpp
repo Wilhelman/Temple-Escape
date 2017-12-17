@@ -58,29 +58,48 @@ bool j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
+			if (moduleOn == (j1Module*)App->credits) {
+				if (moduleOn != nullptr && moduleOff != nullptr) {
+					this->moduleOff->CleanUp();
+					this->moduleOff->active = false;
 
-			if (moduleOn != nullptr && moduleOff != nullptr) {
-				this->moduleOff->CleanUp();
-				this->moduleOff->active = false;
-				
-				this->moduleOn->Start();
-				this->moduleOn->active = true;
-				
+					this->moduleOn->Start();
+					this->moduleOn->active = true;
+
+				}
+				App->entities->CleanUp();
+				App->entities->active = false;
+				App->particles->CleanUp();
+				App->collider->CleanUp();
+				App->map->CleanUp();
+
+				moduleOn = nullptr;
+				moduleOff = nullptr;
 			}
+			else {
 
-			App->entities->CleanUp();
-			App->entities->active = false;
-			App->particles->CleanUp();
-			App->collider->CleanUp();
-			App->map->CleanUp();
+				if (moduleOn != nullptr && moduleOff != nullptr) {
+					this->moduleOff->CleanUp();
+					this->moduleOff->active = false;
 
-			pugi::xml_node firstData;
-			pugi::xml_document data;
+					this->moduleOn->Start();
+					this->moduleOn->active = true;
 
-			pugi::xml_node lvlData = App->LoadConfig(data);
-			p2SString nextLvlName = "";
+				}
 
-			
+				App->entities->CleanUp();
+				App->entities->active = false;
+				App->particles->CleanUp();
+				App->collider->CleanUp();
+				App->map->CleanUp();
+
+				pugi::xml_node firstData;
+				pugi::xml_document data;
+
+				pugi::xml_node lvlData = App->LoadConfig(data);
+				p2SString nextLvlName = "";
+
+
 				bool loadTheNextOne = false;
 				bool setFirst = false;
 				bool loaded = false;
@@ -143,7 +162,7 @@ bool j1FadeToBlack::Update(float dt)
 						{
 							lvlData.attribute("currentLvl").set_value(true);
 						}
-						
+
 					}
 				}
 
@@ -176,24 +195,28 @@ bool j1FadeToBlack::Update(float dt)
 
 				RELEASE_ARRAY(data_map);
 
+
+				App->entities->Start();
+				App->entities->active = true;
+				if (have_to_load)
+					App->LoadGame();
+				App->particles->Start();
+
+
+
+				if ((lvlName != "" && !F1 && (moduleOn == nullptr && moduleOff == nullptr)) || have_to_load)
+					App->entities->GetPlayer()->ImplementLoad();
+
+				F1 = false;
+
+				moduleOn = nullptr;
+				moduleOff = nullptr;
+				lvlName = "";
+				have_to_load = false;
+			}
 			
-			App->entities->Start();
-			App->entities->active = true;
-			if (have_to_load)
-				App->LoadGame();
-			App->particles->Start();
 
 			
-
-			if ((lvlName != "" && !F1 && (moduleOn == nullptr && moduleOff == nullptr)) || have_to_load)
-				App->entities->GetPlayer()->ImplementLoad();
-
-			F1 = false;
-
-			moduleOn = nullptr;
-			moduleOff = nullptr;
-			lvlName = "";
-			have_to_load = false;
 
 			total_time += total_time;
 			start_time = SDL_GetTicks();
