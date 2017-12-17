@@ -48,8 +48,8 @@ bool j1Credits::Start()
 		LOG("Error playing music in j1Credits Start");
 	}
 	p2SString licence;
-	licence.create("aaaaaaadSDASD ASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSA ASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSAASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSAASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSAASD ASD ASD ASDWEQQERQWER QE RSDAR ASDFAS DSA");
-	UILabel* tmp_lbl = (UILabel*)App->ui->AddUILabel(43, 7, licence, YELLOW, 300, 10);
+	licence.create("MIT License                                      Copyright(c) 2017                                         Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files(the ''Software''), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions : ");
+	UILabel* tmp_lbl = (UILabel*)App->ui->AddUILabel(50, 50, licence, YELLOW, 10, 200);
 	tmp_lbl->interactable = false;
 
 	return ret;

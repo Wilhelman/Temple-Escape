@@ -2,6 +2,7 @@
 #include "UILabel.h"
 #include "p2Log.h"
 #include "j1Textures.h"
+#include "j1Window.h"
 
 UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int size, UIElement* parent) : UIElement(x,y,type,parent)
 {
@@ -39,10 +40,10 @@ UILabel::UILabel(int x, int y, UI_Type type, p2SString text, Color color, int si
 	else if (color == WHITE)
 		texture = App->font->PrintTextBox(text.GetString(), { 255, 255, 255, 255 }, App->font->default, boxWidth, size);
 
-	int width = 0, height = 0;
-	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
-	current_rect.w = width;
-	current_rect.h = height;
+	uint width = 0, height = 0;
+	App->win->GetWindowSize(width, height);
+	current_rect.w = width / App->win->GetScale() - 100;
+	current_rect.h = 300;
 }
 
 void UILabel::SetText(p2SString text) 
