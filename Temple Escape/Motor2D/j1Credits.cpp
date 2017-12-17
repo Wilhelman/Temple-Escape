@@ -57,6 +57,13 @@ bool j1Credits::Start()
 	licence_lbl->interactable = false;
 	labels.PushBack(licence_lbl);
 
+	p2SString the_team;
+	the_team.create("THE TEAM");
+
+	UILabel* team_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h, the_team, WHITE, 10);
+	team_lbl->interactable = false;
+	labels.PushBack(team_lbl);
+
 	p2SString hold;
 	hold.create("Hold space to skip");
 
