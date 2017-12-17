@@ -60,14 +60,14 @@ bool j1Credits::Start()
 	p2SString the_team;
 	the_team.create("THE TEAM");
 
-	UILabel* team_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h, the_team, WHITE, 20);
+	team_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h, the_team, WHITE, 20);
 	team_lbl->interactable = false;
 	labels.PushBack(team_lbl);
 
 	p2SString ggs;
 	ggs.create("Garcia Subirana, Guillermo's responsability and Github account:                                                    In charge of all code related to IA, pathfinding, preservation of changes, interaction between modules and other parts of code");
 
-	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, ggs, WHITE, 10, 198);
+	UILabel* ggs_lbl = (UILabel*)App->ui->AddUILabel(50, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h + 20, ggs, WHITE, 10, 198);
 	ggs_lbl->interactable = false;
 	labels.PushBack(ggs_lbl);
 
@@ -77,9 +77,6 @@ bool j1Credits::Start()
 	hold_lbl = (UILabel*)App->ui->AddUILabel(0,5, hold, WHITE, 10);
 	hold_lbl->SetLocalPosition(w / App->win->GetScale() / 2 - hold_lbl->GetRect().w / 2, hold_lbl->GetLocalPosition().y);
 	hold_lbl->interactable = false;
-
-	team_photo = (UIImage*)App->ui->AddUIImage(0, h / App->win->GetScale() + licence_lbl->GetRect().h + team_lbl->GetRect().h, { 0,487,336,252 });
-	team_photo->interactable = false;
 
 	return ret;
 }
@@ -100,12 +97,13 @@ bool j1Credits::Update(float dt)
 		holding_space = 4;
 	}
 
+	if (credits_over)
+		holding_space = 0;
+	
 	for (int i = 0; i < labels.Count(); i++)
 	{
 		labels[i]->SetLocalPosition(labels[i]->GetLocalPosition().x, labels[i]->GetLocalPosition().y - scroll_speed * holding_space);
 	}
-
-	team_photo->SetLocalPosition(team_photo->GetLocalPosition().x, team_photo->GetLocalPosition().y - scroll_speed * holding_space);
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN&& App->fadeToBlack->FadeIsOver())
 	{
@@ -114,6 +112,10 @@ bool j1Credits::Update(float dt)
 
 	if (licence_lbl->GetLocalPosition().y - 50 < 0) {
 		hold_lbl->invisible = true;
+	}
+
+	if (team_lbl->GetLocalPosition().y - 50 < 0) {
+		credits_over = true;
 	}
 
 	return true;
